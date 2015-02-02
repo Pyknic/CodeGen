@@ -29,6 +29,9 @@ public class Generic_ implements CodeModel<Generic_> {
 	private Optional<CharSequence> lowerBound;
 	private final List<Type_> upperBounds = new ArrayList<>();
 	
+	public static enum BoundType {UPPER, LOWER};
+	private BoundType type = BoundType.UPPER;
+	
 	public Generic_() {
 		this.lowerBound = Optional.empty();
 	}
@@ -49,6 +52,15 @@ public class Generic_ implements CodeModel<Generic_> {
 	public Generic_ add(Type_ upperBound) {
 		upperBounds.add(upperBound);
 		return this;
+	}
+	
+	public Generic_ setBoundType(BoundType type) {
+		this.type = type;
+		return this;
+	}
+	
+	public BoundType getBoundType() {
+		return type;
 	}
 
 	public List<Type_> getUpperBounds() {

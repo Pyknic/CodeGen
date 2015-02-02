@@ -34,6 +34,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface_> implemen
 	protected final static CharSequence
 		CLASS_STRING = "class ",
 		INTERFACE_STRING = "interface ",
+		ENUM_STRING = "enum ",
 		IMPLEMENTS_STRING = "implements ",
 		EXTENDS_STRING = "extends ",
 		PACKAGE_STRING = "package ";
@@ -46,6 +47,8 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface_> implemen
 			return EMPTY;
 		}
 	}
+	
+	protected CharSequence onBeforeFields(CodeGenerator cg, M model) {return EMPTY;}
 	
 	protected abstract CharSequence classOrInterfaceLabel();
 	protected abstract CharSequence extendsOrImplementsLabel();
@@ -73,6 +76,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface_> implemen
 			onSuperType(cg, model),
 			cg.onEach(model.getInterfaces()).collect(CodeCombiner.joinIfNotEmpty(SPACE, extendsOrImplementsLabel(), SPACE)),
 			looseBracketsIndent(new $(
+				onBeforeFields(cg, model),
 				cg.onEach(model.getFields()).collect(CodeCombiner.joinIfNotEmpty(scnl(), EMPTY, scdnl())),
 				cg.onEach(model.getMethods()).collect(CodeCombiner.joinIfNotEmpty(dnl()))
 			))

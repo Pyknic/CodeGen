@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Emil Forslund.
+ * Copyright 2015 Duncan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.speedment.codegen.java.interfaces;
+package com.speedment.codegen.java.models;
 
-import com.speedment.codegen.java.models.Javadoc_;
-import java.util.Optional;
+import com.speedment.codegen.java.models.modifiers.EnumModifier;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
- * @author Emil Forslund
- * @param <T>
+ * @author Duncan
  */
-public interface Documentable<T extends Documentable<T>> {
-    T setJavadoc(final Javadoc_ doc);
-    Optional<Javadoc_> getJavadoc();
+public class Enum_ extends ClassOrInterface_<Enum_> implements EnumModifier<Enum_> {
+	private final List<EnumConstant_> constants = new ArrayList<>();
+	
+	public Enum_(CharSequence name) {
+		super(name);
+	}
+	
+	public Enum_ add(EnumConstant_ constant) {
+		constants.add(constant);
+		return this;
+	}
+	
+	public List<EnumConstant_> getConstants() {
+		return constants;
+	}
 }

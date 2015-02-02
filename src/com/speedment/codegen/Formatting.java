@@ -130,6 +130,7 @@ public class Formatting {
         Formatting.nltab = new $(nl, tab);
         Formatting.scnl = new $(SC, nl);
         Formatting.scdnl = new $(SC, dnl);
+		Formatting.cnl = new $(COMMA, nl); 
     }
 
     /**
@@ -153,12 +154,22 @@ public class Formatting {
     }
 
     /**
-     * Returns the new-line-character as defined in <code>nl(String)</code>.
+     * Returns two new-line-characters as defined in <code>nl(String)</code>.
      *
      * @return The new-line character.
      */
     public static CharSequence dnl() {
         return dnl;
+    }
+	
+	/**
+     * Returns a comma followed by a new-line-character as defined in 
+	 * <code>nl(String)</code>.
+     *
+     * @return Comma followed by new line.
+     */
+    public static CharSequence cnl() {
+        return cnl;
     }
 
     /**
@@ -221,7 +232,8 @@ public class Formatting {
             tab = "\t",
             nltab = "\n\t",
             scnl = ";\n",
-            scdnl = ";\n\n";
+            scdnl = ";\n\n",
+			cnl = ",\n";
 
     public final static String DOT_STRING = ".";
 
@@ -242,5 +254,6 @@ public class Formatting {
             AT = "@",
 			AND = "&",
 			STAR = "*",
-			SLASH = "/";
+			SLASH = "/",
+			H = "\"";
 }

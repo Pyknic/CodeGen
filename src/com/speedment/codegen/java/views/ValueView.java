@@ -17,40 +17,24 @@ package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.java.models.Generic_;
+import com.speedment.codegen.java.models.Value_;
 import java.util.Optional;
-import com.speedment.util.$;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.util.CodeCombiner;
+import com.speedment.util.$;
 
 /**
  *
  * @author Duncan
  */
-public class GenericView implements CodeView<Generic_> {
-	private final static CharSequence 
-			EXTENDS_STRING = " extends ", 
-			SUPER_STRING = " super ";
+public class ValueView implements CodeView<Value_> {
 
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, Generic_ model) {
-		if (!model.getLowerBound().isPresent() 
-		&&   model.getUpperBounds().isEmpty()) {
-			return Optional.empty();
+	public Optional<CharSequence> render(CodeGenerator cg, Value_ model) {
+		if (model instanceof Value_.Text) {
+			return Optional.of(new $(H, model.getValue().toString(), H));
 		} else {
-			return Optional.of(new $(
-				model.getLowerBound().orElse(EMPTY),
-				cg.onEach(model.getUpperBounds()).collect(
-					CodeCombiner.joinIfNotEmpty(
-						AND, 
-						model.getLowerBound().isPresent() ? 
-							model.getBoundType() == Generic_.BoundType.UPPER ?
-							EXTENDS_STRING : SUPER_STRING
-						: EMPTY, 
-						EMPTY
-					)
-				)
-			));
+			return Optional.of(model.getValue().toString());
 		}
 	}
+	
 }
