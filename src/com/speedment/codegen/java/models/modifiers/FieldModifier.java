@@ -15,6 +15,7 @@
  */
 package com.speedment.codegen.java.models.modifiers;
 
+import com.speedment.codegen.java.interfaces.Modifiable;
 import static com.speedment.codegen.java.models.modifiers.Modifier_.*;
 
 /**

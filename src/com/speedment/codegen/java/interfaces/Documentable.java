@@ -13,36 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.speedment.codegen.java.models;
+package com.speedment.codegen.java.interfaces;
 
-import com.speedment.codegen.java.models.modifiers.ClassModifier;
+import com.speedment.codegen.java.models.Javadoc_;
 import java.util.Optional;
 
 /**
  *
  * @author Emil Forslund
+ * @param <T>
  */
-public class Class_ extends ClassOrInterface_<Class_> implements 
-		ClassModifier<Class_> {
-
-	private Optional<Type_> superType;
-
-	public Class_(CharSequence name) {
-		super(name);
-		superType = Optional.empty();
-	}
-
-	public Class_(CharSequence name, Type_ superType) {
-		super(name);
-		this.superType = Optional.of(superType);
-	}
-
-	public Class_ setSuperType(Type_ superType) {
-		this.superType = Optional.of(superType);
-		return this;
-	}
-
-	public Optional<Type_> getSuperType() {
-		return superType;
-	}
+public interface Documentable<T extends Documentable<T>> {
+    T setJavadoc(final Javadoc_ doc);
+    Optional<Javadoc_> getJavadoc();
 }

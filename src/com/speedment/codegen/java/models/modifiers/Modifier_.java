@@ -33,7 +33,8 @@ public enum Modifier_ implements CodeModel<Modifier_> {
 	TRANSIENT ("transient"),
 	VOLATILE ("volatile"),
 	SYNCHRONIZED ("synchronized"),
-	NATIVE ("native");
+	NATIVE ("native"),
+	DEFAULT ("default");
 	
 	private final CharSequence name;
 	

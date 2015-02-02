@@ -1,7 +1,7 @@
 package com.speedment.codegen.java.controller;
 
 import com.speedment.codegen.base.CodeController;
-import com.speedment.codegen.java.Documentable;
+import com.speedment.codegen.java.interfaces.Documentable;
 import com.speedment.codegen.java.models.Class_;
 import com.speedment.codegen.java.models.Javadoc_;
 

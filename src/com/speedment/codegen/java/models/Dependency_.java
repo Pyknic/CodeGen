@@ -16,7 +16,7 @@
 package com.speedment.codegen.java.models;
 
 import com.speedment.codegen.base.CodeModel;
-import com.speedment.codegen.java.Typeable;
+import com.speedment.codegen.java.interfaces.Typeable;
 import com.speedment.codegen.java.models.modifiers.DependencyModifier;
 import com.speedment.codegen.java.models.modifiers.Modifier_;
 import java.util.EnumSet;

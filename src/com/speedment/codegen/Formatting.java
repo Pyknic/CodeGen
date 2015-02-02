@@ -240,6 +240,7 @@ public class Formatting {
             SC = ";",
             DOT = ".",
             AT = "@",
+			AND = "&",
 			STAR = "*",
 			SLASH = "/";
 }

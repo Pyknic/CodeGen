@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Emil Forslund.
+ * Copyright 2015 Duncan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.speedment.codegen.java.models.modifiers;
+package com.speedment.codegen.java.interfaces;
 
-import com.speedment.codegen.java.interfaces.Modifiable;
-import static com.speedment.codegen.java.models.modifiers.Modifier_.STATIC;
+import com.speedment.codegen.java.models.Generic_;
+import java.util.List;
 
 /**
  *
- * @author Emil Forslund
+ * @author Duncan
  * @param <T>
  */
-public interface DependencyModifier<T extends DependencyModifier<T>> extends Modifiable<T> {
-	default T static_() {
-		getModifiers().add(STATIC);
-		return (T) this;
-	}
+public interface Generable<T extends Generable<T>> {
+	T add(final Generic_ generic);
+    List<Generic_> getGenerics();
 }

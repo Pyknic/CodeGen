@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Emil Forslund.
+ * Copyright 2015 Duncan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,28 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.speedment.codegen.java.models.modifiers;
+package com.speedment.codegen.java.interfaces;
 
-import java.util.EnumSet;
-import java.util.Set;
+import com.speedment.codegen.java.models.Type_;
+import java.util.List;
 
 /**
  *
- * @author Emil Forslund
+ * @author Duncan
  * @param <T>
  */
-public interface Modifiable<T extends Modifiable<T>> {
-	public Set<Modifier_> getModifiers();
-	
-//	T public_();
-//	T protected_();
-//	T private_();
-//	T abstract_();
-//	T static_();
-//	T final_();
-//	T strictfp_();
-//	T transient_();
-//	T volatile_();
-//	T synchronized_();
-//	T native_();
+public interface Interfaceable<T extends Interfaceable<T>> {
+    T add(final Type_ interf);
+    List<Type_> getInterfaces();
 }

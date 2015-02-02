@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Emil Forslund.
+ * Copyright 2015 Duncan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.speedment.codegen.java;
+package com.speedment.codegen.java.interfaces;
 
-import com.speedment.codegen.java.models.Type_;
+import com.speedment.codegen.java.models.Dependency_;
+import java.util.List;
 
 /**
  *
- * @author Emil Forslund
+ * @author Duncan
  * @param <T>
  */
-public interface Typeable<T extends Typeable<T>> {
-	T setType(Type_ type);
-	Type_ getType();
+public interface Dependable<T extends Dependable<T>> {
+    T add(final Dependency_ dep);
+    List<Dependency_> getDependencies();
 }

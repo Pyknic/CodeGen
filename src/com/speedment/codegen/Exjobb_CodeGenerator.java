@@ -14,6 +14,7 @@ import com.speedment.codegen.java.controller.FinalParameters;
 import com.speedment.codegen.java.models.Javadoc_;
 import com.speedment.util.$;
 import com.speedment.codegen.java.models.Dependency_;
+import com.speedment.codegen.java.models.Interface_;
 
 /**
  *
@@ -34,9 +35,30 @@ public class Exjobb_CodeGenerator {
 		final Type_ soundStore  = new Type_("org.duncan.test.SoundStore");
 		
 		System.out.println(
+			cg.on(new Interface_("org.duncan.test.Player")
+				/***** Class declaration *****/
+				.public_()
+				.setJavadoc(new Javadoc_(new $(
+					"This is a test class to demonstrate how the\n",
+					"code generator is working."
+				)))
+					
+				/***** Methods *****/
+				.add(new Method_("spawn", VOID)
+					.setJavadoc(new Javadoc_(new $(
+						"This function is used to reset the Player."
+					)))
+					.add(new Field_("name", STRING))
+					.add(new Field_("score", INT_PRIMITIVE))
+				)
+			).get()
+		);
+		
+		System.out.println(
 			cg.on(new Class_("org.duncan.test.MittTest", typeThread)
 				/***** Dependencies *****/
 				.add(new Dependency_(spriteStore))
+				.add(new Dependency_(LIST))
 				
 				/***** Class declaration *****/
 				.public_()
@@ -50,6 +72,7 @@ public class Exjobb_CodeGenerator {
 				.add(new Field_("player2Name", STRING))
 				.add(new Field_("player1Score", INT_PRIMITIVE))
 				.add(new Field_("player2Score", INT_PRIMITIVE))
+				.add(new Field_("players", list(new Type_("org.duncan.test.Player"))))
 				.add(new Field_("spriteStore", spriteStore))
 				.add(new Field_("soundStore", soundStore))
 					

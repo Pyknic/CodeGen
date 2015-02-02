@@ -13,36 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.speedment.codegen.java.models;
+package com.speedment.codegen.java.views;
 
-import com.speedment.codegen.java.models.modifiers.ClassModifier;
-import java.util.Optional;
+import com.speedment.codegen.Formatting;
+import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.java.models.Interface_;
 
 /**
  *
  * @author Emil Forslund
  */
-public class Class_ extends ClassOrInterface_<Class_> implements 
-		ClassModifier<Class_> {
-
-	private Optional<Type_> superType;
-
-	public Class_(CharSequence name) {
-		super(name);
-		superType = Optional.empty();
+public class InterfaceView extends ClassOrInterfaceView<Interface_> {
+	@Override
+	protected CharSequence classOrInterfaceLabel() {
+		return INTERFACE_STRING;
 	}
 
-	public Class_(CharSequence name, Type_ superType) {
-		super(name);
-		this.superType = Optional.of(superType);
+	@Override
+	protected CharSequence extendsOrImplementsLabel() {
+		return EXTENDS_STRING;
 	}
 
-	public Class_ setSuperType(Type_ superType) {
-		this.superType = Optional.of(superType);
-		return this;
-	}
-
-	public Optional<Type_> getSuperType() {
-		return superType;
+	@Override
+	protected CharSequence onSuperType(CodeGenerator cg, Interface_ model) {
+		return Formatting.EMPTY;
 	}
 }

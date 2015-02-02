@@ -15,6 +15,7 @@
  */
 package com.speedment.codegen.java.models.modifiers;
 
+import com.speedment.codegen.java.interfaces.Modifiable;
 import static com.speedment.codegen.java.models.modifiers.Modifier_.*;
 
 /**
@@ -65,6 +66,11 @@ public interface MethodModifier<T extends MethodModifier<T>> extends Modifiable<
 	
 	default T native_() {
 		getModifiers().add(NATIVE);
+		return (T) this;
+	}
+	
+	default T default_() {
+		getModifiers().add(DEFAULT);
 		return (T) this;
 	}
 }

@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.speedment.codegen.java.models.modifiers;
+package com.speedment.codegen.java.interfaces;
 
-import com.speedment.codegen.java.interfaces.Modifiable;
-import static com.speedment.codegen.java.models.modifiers.Modifier_.STATIC;
+import com.speedment.codegen.java.models.Type_;
 
 /**
  *
  * @author Emil Forslund
  * @param <T>
  */
-public interface DependencyModifier<T extends DependencyModifier<T>> extends Modifiable<T> {
-	default T static_() {
-		getModifiers().add(STATIC);
-		return (T) this;
-	}
+public interface Typeable<T extends Typeable<T>> {
+    T setType(final Type_ type);
+    Type_ getType();
 }

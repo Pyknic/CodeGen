@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.speedment.codegen.java;
+package com.speedment.codegen.java.interfaces;
 
 /**
  *
@@ -21,6 +21,6 @@ package com.speedment.codegen.java;
  * @param <T>
  */
 public interface Nameable<T extends Nameable<T>> {
-	T setName(final CharSequence name);
-	CharSequence getName();
+    T setName(final CharSequence name);
+    CharSequence getName();
 }
