@@ -16,7 +16,7 @@
 package com.speedment.codegen.java;
 
 import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.DefaultDependencyManager;
+import com.speedment.codegen.DefaultDependencyManager;
 
 /**
  *

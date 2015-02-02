@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.speedment.codegen.base;
+package com.speedment.codegen;
 
+import com.speedment.codegen.base.DependencyManager;
 import com.speedment.util.$;
 import static com.speedment.codegen.Formatting.DOT;
 import static com.speedment.codegen.Formatting.shortName;

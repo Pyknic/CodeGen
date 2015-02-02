@@ -15,6 +15,7 @@
  */
 package com.speedment.codegen.base;
 
+import com.speedment.codegen.DefaultDependencyManager;
 import com.speedment.codegen.java.JavaGenerator;
 import java.util.Arrays;
 import java.util.Collection;
