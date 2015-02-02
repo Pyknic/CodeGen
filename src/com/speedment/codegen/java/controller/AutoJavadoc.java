@@ -13,13 +13,13 @@ public class AutoJavadoc implements CodeController<Class_> {
  
     @Override
     public void accept(Class_ model) {
-	generateJavadocFor(model);
-	model.getMethods().forEach(m -> generateJavadocFor(m));
+		generateJavadocFor(model);
+		model.getMethods().forEach(m -> generateJavadocFor(m));
     }
     
     private void generateJavadocFor(Documentable m) {
-	if (!m.getJavadoc().isPresent()) {
-	    m.setJavadoc(new Javadoc_("Write some documentation here."));
-	}
+		if (!m.getJavadoc().isPresent()) {
+			m.setJavadoc(new Javadoc_("Write some documentation here."));
+		}
     }
 }

@@ -120,6 +120,7 @@ public class Exjobb_CodeGenerator {
 				.call(new SetGet())
 				.call(new FinalParameters())
 				.call(new AutoJavadoc())
+					
 			
 			).get()
 		);

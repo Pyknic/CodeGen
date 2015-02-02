@@ -45,10 +45,4 @@ public enum Modifier_ implements CodeModel<Modifier_> {
 	public CharSequence getName() {
 		return name;
 	}
-
-	@Override
-	public Modifier_ call(CodeController<Modifier_> control) {
-		control.accept(this);
-		return this;
-	}
 }

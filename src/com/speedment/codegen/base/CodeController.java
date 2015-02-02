@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Emil Forslund.
+ * Copyright 2015 Duncan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,9 @@ import java.util.function.Consumer;
 
 /**
  *
- * @author Emil Forslund
- * @param <Model> The model to control.
+ * @author Duncan
+ * @param <T>
  */
-public interface CodeController<Model extends CodeModel<Model>> extends Consumer<Model> {
-	@Override
-	void accept(Model model);
+public interface CodeController<T extends CodeModel<T>> extends Consumer<T> {
+	
 }

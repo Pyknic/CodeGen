@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.speedment.codegen.base;
+package com.speedment.codegen.java.interfaces;
 
-import java.util.function.Consumer;
+import com.speedment.codegen.java.models.Javadoc_;
+import java.util.Optional;
 
 /**
- * 
+ *
  * @author Emil Forslund
  * @param <T>
  */
-public interface CodeModel<T extends CodeModel<T>> extends Cloneable {
-	default T call(Consumer<T> control) {
-		control.accept((T) this);
-		return (T) this;
-	}
+public interface Documentable<T extends Documentable<T>> {
+    T setJavadoc(final Javadoc_ doc);
+    Optional<Javadoc_> getJavadoc();
 }
