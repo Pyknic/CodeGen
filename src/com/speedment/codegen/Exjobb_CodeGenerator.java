@@ -2,6 +2,7 @@ package com.speedment.codegen;
 
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.java.JavaGenerator;
+import com.speedment.codegen.java.controller.AutoJavadoc;
 import com.speedment.codegen.java.controller.SetGet;
 import com.speedment.codegen.java.models.Class_;
 import com.speedment.codegen.java.models.Field_;
@@ -95,6 +96,7 @@ public class Exjobb_CodeGenerator {
 				/***** Controllers *****/
 				.call(new SetGet())
 				.call(new FinalParameters())
+				.call(new AutoJavadoc())
 			
 			).get()
 		);
