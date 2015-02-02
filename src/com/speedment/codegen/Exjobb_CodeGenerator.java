@@ -14,7 +14,10 @@ import com.speedment.codegen.java.controller.FinalParameters;
 import com.speedment.codegen.java.models.Javadoc_;
 import com.speedment.util.$;
 import com.speedment.codegen.java.models.Dependency_;
+import com.speedment.codegen.java.models.EnumConstant_;
+import com.speedment.codegen.java.models.Enum_;
 import com.speedment.codegen.java.models.Interface_;
+import com.speedment.codegen.java.models.Value_;
 
 /**
  *
@@ -33,6 +36,29 @@ public class Exjobb_CodeGenerator {
 		final Type_ typeThread  = new Type_(Thread.class);
 		final Type_ spriteStore = new Type_("org.duncan.test.SpriteStore");
 		final Type_ soundStore  = new Type_("org.duncan.test.SoundStore");
+		
+		System.out.println(
+			cg.on(new Enum_("Card")
+				.public_()
+					
+				.add(new EnumConstant_("HEART_OF_ACE")
+					.add(new Value_.Numeric(1))
+					.add(new Value_.Text("♥"))
+				)
+				.add(new EnumConstant_("HEART_OF_SPADES")
+					.add(new Value_.Numeric(1))
+					.add(new Value_.Text("♠"))
+				)
+				.add(new EnumConstant_("HEART_OF_CLUBS")
+					.add(new Value_.Numeric(1))
+					.add(new Value_.Text("♣"))
+				)
+				.add(new EnumConstant_("HEART_OF_DIAMONDS")
+					.add(new Value_.Numeric(1))
+					.add(new Value_.Text("♦"))
+				)
+			).get()
+		);
 		
 		System.out.println(
 			cg.on(new Interface_("org.duncan.test.Player")

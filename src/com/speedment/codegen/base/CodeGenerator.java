@@ -114,6 +114,7 @@ public abstract class CodeGenerator<T extends Enum<T> & VersionEnum> {
 	/**
 	 * Attempts to generate a text from each of the models in the collection.
 	 * The texts that are present will be added to a stream that is then returned.
+	 * @param <T>
 	 * @param models A collection of models to view.
 	 * @return The viewed text.
 	 */
