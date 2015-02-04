@@ -16,6 +16,7 @@
 package com.speedment.codegen.java.models;
 
 import com.speedment.codegen.java.models.modifiers.EnumModifier;
+import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +25,16 @@ import java.util.List;
  * @author Duncan
  */
 public class Enum_ extends ClassOrInterface_<Enum_> implements EnumModifier<Enum_> {
-	private final List<EnumConstant_> constants = new ArrayList<>();
+	private final List<EnumConstant_> constants;
 	
 	public Enum_(CharSequence name) {
 		super(name);
+		constants = new ArrayList<>();
+	}
+	
+	private Enum_(Enum_ prototype) {
+		super (prototype);
+		constants = Copier.copy(prototype.constants);
 	}
 	
 	public Enum_ add(EnumConstant_ constant) {
@@ -37,5 +44,10 @@ public class Enum_ extends ClassOrInterface_<Enum_> implements EnumModifier<Enum
 	
 	public List<EnumConstant_> getConstants() {
 		return constants;
+	}
+
+	@Override
+	public Enum_ copy() {
+		return new Enum_(this);
 	}
 }

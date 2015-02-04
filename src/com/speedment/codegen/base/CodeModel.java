@@ -15,6 +15,7 @@
  */
 package com.speedment.codegen.base;
 
+import com.speedment.codegen.java.interfaces.Copyable;
 import java.util.function.Consumer;
 
 /**
@@ -22,7 +23,7 @@ import java.util.function.Consumer;
  * @author Emil Forslund
  * @param <T>
  */
-public interface CodeModel<T extends CodeModel<T>> extends Cloneable {
+public interface CodeModel<T extends CodeModel<T>> extends Copyable<T> {
 	default T call(Consumer<T> control) {
 		control.accept((T) this);
 		return (T) this;

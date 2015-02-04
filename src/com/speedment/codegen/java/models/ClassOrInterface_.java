@@ -25,6 +25,7 @@ import com.speedment.codegen.java.interfaces.Methodable;
 import com.speedment.codegen.java.interfaces.Modifiable;
 import com.speedment.codegen.java.interfaces.Nameable;
 import com.speedment.codegen.java.models.modifiers.Modifier_;
+import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -36,7 +37,7 @@ import java.util.Set;
  * @author Duncan
  * @param <T>
  */
-public class ClassOrInterface_<T extends ClassOrInterface_<T>> implements 
+public abstract class ClassOrInterface_<T extends ClassOrInterface_<T>> implements 
 		CodeModel<T>,
 		Nameable<T>, 
 		Documentable<T>, 
@@ -48,16 +49,34 @@ public class ClassOrInterface_<T extends ClassOrInterface_<T>> implements
 		Modifiable<T> {
 	
 	private CharSequence name;
-	private Optional<Javadoc_> javadoc = Optional.empty();
-	private final List<Dependency_> dependencies = new ArrayList<>();
-	private final List<Generic_> generics = new ArrayList<>();
-	private final List<Type_> interfaces = new ArrayList<>();
-	private final List<Field_> fields = new ArrayList<>();
-	private final List<Method_> methods = new ArrayList<>();
-	private final Set<Modifier_> modifiers = EnumSet.noneOf(Modifier_.class);
+	private Optional<Javadoc_> javadoc;
+	private final List<Dependency_> dependencies;
+	private final List<Generic_> generics;
+	private final List<Type_> interfaces;
+	private final List<Field_> fields;
+	private final List<Method_> methods;
+	private final EnumSet<Modifier_> modifiers;
 
 	public ClassOrInterface_(CharSequence name) {
-		this.name = name;
+		this.name			= name;
+		this.javadoc		= Optional.empty();
+		this.dependencies	= new ArrayList<>();
+		this.generics		= new ArrayList<>();
+		this.interfaces		= new ArrayList<>();
+		this.fields			= new ArrayList<>();
+		this.methods		= new ArrayList<>();
+		this.modifiers		= EnumSet.noneOf(Modifier_.class);
+	}
+	
+	public ClassOrInterface_(ClassOrInterface_<T> prototype) {
+		name			= prototype.name.toString();
+		javadoc			= Copier.copy(prototype.javadoc);
+		dependencies	= Copier.copy(prototype.dependencies);
+		generics		= Copier.copy(prototype.generics);
+		interfaces		= Copier.copy(prototype.interfaces);
+		fields			= Copier.copy(prototype.fields);
+		methods			= Copier.copy(prototype.methods);
+		modifiers		= Copier.copy(prototype.modifiers);
 	}
 
 	@Override
@@ -131,7 +150,7 @@ public class ClassOrInterface_<T extends ClassOrInterface_<T>> implements
 	}
 	
 	@Override
-	public Set<Modifier_> getModifiers() {
+	public EnumSet<Modifier_> getModifiers() {
 		return modifiers;
 	}
 

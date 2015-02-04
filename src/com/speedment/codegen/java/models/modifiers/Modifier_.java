@@ -45,4 +45,9 @@ public enum Modifier_ implements CodeModel<Modifier_> {
 	public CharSequence getName() {
 		return name;
 	}
+
+	@Override
+	public Modifier_ copy() {
+		return this;
+	}
 }

@@ -20,6 +20,7 @@ import com.speedment.codegen.java.models.Class_;
 import com.speedment.codegen.java.models.Method_;
 import com.speedment.util.$;
 import static com.speedment.codegen.Formatting.*;
+import com.speedment.codegen.java.models.Field_;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -54,7 +55,7 @@ public class SetGet implements CodeController<Class_> {
 			if (includeMethod(model, setName)) {
 				model.add(new Method_(setName, model.asType())
 					.public_()
-					.add(f.clone())
+					.add(f.copy())
 					.add(new $(THIS_STRING, f.getName(), ASSIGN_STRING, f.getName(), SC))
 					.add(new $(RETURN_STRING, SC))
 				);

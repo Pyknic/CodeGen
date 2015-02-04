@@ -19,8 +19,10 @@ import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.java.interfaces.Documentable;
 import com.speedment.codegen.java.interfaces.Nameable;
 import com.speedment.codegen.java.interfaces.Typeable;
+import com.speedment.codegen.java.interfaces.Valuable;
 import com.speedment.codegen.java.models.modifiers.FieldModifier;
 import com.speedment.codegen.java.models.modifiers.Modifier_;
+import com.speedment.util.Copier;
 import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
@@ -32,17 +34,30 @@ import java.util.Set;
 public class Field_ implements CodeModel<Field_>, 
 		Nameable<Field_>, 
 		Typeable<Field_>, 
-		Documentable<Field_>, 
+		Documentable<Field_>,
+		Valuable<Field_>,
 		FieldModifier<Field_> {
 	
 	private CharSequence name;
 	private Type_ type;
-	private Optional<Javadoc_> javadoc = Optional.empty();
-	private final Set<Modifier_> modifiers = EnumSet.noneOf(Modifier_.class);
+	private Optional<Value_> value;
+	private Optional<Javadoc_> javadoc;
+	private final EnumSet<Modifier_> modifiers;
 	
 	public Field_(CharSequence name, Type_ type) {
-		this.name = name;
-		this.type = type;
+		this.name		= name;
+		this.type		= type;
+		this.value		= Optional.empty();
+		this.javadoc	= Optional.empty();
+		this.modifiers	= EnumSet.noneOf(Modifier_.class);
+	}
+	
+	private Field_(Field_ prototype) {
+		name		= prototype.name;
+		type		= prototype.type;
+		value		= Copier.copy(prototype.value);
+		javadoc		= Copier.copy(prototype.javadoc);
+		modifiers	= Copier.copy(prototype.modifiers);
 	}
 
 	@Override
@@ -66,14 +81,9 @@ public class Field_ implements CodeModel<Field_>,
 		this.type = type;
 		return this;
 	}
-
-	@Override
-	public Field_ clone() {
-		return new Field_(name.toString(), type);
-	}
 	
 	@Override
-	public Set<Modifier_> getModifiers() {
+	public EnumSet<Modifier_> getModifiers() {
 		return modifiers;
 	}
 
@@ -86,5 +96,21 @@ public class Field_ implements CodeModel<Field_>,
 	@Override
 	public Optional<Javadoc_> getJavadoc() {
 		return javadoc;
+	}
+
+	@Override
+	public Field_ setValue(Value_ val) {
+		this.value = Optional.of(val);
+		return this;
+	}
+
+	@Override
+	public Optional<Value_> getValue() {
+		return value;
+	}
+
+	@Override
+	public Field_ copy() {
+		return new Field_(this);
 	}
 }

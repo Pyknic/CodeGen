@@ -19,6 +19,7 @@ import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.java.interfaces.Typeable;
 import com.speedment.codegen.java.models.modifiers.DependencyModifier;
 import com.speedment.codegen.java.models.modifiers.Modifier_;
+import com.speedment.util.Copier;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -31,12 +32,16 @@ public class Dependency_ implements CodeModel<Dependency_>,
 		DependencyModifier<Dependency_> {
 	
 	private Type_ type;
-	private final Set<Modifier_> modifiers = EnumSet.noneOf(Modifier_.class);
-
-	public Dependency_() {}
+	private final EnumSet<Modifier_> modifiers;
 
 	public Dependency_(Type_ type) {
 		this.type = type;
+		this.modifiers = EnumSet.noneOf(Modifier_.class);
+	}
+	
+	private Dependency_(Dependency_ prototype) {
+		type		= type.copy();
+		modifiers	= Copier.copy(prototype.modifiers);
 	}
 
 	@Override
@@ -51,7 +56,12 @@ public class Dependency_ implements CodeModel<Dependency_>,
 	}
 
 	@Override
-	public Set<Modifier_> getModifiers() {
+	public EnumSet<Modifier_> getModifiers() {
 		return this.modifiers;
+	}
+
+	@Override
+	public Dependency_ copy() {
+		return new Dependency_(this);
 	}
 }

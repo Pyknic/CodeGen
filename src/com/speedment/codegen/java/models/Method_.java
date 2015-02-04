@@ -2,7 +2,7 @@
  * Copyright 2015 Emil Forslund.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use this file except in compliance copy the License.
  * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -21,8 +21,8 @@ import com.speedment.codegen.java.interfaces.Nameable;
 import com.speedment.codegen.java.interfaces.Typeable;
 import com.speedment.codegen.java.models.modifiers.MethodModifier;
 import com.speedment.codegen.java.models.modifiers.Modifier_;
+import com.speedment.util.Copier;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
@@ -40,16 +40,27 @@ public class Method_ implements CodeModel<Method_>,
 	
 	private CharSequence name;
 	private Type_ type;
-	private Optional<Javadoc_> javadoc = Optional.empty();
+	private Optional<Javadoc_> javadoc;
 	private final List<Field_> params;
 	private final List<CharSequence> code;
-	private final Set<Modifier_> modifiers = EnumSet.noneOf(Modifier_.class);
+	private final EnumSet<Modifier_> modifiers;
 	
 	public Method_(CharSequence name, Type_ type) {
-		this.name	= name;
-		this.type	= type;
-		this.params = new ArrayList<>();
-		this.code	= new ArrayList<>();
+		this.name		= name;
+		this.type		= type;
+		this.javadoc	= Optional.empty();
+		this.params		= new ArrayList<>();
+		this.code		= new ArrayList<>();
+		this.modifiers	= EnumSet.noneOf(Modifier_.class);
+	}
+	
+	private Method_(final Method_ prototype) {
+		name		= prototype.name.toString();
+		type		= prototype.type.copy();
+		javadoc		= Copier.copy(prototype.javadoc);
+		params		= Copier.copy(prototype.params);
+		code		= Copier.copy(prototype.code, c -> c.toString());
+		modifiers	= Copier.copy(prototype.modifiers);
 	}
 
 	@Override
@@ -93,15 +104,7 @@ public class Method_ implements CodeModel<Method_>,
 	}
 
 	@Override
-	public Method_ clone() {
-		Method_ clone = new Method_(name.toString(), type);
-		Collections.copy(clone.params, params);
-		Collections.copy(clone.code, code);
-		return clone;
-	}
-
-	@Override
-	public Set<Modifier_> getModifiers() {
+	public EnumSet<Modifier_> getModifiers() {
 		return modifiers;
 	}
 
@@ -114,5 +117,10 @@ public class Method_ implements CodeModel<Method_>,
 	@Override
 	public Optional<Javadoc_> getJavadoc() {
 		return javadoc;
+	}
+
+	@Override
+	public Method_ copy() {
+		return new Method_(this);
 	}
 }

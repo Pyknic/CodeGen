@@ -16,6 +16,7 @@
 package com.speedment.codegen.java.models;
 
 import com.speedment.codegen.java.models.modifiers.ClassModifier;
+import com.speedment.util.Copier;
 import java.util.Optional;
 
 /**
@@ -36,6 +37,11 @@ public class Class_ extends ClassOrInterface_<Class_> implements
 		super(name);
 		this.superType = Optional.of(superType);
 	}
+	
+	private Class_(Class_ prototype) {
+		super (prototype);
+		this.superType = Copier.copy(prototype.superType);
+	}
 
 	public Class_ setSuperType(Type_ superType) {
 		this.superType = Optional.of(superType);
@@ -44,5 +50,10 @@ public class Class_ extends ClassOrInterface_<Class_> implements
 
 	public Optional<Type_> getSuperType() {
 		return superType;
+	}
+
+	@Override
+	public Class_ copy() {
+		return new Class_(this);
 	}
 }

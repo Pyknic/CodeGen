@@ -25,6 +25,15 @@ public class Interface_ extends ClassOrInterface_<Interface_> implements
 		InterfaceModifier<Interface_> {
 
     public Interface_(CharSequence name) {
-		super(name);
+		super (name);
     }
+	
+	public Interface_(Interface_ prototype) {
+		super (prototype);
+    }
+
+	@Override
+	public Interface_ copy() {
+		return new Interface_(this);
+	}
 }

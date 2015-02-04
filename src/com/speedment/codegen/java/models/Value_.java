@@ -16,6 +16,7 @@
 package com.speedment.codegen.java.models;
 
 import com.speedment.codegen.base.CodeModel;
+import com.speedment.codegen.java.interfaces.Copyable;
 
 /**
  *
@@ -23,44 +24,38 @@ import com.speedment.codegen.base.CodeModel;
  * @param <T>
  */
 public abstract class Value_<T> implements CodeModel<Value_<T>> {
-	public abstract T getValue();
+	private final T value;
+	
+	public Value_(final T val) {
+		value = val;
+	}
+	
+	public Value_(final Value_<T> prototype) {
+		value = prototype.value;
+	}
+	
+	public T getValue() {
+		return value;
+	}
+	
+	@Override
+	public abstract Value_<T> copy();
 	
 	public static class Numeric extends Value_<Number> {
-		private final Number value;
-		
-		public Numeric(Number value) {
-			this.value = value;
-		}
-		
+		public Numeric(final Number val) {super(val);}
 		@Override
-		public Number getValue() {
-			return value;
-		}
+		public Numeric copy() {return new Numeric(getValue());}
 	}
 	
 	public static class Text extends Value_<String> {
-		private final String value;
-
-		public Text(String value) {
-			this.value = value;
-		}
-
+		public Text(final String val) {super(val);}
 		@Override
-		public String getValue() {
-			return value;
-		}
+		public Text copy() {return new Text(getValue());}
 	}
 	
 	public static class Reference extends Value_<CharSequence> {
-		private final CharSequence name;
-		
-		public Reference(CharSequence name) {
-			this.name = name;
-		}
-
+		public Reference(final CharSequence val) {super(val);}
 		@Override
-		public CharSequence getValue() {
-			return name;
-		}
+		public Reference copy() {return new Reference(getValue());}
 	}
 }

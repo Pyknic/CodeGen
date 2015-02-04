@@ -16,6 +16,7 @@
 package com.speedment.codegen.java.models;
 
 import com.speedment.codegen.base.CodeModel;
+import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,6 +37,10 @@ public class Javadoc_ implements CodeModel<Javadoc_> {
 		rows = Arrays.asList(text.toString().split("\n"));
 	}
 	
+	private Javadoc_(final Javadoc_ prototype) {
+		rows = Copier.copy(prototype.rows, c -> c.toString());
+	}
+	
 	public Javadoc_ add(CharSequence row) {
 		rows.add(row);
 		return this;
@@ -49,5 +54,10 @@ public class Javadoc_ implements CodeModel<Javadoc_> {
 	
 	public List<CharSequence> getRows() {
 		return rows;
+	}
+
+	@Override
+	public Javadoc_ copy() {
+		return new Javadoc_(this);
 	}
 }

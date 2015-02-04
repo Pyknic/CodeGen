@@ -16,7 +16,7 @@
 package com.speedment.codegen.java.interfaces;
 
 import com.speedment.codegen.java.models.modifiers.Modifier_;
-import java.util.Set;
+import java.util.EnumSet;
 
 /**
  *
@@ -24,7 +24,7 @@ import java.util.Set;
  * @param <T>
  */
 public interface Modifiable<T extends Modifiable<T>> {
-	public Set<Modifier_> getModifiers();
+	public EnumSet<Modifier_> getModifiers();
 	
 //	T public_();
 //	T protected_();

@@ -16,8 +16,10 @@
 package com.speedment.codegen.java.models;
 
 import com.speedment.codegen.base.CodeModel;
+import com.speedment.codegen.java.interfaces.Copyable;
 import com.speedment.codegen.java.interfaces.Generable;
 import com.speedment.codegen.java.interfaces.Nameable;
+import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -104,6 +106,11 @@ public class Type_ implements CodeModel<Type_>,
 	public List<Generic_> getGenerics() {
 		return generics;
 	}
+
+	@Override
+	public Type_ copy() {
+		return new Type_(this);
+	}
 	
 	public static final class Const extends Type_ {
 		public Const(Class<?> javaImpl) {super(javaImpl);}
@@ -112,22 +119,22 @@ public class Type_ implements CodeModel<Type_>,
 		
 		@Override
 		public Type_ setArrayDimension(int arrayDimension) {
-			return new Type_(this).setArrayDimension(arrayDimension);
+			return copy().setArrayDimension(arrayDimension);
 		}
 
 		@Override
 		public Type_ setJavaImpl(Class<?> javaImpl) {
-			return new Type_(this).setJavaImpl(javaImpl);
+			return copy().setJavaImpl(javaImpl);
 		}
 
 		@Override
 		public Type_ setName(CharSequence name) {
-			return new Type_(this).setName(name);
+			return copy().setName(name);
 		}
 
 		@Override
 		public Type_ add(Generic_ generic) {
-			return new Type_(this).add(generic);
+			return copy().add(generic);
 		}
 	}
 

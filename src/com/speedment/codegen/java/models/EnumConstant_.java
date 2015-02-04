@@ -17,6 +17,7 @@ package com.speedment.codegen.java.models;
 
 import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.java.interfaces.Nameable;
+import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +29,16 @@ public class EnumConstant_ implements CodeModel<EnumConstant_>,
 		Nameable<EnumConstant_> {
 	
 	private CharSequence name;
-	private final List<Value_> values = new ArrayList<>();
+	private final List<Value_> values;
 
 	public EnumConstant_(CharSequence name) {
-		this.name = name;
+		this.name	= name;
+		this.values = new ArrayList<>();
+	}
+	
+	private EnumConstant_(EnumConstant_ prototype) {
+		name	= prototype.name.toString();
+		values	= Copier.copy(prototype.values);
 	}
 
 	@Override
@@ -52,5 +59,10 @@ public class EnumConstant_ implements CodeModel<EnumConstant_>,
 	
 	public List<Value_> getValues() {
 		return values;
+	}
+
+	@Override
+	public EnumConstant_ copy() {
+		return new EnumConstant_(this);
 	}
 }
