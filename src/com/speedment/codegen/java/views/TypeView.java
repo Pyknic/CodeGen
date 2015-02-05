@@ -17,7 +17,7 @@ package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.java.models.Type_;
+import com.speedment.codegen.java.models.Type;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.DependencyManager;
 import java.util.Optional;
@@ -28,8 +28,8 @@ import com.speedment.util.CodeCombiner;
  *
  * @author Emil Forslund
  */
-public class TypeView implements CodeView<Type_> {
-	private Optional<CharSequence> renderName(CodeGenerator cg, Type_ model, CharSequence name) {
+public class TypeView implements CodeView<Type> {
+	private Optional<CharSequence> renderName(CodeGenerator cg, Type model, CharSequence name) {
 		return Optional.of(new $(
 			name, 
 			cg.onEach(model.getGenerics()).collect(
@@ -43,7 +43,7 @@ public class TypeView implements CodeView<Type_> {
 	}
 	
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, Type_ model) {
+	public Optional<CharSequence> render(CodeGenerator cg, Type model) {
 		final String name = model.getName().toString();
 		final DependencyManager mgr = cg.getDependencyMgr();
 

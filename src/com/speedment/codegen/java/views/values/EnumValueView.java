@@ -7,7 +7,7 @@ package com.speedment.codegen.java.views.values;
 
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.java.models.values.EnumValue_;
+import com.speedment.codegen.java.models.values.EnumValue;
 import java.util.Optional;
 import com.speedment.util.$;
 import static com.speedment.codegen.Formatting.*;
@@ -16,9 +16,9 @@ import static com.speedment.codegen.Formatting.*;
  *
  * @author Emil Forslund
  */
-public class EnumValueView implements CodeView<EnumValue_> {
+public class EnumValueView implements CodeView<EnumValue> {
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, EnumValue_ model) {
+	public Optional<CharSequence> render(CodeGenerator cg, EnumValue model) {
 		return Optional.of(new $(
 			cg.on(model.getType()).orElse(EMPTY), DOT,
 			model.getValue())

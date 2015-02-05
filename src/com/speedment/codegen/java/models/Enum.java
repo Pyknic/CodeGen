@@ -24,30 +24,30 @@ import java.util.List;
  *
  * @author Duncan
  */
-public class Enum_ extends ClassOrInterface_<Enum_> implements EnumModifier<Enum_> {
-	private final List<EnumConstant_> constants;
+public class Enum extends ClassOrInterface<Enum> implements EnumModifier<Enum> {
+	private final List<EnumConstant> constants;
 	
-	public Enum_(CharSequence name) {
+	public Enum(CharSequence name) {
 		super(name);
 		constants = new ArrayList<>();
 	}
 	
-	private Enum_(Enum_ prototype) {
+	private Enum(Enum prototype) {
 		super (prototype);
 		constants = Copier.copy(prototype.constants);
 	}
 	
-	public Enum_ add(EnumConstant_ constant) {
+	public Enum add(EnumConstant constant) {
 		constants.add(constant);
 		return this;
 	}
 	
-	public List<EnumConstant_> getConstants() {
+	public List<EnumConstant> getConstants() {
 		return constants;
 	}
 
 	@Override
-	public Enum_ copy() {
-		return new Enum_(this);
+	public Enum copy() {
+		return new Enum(this);
 	}
 }

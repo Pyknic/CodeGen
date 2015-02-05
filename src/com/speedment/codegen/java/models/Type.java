@@ -36,26 +36,26 @@ import java.util.function.Predicate;
  *
  * @author Emil Forslund
  */
-public class Type_ implements CodeModel<Type_>, 
-		Nameable<Type_>,
-		Generable<Type_>,
-		Annotable<Type_> {
+public class Type implements CodeModel<Type>, 
+		Nameable<Type>,
+		Generable<Type>,
+		Annotable<Type> {
 	
 	private CharSequence name;
 	private int arrayDimension;
-	private final List<AnnotationUsage_> annotations;
-	private final List<Generic_> generics;
-	private Optional<Class<?>> javaImpl;
+	private final List<AnnotationUsage> annotations;
+	private final List<Generic> generics;
+	private Optional<java.lang.Class<?>> javaImpl;
 
-	public Type_(Class<?> javaImpl) {
+	public Type(java.lang.Class<?> javaImpl) {
 		this (javaImpl.getName(), javaImpl);
 	}
 	
-	public Type_(CharSequence name) {
+	public Type(CharSequence name) {
 		this (name, null);
 	}
 
-	public Type_(CharSequence name, Class<?> javaImpl) {
+	public Type(CharSequence name, java.lang.Class<?> javaImpl) {
 		this.name			= name;
 		this.arrayDimension = 0;
 		this.annotations	= new ArrayList<>();
@@ -63,7 +63,7 @@ public class Type_ implements CodeModel<Type_>,
 		this.javaImpl		= Optional.ofNullable(javaImpl);
 	}
 	
-	private Type_(Type_ prototype) {
+	private Type(Type prototype) {
 		name			= prototype.name.toString();
 		arrayDimension	= prototype.arrayDimension;
 		annotations		= Copier.copy(prototype.annotations);
@@ -77,16 +77,16 @@ public class Type_ implements CodeModel<Type_>,
 	}
 
 	@Override
-	public Type_ setName(CharSequence name) {
+	public Type setName(CharSequence name) {
 		this.name = name;
 		return this;
 	}
 
-	public Optional<Class<?>> getJavaImpl() {
+	public Optional<java.lang.Class<?>> getJavaImpl() {
 		return javaImpl;
 	}
 
-	public Type_ setJavaImpl(Class<?> javaImpl) {
+	public Type setJavaImpl(java.lang.Class<?> javaImpl) {
 		this.javaImpl = Optional.of(javaImpl);
 		return this;
 	}
@@ -95,65 +95,67 @@ public class Type_ implements CodeModel<Type_>,
 		return arrayDimension;
 	}
 
-	public Type_ setArrayDimension(int arrayDimension) {
+	public Type setArrayDimension(int arrayDimension) {
 		this.arrayDimension = arrayDimension;
 		return this;
 	}
 	
 	@Override
-	public Type_ add(Generic_ generic) {
+	public Type add(Generic generic) {
 		generics.add(generic);
 		return this;
 	}
 
 	@Override
-	public List<Generic_> getGenerics() {
+	public List<Generic> getGenerics() {
 		return generics;
 	}
 
 	@Override
-	public Type_ copy() {
-		return new Type_(this);
+	public Type copy() {
+		return new Type(this);
 	}
 
 	@Override
-	public Type_ add(AnnotationUsage_ annotation) {
+	public Type add(AnnotationUsage annotation) {
 		annotations.add(annotation);
 		return this;
 	}
 
 	@Override
-	public List<AnnotationUsage_> getAnnotations() {
+	public List<AnnotationUsage> getAnnotations() {
 		return annotations;
 	}
 	
-	public static final class Const extends Type_ {
-		public Const(Class<?> javaImpl) {super(javaImpl);}
+	public static final class Const extends Type {
+		public Const(java.lang.Class<?> javaImpl) {super(javaImpl);}
 		public Const(CharSequence name) {super(name);}
-		public Const(CharSequence name, Class<?> javaImpl) {super(name, javaImpl);}
+		public Const(CharSequence name, java.lang.Class<?> javaImpl) {
+			super(name, javaImpl);
+		}
 		
 		@Override
-		public Type_ setArrayDimension(int arrayDimension) {
+		public Type setArrayDimension(int arrayDimension) {
 			return copy().setArrayDimension(arrayDimension);
 		}
 
 		@Override
-		public Type_ setJavaImpl(Class<?> javaImpl) {
+		public Type setJavaImpl(java.lang.Class<?> javaImpl) {
 			return copy().setJavaImpl(javaImpl);
 		}
 
 		@Override
-		public Type_ setName(CharSequence name) {
+		public Type setName(CharSequence name) {
 			return copy().setName(name);
 		}
 
 		@Override
-		public Type_ add(Generic_ generic) {
+		public Type add(Generic generic) {
 			return copy().add(generic);
 		}
 	}
 
-	public static final Type_ 
+	public static final Type 
 		BYTE_PRIMITIVE = new Const(byte.class),
 		SHORT_PRIMITIVE = new Const(short.class),
 		INT_PRIMITIVE = new Const(int.class),
@@ -184,43 +186,43 @@ public class Type_ implements CodeModel<Type_>,
 		PREDICATE = new Const(Predicate.class),
 		CONSUMER = new Const(Consumer.class);
 		
-	public static final Type_ list(Type_ innerType) {
-		return LIST.add(new Generic_().add(innerType));
+	public static final Type list(Type innerType) {
+		return LIST.add(new Generic().add(innerType));
 	}
 	
-	public static final Type_ set(Type_ innerType) {
-		return SET.add(new Generic_().add(innerType));
+	public static final Type set(Type innerType) {
+		return SET.add(new Generic().add(innerType));
 	}
 	
-	public static final Type_ map(Type_ innerTypeA, Type_ innerTypeB) {
-		return MAP.add(new Generic_().add(innerTypeA).add(innerTypeB));
+	public static final Type map(Type innerTypeA, Type innerTypeB) {
+		return MAP.add(new Generic().add(innerTypeA).add(innerTypeB));
 	}
 	
-	public static final Type_ queue(Type_ innerType) {
-		return QUEUE.add(new Generic_().add(innerType));
+	public static final Type queue(Type innerType) {
+		return QUEUE.add(new Generic().add(innerType));
 	}
 	
-	public static final Type_ stack(Type_ innerType) {
-		return STACK.add(new Generic_().add(innerType));
+	public static final Type stack(Type innerType) {
+		return STACK.add(new Generic().add(innerType));
 	}
 	
-	public static final Type_ optional(Type_ innerType) {
-		return OPTIONAL.add(new Generic_().add(innerType));
+	public static final Type optional(Type innerType) {
+		return OPTIONAL.add(new Generic().add(innerType));
 	}
 	
-	public static final Type_ entry(Type_ innerTypeA, Type_ innerTypeB) {
-		return ENTRY.add(new Generic_().add(innerTypeA).add(innerTypeB));
+	public static final Type entry(Type innerTypeA, Type innerTypeB) {
+		return ENTRY.add(new Generic().add(innerTypeA).add(innerTypeB));
 	}
 	
-	public static final Type_ function(Type_ innerTypeA, Type_ innerTypeB) {
-		return FUNCTION.add(new Generic_().add(innerTypeA).add(innerTypeB));
+	public static final Type function(Type innerTypeA, Type innerTypeB) {
+		return FUNCTION.add(new Generic().add(innerTypeA).add(innerTypeB));
 	}
 	
-	public static final Type_ predicate(Type_ innerType) {
-		return PREDICATE.add(new Generic_().add(innerType));
+	public static final Type predicate(Type innerType) {
+		return PREDICATE.add(new Generic().add(innerType));
 	}
 	
-	public static final Type_ consumer(Type_ innerType) {
-		return CONSUMER.add(new Generic_().add(innerType));
+	public static final Type consumer(Type innerType) {
+		return CONSUMER.add(new Generic().add(innerType));
 	}
 }

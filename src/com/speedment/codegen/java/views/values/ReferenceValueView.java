@@ -7,16 +7,16 @@ package com.speedment.codegen.java.views.values;
 
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.java.models.values.ReferenceValue_;
+import com.speedment.codegen.java.models.values.ReferenceValue;
 import java.util.Optional;
 
 /**
  *
  * @author Emil Forslund
  */
-public class ReferenceValueView implements CodeView<ReferenceValue_> {
+public class ReferenceValueView implements CodeView<ReferenceValue> {
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, ReferenceValue_ model) {
+	public Optional<CharSequence> render(CodeGenerator cg, ReferenceValue model) {
 		return Optional.of(model.getValue());
 	}
 }

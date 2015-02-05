@@ -20,89 +20,89 @@ import java.util.Optional;
  *
  * @author Emil Forslund
  */
-public class AnnotationUsage_ implements CodeModel<AnnotationUsage_>,
-		Typeable<AnnotationUsage_>,
-		Valuable<AnnotationUsage_> {
+public class AnnotationUsage implements CodeModel<AnnotationUsage>, 
+		Typeable<AnnotationUsage>,
+		Valuable<AnnotationUsage> {
 	
-	private Type_ type;
-	private Optional<Value_> value;
-	private final List<Entry<String, Value_>> values;
+	private Type type;
+	private Optional<Value> value;
+	private final List<Entry<String, Value>> values;
 	
-	public AnnotationUsage_(Type_ type) {
+	public AnnotationUsage(Type type) {
 		this.type	= type;
 		this.value	= Optional.empty();
 		this.values = new ArrayList<>();
 	}
 	
-	private AnnotationUsage_(AnnotationUsage_ prototype) {
+	private AnnotationUsage(AnnotationUsage prototype) {
 		type   = prototype.type.copy();
 		value  = Copier.copy(prototype.value);
 		values = Copier.copy(prototype.values, e -> new AbstractMap.SimpleEntry<>(e.getKey(), e.getValue().copy()));
 	}
 	
 	@Override
-	public AnnotationUsage_ setValue(Value_ val) {
+	public AnnotationUsage setValue(Value val) {
 		value = Optional.of(val);
 		return this;
 	}
 	
-	public AnnotationUsage_ setValue(CharSequence key, Value_ val) {
+	public AnnotationUsage setValue(CharSequence key, Value val) {
 		values.add(new AbstractMap.SimpleEntry<>(key.toString(), val));
 		return this;
 	}
 	
 	@Override
-	public Optional<Value_> getValue() {
+	public Optional<Value> getValue() {
 		return value;
 	}
 	
-	public List<Entry<String, Value_>> getValues() {
+	public List<Entry<String, Value>> getValues() {
 		return values;
 	}
 
 	@Override
-	public AnnotationUsage_ copy() {
-		return new AnnotationUsage_(this);
+	public AnnotationUsage copy() {
+		return new AnnotationUsage(this);
 	}
 
 	@Override
-	public AnnotationUsage_ setType(Type_ type) {
+	public AnnotationUsage setType(Type type) {
 		this.type = type;
 		return this;
 	}
 
 	@Override
-	public Type_ getType() {
+	public Type getType() {
 		return type;
 	}
 	
-	public final static class Const extends AnnotationUsage_ {
-		public Const(Type_ type) { 
+	public final static class Const extends AnnotationUsage {
+		public Const(Type type) { 
 			super(type); 
 		}
 
 		@Override
-		public AnnotationUsage_ setValue(Value_ val) {
+		public AnnotationUsage setValue(Value val) {
 			return copy().setValue(val);
 		}
 		
 		@Override
-		public AnnotationUsage_ setValue(CharSequence key, Value_ val) {
+		public AnnotationUsage setValue(CharSequence key, Value val) {
 			return copy().setValue(key, val);
 		}
 
 		@Override
-		public AnnotationUsage_ setType(Type_ type) {
+		public AnnotationUsage setType(Type type) {
 			return copy().setType(type);
 		}
 	}
 	
-	public final static AnnotationUsage_
-			OVERRIDE	= new Const(new Type_(Override.class)),
-			DOCUMENTED	= new Const(new Type_(Documented.class)),
-			INHERITED	= new Const(new Type_(Inherited.class)),
-			NATIVE		= new Const(new Type_(Native.class)),
-			REPEATABLE	= new Const(new Type_(Repeatable.class)),
-			RETENTION	= new Const(new Type_(Retention.class)),
-			TARGET		= new Const(new Type_(Target.class));
+	public final static AnnotationUsage
+			OVERRIDE	= new Const(new Type(Override.class)),
+			DOCUMENTED	= new Const(new Type(Documented.class)),
+			INHERITED	= new Const(new Type(Inherited.class)),
+			NATIVE		= new Const(new Type(Native.class)),
+			REPEATABLE	= new Const(new Type(Repeatable.class)),
+			RETENTION	= new Const(new Type(Retention.class)),
+			TARGET		= new Const(new Type(Target.class));
 }

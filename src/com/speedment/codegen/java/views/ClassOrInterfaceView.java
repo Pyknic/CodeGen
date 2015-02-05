@@ -20,7 +20,7 @@ import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.base.DependencyManager;
 import com.speedment.codegen.base.VersionEnum;
-import com.speedment.codegen.java.models.ClassOrInterface_;
+import com.speedment.codegen.java.models.ClassOrInterface;
 import java.util.Optional;
 import com.speedment.util.$;
 import com.speedment.util.CodeCombiner;
@@ -31,7 +31,7 @@ import com.speedment.util.CodeCombiner;
  * @author Emil Forslund
  * @param <M>
  */
-public abstract class ClassOrInterfaceView<M extends ClassOrInterface_> implements CodeView<M> {
+public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implements CodeView<M> {
 	protected final static CharSequence
 		CLASS_STRING = "class ",
 		INTERFACE_STRING = "interface ",

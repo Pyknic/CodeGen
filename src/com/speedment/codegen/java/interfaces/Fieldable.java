@@ -15,7 +15,7 @@
  */
 package com.speedment.codegen.java.interfaces;
 
-import com.speedment.codegen.java.models.Field_;
+import com.speedment.codegen.java.models.Field;
 import java.util.List;
 
 /**
@@ -24,6 +24,6 @@ import java.util.List;
  * @param <T>
  */
 public interface Fieldable<T extends Fieldable<T>> {
-    T add(final Field_ field);
-    List<Field_> getFields();
+    T add(final Field field);
+    List<Field> getFields();
 }

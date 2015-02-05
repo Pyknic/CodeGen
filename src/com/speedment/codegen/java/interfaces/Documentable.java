@@ -15,7 +15,7 @@
  */
 package com.speedment.codegen.java.interfaces;
 
-import com.speedment.codegen.java.models.Javadoc_;
+import com.speedment.codegen.java.models.Javadoc;
 import java.util.Optional;
 
 /**
@@ -24,6 +24,6 @@ import java.util.Optional;
  * @param <T>
  */
 public interface Documentable<T extends Documentable<T>> {
-    T setJavadoc(final Javadoc_ doc);
-    Optional<Javadoc_> getJavadoc();
+    T setJavadoc(final Javadoc doc);
+    Optional<Javadoc> getJavadoc();
 }

@@ -26,27 +26,27 @@ import java.util.List;
  *
  * @author Emil Forslund
  */
-public class Javadoc_ implements CodeModel<Javadoc_> {
+public class Javadoc implements CodeModel<Javadoc> {
 	private final List<CharSequence> rows;
 
-	public Javadoc_() {
+	public Javadoc() {
 		rows = new ArrayList<>();
 	}
 	
-	public Javadoc_(final CharSequence text) {
+	public Javadoc(final CharSequence text) {
 		rows = Arrays.asList(text.toString().split("\n"));
 	}
 	
-	private Javadoc_(final Javadoc_ prototype) {
+	private Javadoc(final Javadoc prototype) {
 		rows = Copier.copy(prototype.rows, c -> c.toString());
 	}
 	
-	public Javadoc_ add(CharSequence row) {
+	public Javadoc add(CharSequence row) {
 		rows.add(row);
 		return this;
 	}
 	
-	public Javadoc_ add(CharSequence first, CharSequence... rows) {
+	public Javadoc add(CharSequence first, CharSequence... rows) {
 		this.rows.add(first);
 		Collections.addAll(this.rows, rows);
 		return this;
@@ -57,7 +57,7 @@ public class Javadoc_ implements CodeModel<Javadoc_> {
 	}
 
 	@Override
-	public Javadoc_ copy() {
-		return new Javadoc_(this);
+	public Javadoc copy() {
+		return new Javadoc(this);
 	}
 }

@@ -18,7 +18,7 @@ package com.speedment.codegen.java.views;
 import com.speedment.util.CodeCombiner;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.java.models.Javadoc_;
+import com.speedment.codegen.java.models.Javadoc;
 import java.util.Optional;
 import com.speedment.util.$;
 import static com.speedment.codegen.Formatting.*;
@@ -27,14 +27,14 @@ import static com.speedment.codegen.Formatting.*;
  *
  * @author Emil Forslund
  */
-public class JavadocView implements CodeView<Javadoc_> {
+public class JavadocView implements CodeView<Javadoc> {
 	private final static CharSequence
 		JAVADOC_DELIMITER = new $(nl(), SPACE, STAR, SPACE).toString(),
 		JAVADOC_PREFIX = new $(SLASH, STAR, STAR, nl(), SPACE, STAR, SPACE).toString(),
 		JAVADOC_SUFFIX = new $(nl(), SPACE, STAR, SLASH, nl()).toString();
 	
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, Javadoc_ model) {
+	public Optional<CharSequence> render(CodeGenerator cg, Javadoc model) {
 		return CodeCombiner.ifEmpty(
 			model.getRows().stream().collect(
 				CodeCombiner.joinIfNotEmpty(

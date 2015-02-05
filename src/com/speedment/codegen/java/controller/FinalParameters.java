@@ -16,16 +16,16 @@
 package com.speedment.codegen.java.controller;
 
 import com.speedment.codegen.base.CodeController;
-import com.speedment.codegen.java.models.Class_;
+import com.speedment.codegen.java.models.Class;
 
 /**
  *
  * @author Emil Forslund
  */
-public class FinalParameters implements CodeController<Class_> {
+public class FinalParameters implements CodeController<Class> {
 
 	@Override
-	public void accept(Class_ model) {
+	public void accept(Class model) {
 		model.getMethods().forEach(m -> m.getParams().forEach(p -> p.final_()));
 	}
 	

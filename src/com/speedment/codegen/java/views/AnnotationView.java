@@ -2,7 +2,7 @@ package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.java.models.Annotation_;
+import com.speedment.codegen.java.models.Annotation;
 import java.util.Optional;
 import com.speedment.util.$;
 import static com.speedment.codegen.Formatting.*;
@@ -12,13 +12,13 @@ import com.speedment.util.CodeCombiner;
  *
  * @author Emil Forslund
  */
-public class AnnotationView implements CodeView<Annotation_> {
+public class AnnotationView implements CodeView<Annotation> {
 	private final static CharSequence 
 		INTERFACE_STRING = "@interface ",
 		DEFAULT_STRING = " default ";
 	
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, Annotation_ model) {
+	public Optional<CharSequence> render(CodeGenerator cg, Annotation model) {
 		return Optional.of(new $(
 			// Javadoc (optional)
 			ifelse(cg.on(model.getJavadoc()), c -> new $(c, nl()), EMPTY),

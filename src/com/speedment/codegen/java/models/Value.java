@@ -13,10 +13,10 @@ import com.speedment.codegen.base.CodeModel;
  * @param <T>
  * @param <R>
  */
-public abstract class Value_<T, R extends Value_<T, R>> implements CodeModel<Value_<T, R>> {
+public abstract class Value<T, R extends Value<T, R>> implements CodeModel<Value<T, R>> {
 	private T value;
 	
-	public Value_(T val) {
+	public Value(T val) {
 		value = val;
 	}
 

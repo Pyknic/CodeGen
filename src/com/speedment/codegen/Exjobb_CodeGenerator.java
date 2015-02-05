@@ -4,24 +4,24 @@ import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.java.JavaGenerator;
 import com.speedment.codegen.java.controller.AutoJavadoc;
 import com.speedment.codegen.java.controller.SetGet;
-import com.speedment.codegen.java.models.Class_;
-import com.speedment.codegen.java.models.Field_;
-import com.speedment.codegen.java.models.Method_;
-import com.speedment.codegen.java.models.Type_;
-import static com.speedment.codegen.java.models.Type_.*;
+import com.speedment.codegen.java.models.Class;
+import com.speedment.codegen.java.models.Field;
+import com.speedment.codegen.java.models.Method;
+import com.speedment.codegen.java.models.Type;
+import static com.speedment.codegen.java.models.Type.*;
 
 import com.speedment.codegen.java.controller.FinalParameters;
-import com.speedment.codegen.java.models.Javadoc_;
+import com.speedment.codegen.java.models.Javadoc;
 import com.speedment.util.$;
-import com.speedment.codegen.java.models.Import_;
-import com.speedment.codegen.java.models.EnumConstant_;
-import com.speedment.codegen.java.models.Enum_;
-import com.speedment.codegen.java.models.Generic_;
-import com.speedment.codegen.java.models.Interface_;
-import com.speedment.codegen.java.models.values.EnumValue_;
-import com.speedment.codegen.java.models.values.NumberValue_;
-import com.speedment.codegen.java.models.values.ReferenceValue_;
-import com.speedment.codegen.java.models.values.TextValue_;
+import com.speedment.codegen.java.models.Import;
+import com.speedment.codegen.java.models.EnumConstant;
+import com.speedment.codegen.java.models.Enum;
+import com.speedment.codegen.java.models.Generic;
+import com.speedment.codegen.java.models.Interface;
+import com.speedment.codegen.java.models.values.EnumValue;
+import com.speedment.codegen.java.models.values.NumberValue;
+import com.speedment.codegen.java.models.values.ReferenceValue;
+import com.speedment.codegen.java.models.values.TextValue;
 
 /**
  *
@@ -37,120 +37,118 @@ public class Exjobb_CodeGenerator {
 		
 		Formatting.tab("    ");
 		
-		final Type_ typeThread  = new Type_(Thread.class);
-		final Type_ spriteStore = new Type_("org.duncan.test.SpriteStore");
-		final Type_ soundStore  = new Type_("org.duncan.test.SoundStore");
+		final Type typeThread  = new Type(Thread.class);
+		final Type spriteStore = new Type("org.duncan.test.SpriteStore");
+		final Type soundStore  = new Type("org.duncan.test.SoundStore");
 		
-		Enum_ myEnum;
-		System.out.println(
-			cg.on(myEnum = new Enum_("org.duncan.util.Card")
+		Enum myEnum;
+		System.out.println(cg.on(myEnum = new Enum("org.duncan.util.Card")
 				.public_()
 					
-				.add(new EnumConstant_("HEART_OF_ACE")
-					.add(new NumberValue_(1))
-					.add(new TextValue_("♥"))
+				.add(new EnumConstant("HEART_OF_ACE")
+					.add(new NumberValue(1))
+					.add(new TextValue("♥"))
 				)
-				.add(new EnumConstant_("HEART_OF_SPADES")
-					.add(new NumberValue_(1))
-					.add(new TextValue_("♠"))
+				.add(new EnumConstant("HEART_OF_SPADES")
+					.add(new NumberValue(1))
+					.add(new TextValue("♠"))
 				)
-				.add(new EnumConstant_("HEART_OF_CLUBS")
-					.add(new NumberValue_(1))
-					.add(new TextValue_("♣"))
+				.add(new EnumConstant("HEART_OF_CLUBS")
+					.add(new NumberValue(1))
+					.add(new TextValue("♣"))
 				)
-				.add(new EnumConstant_("HEART_OF_DIAMONDS")
-					.add(new NumberValue_(1))
-					.add(new TextValue_("♦"))
+				.add(new EnumConstant("HEART_OF_DIAMONDS")
+					.add(new NumberValue(1))
+					.add(new TextValue("♦"))
 				)
 			).get() + "\n"
 		);
 		
-		System.out.println(
-			cg.on(new Interface_("org.duncan.test.Player")
+		System.out.println(cg.on(new Interface("org.duncan.test.Player")
 				/***** Class declaration *****/
 				.public_()
-				.setJavadoc(new Javadoc_(new $(
+				.setJavadoc(new Javadoc(new $(
 					"This is a test class to demonstrate how the\n",
 					"code generator is working."
 				)))
 					
 				/***** Fields *****/
-				.add(new Field_("cards", list(myEnum.asType()))
+				.add(new Field("cards", list(myEnum.asType()))
 					.private_().final_().static_()
-					.setValue(new ReferenceValue_("new ArrayList<>()"))
+					.setValue(new ReferenceValue("new ArrayList<>()"))
 				)
-				.add(new Field_("favoriteCard", myEnum.asType())
+				.add(new Field("favoriteCard", myEnum.asType())
 					.private_().final_()
-					.setValue(new EnumValue_(myEnum.asType(), "HEART_OF_ACE"))
+					.setValue(new EnumValue(myEnum.asType(), "HEART_OF_ACE"))
 				)	
 					
 				/***** Methods *****/
-				.add(new Method_("spawn", VOID)
-					.setJavadoc(new Javadoc_(new $(
+				.add(new Method("spawn", VOID)
+					.setJavadoc(new Javadoc(new $(
 						"This function is used to reset the Player."
 					)))
-					.add(new Field_("name", STRING))
-					.add(new Field_("score", INT_PRIMITIVE))
+					.add(new Field("name", STRING))
+					.add(new Field("score", INT_PRIMITIVE))
 				)
 			).get() + "\n"
 		);
 		
-		System.out.println(cg.on(new Class_("org.duncan.test.MittTest", typeThread)
+		System.out.println(cg.on(new Class("org.duncan.test.MittTest", typeThread)
 				/***** Dependencies *****/
-				.add(new Import_(LIST))
+				.add(new Import(LIST))
 				
 				/***** Class declaration *****/
 				.public_()
-				.setJavadoc(new Javadoc_(new $(
+				.setJavadoc(new Javadoc(new $(
 					"This is a test class to demonstrate how the\n",
 					"code generator is working."
 				)))
 				
 				/***** Fields *****/
-				.add(new Field_("player1Name", STRING))
-				.add(new Field_("player2Name", STRING))
-				.add(new Field_("player1Score", INT_PRIMITIVE))
-				.add(new Field_("player2Score", INT_PRIMITIVE))
-				.add(new Field_("players", list(new Type_("org.duncan.test.Player"))))
-				.add(new Field_("spriteStore", spriteStore))
-				.add(new Field_("soundStore", soundStore))
+				.add(new Field("player1Name", STRING))
+				.add(new Field("player2Name", STRING))
+				.add(new Field("player1Score", INT_PRIMITIVE))
+				.add(new Field("player2Score", INT_PRIMITIVE))
+				.add(new Field("players", list(new Type("org.duncan.test.Player"))))
+				.add(new Field("spriteStore", spriteStore))
+				.add(new Field("soundStore", soundStore))
 					
 				/***** Methods *****/
-				.add(new Method_("spawnPlayer1", VOID).public_()
-					.setJavadoc(new Javadoc_(new $(
+				.add(new Method("spawnPlayer1", VOID).public_()
+					.setJavadoc(new Javadoc(new $(
 						"This function is used to reset Player 1."
 					)))
-					.add(new Field_("name", STRING))
-					.add(new Field_("score", INT_PRIMITIVE))
+					.add(new Field("name", STRING))
+					.add(new Field("score", INT_PRIMITIVE))
 					.add("this.player1Name = name;")
 					.add("this.player1Score = score;")
 				)
-				.add(new Method_("spawnPlayer2", VOID).public_()
-					.setJavadoc(new Javadoc_(new $(
+				.add(new Method("spawnPlayer2", VOID).public_()
+					.setJavadoc(new Javadoc(new $(
 						"This function is used to reset Player 2."
 					)))
-					.add(new Field_("name", STRING))
-					.add(new Field_("score", INT_PRIMITIVE))
+					.add(new Field("name", STRING))
+					.add(new Field("score", INT_PRIMITIVE))
 					.add("this.player2Name = name;")
 					.add("this.player2Score = score;")
 				)
-				.add(new Method_("killPlayer", VOID).public_()
-					.setJavadoc(new Javadoc_(new $(
+				.add(new Method("killPlayer", VOID).public_()
+					.setJavadoc(new Javadoc(new $(
 						"This method can be used to kill either player."
 					)))
-					.add(new Field_("name", STRING))
+					.add(new Field("name", STRING))
 					.add("switch (name) {")
 					.add("case (this.player1Name) : killPlayer1(); break;")
 					.add("case (this.player2Name) : killPlayer2(); break;")
 					.add("}")
 				)
-				.add(new Method_("killPlayer1", VOID).protected_()
+				.add(new Method("killPlayer1", VOID).protected_()
 					.add("this.player2Score += 20;")
 				)
-				.add(new Method_("killPlayer2", VOID).protected_()
+				.add(new Method("killPlayer2", VOID).protected_()
 					.add("this.player1Score += 20;")
 				)
-				.add(new Method_("restart", VOID).public_()
+				.add(new Method("restart", VOID).public_()
 					.add("spawnPlayer1();")
 					.add("spawnPlayer2();")
 				)

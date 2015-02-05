@@ -17,7 +17,7 @@ package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.java.models.Generic_;
+import com.speedment.codegen.java.models.Generic;
 import java.util.Optional;
 import com.speedment.util.$;
 import static com.speedment.codegen.Formatting.*;
@@ -27,24 +27,22 @@ import com.speedment.util.CodeCombiner;
  *
  * @author Duncan
  */
-public class GenericView implements CodeView<Generic_> {
+public class GenericView implements CodeView<Generic> {
 	private final static CharSequence 
 			EXTENDS_STRING = " extends ", 
 			SUPER_STRING = " super ";
 
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, Generic_ model) {
+	public Optional<CharSequence> render(CodeGenerator cg, Generic model) {
 		if (!model.getLowerBound().isPresent() 
 		&&   model.getUpperBounds().isEmpty()) {
 			return Optional.empty();
 		} else {
 			return Optional.of(new $(
 				model.getLowerBound().orElse(EMPTY),
-				cg.onEach(model.getUpperBounds()).collect(
-					CodeCombiner.joinIfNotEmpty(
-						AND, 
+				cg.onEach(model.getUpperBounds()).collect(CodeCombiner.joinIfNotEmpty(AND, 
 						model.getLowerBound().isPresent() ? 
-							model.getBoundType() == Generic_.BoundType.UPPER ?
+							model.getBoundType() == Generic.BoundType.UPPER ?
 							EXTENDS_STRING : SUPER_STRING
 						: EMPTY, 
 						EMPTY

@@ -7,7 +7,7 @@ import com.speedment.codegen.java.interfaces.Documentable;
 import com.speedment.codegen.java.interfaces.Fieldable;
 import com.speedment.codegen.java.interfaces.Modifiable;
 import com.speedment.codegen.java.interfaces.Nameable;
-import com.speedment.codegen.java.models.modifiers.Modifier_;
+import com.speedment.codegen.java.models.modifiers.Modifier;
 import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -18,31 +18,31 @@ import java.util.Optional;
  *
  * @author Emil Forslund
  */
-public class Annotation_ implements CodeModel<Annotation_>,
-		Nameable<Annotation_>, 
-		Documentable<Annotation_>,
-		Fieldable<Annotation_>,
-		Dependable<Annotation_>,
-		Modifiable<Annotation_>,
-		Annotable<Annotation_> {
+public class Annotation implements CodeModel<Annotation>, 
+		Nameable<Annotation>,
+		Documentable<Annotation>,
+		Fieldable<Annotation>,
+		Dependable<Annotation>,
+		Modifiable<Annotation>,
+		Annotable<Annotation> {
 	
 	private CharSequence name;
-	private Optional<Javadoc_> javadoc;
-	private final List<AnnotationUsage_> annotations;
-	private final List<Field_> fields;
-	private final List<Import_> dependencies;
-	private final EnumSet<Modifier_> modifiers;
+	private Optional<Javadoc> javadoc;
+	private final List<AnnotationUsage> annotations;
+	private final List<Field> fields;
+	private final List<Import> dependencies;
+	private final EnumSet<Modifier> modifiers;
 
-	public Annotation_(CharSequence name) {
+	public Annotation(CharSequence name) {
 		this.name			= name;
 		this.javadoc		= Optional.empty();
 		this.annotations	= new ArrayList<>();
 		this.fields			= new ArrayList<>();
 		this.dependencies	= new ArrayList<>();
-		this.modifiers		= EnumSet.noneOf(Modifier_.class);
+		this.modifiers		= EnumSet.noneOf(Modifier.class);
 	}
 	
-	public Annotation_(Annotation_ prototype) {
+	public Annotation(Annotation prototype) {
 		name			= prototype.name.toString();
 		javadoc			= Copier.copy(prototype.javadoc);
 		annotations		= Copier.copy(prototype.annotations);
@@ -51,12 +51,12 @@ public class Annotation_ implements CodeModel<Annotation_>,
 		modifiers		= Copier.copy(prototype.modifiers);
 	}
 	
-	public Type_ toType() {
-		return new Type_(name);
+	public Type toType() {
+		return new Type(name);
 	}
 
 	@Override
-	public Annotation_ setName(CharSequence name) {
+	public Annotation setName(CharSequence name) {
 		this.name = name;
 		return this;
 	}
@@ -67,56 +67,56 @@ public class Annotation_ implements CodeModel<Annotation_>,
 	}
 
 	@Override
-	public Annotation_ add(Field_ field) {
+	public Annotation add(Field field) {
 		fields.add(field);
 		return this;
 	}
 
 	@Override
-	public List<Field_> getFields() {
+	public List<Field> getFields() {
 		return fields;
 	}
 
 	@Override
-	public Annotation_ setJavadoc(Javadoc_ doc) {
+	public Annotation setJavadoc(Javadoc doc) {
 		this.javadoc = Optional.of(doc);
 		return this;
 	}
 
 	@Override
-	public Optional<Javadoc_> getJavadoc() {
+	public Optional<Javadoc> getJavadoc() {
 		return javadoc;
 	}
 
 	@Override
-	public Annotation_ add(Import_ dep) {
+	public Annotation add(Import dep) {
 		dependencies.add(dep);
 		return this;
 	}
 
 	@Override
-	public List<Import_> getDependencies() {
+	public List<Import> getDependencies() {
 		return dependencies;
 	}
 
 	@Override
-	public EnumSet<Modifier_> getModifiers() {
+	public EnumSet<Modifier> getModifiers() {
 		return modifiers;
 	}
 	
 	@Override
-	public Annotation_ copy() {
-		return new Annotation_(this);
+	public Annotation copy() {
+		return new Annotation(this);
 	}
 
 	@Override
-	public Annotation_ add(AnnotationUsage_ annotation) {
+	public Annotation add(AnnotationUsage annotation) {
 		annotations.add(annotation);
 		return this;
 	}
 
 	@Override
-	public List<AnnotationUsage_> getAnnotations() {
+	public List<AnnotationUsage> getAnnotations() {
 		return annotations;
 	}
 }

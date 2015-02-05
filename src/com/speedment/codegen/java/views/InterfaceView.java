@@ -17,13 +17,13 @@ package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.Formatting;
 import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.java.models.Interface_;
+import com.speedment.codegen.java.models.Interface;
 
 /**
  *
  * @author Emil Forslund
  */
-public class InterfaceView extends ClassOrInterfaceView<Interface_> {
+public class InterfaceView extends ClassOrInterfaceView<Interface> {
 	@Override
 	protected CharSequence classOrInterfaceLabel() {
 		return INTERFACE_STRING;
@@ -35,7 +35,7 @@ public class InterfaceView extends ClassOrInterfaceView<Interface_> {
 	}
 
 	@Override
-	protected CharSequence onSuperType(CodeGenerator cg, Interface_ model) {
+	protected CharSequence onSuperType(CodeGenerator cg, Interface model) {
 		return Formatting.EMPTY;
 	}
 }

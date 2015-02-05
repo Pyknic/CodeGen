@@ -23,37 +23,37 @@ import java.util.Optional;
  *
  * @author Emil Forslund
  */
-public class Class_ extends ClassOrInterface_<Class_> implements 
-		ClassModifier<Class_> {
+public class Class extends ClassOrInterface<Class> implements 
+		ClassModifier<Class> {
 
-	private Optional<Type_> superType;
+	private Optional<Type> superType;
 
-	public Class_(CharSequence name) {
+	public Class(CharSequence name) {
 		super(name);
 		superType = Optional.empty();
 	}
 
-	public Class_(CharSequence name, Type_ superType) {
+	public Class(CharSequence name, Type superType) {
 		super(name);
 		this.superType = Optional.of(superType);
 	}
 	
-	private Class_(Class_ prototype) {
+	private Class(Class prototype) {
 		super (prototype);
 		this.superType = Copier.copy(prototype.superType);
 	}
 
-	public Class_ setSuperType(Type_ superType) {
+	public Class setSuperType(Type superType) {
 		this.superType = Optional.of(superType);
 		return this;
 	}
 
-	public Optional<Type_> getSuperType() {
+	public Optional<Type> getSuperType() {
 		return superType;
 	}
 
 	@Override
-	public Class_ copy() {
-		return new Class_(this);
+	public Class copy() {
+		return new Class(this);
 	}
 }

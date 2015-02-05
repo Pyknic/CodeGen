@@ -25,7 +25,7 @@ import com.speedment.codegen.java.interfaces.Interfaceable;
 import com.speedment.codegen.java.interfaces.Methodable;
 import com.speedment.codegen.java.interfaces.Modifiable;
 import com.speedment.codegen.java.interfaces.Nameable;
-import com.speedment.codegen.java.models.modifiers.Modifier_;
+import com.speedment.codegen.java.models.modifiers.Modifier;
 import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -37,7 +37,7 @@ import java.util.Optional;
  * @author Duncan
  * @param <T>
  */
-public abstract class ClassOrInterface_<T extends ClassOrInterface_<T>> implements 
+public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements 
 		CodeModel<T>,
 		Nameable<T>, 
 		Documentable<T>, 
@@ -50,16 +50,16 @@ public abstract class ClassOrInterface_<T extends ClassOrInterface_<T>> implemen
 		Modifiable<T> {
 	
 	private CharSequence name;
-	private Optional<Javadoc_> javadoc;
-	private final List<AnnotationUsage_> annotations;
-	private final List<Import_> dependencies;
-	private final List<Generic_> generics;
-	private final List<Type_> interfaces;
-	private final List<Field_> fields;
-	private final List<Method_> methods;
-	private final EnumSet<Modifier_> modifiers;
+	private Optional<Javadoc> javadoc;
+	private final List<AnnotationUsage> annotations;
+	private final List<Import> dependencies;
+	private final List<Generic> generics;
+	private final List<Type> interfaces;
+	private final List<Field> fields;
+	private final List<Method> methods;
+	private final EnumSet<Modifier> modifiers;
 
-	public ClassOrInterface_(CharSequence name) {
+	public ClassOrInterface(CharSequence name) {
 		this.name			= name;
 		this.javadoc		= Optional.empty();
 		this.annotations	= new ArrayList<>();
@@ -68,10 +68,10 @@ public abstract class ClassOrInterface_<T extends ClassOrInterface_<T>> implemen
 		this.interfaces		= new ArrayList<>();
 		this.fields			= new ArrayList<>();
 		this.methods		= new ArrayList<>();
-		this.modifiers		= EnumSet.noneOf(Modifier_.class);
+		this.modifiers		= EnumSet.noneOf(Modifier.class);
 	}
 	
-	public ClassOrInterface_(ClassOrInterface_<T> prototype) {
+	public ClassOrInterface(ClassOrInterface<T> prototype) {
 		name			= prototype.name.toString();
 		javadoc			= Copier.copy(prototype.javadoc);
 		annotations		= Copier.copy(prototype.annotations);
@@ -95,88 +95,88 @@ public abstract class ClassOrInterface_<T extends ClassOrInterface_<T>> implemen
 	}
 
 	@Override
-	public T setJavadoc(Javadoc_ doc) {
+	public T setJavadoc(Javadoc doc) {
 		javadoc = Optional.of(doc);
 		return (T) this;
 	}
 
 	@Override
-	public Optional<Javadoc_> getJavadoc() {
+	public Optional<Javadoc> getJavadoc() {
 		return javadoc;
 	}
 
 	@Override
-	public T add(Import_ dep) {
+	public T add(Import dep) {
 		dependencies.add(dep);
 		return (T) this;
 	}
 
 	@Override
-	public List<Import_> getDependencies() {
+	public List<Import> getDependencies() {
 		return dependencies;
 	}
 
 	@Override
-	public T add(Method_ method) {
+	public T add(Method method) {
 		methods.add(method);
 		return (T) this;
 	}
 
 	@Override
-	public List<Method_> getMethods() {
+	public List<Method> getMethods() {
 		return methods;
 	}
 
 	@Override
-	public T add(Field_ field) {
+	public T add(Field field) {
 		fields.add(field);
 		return (T) this;
 	}
 
 	@Override
-	public List<Field_> getFields() {
+	public List<Field> getFields() {
 		return fields;
 	}
 
 	@Override
-	public T add(Type_ interf) {
+	public T add(Type interf) {
 		interfaces.add(interf);
 		return (T) this;
 	}
 
 	@Override
-	public List<Type_> getInterfaces() {
+	public List<Type> getInterfaces() {
 		return interfaces;
 	}
 	
-	public Type_ asType() {
-		return new Type_(name);
+	public Type asType() {
+		return new Type(name);
 	}
 	
 	@Override
-	public EnumSet<Modifier_> getModifiers() {
+	public EnumSet<Modifier> getModifiers() {
 		return modifiers;
 	}
 
 	@Override
-	public T add(Generic_ generic) {
+	public T add(Generic generic) {
 		generics.add(generic);
 		return (T) this;
 	}
 
 	@Override
-	public List<Generic_> getGenerics() {
+	public List<Generic> getGenerics() {
 		return generics;
 	}
 
 	@Override
-	public T add(AnnotationUsage_ annotation) {
+	public T add(AnnotationUsage annotation) {
 		annotations.add(annotation);
 		return (T) this;
 	}
 
 	@Override
-	public List<AnnotationUsage_> getAnnotations() {
+	public List<AnnotationUsage> getAnnotations() {
 		return annotations;
 	}
 }

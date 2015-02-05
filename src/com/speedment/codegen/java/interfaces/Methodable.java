@@ -15,7 +15,7 @@
  */
 package com.speedment.codegen.java.interfaces;
 
-import com.speedment.codegen.java.models.Method_;
+import com.speedment.codegen.java.models.Method;
 import java.util.List;
 
 /**
@@ -24,6 +24,6 @@ import java.util.List;
  * @param <T>
  */
 public interface Methodable<T extends Methodable<T>> {
-    T add(final Method_ meth);
-    List<Method_> getMethods();
+    T add(final Method meth);
+    List<Method> getMethods();
 }

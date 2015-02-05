@@ -15,7 +15,7 @@
  */
 package com.speedment.codegen.java.interfaces;
 
-import com.speedment.codegen.java.models.Type_;
+import com.speedment.codegen.java.models.Type;
 import java.util.List;
 
 /**
@@ -24,6 +24,6 @@ import java.util.List;
  * @param <T>
  */
 public interface Interfaceable<T extends Interfaceable<T>> {
-    T add(final Type_ interf);
-    List<Type_> getInterfaces();
+    T add(final Type interf);
+    List<Type> getInterfaces();
 }

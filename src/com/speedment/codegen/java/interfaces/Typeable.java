@@ -15,7 +15,7 @@
  */
 package com.speedment.codegen.java.interfaces;
 
-import com.speedment.codegen.java.models.Type_;
+import com.speedment.codegen.java.models.Type;
 
 /**
  *
@@ -23,6 +23,6 @@ import com.speedment.codegen.java.models.Type_;
  * @param <T>
  */
 public interface Typeable<T extends Typeable<T>> {
-    T setType(final Type_ type);
-    Type_ getType();
+    T setType(final Type type);
+    Type getType();
 }

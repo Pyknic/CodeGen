@@ -15,7 +15,7 @@
  */
 package com.speedment.codegen.java.interfaces;
 
-import com.speedment.codegen.java.models.Generic_;
+import com.speedment.codegen.java.models.Generic;
 import java.util.List;
 
 /**
@@ -24,6 +24,6 @@ import java.util.List;
  * @param <T>
  */
 public interface Generable<T extends Generable<T>> {
-	T add(final Generic_ generic);
-    List<Generic_> getGenerics();
+	T add(final Generic generic);
+    List<Generic> getGenerics();
 }

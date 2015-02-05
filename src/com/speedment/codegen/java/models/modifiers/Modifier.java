@@ -21,7 +21,7 @@ import com.speedment.codegen.base.CodeModel;
  *
  * @author Emil Forslund
  */
-public enum Modifier_ implements CodeModel<Modifier_> {
+public enum Modifier implements CodeModel<Modifier> {
 	PUBLIC ("public"),
 	PROTECTED ("protected"),
 	PRIVATE ("private"),
@@ -37,7 +37,7 @@ public enum Modifier_ implements CodeModel<Modifier_> {
 	
 	private final CharSequence name;
 	
-	Modifier_(CharSequence name) {
+	Modifier(CharSequence name) {
 		this.name = name;
 	}
 	
@@ -46,7 +46,7 @@ public enum Modifier_ implements CodeModel<Modifier_> {
 	}
 
 	@Override
-	public Modifier_ copy() {
+	public Modifier copy() {
 		return this;
 	}
 }

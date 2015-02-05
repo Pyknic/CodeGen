@@ -22,7 +22,7 @@ import com.speedment.codegen.java.interfaces.Nameable;
 import com.speedment.codegen.java.interfaces.Typeable;
 import com.speedment.codegen.java.interfaces.Valuable;
 import com.speedment.codegen.java.models.modifiers.FieldModifier;
-import com.speedment.codegen.java.models.modifiers.Modifier_;
+import com.speedment.codegen.java.models.modifiers.Modifier;
 import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -33,31 +33,31 @@ import java.util.Optional;
  *
  * @author Emil Forslund
  */
-public class Field_ implements CodeModel<Field_>, 
-		Nameable<Field_>, 
-		Typeable<Field_>, 
-		Documentable<Field_>,
-		Valuable<Field_>,
-		Annotable<Field_>,
-		FieldModifier<Field_> {
+public class Field implements CodeModel<Field>, 
+		Nameable<Field>,
+		Typeable<Field>,
+		Documentable<Field>,
+		Valuable<Field>,
+		Annotable<Field>,
+		FieldModifier<Field> {
 	
 	private CharSequence name;
-	private Type_ type;
-	private Optional<Value_> value;
-	private Optional<Javadoc_> javadoc;
-	private final List<AnnotationUsage_> annotations;
-	private final EnumSet<Modifier_> modifiers;
+	private Type type;
+	private Optional<Value> value;
+	private Optional<Javadoc> javadoc;
+	private final List<AnnotationUsage> annotations;
+	private final EnumSet<Modifier> modifiers;
 	
-	public Field_(CharSequence name, Type_ type) {
+	public Field(CharSequence name, Type type) {
 		this.name			= name;
 		this.type			= type;
 		this.value			= Optional.empty();
 		this.javadoc		= Optional.empty();
 		this.annotations	= new ArrayList<>();
-		this.modifiers		= EnumSet.noneOf(Modifier_.class);
+		this.modifiers		= EnumSet.noneOf(Modifier.class);
 	}
 	
-	private Field_(Field_ prototype) {
+	private Field(Field prototype) {
 		name		= prototype.name;
 		type		= prototype.type;
 		value		= Copier.copy(prototype.value);
@@ -72,62 +72,62 @@ public class Field_ implements CodeModel<Field_>,
 	}
 
 	@Override
-	public Field_ setName(CharSequence name) {
+	public Field setName(CharSequence name) {
 		this.name = name;
 		return this;
 	}
 
 	@Override
-	public Type_ getType() {
+	public Type getType() {
 		return type;
 	}
 
 	@Override
-	public Field_ setType(Type_ type) {
+	public Field setType(Type type) {
 		this.type = type;
 		return this;
 	}
 	
 	@Override
-	public EnumSet<Modifier_> getModifiers() {
+	public EnumSet<Modifier> getModifiers() {
 		return modifiers;
 	}
 
 	@Override
-	public Field_ setJavadoc(Javadoc_ doc) {
+	public Field setJavadoc(Javadoc doc) {
 		javadoc = Optional.of(doc);
 		return this;
 	}
 
 	@Override
-	public Optional<Javadoc_> getJavadoc() {
+	public Optional<Javadoc> getJavadoc() {
 		return javadoc;
 	}
 
 	@Override
-	public Field_ setValue(Value_ val) {
+	public Field setValue(Value val) {
 		this.value = Optional.of(val);
 		return this;
 	}
 
 	@Override
-	public Optional<Value_> getValue() {
+	public Optional<Value> getValue() {
 		return value;
 	}
 
 	@Override
-	public Field_ copy() {
-		return new Field_(this);
+	public Field copy() {
+		return new Field(this);
 	}
 
 	@Override
-	public Field_ add(AnnotationUsage_ annotation) {
+	public Field add(AnnotationUsage annotation) {
 		annotations.add(annotation);
 		return this;
 	}
 
 	@Override
-	public List<AnnotationUsage_> getAnnotations() {
+	public List<AnnotationUsage> getAnnotations() {
 		return annotations;
 	}
 }

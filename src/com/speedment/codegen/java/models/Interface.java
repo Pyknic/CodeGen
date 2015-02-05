@@ -21,19 +21,19 @@ import com.speedment.codegen.java.models.modifiers.InterfaceModifier;
  *
  * @author Duncan
  */
-public class Interface_ extends ClassOrInterface_<Interface_> implements
-		InterfaceModifier<Interface_> {
+public class Interface extends ClassOrInterface<Interface> implements
+		InterfaceModifier<Interface> {
 
-    public Interface_(CharSequence name) {
+    public Interface(CharSequence name) {
 		super (name);
     }
 	
-	public Interface_(Interface_ prototype) {
+	public Interface(Interface prototype) {
 		super (prototype);
     }
 
 	@Override
-	public Interface_ copy() {
-		return new Interface_(this);
+	public Interface copy() {
+		return new Interface(this);
 	}
 }

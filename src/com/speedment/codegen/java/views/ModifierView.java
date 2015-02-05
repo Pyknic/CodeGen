@@ -17,17 +17,17 @@ package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.java.models.modifiers.Modifier_;
+import com.speedment.codegen.java.models.modifiers.Modifier;
 import java.util.Optional;
 
 /**
  *
  * @author Emil Forslund
  */
-public class ModifierView implements CodeView<Modifier_> {
+public class ModifierView implements CodeView<Modifier> {
 
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, Modifier_ model) {
+	public Optional<CharSequence> render(CodeGenerator cg, Modifier model) {
 		return Optional.of(model.getName());
 	}
 	

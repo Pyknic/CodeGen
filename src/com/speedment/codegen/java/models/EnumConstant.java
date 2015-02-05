@@ -25,24 +25,24 @@ import java.util.List;
  *
  * @author Duncan
  */
-public class EnumConstant_ implements CodeModel<EnumConstant_>, 
-		Nameable<EnumConstant_> {
+public class EnumConstant implements CodeModel<EnumConstant>, 
+		Nameable<EnumConstant> {
 	
 	private CharSequence name;
-	private final List<Value_> values;
+	private final List<Value> values;
 
-	public EnumConstant_(CharSequence name) {
+	public EnumConstant(CharSequence name) {
 		this.name	= name;
 		this.values = new ArrayList<>();
 	}
 	
-	private EnumConstant_(EnumConstant_ prototype) {
+	private EnumConstant(EnumConstant prototype) {
 		name	= prototype.name.toString();
 		values	= Copier.copy(prototype.values);
 	}
 
 	@Override
-	public EnumConstant_ setName(CharSequence name) {
+	public EnumConstant setName(CharSequence name) {
 		this.name = name;
 		return this;
 	}
@@ -52,17 +52,17 @@ public class EnumConstant_ implements CodeModel<EnumConstant_>,
 		return name;
 	}
 	
-	public EnumConstant_ add(Value_ value) {
+	public EnumConstant add(Value value) {
 		values.add(value);
 		return this;
 	}
 	
-	public List<Value_> getValues() {
+	public List<Value> getValues() {
 		return values;
 	}
 
 	@Override
-	public EnumConstant_ copy() {
-		return new EnumConstant_(this);
+	public EnumConstant copy() {
+		return new EnumConstant(this);
 	}
 }

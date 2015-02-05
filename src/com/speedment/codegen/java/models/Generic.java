@@ -26,38 +26,38 @@ import java.util.Optional;
  *
  * @author Duncan
  */
-public class Generic_ implements CodeModel<Generic_> {
+public class Generic implements CodeModel<Generic> {
 	
 	private Optional<CharSequence> lowerBound;
-	private final List<Type_> upperBounds;
+	private final List<Type> upperBounds;
 	
 	public static enum BoundType {UPPER, LOWER};
 	private BoundType type = BoundType.UPPER;
 	
-	public Generic_() {
+	public Generic() {
 		lowerBound  = Optional.empty();
 		upperBounds = new ArrayList<>();
 	}
 
-	public Generic_(CharSequence lowerBound) {
-		this(lowerBound, new Type_[0]);
+	public Generic(CharSequence lowerBound) {
+		this(lowerBound, new Type[0]);
 	}
 	
-	public Generic_(Type_... upperBounds) {
+	public Generic(Type... upperBounds) {
 		this(null, upperBounds);
 	}
 	
-	public Generic_(CharSequence lowerBound, Type_... upperBounds) {
+	public Generic(CharSequence lowerBound, Type... upperBounds) {
 		this.lowerBound = Optional.ofNullable(lowerBound);
 		this.upperBounds = Arrays.asList(upperBounds);
 	}
 	
-	private Generic_(Generic_ prototype) {
+	private Generic(Generic prototype) {
 		lowerBound  = Copier.copy(prototype.lowerBound, c -> c.toString());
 		upperBounds = Copier.copy(prototype.upperBounds);
 	}
 
-	public Generic_ setLowerBound(CharSequence lowerBound) {
+	public Generic setLowerBound(CharSequence lowerBound) {
 		this.lowerBound = Optional.of(lowerBound);
 		return this;
 	}
@@ -66,12 +66,12 @@ public class Generic_ implements CodeModel<Generic_> {
 		return lowerBound;
 	}
 
-	public Generic_ add(Type_ upperBound) {
+	public Generic add(Type upperBound) {
 		upperBounds.add(upperBound);
 		return this;
 	}
 	
-	public Generic_ setBoundType(BoundType type) {
+	public Generic setBoundType(BoundType type) {
 		this.type = type;
 		return this;
 	}
@@ -80,20 +80,20 @@ public class Generic_ implements CodeModel<Generic_> {
 		return type;
 	}
 
-	public List<Type_> getUpperBounds() {
+	public List<Type> getUpperBounds() {
 		return upperBounds;
 	}
 	
-	public Optional<Type_> asType() {
+	public Optional<Type> asType() {
 		if (lowerBound.isPresent()) {
-			return Optional.of(new Type_(lowerBound.get()));
+			return Optional.of(new Type(lowerBound.get()));
 		} else {
 			return Optional.empty();
 		}
 	}
 	
 	@Override
-	public Generic_ copy() {
-		return new Generic_(this);
+	public Generic copy() {
+		return new Generic(this);
 	}
 }

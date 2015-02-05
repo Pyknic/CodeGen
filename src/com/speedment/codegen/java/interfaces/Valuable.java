@@ -1,6 +1,6 @@
 package com.speedment.codegen.java.interfaces;
 
-import com.speedment.codegen.java.models.Value_;
+import com.speedment.codegen.java.models.Value;
 import java.util.Optional;
 
 /**
@@ -9,6 +9,6 @@ import java.util.Optional;
  * @param <T>
  */
 public interface Valuable<T extends Valuable<T>> {
-	T setValue(final Value_ val);
-	Optional<Value_> getValue();
+	T setValue(final Value val);
+	Optional<Value> getValue();
 }

@@ -1,6 +1,6 @@
 package com.speedment.codegen.java.interfaces;
 
-import com.speedment.codegen.java.models.AnnotationUsage_;
+import com.speedment.codegen.java.models.AnnotationUsage;
 import java.util.List;
 
 /**
@@ -9,6 +9,6 @@ import java.util.List;
  * @param <T>
  */
 public interface Annotable<T extends Annotable> {
-	T add(final AnnotationUsage_ annotation);
-	List<AnnotationUsage_> getAnnotations();
+	T add(final AnnotationUsage annotation);
+	List<AnnotationUsage> getAnnotations();
 }

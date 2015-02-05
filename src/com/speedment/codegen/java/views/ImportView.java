@@ -18,7 +18,7 @@ package com.speedment.codegen.java.views;
 import com.speedment.util.CodeCombiner;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.java.models.Import_;
+import com.speedment.codegen.java.models.Import;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.util.$;
@@ -27,11 +27,11 @@ import com.speedment.util.$;
  *
  * @author Emil Forslund
  */
-public class ImportView implements CodeView<Import_> {
+public class ImportView implements CodeView<Import> {
 	private final static CharSequence IMPORT_STRING = "import ";
 
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, Import_ model) {
+	public Optional<CharSequence> render(CodeGenerator cg, Import model) {
 		return Optional.of((CharSequence) new $(
 			IMPORT_STRING,
 			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)),

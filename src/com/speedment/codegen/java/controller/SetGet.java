@@ -16,11 +16,11 @@
 package com.speedment.codegen.java.controller;
 
 import com.speedment.codegen.base.CodeController;
-import com.speedment.codegen.java.models.Class_;
-import com.speedment.codegen.java.models.Method_;
+import com.speedment.codegen.java.models.Class;
+import com.speedment.codegen.java.models.Method;
 import com.speedment.util.$;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.java.models.Field_;
+import com.speedment.codegen.java.models.Field;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @author Emil Forslund
  */
-public class SetGet implements CodeController<Class_> {
+public class SetGet implements CodeController<Class> {
 	private final static CharSequence 
 		SET_STRING = "set",
 		GET_STRING = "get",
@@ -48,12 +48,12 @@ public class SetGet implements CodeController<Class_> {
 	}
 	
 	@Override
-	public void accept(Class_ model) {
+	public void accept(Class model) {
 		model.getFields().stream().forEach(f -> {
 			f.private_();
 			final CharSequence setName = new $(SET_STRING, ucfirst(f.getName()));
 			if (includeMethod(model, setName)) {
-				model.add(new Method_(setName, model.asType())
+				model.add(new Method(setName, model.asType())
 					.public_()
 					.add(f.copy())
 					.add(new $(THIS_STRING, f.getName(), ASSIGN_STRING, f.getName(), SC))
@@ -64,7 +64,7 @@ public class SetGet implements CodeController<Class_> {
 			f.private_();
 			final CharSequence getName = new $(GET_STRING, ucfirst(f.getName()));
 			if (includeMethod(model, getName)) {
-				model.add(new Method_(getName, f.getType())
+				model.add(new Method(getName, f.getType())
 					.public_()
 					.add(new $(RETURN_STRING, DOT, f.getName(), SC))
 				);
@@ -72,7 +72,7 @@ public class SetGet implements CodeController<Class_> {
 		});
 	}
 
-	private boolean includeMethod(Class_ class_, CharSequence method) {
+	private boolean includeMethod(Class class_, CharSequence method) {
 		if (methods.isEmpty() || methods.contains(method)) {
 			return !class_.getMethods().stream().anyMatch(
 					m -> method.equals(m.getName())

@@ -17,14 +17,14 @@ package com.speedment.codegen.java.views;
 
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.java.models.Enum_;
+import com.speedment.codegen.java.models.Enum;
 import com.speedment.util.CodeCombiner;
 
 /**
  *
  * @author Duncan
  */
-public class EnumView extends ClassOrInterfaceView<Enum_> {
+public class EnumView extends ClassOrInterfaceView<Enum> {
 	@Override
 	protected CharSequence classOrInterfaceLabel() {
 		return ENUM_STRING;
@@ -36,12 +36,12 @@ public class EnumView extends ClassOrInterfaceView<Enum_> {
 	}
 
 	@Override
-	protected CharSequence onSuperType(CodeGenerator cg, Enum_ model) {
+	protected CharSequence onSuperType(CodeGenerator cg, Enum model) {
 		return EMPTY;
 	}
 
 	@Override
-	protected CharSequence onBeforeFields(CodeGenerator cg, Enum_ model) {
+	protected CharSequence onBeforeFields(CodeGenerator cg, Enum model) {
 		return model.getConstants().stream()
 			.map(c -> (CharSequence) cg.on(c).get()).collect(
 				CodeCombiner.joinIfNotEmpty(
