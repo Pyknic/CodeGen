@@ -108,6 +108,14 @@ public class Formatting {
     public static CharSequence indent(CharSequence text) {
         return new $(tab, text.toString().replaceAll("\\r?\\n", nltab.toString()));
     }
+	
+	public static <E> CharSequence ifelse(Optional<E> condition, Function<E, CharSequence> trueMap, CharSequence falseValue) {
+		if (condition.isPresent()) {
+			return trueMap.apply(condition.get());
+		} else {
+			return falseValue;
+		}
+	}
 
     /**
      * Returns the new-line-character as defined in <code>nl(String)</code>.
@@ -252,6 +260,7 @@ public class Formatting {
             SC = ";",
             DOT = ".",
             AT = "@",
+			EQUALS = "=",
 			AND = "&",
 			STAR = "*",
 			SLASH = "/",

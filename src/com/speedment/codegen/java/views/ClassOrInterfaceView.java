@@ -19,6 +19,7 @@ import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.base.DependencyManager;
+import com.speedment.codegen.base.VersionEnum;
 import com.speedment.codegen.java.models.ClassOrInterface_;
 import java.util.Optional;
 import com.speedment.util.$;
@@ -55,15 +56,17 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface_> implemen
 	protected abstract CharSequence onSuperType(CodeGenerator cg, M model);
 
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, M model) {
+	public <V extends Enum<V> & VersionEnum> Optional<CharSequence> render(CodeGenerator<V> cg, M model) {
 		Optional<CharSequence> packageName = packageName(model.getName());
 		final DependencyManager mgr = cg.getDependencyMgr();
+		mgr.clearDependencies();
 		
 		if (packageName.isPresent()) {
-			if (mgr.isIgnored(packageName.get())) {
+			final String name = packageName.get().toString();
+			if (mgr.isIgnored(name)) {
 				packageName = Optional.empty();
 			} else {
-				mgr.ignorePackage(new $(packageName.get(), DOT));
+				mgr.ignorePackage(name);
 			}
 		}
 		
@@ -83,7 +86,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface_> implemen
 		));
 		
 		if (packageName.isPresent()) {
-			mgr.acceptPackage(packageName.get());
+			mgr.acceptPackage(packageName.get().toString());
 		}
 		
 		return view;

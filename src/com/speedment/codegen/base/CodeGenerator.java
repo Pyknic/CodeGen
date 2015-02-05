@@ -100,25 +100,26 @@ public abstract class CodeGenerator<T extends Enum<T> & VersionEnum> {
 	 * instead. The model will be checked to see if it is present before calling
 	 * the standard <code>on</code>-method. If the model is not present, an
 	 * empty <code>Optional</code> will be returned.
+	 * @param <M>
 	 * @param m The model.
 	 * @return The viewed text if any.
 	 */
-	public Optional<CharSequence> on(Optional<CodeModel> m) {
+	public <M extends CodeModel> Optional<CharSequence> on(Optional<M> m) {
 		if (m.isPresent()) {
 			return on(m.get());
 		} else {
-			return Optional.empty();
+			return Optional.<CharSequence>empty();
 		}
 	}
 	
 	/**
 	 * Attempts to generate a text from each of the models in the collection.
 	 * The texts that are present will be added to a stream that is then returned.
-	 * @param <T>
+	 * @param <M>
 	 * @param models A collection of models to view.
 	 * @return The viewed text.
 	 */
-	public Stream<CharSequence> onEach(Collection<CodeModel> models) {
+	public <M extends CodeModel> Stream<CharSequence> onEach(Collection<M> models) {
 		final Stream.Builder<CharSequence> build = Stream.builder();
 		models.forEach(m -> {
 			final Optional<CharSequence> str = on(m);

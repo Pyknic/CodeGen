@@ -19,7 +19,6 @@ import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.java.models.Enum_;
 import com.speedment.util.CodeCombiner;
-import java.util.stream.Stream;
 
 /**
  *

@@ -18,6 +18,7 @@ package com.speedment.codegen.java.models;
 import com.speedment.codegen.base.CodeModel;
 import com.speedment.util.Copier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +40,16 @@ public class Generic_ implements CodeModel<Generic_> {
 	}
 
 	public Generic_(CharSequence lowerBound) {
-		this.lowerBound  = Optional.of(lowerBound);
-		this.upperBounds = new ArrayList<>();
+		this(lowerBound, new Type_[0]);
+	}
+	
+	public Generic_(Type_... upperBounds) {
+		this(null, upperBounds);
+	}
+	
+	public Generic_(CharSequence lowerBound, Type_... upperBounds) {
+		this.lowerBound = Optional.ofNullable(lowerBound);
+		this.upperBounds = Arrays.asList(upperBounds);
 	}
 	
 	private Generic_(Generic_ prototype) {

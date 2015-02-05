@@ -15,7 +15,7 @@
  */
 package com.speedment.codegen.java.interfaces;
 
-import com.speedment.codegen.java.models.Dependency_;
+import com.speedment.codegen.java.models.Import_;
 import java.util.List;
 
 /**
@@ -24,6 +24,6 @@ import java.util.List;
  * @param <T>
  */
 public interface Dependable<T extends Dependable<T>> {
-    T add(final Dependency_ dep);
-    List<Dependency_> getDependencies();
+    T add(final Import_ dep);
+    List<Import_> getDependencies();
 }

@@ -18,8 +18,9 @@ package com.speedment.codegen.java;
 import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.base.VersionEnum;
+import com.speedment.codegen.java.models.Annotation_;
 import com.speedment.codegen.java.models.Class_;
-import com.speedment.codegen.java.models.Dependency_;
+import com.speedment.codegen.java.models.Import_;
 import com.speedment.codegen.java.models.EnumConstant_;
 import com.speedment.codegen.java.models.Enum_;
 import com.speedment.codegen.java.models.Field_;
@@ -29,9 +30,15 @@ import com.speedment.codegen.java.models.Javadoc_;
 import com.speedment.codegen.java.models.Method_;
 import com.speedment.codegen.java.models.modifiers.Modifier_;
 import com.speedment.codegen.java.models.Type_;
-import com.speedment.codegen.java.models.Value_;
+import com.speedment.codegen.java.models.values.ArrayValue_;
+import com.speedment.codegen.java.models.values.BooleanValue_;
+import com.speedment.codegen.java.models.values.EnumValue_;
+import com.speedment.codegen.java.models.values.NumberValue_;
+import com.speedment.codegen.java.models.values.ReferenceValue_;
+import com.speedment.codegen.java.models.values.TextValue_;
+import com.speedment.codegen.java.views.AnnotationView;
 import com.speedment.codegen.java.views.ClassView;
-import com.speedment.codegen.java.views.DependencyView;
+import com.speedment.codegen.java.views.ImportView;
 import com.speedment.codegen.java.views.EnumConstantView;
 import com.speedment.codegen.java.views.EnumView;
 import com.speedment.codegen.java.views.FieldView;
@@ -41,7 +48,12 @@ import com.speedment.codegen.java.views.JavadocView;
 import com.speedment.codegen.java.views.MethodView;
 import com.speedment.codegen.java.views.ModifierView;
 import com.speedment.codegen.java.views.TypeView;
-import com.speedment.codegen.java.views.ValueView;
+import com.speedment.codegen.java.views.values.ArrayValueView;
+import com.speedment.codegen.java.views.values.BooleanValueView;
+import com.speedment.codegen.java.views.values.EnumValueView;
+import com.speedment.codegen.java.views.values.NumberValueView;
+import com.speedment.codegen.java.views.values.ReferenceValueView;
+import com.speedment.codegen.java.views.values.TextValueView;
 
 /**
  *
@@ -55,11 +67,18 @@ public enum Java8 implements VersionEnum {
 	TYPE			(Type_.class,			TypeView.class),
 	MODIFIER		(Modifier_.class,		ModifierView.class),
 	JAVADOC			(Javadoc_.class,		JavadocView.class),
-	DEPENDENCY		(Dependency_.class,		DependencyView.class),
+	DEPENDENCY		(Import_.class,		ImportView.class),
 	GENERIC			(Generic_.class,		GenericView.class),
-	VALUE			(Value_.class,			ValueView.class),
 	ENUM			(Enum_.class,			EnumView.class),
-	ENUM_CONSTANT	(EnumConstant_.class,	EnumConstantView.class);
+	ENUM_CONSTANT	(EnumConstant_.class,	EnumConstantView.class),
+	ANNOTATION		(Annotation_.class,		AnnotationView.class),
+	
+	ARRAY_VALUE		(ArrayValue_.class,		ArrayValueView.class),
+	BOOLEAN_VALUE	(BooleanValue_.class,	BooleanValueView.class),
+	ENUM_VALUE		(EnumValue_.class,		EnumValueView.class),
+	NUMBER_VALUE	(NumberValue_.class,	NumberValueView.class),
+	REFERENCE_VALUE	(ReferenceValue_.class,	ReferenceValueView.class),
+	TEXT_VALUE		(TextValue_.class,		TextValueView.class);
 	
 	private final Class<? extends CodeModel> model;
 	private final Class<? extends CodeView> view;

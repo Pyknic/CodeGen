@@ -16,6 +16,7 @@
 package com.speedment.codegen.java.models;
 
 import com.speedment.codegen.base.CodeModel;
+import com.speedment.codegen.java.interfaces.Annotable;
 import com.speedment.codegen.java.interfaces.Dependable;
 import com.speedment.codegen.java.interfaces.Documentable;
 import com.speedment.codegen.java.interfaces.Fieldable;
@@ -30,7 +31,6 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  *
@@ -46,11 +46,13 @@ public abstract class ClassOrInterface_<T extends ClassOrInterface_<T>> implemen
 		Interfaceable<T>,
 		Methodable<T>,
 		Fieldable<T>,
+		Annotable<T>,
 		Modifiable<T> {
 	
 	private CharSequence name;
 	private Optional<Javadoc_> javadoc;
-	private final List<Dependency_> dependencies;
+	private final List<AnnotationUsage_> annotations;
+	private final List<Import_> dependencies;
 	private final List<Generic_> generics;
 	private final List<Type_> interfaces;
 	private final List<Field_> fields;
@@ -60,6 +62,7 @@ public abstract class ClassOrInterface_<T extends ClassOrInterface_<T>> implemen
 	public ClassOrInterface_(CharSequence name) {
 		this.name			= name;
 		this.javadoc		= Optional.empty();
+		this.annotations	= new ArrayList<>();
 		this.dependencies	= new ArrayList<>();
 		this.generics		= new ArrayList<>();
 		this.interfaces		= new ArrayList<>();
@@ -71,6 +74,7 @@ public abstract class ClassOrInterface_<T extends ClassOrInterface_<T>> implemen
 	public ClassOrInterface_(ClassOrInterface_<T> prototype) {
 		name			= prototype.name.toString();
 		javadoc			= Copier.copy(prototype.javadoc);
+		annotations		= Copier.copy(prototype.annotations);
 		dependencies	= Copier.copy(prototype.dependencies);
 		generics		= Copier.copy(prototype.generics);
 		interfaces		= Copier.copy(prototype.interfaces);
@@ -102,13 +106,13 @@ public abstract class ClassOrInterface_<T extends ClassOrInterface_<T>> implemen
 	}
 
 	@Override
-	public T add(Dependency_ dep) {
+	public T add(Import_ dep) {
 		dependencies.add(dep);
 		return (T) this;
 	}
 
 	@Override
-	public List<Dependency_> getDependencies() {
+	public List<Import_> getDependencies() {
 		return dependencies;
 	}
 
@@ -163,5 +167,16 @@ public abstract class ClassOrInterface_<T extends ClassOrInterface_<T>> implemen
 	@Override
 	public List<Generic_> getGenerics() {
 		return generics;
+	}
+
+	@Override
+	public T add(AnnotationUsage_ annotation) {
+		annotations.add(annotation);
+		return (T) this;
+	}
+
+	@Override
+	public List<AnnotationUsage_> getAnnotations() {
+		return annotations;
 	}
 }

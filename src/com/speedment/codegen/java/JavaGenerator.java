@@ -22,8 +22,8 @@ import com.speedment.codegen.DefaultDependencyManager;
  *
  * @author Emil Forslund
  */
-public class JavaGenerator extends CodeGenerator {
+public class JavaGenerator extends CodeGenerator<Java8> {
 	public JavaGenerator() {
-		super (Java8.class, new DefaultDependencyManager("java.lang."));
+		super (Java8.class, new DefaultDependencyManager("java.lang"));
 	}
 }

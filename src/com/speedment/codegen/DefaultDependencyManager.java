@@ -16,13 +16,11 @@
 package com.speedment.codegen;
 
 import com.speedment.codegen.base.DependencyManager;
-import com.speedment.util.$;
-import static com.speedment.codegen.Formatting.DOT;
-import static com.speedment.codegen.Formatting.shortName;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import static com.speedment.codegen.Formatting.*;
 
 /**
  *
@@ -59,43 +57,7 @@ public class DefaultDependencyManager implements DependencyManager {
 			.collect(Collectors.toSet());
 		ignorePackages.add(ignoredPackage.toString());
 	}
-	
-	/**
-	 * Registers the specified resource name as a dependency and returns true
-	 * if it was already registered or false if the information was new.
-	 * @param fullname The full name (including path) of the dependency.
-	 * @return True if the dependency had already been registered.
-	 */
-	@Override
-	public boolean isAlreadyDependentOf(CharSequence fullname) {
-		return dependencies.contains(fullname.toString());
-	}
-	
-	/**
-	 * Returns true if a dependency (other than this) ending with the name part 
-	 * of the specified <code>CharSequence</code> has already been registered. 
-	 * Note that this doesn't register any new dependencies.
-	 * @param fullname The full name (including package).
-	 * @return True if any already registered dependency ends with that name.
-	 */
-	@Override
-	public boolean isNameTaken(CharSequence fullname) {
-		final String search = new $(DOT, shortName(fullname)).toString();
-		return dependencies.stream().anyMatch(d -> !d.equals(fullname) && d.endsWith(search));
-	}
-	
-	/**
-	 * Adds the specified dependency to the list of dependencies. This will <b>not</b>
-	 * look to see if the name is already taken. This should be done using the
-	 * <code>isNameTaken()</code> if multiple dependencies with the same name is
-	 * prohibited.
-	 * @param fullname The full name of the dependency (including package).
-	 */
-	@Override
-	public void declareDependency(CharSequence fullname) {
-		dependencies.add(fullname.toString());
-	}
-	
+
 	/**
 	 * Adds the specified package to the ignore list. This is the opposite as
 	 * calling <code>acceptPackage</code>.
@@ -113,7 +75,7 @@ public class DefaultDependencyManager implements DependencyManager {
 	 */
 	@Override
 	public void acceptPackage(CharSequence packageName) {
-		ignorePackages.removeIf(p -> packageName.toString().startsWith(p));
+		ignorePackages.removeIf(p -> packageName.toString().startsWith(p + DOT));
 	}
 	
 	/**
@@ -125,7 +87,37 @@ public class DefaultDependencyManager implements DependencyManager {
 	@Override
 	public boolean isIgnored(CharSequence fullname) {
 		return ignorePackages.stream().anyMatch(
-			p -> fullname.toString().startsWith(p)
+			p -> fullname.toString().startsWith(p + DOT)
 		);
+	}
+
+	@Override
+	public boolean load(CharSequence fullname) {
+		if (isNameTaken(fullname)) {
+			return false;
+		} else {
+			dependencies.add(fullname.toString());
+			return true;
+		}
+	}
+
+	@Override
+	public boolean isLoaded(CharSequence fullname) {
+		return (dependencies.contains(fullname.toString())) 
+		|| ignorePackages.stream().anyMatch(
+			p -> fullname.toString().startsWith(p + DOT)
+			||   fullname.toString().equals(p)
+		);
+	}
+	
+	private boolean isNameTaken(CharSequence fullname) {
+		return dependencies.stream().anyMatch(
+			d -> d.endsWith(DOT.toString() + shortName(fullname))
+		);
+	}
+
+	@Override
+	public void clearDependencies() {
+		dependencies.clear();
 	}
 }

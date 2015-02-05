@@ -24,5 +24,5 @@ import java.util.Optional;
  * @param <Model> The model to view.
  */
 public interface CodeView<Model extends CodeModel> {
-	Optional<CharSequence> render(CodeGenerator cg, Model model);
+	<V extends Enum<V> & VersionEnum> Optional<CharSequence> render(CodeGenerator<V> cg, Model model);
 }

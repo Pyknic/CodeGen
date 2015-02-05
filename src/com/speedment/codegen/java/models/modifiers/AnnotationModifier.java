@@ -13,28 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.speedment.codegen.java.views;
+package com.speedment.codegen.java.models.modifiers;
 
-import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.java.models.Value_;
-import java.util.Optional;
-import static com.speedment.codegen.Formatting.*;
-import com.speedment.util.$;
+import com.speedment.codegen.java.interfaces.Modifiable;
+import static com.speedment.codegen.java.models.modifiers.Modifier_.PUBLIC;
 
 /**
  *
  * @author Duncan
+ * @param <T>
  */
-public class ValueView implements CodeView<Value_> {
-
-	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, Value_ model) {
-		if (model instanceof Value_.Text) {
-			return Optional.of(new $(H, model.getValue().toString(), H));
-		} else {
-			return Optional.of(model.getValue().toString());
-		}
+public interface AnnotationModifier<T extends AnnotationModifier<T>> extends Modifiable<T> {
+	default T public_() {
+		getModifiers().add(PUBLIC);
+		return (T) this;
 	}
-	
 }

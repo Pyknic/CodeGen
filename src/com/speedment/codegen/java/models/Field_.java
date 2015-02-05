@@ -16,6 +16,7 @@
 package com.speedment.codegen.java.models;
 
 import com.speedment.codegen.base.CodeModel;
+import com.speedment.codegen.java.interfaces.Annotable;
 import com.speedment.codegen.java.interfaces.Documentable;
 import com.speedment.codegen.java.interfaces.Nameable;
 import com.speedment.codegen.java.interfaces.Typeable;
@@ -23,9 +24,10 @@ import com.speedment.codegen.java.interfaces.Valuable;
 import com.speedment.codegen.java.models.modifiers.FieldModifier;
 import com.speedment.codegen.java.models.modifiers.Modifier_;
 import com.speedment.util.Copier;
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  *
@@ -36,20 +38,23 @@ public class Field_ implements CodeModel<Field_>,
 		Typeable<Field_>, 
 		Documentable<Field_>,
 		Valuable<Field_>,
+		Annotable<Field_>,
 		FieldModifier<Field_> {
 	
 	private CharSequence name;
 	private Type_ type;
 	private Optional<Value_> value;
 	private Optional<Javadoc_> javadoc;
+	private final List<AnnotationUsage_> annotations;
 	private final EnumSet<Modifier_> modifiers;
 	
 	public Field_(CharSequence name, Type_ type) {
-		this.name		= name;
-		this.type		= type;
-		this.value		= Optional.empty();
-		this.javadoc	= Optional.empty();
-		this.modifiers	= EnumSet.noneOf(Modifier_.class);
+		this.name			= name;
+		this.type			= type;
+		this.value			= Optional.empty();
+		this.javadoc		= Optional.empty();
+		this.annotations	= new ArrayList<>();
+		this.modifiers		= EnumSet.noneOf(Modifier_.class);
 	}
 	
 	private Field_(Field_ prototype) {
@@ -57,6 +62,7 @@ public class Field_ implements CodeModel<Field_>,
 		type		= prototype.type;
 		value		= Copier.copy(prototype.value);
 		javadoc		= Copier.copy(prototype.javadoc);
+		annotations	= Copier.copy(prototype.annotations);
 		modifiers	= Copier.copy(prototype.modifiers);
 	}
 
@@ -112,5 +118,16 @@ public class Field_ implements CodeModel<Field_>,
 	@Override
 	public Field_ copy() {
 		return new Field_(this);
+	}
+
+	@Override
+	public Field_ add(AnnotationUsage_ annotation) {
+		annotations.add(annotation);
+		return this;
+	}
+
+	@Override
+	public List<AnnotationUsage_> getAnnotations() {
+		return annotations;
 	}
 }

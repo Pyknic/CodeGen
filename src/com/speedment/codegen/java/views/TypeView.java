@@ -47,14 +47,10 @@ public class TypeView implements CodeView<Type_> {
 		final String name = model.getName().toString();
 		final DependencyManager mgr = cg.getDependencyMgr();
 
-		if (!mgr.isIgnored(name) && (
-			!mgr.isAlreadyDependentOf(name) || 
-			mgr.isNameTaken(name))) {
-			
-			mgr.declareDependency(name);
-			return renderName(cg, model, name);
-		} else {
+		if (mgr.isLoaded(name)) {
 			return renderName(cg, model, shortName(name));
+		} else {
+			return renderName(cg, model, name);
 		}
 	}
 }

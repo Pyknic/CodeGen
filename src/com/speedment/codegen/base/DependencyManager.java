@@ -21,30 +21,27 @@ package com.speedment.codegen.base;
  */
 public interface DependencyManager {
 	/**
-	 * Registers the specified resource name as a dependency and returns true
-	 * if it was already registered or false if the information was new.
-	 * @param fullname The full name (including path) of the dependency.
-	 * @return True if the dependency had already been registered.
+	 * Attempts to add the specified resource to the dependency list.
+	 * If the name is already taken it will return false.
+	 * @param fullname The full name of the resource.
+	 * @return True if it was added, else false.
 	 */
-	boolean isAlreadyDependentOf(CharSequence fullname);
+	boolean load(CharSequence fullname);
 	
 	/**
-	 * Returns true if a dependency (other than this) ending with the name part 
-	 * of the specified <code>CharSequence</code> has already been registered. 
-	 * Note that this doesn't register any new dependencies.
-	 * @param fullname The full name (including package).
-	 * @return True if any already registered dependency ends with that name.
+	 * Returns true if the specified fullname is either:
+	 *		(A) loaded into the dependency list;
+	 *		(B) on the ignore list.
+	 * Else it returns false.
+	 * @param fullname The full name of the resource.
+	 * @return True if it don't have to be loaded.
 	 */
-	boolean isNameTaken(CharSequence fullname);
+	boolean isLoaded(CharSequence fullname);
 	
 	/**
-	 * Adds the specified dependency to the list of dependencies. This will <b>not</b>
-	 * look to see if the name is already taken. This should be done using the
-	 * <code>isNameTaken()</code> if multiple dependencies with the same name is
-	 * prohibited.
-	 * @param fullname The full name of the dependency (including package).
+	 * Clear all dependencies.
 	 */
-	void declareDependency(CharSequence fullname);
+	void clearDependencies();
 	
 	/**
 	 * Adds the specified package to the ignore list. This is the opposite as

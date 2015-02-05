@@ -16,7 +16,7 @@
 package com.speedment.codegen.java.models;
 
 import com.speedment.codegen.base.CodeModel;
-import com.speedment.codegen.java.interfaces.Copyable;
+import com.speedment.codegen.java.interfaces.Annotable;
 import com.speedment.codegen.java.interfaces.Generable;
 import com.speedment.codegen.java.interfaces.Nameable;
 import com.speedment.util.Copier;
@@ -38,33 +38,37 @@ import java.util.function.Predicate;
  */
 public class Type_ implements CodeModel<Type_>, 
 		Nameable<Type_>,
-		Generable<Type_> {
+		Generable<Type_>,
+		Annotable<Type_> {
 	
 	private CharSequence name;
-	private int arrayDimension = 0;
-	private final List<Generic_> generics = new ArrayList<>();
+	private int arrayDimension;
+	private final List<AnnotationUsage_> annotations;
+	private final List<Generic_> generics;
 	private Optional<Class<?>> javaImpl;
 
 	public Type_(Class<?> javaImpl) {
-		this.name = javaImpl.getName();
-		this.javaImpl = Optional.of(javaImpl);
+		this (javaImpl.getName(), javaImpl);
 	}
 	
 	public Type_(CharSequence name) {
-		this.name = name;
-		this.javaImpl = Optional.empty();
+		this (name, null);
 	}
 
 	public Type_(CharSequence name, Class<?> javaImpl) {
-		this.name = name;
-		this.javaImpl = Optional.of(javaImpl);
+		this.name			= name;
+		this.arrayDimension = 0;
+		this.annotations	= new ArrayList<>();
+		this.generics		= new ArrayList<>();
+		this.javaImpl		= Optional.ofNullable(javaImpl);
 	}
 	
-	private Type_(Type_ type) {
-		name = type.name;
-		javaImpl = type.javaImpl;
-		arrayDimension = type.arrayDimension;
-		generics.addAll(type.generics);
+	private Type_(Type_ prototype) {
+		name			= prototype.name.toString();
+		arrayDimension	= prototype.arrayDimension;
+		annotations		= Copier.copy(prototype.annotations);
+		generics		= Copier.copy(prototype.generics);
+		javaImpl		= prototype.javaImpl;
 	}
 
 	@Override
@@ -110,6 +114,17 @@ public class Type_ implements CodeModel<Type_>,
 	@Override
 	public Type_ copy() {
 		return new Type_(this);
+	}
+
+	@Override
+	public Type_ add(AnnotationUsage_ annotation) {
+		annotations.add(annotation);
+		return this;
+	}
+
+	@Override
+	public List<AnnotationUsage_> getAnnotations() {
+		return annotations;
 	}
 	
 	public static final class Const extends Type_ {

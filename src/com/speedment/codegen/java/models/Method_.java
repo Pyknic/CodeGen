@@ -16,6 +16,7 @@
 package com.speedment.codegen.java.models;
 
 import com.speedment.codegen.base.CodeModel;
+import com.speedment.codegen.java.interfaces.Annotable;
 import com.speedment.codegen.java.interfaces.Documentable;
 import com.speedment.codegen.java.interfaces.Nameable;
 import com.speedment.codegen.java.interfaces.Typeable;
@@ -26,7 +27,6 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  *
@@ -36,28 +36,32 @@ public class Method_ implements CodeModel<Method_>,
 		Nameable<Method_>, 
 		Typeable<Method_>, 
 		Documentable<Method_>,
+		Annotable<Method_>,
 		MethodModifier<Method_> {
 	
 	private CharSequence name;
 	private Type_ type;
 	private Optional<Javadoc_> javadoc;
+	private final List<AnnotationUsage_> annotations;
 	private final List<Field_> params;
 	private final List<CharSequence> code;
 	private final EnumSet<Modifier_> modifiers;
 	
 	public Method_(CharSequence name, Type_ type) {
-		this.name		= name;
-		this.type		= type;
-		this.javadoc	= Optional.empty();
-		this.params		= new ArrayList<>();
-		this.code		= new ArrayList<>();
-		this.modifiers	= EnumSet.noneOf(Modifier_.class);
+		this.name			= name;
+		this.type			= type;
+		this.javadoc		= Optional.empty();
+		this.annotations	= new ArrayList<>();
+		this.params			= new ArrayList<>();
+		this.code			= new ArrayList<>();
+		this.modifiers		= EnumSet.noneOf(Modifier_.class);
 	}
 	
 	private Method_(final Method_ prototype) {
 		name		= prototype.name.toString();
 		type		= prototype.type.copy();
 		javadoc		= Copier.copy(prototype.javadoc);
+		annotations	= Copier.copy(prototype.annotations);
 		params		= Copier.copy(prototype.params);
 		code		= Copier.copy(prototype.code, c -> c.toString());
 		modifiers	= Copier.copy(prototype.modifiers);
@@ -122,5 +126,16 @@ public class Method_ implements CodeModel<Method_>,
 	@Override
 	public Method_ copy() {
 		return new Method_(this);
+	}
+
+	@Override
+	public Method_ add(AnnotationUsage_ annotation) {
+		annotations.add(annotation);
+		return this;
+	}
+
+	@Override
+	public List<AnnotationUsage_> getAnnotations() {
+		return annotations;
 	}
 }

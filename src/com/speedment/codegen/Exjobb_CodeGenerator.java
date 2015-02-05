@@ -13,11 +13,15 @@ import static com.speedment.codegen.java.models.Type_.*;
 import com.speedment.codegen.java.controller.FinalParameters;
 import com.speedment.codegen.java.models.Javadoc_;
 import com.speedment.util.$;
-import com.speedment.codegen.java.models.Dependency_;
+import com.speedment.codegen.java.models.Import_;
 import com.speedment.codegen.java.models.EnumConstant_;
 import com.speedment.codegen.java.models.Enum_;
+import com.speedment.codegen.java.models.Generic_;
 import com.speedment.codegen.java.models.Interface_;
-import com.speedment.codegen.java.models.Value_;
+import com.speedment.codegen.java.models.values.EnumValue_;
+import com.speedment.codegen.java.models.values.NumberValue_;
+import com.speedment.codegen.java.models.values.ReferenceValue_;
+import com.speedment.codegen.java.models.values.TextValue_;
 
 /**
  *
@@ -37,27 +41,28 @@ public class Exjobb_CodeGenerator {
 		final Type_ spriteStore = new Type_("org.duncan.test.SpriteStore");
 		final Type_ soundStore  = new Type_("org.duncan.test.SoundStore");
 		
+		Enum_ myEnum;
 		System.out.println(
-			cg.on(new Enum_("Card")
+			cg.on(myEnum = new Enum_("org.duncan.util.Card")
 				.public_()
 					
 				.add(new EnumConstant_("HEART_OF_ACE")
-					.add(new Value_.Numeric(1))
-					.add(new Value_.Text("♥"))
+					.add(new NumberValue_(1))
+					.add(new TextValue_("♥"))
 				)
 				.add(new EnumConstant_("HEART_OF_SPADES")
-					.add(new Value_.Numeric(1))
-					.add(new Value_.Text("♠"))
+					.add(new NumberValue_(1))
+					.add(new TextValue_("♠"))
 				)
 				.add(new EnumConstant_("HEART_OF_CLUBS")
-					.add(new Value_.Numeric(1))
-					.add(new Value_.Text("♣"))
+					.add(new NumberValue_(1))
+					.add(new TextValue_("♣"))
 				)
 				.add(new EnumConstant_("HEART_OF_DIAMONDS")
-					.add(new Value_.Numeric(1))
-					.add(new Value_.Text("♦"))
+					.add(new NumberValue_(1))
+					.add(new TextValue_("♦"))
 				)
-			).get()
+			).get() + "\n"
 		);
 		
 		System.out.println(
@@ -69,6 +74,16 @@ public class Exjobb_CodeGenerator {
 					"code generator is working."
 				)))
 					
+				/***** Fields *****/
+				.add(new Field_("cards", list(myEnum.asType()))
+					.private_().final_().static_()
+					.setValue(new ReferenceValue_("new ArrayList<>()"))
+				)
+				.add(new Field_("favoriteCard", myEnum.asType())
+					.private_().final_()
+					.setValue(new EnumValue_(myEnum.asType(), "HEART_OF_ACE"))
+				)	
+					
 				/***** Methods *****/
 				.add(new Method_("spawn", VOID)
 					.setJavadoc(new Javadoc_(new $(
@@ -77,14 +92,12 @@ public class Exjobb_CodeGenerator {
 					.add(new Field_("name", STRING))
 					.add(new Field_("score", INT_PRIMITIVE))
 				)
-			).get()
+			).get() + "\n"
 		);
 		
-		System.out.println(
-			cg.on(new Class_("org.duncan.test.MittTest", typeThread)
+		System.out.println(cg.on(new Class_("org.duncan.test.MittTest", typeThread)
 				/***** Dependencies *****/
-				.add(new Dependency_(spriteStore))
-				.add(new Dependency_(LIST))
+				.add(new Import_(LIST))
 				
 				/***** Class declaration *****/
 				.public_()
@@ -148,7 +161,7 @@ public class Exjobb_CodeGenerator {
 				.call(new AutoJavadoc())
 					
 			
-			).get()
+			).get() + "\n"
 		);
 	}
 	
