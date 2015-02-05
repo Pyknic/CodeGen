@@ -15,7 +15,6 @@
  */
 package com.speedment.codegen.java.models.modifiers;
 
-import com.speedment.codegen.base.CodeController;
 import com.speedment.codegen.base.CodeModel;
 
 /**
