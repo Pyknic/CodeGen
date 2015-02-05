@@ -103,14 +103,4 @@ public class $ implements CharSequence, Comparable<CharSequence> {
 	public int compareTo(CharSequence o) {
 		return str.toString().compareTo(o.toString());
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		} else {
-			boolean result = compareTo(obj.toString()) == 0;
-			return result;
-		}
-	}
 }
