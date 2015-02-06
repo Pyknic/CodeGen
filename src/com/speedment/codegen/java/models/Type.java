@@ -28,122 +28,129 @@ import java.util.Optional;
  *
  * @author Emil Forslund
  */
-public class Type implements CodeModel<Type>, 
-		Nameable<Type>,
-		Generable<Type>,
-		Annotable<Type> {
-	
-	private String name;
-	private int arrayDimension;
-	private final List<AnnotationUsage> annotations;
-	private final List<Generic> generics;
-	private Optional<java.lang.Class<?>> javaImpl;
+public class Type implements CodeModel<Type>,
+        Nameable<Type>,
+        Generable<Type>,
+        Annotable<Type> {
 
-	public Type(java.lang.Class<?> javaImpl) {
-		this (javaImpl.getName(), javaImpl);
-	}
-	
-	public Type(String name) {
-		this (name, null);
-	}
+    private String name;
+    private int arrayDimension;
+    private final List<AnnotationUsage> annotations;
+    private final List<Generic> generics;
+    private Optional<java.lang.Class<?>> javaImpl;
 
-	public Type(String name, java.lang.Class<?> javaImpl) {
-		this.name			= name;
-		this.arrayDimension = 0;
-		this.annotations	= new ArrayList<>();
-		this.generics		= new ArrayList<>();
-		this.javaImpl		= Optional.ofNullable(javaImpl);
-	}
-	
-	private Type(Type prototype) {
-		name			= prototype.name;
-		arrayDimension	= prototype.arrayDimension;
-		annotations		= Copier.copy(prototype.annotations);
-		generics		= Copier.copy(prototype.generics);
-		javaImpl		= prototype.javaImpl;
-	}
+    public Type(java.lang.Class<?> javaImpl) {
+        this(javaImpl.getName(), javaImpl);
+    }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    public Type(String name) {
+        this(name, null);
+    }
 
-	@Override
-	public Type setName(String name) {
-		this.name = name;
-		return this;
-	}
+    public Type(String name, java.lang.Class<?> javaImpl) {
+        this.name = name;
+        this.arrayDimension = 0;
+        this.annotations = new ArrayList<>();
+        this.generics = new ArrayList<>();
+        this.javaImpl = Optional.ofNullable(javaImpl);
+    }
 
-	public Optional<java.lang.Class<?>> getJavaImpl() {
-		return javaImpl;
-	}
+    private Type(Type prototype) {
+        name = prototype.name;
+        arrayDimension = prototype.arrayDimension;
+        annotations = Copier.copy(prototype.annotations);
+        generics = Copier.copy(prototype.generics);
+        javaImpl = prototype.javaImpl;
+    }
 
-	public Type setJavaImpl(java.lang.Class<?> javaImpl) {
-		this.javaImpl = Optional.of(javaImpl);
-		return this;
-	}
+    @Override
+    public String getName() {
+        return name;
+    }
 
-	public int getArrayDimension() {
-		return arrayDimension;
-	}
+    @Override
+    public Type setName(String name) {
+        this.name = name;
+        return this;
+    }
 
-	public Type setArrayDimension(int arrayDimension) {
-		this.arrayDimension = arrayDimension;
-		return this;
-	}
-	
-	@Override
-	public Type add(Generic generic) {
-		generics.add(generic);
-		return this;
-	}
+    public Optional<java.lang.Class<?>> getJavaImpl() {
+        return javaImpl;
+    }
 
-	@Override
-	public List<Generic> getGenerics() {
-		return generics;
-	}
+    public Type setJavaImpl(java.lang.Class<?> javaImpl) {
+        this.javaImpl = Optional.of(javaImpl);
+        return this;
+    }
 
-	@Override
-	public Type copy() {
-		return new Type(this);
-	}
+    public int getArrayDimension() {
+        return arrayDimension;
+    }
 
-	@Override
-	public Type add(AnnotationUsage annotation) {
-		annotations.add(annotation);
-		return this;
-	}
+    public Type setArrayDimension(int arrayDimension) {
+        this.arrayDimension = arrayDimension;
+        return this;
+    }
 
-	@Override
-	public List<AnnotationUsage> getAnnotations() {
-		return annotations;
-	}
-	
-	public static final class Const extends Type {
-		public Const(java.lang.Class<?> javaImpl) {super(javaImpl);}
-		public Const(String name) {super(name);}
-		public Const(String name, java.lang.Class<?> javaImpl) {
-			super(name, javaImpl);
-		}
-		
-		@Override
-		public Type setArrayDimension(int arrayDimension) {
-			return copy().setArrayDimension(arrayDimension);
-		}
+    @Override
+    public Type add(Generic generic) {
+        generics.add(generic);
+        return this;
+    }
 
-		@Override
-		public Type setJavaImpl(java.lang.Class<?> javaImpl) {
-			return copy().setJavaImpl(javaImpl);
-		}
+    @Override
+    public List<Generic> getGenerics() {
+        return generics;
+    }
 
-		@Override
-		public Type setName(String name) {
-			return copy().setName(name);
-		}
+    @Override
+    public Type copy() {
+        return new Type(this);
+    }
 
-		@Override
-		public Type add(Generic generic) {
-			return copy().add(generic);
-		}
-	}
+    @Override
+    public Type add(AnnotationUsage annotation) {
+        annotations.add(annotation);
+        return this;
+    }
+
+    @Override
+    public List<AnnotationUsage> getAnnotations() {
+        return annotations;
+    }
+
+    public static final class Const extends Type {
+
+        public Const(java.lang.Class<?> javaImpl) {
+            super(javaImpl);
+        }
+
+        public Const(String name) {
+            super(name);
+        }
+
+        public Const(String name, java.lang.Class<?> javaImpl) {
+            super(name, javaImpl);
+        }
+
+        @Override
+        public Type setArrayDimension(int arrayDimension) {
+            return copy().setArrayDimension(arrayDimension);
+        }
+
+        @Override
+        public Type setJavaImpl(java.lang.Class<?> javaImpl) {
+            return copy().setJavaImpl(javaImpl);
+        }
+
+        @Override
+        public Type setName(String name) {
+            return copy().setName(name);
+        }
+
+        @Override
+        public Type add(Generic generic) {
+            return copy().add(generic);
+        }
+    }
 }

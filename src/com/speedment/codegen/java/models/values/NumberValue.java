@@ -7,7 +7,13 @@ import com.speedment.codegen.java.models.Value;
  * @author Emil Forslund
  */
 public class NumberValue extends Value<Number, NumberValue> {
-	public NumberValue(Number num) { super (num); }
+
+	public NumberValue(Number num) {
+		super(num);
+	}
+
 	@Override
-	public NumberValue copy() { return new NumberValue(getValue()); }
+	public NumberValue copy() {
+		return new NumberValue(getValue());
+	}
 }
