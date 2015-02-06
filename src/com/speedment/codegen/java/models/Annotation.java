@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  *
@@ -31,7 +32,7 @@ public class Annotation implements CodeModel<Annotation>,
 	private final List<AnnotationUsage> annotations;
 	private final List<Field> fields;
 	private final List<Import> dependencies;
-	private final EnumSet<Modifier> modifiers;
+	private final Set<Modifier> modifiers;
 
 	public Annotation(String name) {
 		this.name			= name;
@@ -100,7 +101,7 @@ public class Annotation implements CodeModel<Annotation>,
 	}
 
 	@Override
-	public EnumSet<Modifier> getModifiers() {
+	public Set<Modifier> getModifiers() {
 		return modifiers;
 	}
 	
