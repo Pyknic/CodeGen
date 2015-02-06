@@ -41,14 +41,14 @@ public class Field implements CodeModel<Field>,
 		Annotable<Field>,
 		FieldModifier<Field> {
 	
-	private CharSequence name;
+	private String name;
 	private Type type;
 	private Optional<Value> value;
 	private Optional<Javadoc> javadoc;
 	private final List<AnnotationUsage> annotations;
 	private final EnumSet<Modifier> modifiers;
 	
-	public Field(CharSequence name, Type type) {
+	public Field(String name, Type type) {
 		this.name			= name;
 		this.type			= type;
 		this.value			= Optional.empty();
@@ -67,12 +67,12 @@ public class Field implements CodeModel<Field>,
 	}
 
 	@Override
-	public CharSequence getName() {
+	public String getName() {
 		return name;
 	}
 
 	@Override
-	public Field setName(CharSequence name) {
+	public Field setName(String name) {
 		this.name = name;
 		return this;
 	}

@@ -26,7 +26,7 @@ public interface DependencyManager {
 	 * @param fullname The full name of the resource.
 	 * @return True if it was added, else false.
 	 */
-	boolean load(CharSequence fullname);
+	boolean load(String fullname);
 	
 	/**
 	 * Returns true if the specified fullname is either:
@@ -36,7 +36,7 @@ public interface DependencyManager {
 	 * @param fullname The full name of the resource.
 	 * @return True if it don't have to be loaded.
 	 */
-	boolean isLoaded(CharSequence fullname);
+	boolean isLoaded(String fullname);
 	
 	/**
 	 * Clear all dependencies.
@@ -48,14 +48,14 @@ public interface DependencyManager {
 	 * calling <code>acceptPackage</code>.
 	 * @param packageName The full name of the package.
 	 */
-	void ignorePackage(CharSequence packageName);
+	void ignorePackage(String packageName);
 	
 	/**
 	 * Removes the specified package from the ignore list. This is the opposite 
 	 * as calling <code>ignorePackage</code>.
 	 * @param packageName The full name of the package.
 	 */
-	void acceptPackage(CharSequence packageName);
+	void acceptPackage(String packageName);
 	
 	/**
 	 * Returns true if the specified class belongs to a package that is on the
@@ -63,5 +63,5 @@ public interface DependencyManager {
 	 * @param fullname The full name of a package or a class.
 	 * @return True if it should be ignored as a dependency.
 	 */
-	boolean isIgnored(CharSequence fullname);
+	boolean isIgnored(String fullname);
 }

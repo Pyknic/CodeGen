@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 public class BooleanValueView implements CodeView<BooleanValue> {
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, BooleanValue model) {
+	public Optional<String> render(CodeGenerator cg, BooleanValue model) {
 		return Optional.of(model.getValue().toString());
 	}
 }

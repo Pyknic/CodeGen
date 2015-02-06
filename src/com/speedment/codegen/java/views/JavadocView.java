@@ -20,21 +20,21 @@ import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.java.models.Javadoc;
 import java.util.Optional;
-import com.speedment.util.$;
 import static com.speedment.codegen.Formatting.*;
+import com.speedment.codegen.base.VersionEnum;
 
 /**
  *
  * @author Emil Forslund
  */
 public class JavadocView implements CodeView<Javadoc> {
-	private final static CharSequence
-		JAVADOC_DELIMITER = new $(nl(), SPACE, STAR, SPACE).toString(),
-		JAVADOC_PREFIX = new $(SLASH, STAR, STAR, nl(), SPACE, STAR, SPACE).toString(),
-		JAVADOC_SUFFIX = new $(nl(), SPACE, STAR, SLASH, nl()).toString();
+	private final static String
+		JAVADOC_DELIMITER = nl() + SPACE + STAR + SPACE,
+		JAVADOC_PREFIX = SLASH + STAR + STAR + nl() + SPACE + STAR + SPACE,
+		JAVADOC_SUFFIX = nl() + SPACE + STAR + SLASH + nl();
 	
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, Javadoc model) {
+	public <V extends Enum<V> & VersionEnum> Optional<String> render(CodeGenerator<V> cg, Javadoc model) {
 		return CodeCombiner.ifEmpty(
 			model.getRows().stream().collect(
 				CodeCombiner.joinIfNotEmpty(

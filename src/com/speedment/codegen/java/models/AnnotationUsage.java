@@ -46,8 +46,8 @@ public class AnnotationUsage implements CodeModel<AnnotationUsage>,
 		return this;
 	}
 	
-	public AnnotationUsage setValue(CharSequence key, Value val) {
-		values.add(new AbstractMap.SimpleEntry<>(key.toString(), val));
+	public AnnotationUsage setValue(String key, Value val) {
+		values.add(new AbstractMap.SimpleEntry<>(key, val));
 		return this;
 	}
 	
@@ -87,7 +87,7 @@ public class AnnotationUsage implements CodeModel<AnnotationUsage>,
 		}
 		
 		@Override
-		public AnnotationUsage setValue(CharSequence key, Value val) {
+		public AnnotationUsage setValue(String key, Value val) {
 			return copy().setValue(key, val);
 		}
 

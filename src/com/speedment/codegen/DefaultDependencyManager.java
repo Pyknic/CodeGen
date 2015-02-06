@@ -41,7 +41,7 @@ public class DefaultDependencyManager implements DependencyManager {
 	 * Initalises the DependencyManager.
 	 * @param ignoredPackage A package that should be on the ignore list.
 	 */
-	public DefaultDependencyManager(CharSequence ignoredPackage) {
+	public DefaultDependencyManager(String ignoredPackage) {
 		ignorePackages = new HashSet<>();
 		ignorePackages.add(ignoredPackage.toString());
 	}
@@ -51,11 +51,10 @@ public class DefaultDependencyManager implements DependencyManager {
 	 * @param ignoredPackage A package that should be on the ignore list.
 	 * @param ignoredPackages More packages that should be on the ignore list.
 	 */
-	public DefaultDependencyManager(CharSequence ignoredPackage, CharSequence... ignoredPackages) {
+	public DefaultDependencyManager(String ignoredPackage, String... ignoredPackages) {
 		ignorePackages = Arrays.stream(ignoredPackages)
-			.map(CharSequence::toString)
 			.collect(Collectors.toSet());
-		ignorePackages.add(ignoredPackage.toString());
+		ignorePackages.add(ignoredPackage);
 	}
 
 	/**
@@ -64,7 +63,7 @@ public class DefaultDependencyManager implements DependencyManager {
 	 * @param packageName The full name of the package.
 	 */
 	@Override
-	public void ignorePackage(CharSequence packageName) {
+	public void ignorePackage(String packageName) {
 		ignorePackages.add(packageName.toString());
 	}
 	
@@ -74,8 +73,8 @@ public class DefaultDependencyManager implements DependencyManager {
 	 * @param packageName The full name of the package.
 	 */
 	@Override
-	public void acceptPackage(CharSequence packageName) {
-		ignorePackages.removeIf(p -> packageName.toString().startsWith(p + DOT));
+	public void acceptPackage(String packageName) {
+		ignorePackages.removeIf(p -> packageName.startsWith(p + DOT));
 	}
 	
 	/**
@@ -85,34 +84,34 @@ public class DefaultDependencyManager implements DependencyManager {
 	 * @return True if it should be ignored as a dependency.
 	 */
 	@Override
-	public boolean isIgnored(CharSequence fullname) {
+	public boolean isIgnored(String fullname) {
 		return ignorePackages.stream().anyMatch(
-			p -> fullname.toString().startsWith(p + DOT)
+			p -> fullname.startsWith(p + DOT)
 		);
 	}
 
 	@Override
-	public boolean load(CharSequence fullname) {
+	public boolean load(String fullname) {
 		if (isNameTaken(fullname)) {
 			return false;
 		} else {
-			dependencies.add(fullname.toString());
+			dependencies.add(fullname);
 			return true;
 		}
 	}
 
 	@Override
-	public boolean isLoaded(CharSequence fullname) {
-		return (dependencies.contains(fullname.toString())) 
+	public boolean isLoaded(String fullname) {
+		return (dependencies.contains(fullname)) 
 		|| ignorePackages.stream().anyMatch(
-			p -> fullname.toString().startsWith(p + DOT)
-			||   fullname.toString().equals(p)
+			p -> fullname.startsWith(p + DOT)
+			||   fullname.equals(p)
 		);
 	}
 	
-	private boolean isNameTaken(CharSequence fullname) {
+	private boolean isNameTaken(String fullname) {
 		return dependencies.stream().anyMatch(
-			d -> d.endsWith(DOT.toString() + shortName(fullname))
+			d -> d.endsWith(DOT + shortName(fullname))
 		);
 	}
 

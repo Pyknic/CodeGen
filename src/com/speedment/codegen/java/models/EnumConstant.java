@@ -28,27 +28,27 @@ import java.util.List;
 public class EnumConstant implements CodeModel<EnumConstant>, 
 		Nameable<EnumConstant> {
 	
-	private CharSequence name;
+	private String name;
 	private final List<Value> values;
 
-	public EnumConstant(CharSequence name) {
+	public EnumConstant(String name) {
 		this.name	= name;
 		this.values = new ArrayList<>();
 	}
 	
 	private EnumConstant(EnumConstant prototype) {
-		name	= prototype.name.toString();
+		name	= prototype.name;
 		values	= Copier.copy(prototype.values);
 	}
 
 	@Override
-	public EnumConstant setName(CharSequence name) {
+	public EnumConstant setName(String name) {
 		this.name = name;
 		return this;
 	}
 
 	@Override
-	public CharSequence getName() {
+	public String getName() {
 		return name;
 	}
 	

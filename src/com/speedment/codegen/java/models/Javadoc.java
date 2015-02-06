@@ -27,32 +27,32 @@ import java.util.List;
  * @author Emil Forslund
  */
 public class Javadoc implements CodeModel<Javadoc> {
-	private final List<CharSequence> rows;
+	private final List<String> rows;
 
 	public Javadoc() {
 		rows = new ArrayList<>();
 	}
 	
-	public Javadoc(final CharSequence text) {
-		rows = Arrays.asList(text.toString().split("\n"));
+	public Javadoc(final String text) {
+		rows = Arrays.asList(text.split("\n"));
 	}
 	
 	private Javadoc(final Javadoc prototype) {
-		rows = Copier.copy(prototype.rows, c -> c.toString());
+		rows = Copier.copy(prototype.rows, c -> c);
 	}
 	
-	public Javadoc add(CharSequence row) {
+	public Javadoc add(String row) {
 		rows.add(row);
 		return this;
 	}
 	
-	public Javadoc add(CharSequence first, CharSequence... rows) {
+	public Javadoc add(String first, String... rows) {
 		this.rows.add(first);
 		Collections.addAll(this.rows, rows);
 		return this;
 	}
 	
-	public List<CharSequence> getRows() {
+	public List<String> getRows() {
 		return rows;
 	}
 

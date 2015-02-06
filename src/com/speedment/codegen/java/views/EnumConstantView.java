@@ -17,12 +17,9 @@ package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.java.models.Type;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.base.DependencyManager;
 import com.speedment.codegen.java.models.EnumConstant;
 import java.util.Optional;
-import com.speedment.util.$;
 import com.speedment.util.CodeCombiner;
 
 /**
@@ -31,10 +28,10 @@ import com.speedment.util.CodeCombiner;
  */
 public class EnumConstantView implements CodeView<EnumConstant> {
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, EnumConstant model) {
-		return Optional.of(new $(
-			model.getName(), 
-			model.getValues().isEmpty() ? EMPTY : SPACE,
+	public Optional<String> render(CodeGenerator cg, EnumConstant model) {
+		return Optional.of(
+			model.getName() + 
+			(model.getValues().isEmpty() ? EMPTY : SPACE) +
 			cg.onEach(model.getValues()).collect(
 				CodeCombiner.joinIfNotEmpty(
 					COMMA_SPACE, 
@@ -42,6 +39,6 @@ public class EnumConstantView implements CodeView<EnumConstant> {
 					PE
 				)
 			)
-		));
+		);
 	}
 }

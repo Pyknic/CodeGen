@@ -21,6 +21,6 @@ package com.speedment.codegen.java.interfaces;
  * @param <T>
  */
 public interface Nameable<T extends Nameable<T>> {
-    T setName(final CharSequence name);
-    CharSequence getName();
+    T setName(final String name);
+    String getName();
 }

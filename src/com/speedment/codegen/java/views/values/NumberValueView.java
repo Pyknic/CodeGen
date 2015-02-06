@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 public class NumberValueView implements CodeView<NumberValue> {
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, NumberValue model) {
+	public Optional<String> render(CodeGenerator cg, NumberValue model) {
 		return Optional.of(model.getValue().toString());
 	}
 }

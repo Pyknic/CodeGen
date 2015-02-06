@@ -82,7 +82,7 @@ public abstract class CodeGenerator<T extends Enum<T> & VersionEnum> {
 	
 	/**
 	 * Locates the <code>CodeView</code> that corresponds to the specified model
-	 * and uses it to generate a CharSequence. If no view is associated with the 
+	 * and uses it to generate a String. If no view is associated with the 
 	 * model type, a <code>NullPointerException</code> will be thrown.
 	 * 
 	 * The result will be a <code>Optional</code>. It is present only if the
@@ -91,7 +91,7 @@ public abstract class CodeGenerator<T extends Enum<T> & VersionEnum> {
 	 * @param m The model.
 	 * @return The viewed text if any.
 	 */
-	public Optional<CharSequence> on(CodeModel m) {
+	public Optional<String> on(CodeModel m) {
 		return views.get(VersionEnum.of(m.getClass(), tclass)).render(this, m);
 	}
 	
@@ -104,11 +104,11 @@ public abstract class CodeGenerator<T extends Enum<T> & VersionEnum> {
 	 * @param m The model.
 	 * @return The viewed text if any.
 	 */
-	public <M extends CodeModel> Optional<CharSequence> on(Optional<M> m) {
+	public <M extends CodeModel> Optional<String> on(Optional<M> m) {
 		if (m.isPresent()) {
 			return on(m.get());
 		} else {
-			return Optional.<CharSequence>empty();
+			return Optional.<String>empty();
 		}
 	}
 	
@@ -119,10 +119,10 @@ public abstract class CodeGenerator<T extends Enum<T> & VersionEnum> {
 	 * @param models A collection of models to view.
 	 * @return The viewed text.
 	 */
-	public <M extends CodeModel> Stream<CharSequence> onEach(Collection<M> models) {
-		final Stream.Builder<CharSequence> build = Stream.builder();
+	public <M extends CodeModel> Stream<String> onEach(Collection<M> models) {
+		final Stream.Builder<String> build = Stream.builder();
 		models.forEach(m -> {
-			final Optional<CharSequence> str = on(m);
+			final Optional<String> str = on(m);
 			if (str.isPresent()) build.add(str.get());
 		});
 		return build.build();

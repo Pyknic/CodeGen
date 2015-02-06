@@ -49,7 +49,7 @@ public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements
 		Annotable<T>,
 		Modifiable<T> {
 	
-	private CharSequence name;
+	private String name;
 	private Optional<Javadoc> javadoc;
 	private final List<AnnotationUsage> annotations;
 	private final List<Import> dependencies;
@@ -59,7 +59,7 @@ public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements
 	private final List<Method> methods;
 	private final EnumSet<Modifier> modifiers;
 
-	public ClassOrInterface(CharSequence name) {
+	public ClassOrInterface(String name) {
 		this.name			= name;
 		this.javadoc		= Optional.empty();
 		this.annotations	= new ArrayList<>();
@@ -72,7 +72,7 @@ public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements
 	}
 	
 	public ClassOrInterface(ClassOrInterface<T> prototype) {
-		name			= prototype.name.toString();
+		name			= prototype.name;
 		javadoc			= Copier.copy(prototype.javadoc);
 		annotations		= Copier.copy(prototype.annotations);
 		dependencies	= Copier.copy(prototype.dependencies);
@@ -84,13 +84,13 @@ public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements
 	}
 
 	@Override
-	public T setName(CharSequence name) {
+	public T setName(String name) {
 		this.name = name;
 		return (T) this;
 	}
 
 	@Override
-	public CharSequence getName() {
+	public String getName() {
 		return name;
 	}
 

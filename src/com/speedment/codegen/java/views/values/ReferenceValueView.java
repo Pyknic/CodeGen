@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 public class ReferenceValueView implements CodeView<ReferenceValue> {
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, ReferenceValue model) {
+	public Optional<String> render(CodeGenerator cg, ReferenceValue model) {
 		return Optional.of(model.getValue());
 	}
 }

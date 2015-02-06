@@ -22,7 +22,6 @@ import com.speedment.codegen.base.DependencyManager;
 import com.speedment.codegen.base.VersionEnum;
 import com.speedment.codegen.java.models.ClassOrInterface;
 import java.util.Optional;
-import com.speedment.util.$;
 import com.speedment.util.CodeCombiner;
 
 
@@ -32,7 +31,7 @@ import com.speedment.util.CodeCombiner;
  * @param <M>
  */
 public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implements CodeView<M> {
-	protected final static CharSequence
+	protected final static String
 		CLASS_STRING = "class ",
 		INTERFACE_STRING = "interface ",
 		ENUM_STRING = "enum ",
@@ -40,53 +39,54 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 		EXTENDS_STRING = "extends ",
 		PACKAGE_STRING = "package ";
 	
-	private CharSequence renderPackage(M model) {
-		Optional<CharSequence> pack = packageName(model.getName());
+	private String renderPackage(M model) {
+		Optional<String> pack = packageName(model.getName());
 		if (pack.isPresent()) {
-			return new $(PACKAGE_STRING, pack.get(), scdnl());
+			return PACKAGE_STRING + pack.get() + scdnl();
 		} else {
 			return EMPTY;
 		}
 	}
 	
-	protected CharSequence onBeforeFields(CodeGenerator cg, M model) {return EMPTY;}
+	protected <V extends Enum<V> & VersionEnum> String onBeforeFields(CodeGenerator<V> cg, M model) {
+		return EMPTY;
+	}
 	
-	protected abstract CharSequence classOrInterfaceLabel();
-	protected abstract CharSequence extendsOrImplementsLabel();
-	protected abstract CharSequence onSuperType(CodeGenerator cg, M model);
+	protected abstract String classOrInterfaceLabel();
+	protected abstract String extendsOrImplementsLabel();
+	protected abstract <V extends Enum<V> & VersionEnum> String onSuperType(CodeGenerator<V> cg, M model);
 
 	@Override
-	public <V extends Enum<V> & VersionEnum> Optional<CharSequence> render(CodeGenerator<V> cg, M model) {
-		Optional<CharSequence> packageName = packageName(model.getName());
+	public <V extends Enum<V> & VersionEnum> Optional<String> render(CodeGenerator<V> cg, M model) {
+		Optional<String> packageName = packageName(model.getName());
 		final DependencyManager mgr = cg.getDependencyMgr();
 		mgr.clearDependencies();
 		
 		if (packageName.isPresent()) {
-			final String name = packageName.get().toString();
-			if (mgr.isIgnored(name)) {
+			if (mgr.isIgnored(packageName.get())) {
 				packageName = Optional.empty();
 			} else {
-				mgr.ignorePackage(name);
+				mgr.ignorePackage(packageName.get());
 			}
 		}
 		
-		final Optional<CharSequence> view = Optional.of(new $(
-			renderPackage(model),
-			cg.onEach(model.getDependencies()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, dnl())),
-			cg.on(model.getJavadoc()),
-			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)),
-			classOrInterfaceLabel(), shortName(model.getName()), SPACE,
-			onSuperType(cg, model),
-			cg.onEach(model.getInterfaces()).collect(CodeCombiner.joinIfNotEmpty(SPACE, extendsOrImplementsLabel(), SPACE)),
-			looseBracketsIndent(new $(
-				onBeforeFields(cg, model),
-				cg.onEach(model.getFields()).collect(CodeCombiner.joinIfNotEmpty(scnl(), EMPTY, scdnl())),
+		final Optional<String> view = Optional.of(
+			renderPackage(model) +
+			cg.onEach(model.getDependencies()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, dnl())) +
+			cg.on(model.getJavadoc()).orElse(EMPTY) +
+			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
+			classOrInterfaceLabel() + shortName(model.getName()) + SPACE +
+			onSuperType(cg, model) +
+			cg.onEach(model.getInterfaces()).collect(CodeCombiner.joinIfNotEmpty(SPACE, extendsOrImplementsLabel(), SPACE)) +
+			looseBracketsIndent(
+				onBeforeFields(cg, model) +
+				cg.onEach(model.getFields()).collect(CodeCombiner.joinIfNotEmpty(scnl(), EMPTY, scdnl())) +
 				cg.onEach(model.getMethods()).collect(CodeCombiner.joinIfNotEmpty(dnl()))
-			))
-		));
+			)
+		);
 		
 		if (packageName.isPresent()) {
-			mgr.acceptPackage(packageName.get().toString());
+			mgr.acceptPackage(packageName.get());
 		}
 		
 		return view;

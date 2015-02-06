@@ -24,7 +24,7 @@ import com.speedment.codegen.java.models.modifiers.InterfaceModifier;
 public class Interface extends ClassOrInterface<Interface> implements
 		InterfaceModifier<Interface> {
 
-    public Interface(CharSequence name) {
+    public Interface(String name) {
 		super (name);
     }
 	

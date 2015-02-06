@@ -28,12 +28,12 @@ public class Class extends ClassOrInterface<Class> implements
 
 	private Optional<Type> superType;
 
-	public Class(CharSequence name) {
+	public Class(String name) {
 		super(name);
 		superType = Optional.empty();
 	}
 
-	public Class(CharSequence name, Type superType) {
+	public Class(String name, Type superType) {
 		super(name);
 		this.superType = Optional.of(superType);
 	}

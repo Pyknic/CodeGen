@@ -27,7 +27,7 @@ import java.util.List;
 public class Enum extends ClassOrInterface<Enum> implements EnumModifier<Enum> {
 	private final List<EnumConstant> constants;
 	
-	public Enum(CharSequence name) {
+	public Enum(String name) {
 		super(name);
 		constants = new ArrayList<>();
 	}

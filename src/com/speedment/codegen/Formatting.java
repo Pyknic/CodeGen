@@ -16,7 +16,6 @@
  */
 package com.speedment.codegen;
 
-import com.speedment.util.$;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -32,7 +31,7 @@ public class Formatting {
      * @param input The text.
      * @return The resulting text.
      */
-    public static CharSequence lcfirst(CharSequence input) {
+    public static String lcfirst(String input) {
         return withFirst(input, (first) -> String.valueOf(Character.toLowerCase(first)));
     }
 
@@ -42,18 +41,18 @@ public class Formatting {
      * @param input The text.
      * @return The resulting text.
      */
-    public static CharSequence ucfirst(CharSequence input) {
+    public static String ucfirst(String input) {
         return withFirst(input, (first) -> String.valueOf(Character.toUpperCase(first)));
     }
 
     /**
-     * Does something with the first character in the specified CharSequence.
+     * Does something with the first character in the specified String.
      *
-     * @param input The CharSequence.
+     * @param input The String.
      * @param callback The something.
-     * @return The new CharSequence.
+     * @return The new String.
      */
-    public static CharSequence withFirst(CharSequence input, Function<Character, CharSequence> callback) {
+    public static String withFirst(String input, Function<Character, String> callback) {
         if (input == null) {
             return null;
         } else if (input.length() == 0) {
@@ -72,8 +71,8 @@ public class Formatting {
      * @param text The text to surround.
      * @return The text with a '{' before and a '}' afterwards.
      */
-    public static CharSequence tightBrackets(CharSequence text) {
-        return new $(BS, text, BE);
+    public static String tightBrackets(String text) {
+        return BS + text + BE;
     }
 
     /**
@@ -83,8 +82,8 @@ public class Formatting {
      * @param text The text to surround.
      * @return The text with a '{\n' before and a '\n}' afterwards.
      */
-    public static CharSequence looseBrackets(CharSequence text) {
-        return new $(BS, nl, text, nl, BE);
+    public static String looseBrackets(String text) {
+        return BS + nl + text + nl + BE;
     }
 
     /**
@@ -94,8 +93,8 @@ public class Formatting {
      * @param text The text to surround.
      * @return The text with a '{\n' before and a '\n}' afterwards.
      */
-    public static CharSequence looseBracketsIndent(CharSequence text) {
-        return new $(BS, nl, indent(text), nl, BE);
+    public static String looseBracketsIndent(String text) {
+        return BS + nl + indent(text) + nl + BE;
     }
 
     /**
@@ -105,11 +104,21 @@ public class Formatting {
      * @param text The text to indent.
      * @return The indented text.
      */
-    public static CharSequence indent(CharSequence text) {
-        return new $(tab, text.toString().replaceAll("\\r?\\n", nltab.toString()));
+    public static String indent(String text) {
+        return tab + text.replaceAll("\\r?\\n", nltab);
     }
 	
-	public static <E> CharSequence ifelse(Optional<E> condition, Function<E, CharSequence> trueMap, CharSequence falseValue) {
+	/**
+	 * If the condition is present, the true-function will be called
+	 * with its value and the result will be returned. Else the
+	 * false-value will be returned.
+	 * @param <E> The inner type of the condition.
+	 * @param condition The condition to be evaluated for presence.
+	 * @param trueMap The function that will be called if present.
+	 * @param falseValue The value returned if the condition is not present.
+	 * @return The value.
+	 */
+	public static <E> String ifelse(Optional<E> condition, Function<E, String> trueMap, String falseValue) {
 		if (condition.isPresent()) {
 			return trueMap.apply(condition.get());
 		} else {
@@ -122,7 +131,7 @@ public class Formatting {
      *
      * @return The new-line character.
      */
-    public static CharSequence nl() {
+    public static String nl() {
         return nl;
     }
 
@@ -132,13 +141,13 @@ public class Formatting {
      *
      * @param nl The new character to use.
      */
-    public static void nl(CharSequence nl) {
+    public static void nl(String nl) {
         Formatting.nl = nl;
-        Formatting.dnl = new $(nl, nl);
-        Formatting.nltab = new $(nl, tab);
-        Formatting.scnl = new $(SC, nl);
-        Formatting.scdnl = new $(SC, dnl);
-		Formatting.cnl = new $(COMMA, nl); 
+        Formatting.dnl = nl + nl;
+        Formatting.nltab = nl + tab;
+        Formatting.scnl = SC + nl;
+        Formatting.scdnl = SC + dnl;
+		Formatting.cnl = COMMA + nl; 
     }
 
     /**
@@ -147,7 +156,7 @@ public class Formatting {
      *
      * @return A semicolon (;) followed by a new line.
      */
-    public static CharSequence scnl() {
+    public static String scnl() {
         return scnl;
     }
 
@@ -157,7 +166,7 @@ public class Formatting {
      *
      * @return A semicolon (;) followed by two new new lines.
      */
-    public static CharSequence scdnl() {
+    public static String scdnl() {
         return scdnl;
     }
 
@@ -166,7 +175,7 @@ public class Formatting {
      *
      * @return The new-line character.
      */
-    public static CharSequence dnl() {
+    public static String dnl() {
         return dnl;
     }
 	
@@ -176,7 +185,7 @@ public class Formatting {
      *
      * @return Comma followed by new line.
      */
-    public static CharSequence cnl() {
+    public static String cnl() {
         return cnl;
     }
 
@@ -186,7 +195,7 @@ public class Formatting {
      *
      * @return The current tab character.
      */
-    public static CharSequence tab() {
+    public static String tab() {
         return tab;
     }
 
@@ -198,7 +207,7 @@ public class Formatting {
      */
     public static void tab(String tab) {
         Formatting.tab = tab;
-        Formatting.nltab = new $(nl, tab);
+        Formatting.nltab = nl + tab;
     }
 
     /**
@@ -208,10 +217,9 @@ public class Formatting {
      * @param longName The long name.
      * @return The name part.
      */
-    public static CharSequence shortName(CharSequence longName) {
-        final String longNameS = longName.toString();
-        if (longNameS.contains(DOT_STRING)) {
-            return longNameS.substring(longNameS.lastIndexOf(DOT_STRING) + 1);
+    public static String shortName(String longName) {
+        if (longName.contains(DOT)) {
+            return longName.substring(longName.lastIndexOf(DOT) + 1);
         } else {
             return longName;
         }
@@ -224,18 +232,17 @@ public class Formatting {
      * @param longName The long name.
      * @return The package part.
      */
-    public static Optional<CharSequence> packageName(CharSequence longName) {
-        final String longNameS = longName.toString();
-		if (longNameS.contains(DOT_STRING)) {
-			return Optional.of(longNameS.substring(0,
-					longNameS.lastIndexOf(DOT_STRING)
+    public static Optional<String> packageName(String longName) {
+		if (longName.contains(DOT)) {
+			return Optional.of(longName.substring(0,
+				longName.lastIndexOf(DOT)
 			));
 		} else {
 			return Optional.empty();
 		}
     }
 
-    private static CharSequence nl = "\n",
+    private static String nl = "\n",
             dnl = "\n\n",
             tab = "\t",
             nltab = "\n\t",
@@ -243,9 +250,7 @@ public class Formatting {
             scdnl = ";\n\n",
 			cnl = ",\n";
 
-    public final static String DOT_STRING = ".";
-
-    public final static CharSequence BS = "{",
+    public final static String BS = "{",
             BE = "}",
             PS = "(",
             PE = ")",

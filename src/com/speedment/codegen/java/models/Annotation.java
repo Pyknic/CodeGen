@@ -26,14 +26,14 @@ public class Annotation implements CodeModel<Annotation>,
 		Modifiable<Annotation>,
 		Annotable<Annotation> {
 	
-	private CharSequence name;
+	private String name;
 	private Optional<Javadoc> javadoc;
 	private final List<AnnotationUsage> annotations;
 	private final List<Field> fields;
 	private final List<Import> dependencies;
 	private final EnumSet<Modifier> modifiers;
 
-	public Annotation(CharSequence name) {
+	public Annotation(String name) {
 		this.name			= name;
 		this.javadoc		= Optional.empty();
 		this.annotations	= new ArrayList<>();
@@ -43,7 +43,7 @@ public class Annotation implements CodeModel<Annotation>,
 	}
 	
 	public Annotation(Annotation prototype) {
-		name			= prototype.name.toString();
+		name			= prototype.name;
 		javadoc			= Copier.copy(prototype.javadoc);
 		annotations		= Copier.copy(prototype.annotations);
 		fields			= Copier.copy(prototype.fields);
@@ -56,13 +56,13 @@ public class Annotation implements CodeModel<Annotation>,
 	}
 
 	@Override
-	public Annotation setName(CharSequence name) {
+	public Annotation setName(String name) {
 		this.name = name;
 		return this;
 	}
 
 	@Override
-	public CharSequence getName() {
+	public String getName() {
 		return name;
 	}
 

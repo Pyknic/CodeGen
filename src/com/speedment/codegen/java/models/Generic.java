@@ -28,7 +28,7 @@ import java.util.Optional;
  */
 public class Generic implements CodeModel<Generic> {
 	
-	private Optional<CharSequence> lowerBound;
+	private Optional<String> lowerBound;
 	private final List<Type> upperBounds;
 	
 	public static enum BoundType {UPPER, LOWER};
@@ -39,7 +39,7 @@ public class Generic implements CodeModel<Generic> {
 		upperBounds = new ArrayList<>();
 	}
 
-	public Generic(CharSequence lowerBound) {
+	public Generic(String lowerBound) {
 		this(lowerBound, new Type[0]);
 	}
 	
@@ -47,22 +47,22 @@ public class Generic implements CodeModel<Generic> {
 		this(null, upperBounds);
 	}
 	
-	public Generic(CharSequence lowerBound, Type... upperBounds) {
+	public Generic(String lowerBound, Type... upperBounds) {
 		this.lowerBound = Optional.ofNullable(lowerBound);
 		this.upperBounds = Arrays.asList(upperBounds);
 	}
 	
 	private Generic(Generic prototype) {
-		lowerBound  = Copier.copy(prototype.lowerBound, c -> c.toString());
+		lowerBound  = Copier.copy(prototype.lowerBound, c -> c);
 		upperBounds = Copier.copy(prototype.upperBounds);
 	}
 
-	public Generic setLowerBound(CharSequence lowerBound) {
+	public Generic setLowerBound(String lowerBound) {
 		this.lowerBound = Optional.of(lowerBound);
 		return this;
 	}
 
-	public Optional<CharSequence> getLowerBound() {
+	public Optional<String> getLowerBound() {
 		return lowerBound;
 	}
 

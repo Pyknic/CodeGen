@@ -18,11 +18,10 @@ package com.speedment.codegen.java.views;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.java.models.Field;
-import com.speedment.util.$;
 import com.speedment.util.CodeCombiner;
 import static com.speedment.codegen.Formatting.*;
+import com.speedment.codegen.base.VersionEnum;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -31,13 +30,13 @@ import java.util.stream.Collectors;
 public class FieldView implements CodeView<Field> {
 
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, Field model) {
-		return Optional.of(new $(
-			cg.on(model.getJavadoc()),
-			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)),
-			cg.on(model.getType()), SPACE,
+	public <V extends Enum<V> & VersionEnum> Optional<String> render(CodeGenerator<V> cg, Field model) {
+		return Optional.of(
+			cg.on(model.getJavadoc()).orElse(EMPTY) +
+			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
+			cg.on(model.getType()).orElse(EMPTY) + SPACE +
 			model.getName()
-		));
+		);
 	}
 	
 }

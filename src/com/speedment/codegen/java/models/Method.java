@@ -39,15 +39,15 @@ public class Method implements CodeModel<Method>,
 		Annotable<Method>,
 		MethodModifier<Method> {
 	
-	private CharSequence name;
+	private String name;
 	private Type type;
 	private Optional<Javadoc> javadoc;
 	private final List<AnnotationUsage> annotations;
 	private final List<Field> params;
-	private final List<CharSequence> code;
+	private final List<String> code;
 	private final EnumSet<Modifier> modifiers;
 	
-	public Method(CharSequence name, Type type) {
+	public Method(String name, Type type) {
 		this.name			= name;
 		this.type			= type;
 		this.javadoc		= Optional.empty();
@@ -58,7 +58,7 @@ public class Method implements CodeModel<Method>,
 	}
 	
 	private Method(final Method prototype) {
-		name		= prototype.name.toString();
+		name		= prototype.name;
 		type		= prototype.type.copy();
 		javadoc		= Copier.copy(prototype.javadoc);
 		annotations	= Copier.copy(prototype.annotations);
@@ -68,12 +68,12 @@ public class Method implements CodeModel<Method>,
 	}
 
 	@Override
-	public CharSequence getName() {
+	public String getName() {
 		return name;
 	}
 
 	@Override
-	public Method setName(CharSequence name) {
+	public Method setName(String name) {
 		this.name = name;
 		return this;
 	}
@@ -98,11 +98,11 @@ public class Method implements CodeModel<Method>,
 		return this;
 	}
 
-	public List<CharSequence> getCode() {
+	public List<String> getCode() {
 		return code;
 	}
 
-	public Method add(CharSequence codeLine) {
+	public Method add(String codeLine) {
 		code.add(codeLine);
 		return this;
 	}

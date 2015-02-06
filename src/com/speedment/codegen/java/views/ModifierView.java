@@ -27,7 +27,7 @@ import java.util.Optional;
 public class ModifierView implements CodeView<Modifier> {
 
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, Modifier model) {
+	public Optional<String> render(CodeGenerator cg, Modifier model) {
 		return Optional.of(model.getName());
 	}
 	

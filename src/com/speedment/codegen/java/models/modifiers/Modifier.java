@@ -35,13 +35,13 @@ public enum Modifier implements CodeModel<Modifier> {
 	NATIVE ("native"),
 	DEFAULT ("default");
 	
-	private final CharSequence name;
+	private final String name;
 	
-	Modifier(CharSequence name) {
+	Modifier(String name) {
 		this.name = name;
 	}
 	
-	public CharSequence getName() {
+	public String getName() {
 		return name;
 	}
 

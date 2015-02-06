@@ -17,6 +17,7 @@ package com.speedment.codegen.java.views;
 
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.base.VersionEnum;
 import com.speedment.codegen.java.models.Enum;
 import com.speedment.util.CodeCombiner;
 
@@ -26,24 +27,24 @@ import com.speedment.util.CodeCombiner;
  */
 public class EnumView extends ClassOrInterfaceView<Enum> {
 	@Override
-	protected CharSequence classOrInterfaceLabel() {
+	protected String classOrInterfaceLabel() {
 		return ENUM_STRING;
 	}
 
 	@Override
-	protected CharSequence extendsOrImplementsLabel() {
+	protected String extendsOrImplementsLabel() {
 		return IMPLEMENTS_STRING;
 	}
 
 	@Override
-	protected CharSequence onSuperType(CodeGenerator cg, Enum model) {
+	protected String onSuperType(CodeGenerator cg, Enum model) {
 		return EMPTY;
 	}
 
 	@Override
-	protected CharSequence onBeforeFields(CodeGenerator cg, Enum model) {
+	protected <V extends java.lang.Enum<V> & VersionEnum> String onBeforeFields(CodeGenerator<V> cg, Enum model) {
 		return model.getConstants().stream()
-			.map(c -> (CharSequence) cg.on(c).get()).collect(
+			.map(c -> cg.on(c).get()).collect(
 				CodeCombiner.joinIfNotEmpty(
 					(!model.getConstants().isEmpty()
 					&& !model.getConstants().get(0).getValues().isEmpty())

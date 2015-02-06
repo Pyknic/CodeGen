@@ -25,17 +25,17 @@ import com.speedment.codegen.java.models.Interface;
  */
 public class InterfaceView extends ClassOrInterfaceView<Interface> {
 	@Override
-	protected CharSequence classOrInterfaceLabel() {
+	protected String classOrInterfaceLabel() {
 		return INTERFACE_STRING;
 	}
 
 	@Override
-	protected CharSequence extendsOrImplementsLabel() {
+	protected String extendsOrImplementsLabel() {
 		return EXTENDS_STRING;
 	}
 
 	@Override
-	protected CharSequence onSuperType(CodeGenerator cg, Interface model) {
+	protected String onSuperType(CodeGenerator cg, Interface model) {
 		return Formatting.EMPTY;
 	}
 }

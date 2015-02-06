@@ -21,23 +21,22 @@ import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.java.models.Import;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.util.$;
 
 /**
  *
  * @author Emil Forslund
  */
 public class ImportView implements CodeView<Import> {
-	private final static CharSequence IMPORT_STRING = "import ";
+	private final static String IMPORT_STRING = "import ";
 
 	@Override
-	public Optional<CharSequence> render(CodeGenerator cg, Import model) {
-		return Optional.of((CharSequence) new $(
-			IMPORT_STRING,
-			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)),
-			cg.on(model.getType()),
+	public Optional<String> render(CodeGenerator cg, Import model) {
+		return Optional.of(
+			IMPORT_STRING +
+			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
+			cg.on(model.getType()).orElse(EMPTY) +
 			SC
-		)).filter(x -> {
+		).filter(x -> {
 			cg.getDependencyMgr().load(model.getType().getName());
 			return true;
 		});

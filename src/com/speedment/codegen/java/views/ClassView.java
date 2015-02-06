@@ -16,7 +16,6 @@
 package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.util.$;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.java.models.Class;
 
@@ -26,19 +25,19 @@ import com.speedment.codegen.java.models.Class;
  */
 public class ClassView extends ClassOrInterfaceView<Class> {
 	@Override
-	protected CharSequence classOrInterfaceLabel() {
+	protected String classOrInterfaceLabel() {
 		return INTERFACE_STRING;
 	}
 
 	@Override
-	protected CharSequence extendsOrImplementsLabel() {
+	protected String extendsOrImplementsLabel() {
 		return EXTENDS_STRING;
 	}
 
 	@Override
-	protected CharSequence onSuperType(CodeGenerator cg, Class model) {
+	protected String onSuperType(CodeGenerator cg, Class model) {
 		if (model.getSuperType().isPresent()) {
-			return new $(EXTENDS_STRING, new $(cg.on(model.getSuperType().get()), SPACE));
+			return EXTENDS_STRING + cg.on(model.getSuperType().get()).orElse(EMPTY) + SPACE;
 		} else {
 			return EMPTY;
 		}

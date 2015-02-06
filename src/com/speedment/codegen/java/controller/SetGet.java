@@ -18,9 +18,7 @@ package com.speedment.codegen.java.controller;
 import com.speedment.codegen.base.CodeController;
 import com.speedment.codegen.java.models.Class;
 import com.speedment.codegen.java.models.Method;
-import com.speedment.util.$;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.java.models.Field;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -30,20 +28,20 @@ import java.util.List;
  * @author Emil Forslund
  */
 public class SetGet implements CodeController<Class> {
-	private final static CharSequence 
+	private final static String 
 		SET_STRING = "set",
 		GET_STRING = "get",
 		THIS_STRING = "this.",
 		ASSIGN_STRING = " = ",
 		RETURN_STRING = "return this";
 	
-	private final List<CharSequence> methods;
+	private final List<String> methods;
 	
 	public SetGet() {
 		this.methods = Collections.EMPTY_LIST;
 	}
 	
-	public SetGet(CharSequence... methods) {
+	public SetGet(String... methods) {
 		this.methods = Arrays.asList(methods);
 	}
 	
@@ -51,28 +49,28 @@ public class SetGet implements CodeController<Class> {
 	public void accept(Class model) {
 		model.getFields().stream().forEach(f -> {
 			f.private_();
-			final CharSequence setName = new $(SET_STRING, ucfirst(f.getName()));
+			final String setName = SET_STRING + ucfirst(f.getName());
 			if (includeMethod(model, setName)) {
 				model.add(new Method(setName, model.asType())
 					.public_()
 					.add(f.copy())
-					.add(new $(THIS_STRING, f.getName(), ASSIGN_STRING, f.getName(), SC))
-					.add(new $(RETURN_STRING, SC))
+					.add(THIS_STRING + f.getName() + ASSIGN_STRING + f.getName() + SC)
+					.add(RETURN_STRING + SC)
 				);
 			}
 			
 			f.private_();
-			final CharSequence getName = new $(GET_STRING, ucfirst(f.getName()));
+			final String getName = GET_STRING + ucfirst(f.getName());
 			if (includeMethod(model, getName)) {
 				model.add(new Method(getName, f.getType())
 					.public_()
-					.add(new $(RETURN_STRING, DOT, f.getName(), SC))
+					.add(RETURN_STRING + DOT + f.getName() + SC)
 				);
 			}
 		});
 	}
 
-	private boolean includeMethod(Class class_, CharSequence method) {
+	private boolean includeMethod(Class class_, String method) {
 		if (methods.isEmpty() || methods.contains(method)) {
 			return !class_.getMethods().stream().anyMatch(
 					m -> method.equals(m.getName())

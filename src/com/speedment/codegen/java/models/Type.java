@@ -41,7 +41,7 @@ public class Type implements CodeModel<Type>,
 		Generable<Type>,
 		Annotable<Type> {
 	
-	private CharSequence name;
+	private String name;
 	private int arrayDimension;
 	private final List<AnnotationUsage> annotations;
 	private final List<Generic> generics;
@@ -51,11 +51,11 @@ public class Type implements CodeModel<Type>,
 		this (javaImpl.getName(), javaImpl);
 	}
 	
-	public Type(CharSequence name) {
+	public Type(String name) {
 		this (name, null);
 	}
 
-	public Type(CharSequence name, java.lang.Class<?> javaImpl) {
+	public Type(String name, java.lang.Class<?> javaImpl) {
 		this.name			= name;
 		this.arrayDimension = 0;
 		this.annotations	= new ArrayList<>();
@@ -64,7 +64,7 @@ public class Type implements CodeModel<Type>,
 	}
 	
 	private Type(Type prototype) {
-		name			= prototype.name.toString();
+		name			= prototype.name;
 		arrayDimension	= prototype.arrayDimension;
 		annotations		= Copier.copy(prototype.annotations);
 		generics		= Copier.copy(prototype.generics);
@@ -72,12 +72,12 @@ public class Type implements CodeModel<Type>,
 	}
 
 	@Override
-	public CharSequence getName() {
+	public String getName() {
 		return name;
 	}
 
 	@Override
-	public Type setName(CharSequence name) {
+	public Type setName(String name) {
 		this.name = name;
 		return this;
 	}
@@ -129,8 +129,8 @@ public class Type implements CodeModel<Type>,
 	
 	public static final class Const extends Type {
 		public Const(java.lang.Class<?> javaImpl) {super(javaImpl);}
-		public Const(CharSequence name) {super(name);}
-		public Const(CharSequence name, java.lang.Class<?> javaImpl) {
+		public Const(String name) {super(name);}
+		public Const(String name, java.lang.Class<?> javaImpl) {
 			super(name, javaImpl);
 		}
 		
@@ -145,7 +145,7 @@ public class Type implements CodeModel<Type>,
 		}
 
 		@Override
-		public Type setName(CharSequence name) {
+		public Type setName(String name) {
 			return copy().setName(name);
 		}
 

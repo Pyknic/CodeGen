@@ -16,21 +16,23 @@ import java.util.function.Supplier;
  * @author Duncan
  */
 public class CodeCombiner {
-	public static Collector<CharSequence, ?, CharSequence> joinIfNotEmpty(CharSequence delimiter) {
+	public static Collector<String, ?, String> joinIfNotEmpty(String delimiter) {
 		return joinIfNotEmpty(delimiter, EMPTY, EMPTY);
 	}
 	
-	public static Collector<CharSequence, ?, CharSequence> joinIfNotEmpty(CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
+	public static Collector<String, ?, String> joinIfNotEmpty(String delimiter, String prefix, String suffix) {
 		return new CollectorImpl<>(
 			() -> new StringJoiner(delimiter),
 			StringJoiner::add, 
-				StringJoiner::merge,
-			s -> s.length() > 0 ? new $(prefix, s.toString(), suffix) : s.toString(), 
-				Collections.emptySet()
+			StringJoiner::merge,
+			s -> s.length() > 0 ? 
+				prefix + s + suffix : 
+				s.toString(), 
+			Collections.emptySet()
 		);
 	}
 	
-	public static Optional<CharSequence> ifEmpty(CharSequence str) {
+	public static Optional<String> ifEmpty(String str) {
 		if (str == null || 0 == str.length()) {
 			return Optional.empty();
 		} else {

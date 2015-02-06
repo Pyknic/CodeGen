@@ -19,7 +19,7 @@ import com.speedment.codegen.base.VersionEnum;
  */
 public class ArrayValueView implements CodeView<ArrayValue> {
 	@Override
-	public <V extends Enum<V> & VersionEnum> Optional<CharSequence> render(CodeGenerator<V> cg, ArrayValue model) {
+	public <V extends Enum<V> & VersionEnum> Optional<String> render(CodeGenerator<V> cg, ArrayValue model) {
 		return Optional.of(
 			cg.onEach(model.getValue()).collect(
 				Collectors.joining(

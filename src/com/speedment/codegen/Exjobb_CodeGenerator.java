@@ -12,11 +12,9 @@ import static com.speedment.codegen.java.models.Type.*;
 
 import com.speedment.codegen.java.controller.FinalParameters;
 import com.speedment.codegen.java.models.Javadoc;
-import com.speedment.util.$;
 import com.speedment.codegen.java.models.Import;
 import com.speedment.codegen.java.models.EnumConstant;
 import com.speedment.codegen.java.models.Enum;
-import com.speedment.codegen.java.models.Generic;
 import com.speedment.codegen.java.models.Interface;
 import com.speedment.codegen.java.models.values.EnumValue;
 import com.speedment.codegen.java.models.values.NumberValue;
@@ -67,10 +65,10 @@ public class Exjobb_CodeGenerator {
 		System.out.println(cg.on(new Interface("org.duncan.test.Player")
 				/***** Class declaration *****/
 				.public_()
-				.setJavadoc(new Javadoc(new $(
-					"This is a test class to demonstrate how the\n",
+				.setJavadoc(new Javadoc(
+					"This is a test class to demonstrate how the\n" +
 					"code generator is working."
-				)))
+				))
 					
 				/***** Fields *****/
 				.add(new Field("cards", list(myEnum.asType()))
@@ -84,9 +82,9 @@ public class Exjobb_CodeGenerator {
 					
 				/***** Methods *****/
 				.add(new Method("spawn", VOID)
-					.setJavadoc(new Javadoc(new $(
+					.setJavadoc(new Javadoc(
 						"This function is used to reset the Player."
-					)))
+					))
 					.add(new Field("name", STRING))
 					.add(new Field("score", INT_PRIMITIVE))
 				)
@@ -99,10 +97,10 @@ public class Exjobb_CodeGenerator {
 				
 				/***** Class declaration *****/
 				.public_()
-				.setJavadoc(new Javadoc(new $(
-					"This is a test class to demonstrate how the\n",
+				.setJavadoc(new Javadoc(
+					"This is a test class to demonstrate how the\n" +
 					"code generator is working."
-				)))
+				))
 				
 				/***** Fields *****/
 				.add(new Field("player1Name", STRING))
@@ -115,27 +113,27 @@ public class Exjobb_CodeGenerator {
 					
 				/***** Methods *****/
 				.add(new Method("spawnPlayer1", VOID).public_()
-					.setJavadoc(new Javadoc(new $(
+					.setJavadoc(new Javadoc(
 						"This function is used to reset Player 1."
-					)))
+					))
 					.add(new Field("name", STRING))
 					.add(new Field("score", INT_PRIMITIVE))
 					.add("this.player1Name = name;")
 					.add("this.player1Score = score;")
 				)
 				.add(new Method("spawnPlayer2", VOID).public_()
-					.setJavadoc(new Javadoc(new $(
+					.setJavadoc(new Javadoc(
 						"This function is used to reset Player 2."
-					)))
+					))
 					.add(new Field("name", STRING))
 					.add(new Field("score", INT_PRIMITIVE))
 					.add("this.player2Name = name;")
 					.add("this.player2Score = score;")
 				)
 				.add(new Method("killPlayer", VOID).public_()
-					.setJavadoc(new Javadoc(new $(
+					.setJavadoc(new Javadoc(
 						"This method can be used to kill either player."
-					)))
+					))
 					.add(new Field("name", STRING))
 					.add("switch (name) {")
 					.add("case (this.player1Name) : killPlayer1(); break;")
