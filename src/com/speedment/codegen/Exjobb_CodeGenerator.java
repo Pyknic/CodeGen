@@ -8,7 +8,7 @@ import com.speedment.codegen.java.models.Class;
 import com.speedment.codegen.java.models.Field;
 import com.speedment.codegen.java.models.Method;
 import com.speedment.codegen.java.models.Type;
-import static com.speedment.codegen.java.models.Type.*;
+import static com.speedment.codegen.java.models.constants.Default.*;
 
 import com.speedment.codegen.java.controller.FinalParameters;
 import com.speedment.codegen.java.models.Javadoc;

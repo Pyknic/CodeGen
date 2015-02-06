@@ -21,16 +21,8 @@ import com.speedment.codegen.java.interfaces.Generable;
 import com.speedment.codegen.java.interfaces.Nameable;
 import com.speedment.util.Copier;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Queue;
-import java.util.Set;
-import java.util.Stack;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 /**
  *
@@ -153,76 +145,5 @@ public class Type implements CodeModel<Type>,
 		public Type add(Generic generic) {
 			return copy().add(generic);
 		}
-	}
-
-	public static final Type 
-		BYTE_PRIMITIVE = new Const(byte.class),
-		SHORT_PRIMITIVE = new Const(short.class),
-		INT_PRIMITIVE = new Const(int.class),
-		LONG_PRIMITIVE = new Const(long.class),
-		FLOAT_PRIMITIVE = new Const(float.class),
-		DOUBLE_PRIMITIVE = new Const(double.class),
-		BOOLEAN_PRIMITIVE = new Const(boolean.class),
-		CHAR_PRIMITIVE = new Const(char.class),
-		BYTE = new Const(Byte.class),
-		SHORT = new Const(Short.class),
-		INT = new Const(Integer.class),
-		LONG = new Const(Long.class),
-		FLOAT = new Const(Float.class),
-		DOUBLE = new Const(Double.class),
-		BOOLEAN = new Const(Boolean.class),
-		CHARACTER = new Const(Character.class),
-		STRING = new Const(String.class),
-		VOID = new Const("void"),
-		WILDCARD = new Const("?"),
-		LIST = new Const(List.class),
-		SET = new Const(Set.class),
-		MAP = new Const(Map.class),
-		QUEUE = new Const(Queue.class),
-		STACK = new Const(Stack.class),
-		OPTIONAL = new Const(Optional.class),
-		ENTRY = new Const(HashMap.Entry.class),
-		FUNCTION = new Const(Function.class),
-		PREDICATE = new Const(Predicate.class),
-		CONSUMER = new Const(Consumer.class);
-		
-	public static final Type list(Type innerType) {
-		return LIST.add(new Generic().add(innerType));
-	}
-	
-	public static final Type set(Type innerType) {
-		return SET.add(new Generic().add(innerType));
-	}
-	
-	public static final Type map(Type innerTypeA, Type innerTypeB) {
-		return MAP.add(new Generic().add(innerTypeA).add(innerTypeB));
-	}
-	
-	public static final Type queue(Type innerType) {
-		return QUEUE.add(new Generic().add(innerType));
-	}
-	
-	public static final Type stack(Type innerType) {
-		return STACK.add(new Generic().add(innerType));
-	}
-	
-	public static final Type optional(Type innerType) {
-		return OPTIONAL.add(new Generic().add(innerType));
-	}
-	
-	public static final Type entry(Type innerTypeA, Type innerTypeB) {
-		return ENTRY.add(new Generic().add(innerTypeA).add(innerTypeB));
-	}
-	
-	public static final Type function(Type innerTypeA, Type innerTypeB) {
-		return FUNCTION.add(new Generic().add(innerTypeA).add(innerTypeB));
-	}
-	
-	public static final Type predicate(Type innerType) {
-		return PREDICATE.add(new Generic().add(innerType));
-	}
-	
-	public static final Type consumer(Type innerType) {
-		return CONSUMER.add(new Generic().add(innerType));
 	}
 }

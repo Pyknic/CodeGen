@@ -4,12 +4,6 @@ import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.java.interfaces.Typeable;
 import com.speedment.codegen.java.interfaces.Valuable;
 import com.speedment.util.Copier;
-import java.lang.annotation.Documented;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Native;
-import java.lang.annotation.Repeatable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,13 +90,4 @@ public class AnnotationUsage implements CodeModel<AnnotationUsage>,
 			return copy().setType(type);
 		}
 	}
-	
-	public final static AnnotationUsage
-			OVERRIDE	= new Const(new Type(Override.class)),
-			DOCUMENTED	= new Const(new Type(Documented.class)),
-			INHERITED	= new Const(new Type(Inherited.class)),
-			NATIVE		= new Const(new Type(Native.class)),
-			REPEATABLE	= new Const(new Type(Repeatable.class)),
-			RETENTION	= new Const(new Type(Retention.class)),
-			TARGET		= new Const(new Type(Target.class));
 }
