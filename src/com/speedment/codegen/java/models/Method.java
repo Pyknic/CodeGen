@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  *
@@ -45,7 +46,7 @@ public class Method implements CodeModel<Method>,
 	private final List<AnnotationUsage> annotations;
 	private final List<Field> params;
 	private final List<String> code;
-	private final EnumSet<Modifier> modifiers;
+	private final Set<Modifier> modifiers;
 	
 	public Method(String name, Type type) {
 		this.name			= name;
@@ -63,8 +64,8 @@ public class Method implements CodeModel<Method>,
 		javadoc		= Copier.copy(prototype.javadoc);
 		annotations	= Copier.copy(prototype.annotations);
 		params		= Copier.copy(prototype.params);
-		code		= Copier.copy(prototype.code, c -> c.toString());
-		modifiers	= Copier.copy(prototype.modifiers);
+		code		= Copier.copy(prototype.code, c -> c);
+		modifiers	= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
 	@Override
@@ -108,7 +109,7 @@ public class Method implements CodeModel<Method>,
 	}
 
 	@Override
-	public EnumSet<Modifier> getModifiers() {
+	public Set<Modifier> getModifiers() {
 		return modifiers;
 	}
 

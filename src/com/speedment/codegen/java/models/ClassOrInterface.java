@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  *
@@ -57,7 +58,7 @@ public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements
 	private final List<Type> interfaces;
 	private final List<Field> fields;
 	private final List<Method> methods;
-	private final EnumSet<Modifier> modifiers;
+	private final Set<Modifier> modifiers;
 
 	public ClassOrInterface(String name) {
 		this.name			= name;
@@ -80,7 +81,7 @@ public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements
 		interfaces		= Copier.copy(prototype.interfaces);
 		fields			= Copier.copy(prototype.fields);
 		methods			= Copier.copy(prototype.methods);
-		modifiers		= Copier.copy(prototype.modifiers);
+		modifiers		= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
 	@Override
@@ -154,7 +155,7 @@ public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements
 	}
 	
 	@Override
-	public EnumSet<Modifier> getModifiers() {
+	public Set<Modifier> getModifiers() {
 		return modifiers;
 	}
 

@@ -37,18 +37,10 @@ public abstract class Copier {
 		return copy(prototype, copier, new ArrayList<>());
 	}
 	
-	public static <T extends Enum<T> & Copyable<T>> EnumSet<T> copy(EnumSet<T> prototype) {
-		return Copier.copy(prototype, c -> c.copy());
-	}
-	
 	public static <T extends Copyable<T>> Set<T> copy(Set<T> prototype) {
 		return Copier.copy(prototype, c -> c.copy());
 	}
-	
-	public static <T extends Enum<T>> EnumSet<T> copy(EnumSet<T> prototype, Function<T, T> copier) {
-		return copy(prototype, copier, EnumSet.copyOf(prototype));
-	}
-	
+
 	public static <T> Set<T> copy(Set<T> prototype, Function<T, T> copier) {
 		return copy(prototype, copier, new HashSet<>());
 	}

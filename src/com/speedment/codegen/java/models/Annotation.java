@@ -48,7 +48,7 @@ public class Annotation implements CodeModel<Annotation>,
 		annotations		= Copier.copy(prototype.annotations);
 		fields			= Copier.copy(prototype.fields);
 		dependencies	= Copier.copy(prototype.dependencies);
-		modifiers		= Copier.copy(prototype.modifiers);
+		modifiers		= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 	
 	public Type toType() {

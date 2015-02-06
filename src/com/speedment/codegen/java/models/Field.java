@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  *
@@ -46,7 +47,7 @@ public class Field implements CodeModel<Field>,
 	private Optional<Value> value;
 	private Optional<Javadoc> javadoc;
 	private final List<AnnotationUsage> annotations;
-	private final EnumSet<Modifier> modifiers;
+	private final Set<Modifier> modifiers;
 	
 	public Field(String name, Type type) {
 		this.name			= name;
@@ -63,7 +64,7 @@ public class Field implements CodeModel<Field>,
 		value		= Copier.copy(prototype.value);
 		javadoc		= Copier.copy(prototype.javadoc);
 		annotations	= Copier.copy(prototype.annotations);
-		modifiers	= Copier.copy(prototype.modifiers);
+		modifiers	= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
 	@Override
@@ -89,7 +90,7 @@ public class Field implements CodeModel<Field>,
 	}
 	
 	@Override
-	public EnumSet<Modifier> getModifiers() {
+	public Set<Modifier> getModifiers() {
 		return modifiers;
 	}
 

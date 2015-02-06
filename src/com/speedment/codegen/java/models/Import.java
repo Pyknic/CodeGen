@@ -21,6 +21,7 @@ import com.speedment.codegen.java.models.modifiers.DependencyModifier;
 import com.speedment.codegen.java.models.modifiers.Modifier;
 import com.speedment.util.Copier;
 import java.util.EnumSet;
+import java.util.Set;
 
 /**
  *
@@ -31,7 +32,7 @@ public class Import implements CodeModel<Import>,
 		DependencyModifier<Import> {
 	
 	private Type type;
-	private final EnumSet<Modifier> modifiers;
+	private final Set<Modifier> modifiers;
 
 	public Import(Type type) {
 		this.type = type;
@@ -40,7 +41,7 @@ public class Import implements CodeModel<Import>,
 	
 	private Import(Import prototype) {
 		type		= type.copy();
-		modifiers	= Copier.copy(prototype.modifiers);
+		modifiers	= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
 	@Override
@@ -55,7 +56,7 @@ public class Import implements CodeModel<Import>,
 	}
 
 	@Override
-	public EnumSet<Modifier> getModifiers() {
+	public Set<Modifier> getModifiers() {
 		return this.modifiers;
 	}
 
