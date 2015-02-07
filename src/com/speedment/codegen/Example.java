@@ -25,8 +25,8 @@ import com.speedment.codegen.java.models.values.TextValue;
  *
  * @author Emil Forslund
  */
-public class Exjobb {
-	private Exjobb() {}
+public class Example {
+	private Example() {}
 
 	/**
 	 * @param args the command line arguments
