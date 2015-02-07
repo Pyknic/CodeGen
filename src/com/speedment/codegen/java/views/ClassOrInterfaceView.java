@@ -17,12 +17,20 @@ package com.speedment.codegen.java.views;
 
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.base.DependencyManager;
 import com.speedment.codegen.base.Version;
 import com.speedment.codegen.java.models.ClassOrInterface;
+import com.speedment.codegen.java.models.Field;
+import com.speedment.codegen.java.models.InterfaceMethod;
+import com.speedment.codegen.java.models.Method;
 import java.util.Optional;
 import com.speedment.util.CodeCombiner;
+import java.util.Collection;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 /**
@@ -52,11 +60,12 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 		return EMPTY;
 	}
 	
-	protected <V extends Version<V>> String onMethods(CodeGenerator<V> cg, M model) {
-		return cg.onEach(model.getMethods())
-			.collect(CodeCombiner.joinIfNotEmpty(dnl()))
-			.toString();
+	private <In extends CodeModel, C extends Collection<In>> Collection<CodeModel> 
+		wrap(C models, Function<In, CodeModel> wrapper) {
+		return models.stream().map(wrapper).collect(Collectors.toList());
 	}
+	protected CodeModel wrapField(Field field) {return field;}
+	protected CodeModel wrapMethod(Method method) {return method;}
 	
 	protected abstract String classOrInterfaceLabel();
 	protected abstract String extendsOrImplementsLabel();
@@ -86,9 +95,10 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 			cg.onEach(model.getInterfaces()).collect(CodeCombiner.joinIfNotEmpty(SPACE, extendsOrImplementsLabel(), SPACE)) +
 			looseBracketsIndent(
 				onBeforeFields(cg, model) +
-				cg.onEach(model.getFields())
+				cg.onEach(wrap(model.getFields(), (Field f) -> wrapField(f)))
 					.collect(CodeCombiner.joinIfNotEmpty(scnl(), EMPTY, scdnl())) +
-				onMethods(cg, model)
+				cg.onEach(wrap(model.getMethods(), (Method m) -> wrapMethod(m)))
+					.collect(CodeCombiner.joinIfNotEmpty(dnl()))
 			)
 		);
 		

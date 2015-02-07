@@ -16,13 +16,15 @@
 package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.Formatting;
-import static com.speedment.codegen.Formatting.dnl;
-import static com.speedment.codegen.Formatting.nl;
 import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.Version;
+import com.speedment.codegen.base.CodeModel;
+import com.speedment.codegen.java.models.Field;
 import com.speedment.codegen.java.models.Interface;
+import com.speedment.codegen.java.models.InterfaceField;
 import com.speedment.codegen.java.models.InterfaceMethod;
-import com.speedment.util.CodeCombiner;
+import com.speedment.codegen.java.models.Method;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -45,11 +47,12 @@ public class InterfaceView extends ClassOrInterfaceView<Interface> {
 	}
 
 	@Override
-	protected <V extends Version<V>> String onMethods(CodeGenerator<V> cg, Interface model) {
-		return model.getMethods().stream()
-			.map(m -> cg.on(new InterfaceMethod(m)))
-			.filter(m -> m.isPresent())
-			.map(m -> m.get())
-			.collect(CodeCombiner.joinIfNotEmpty(dnl()));
+	protected CodeModel wrapField(Field field) {
+		return new InterfaceField(field);
+	}
+
+	@Override
+	protected CodeModel wrapMethod(Method method) {
+		return new InterfaceMethod(method);
 	}
 }

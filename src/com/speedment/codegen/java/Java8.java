@@ -25,6 +25,7 @@ import com.speedment.codegen.java.models.Field;
 import com.speedment.codegen.java.models.Generic;
 import com.speedment.codegen.java.models.Import;
 import com.speedment.codegen.java.models.Interface;
+import com.speedment.codegen.java.models.InterfaceField;
 import com.speedment.codegen.java.models.InterfaceMethod;
 import com.speedment.codegen.java.models.Javadoc;
 import com.speedment.codegen.java.models.Method;
@@ -43,6 +44,7 @@ import com.speedment.codegen.java.views.EnumView;
 import com.speedment.codegen.java.views.FieldView;
 import com.speedment.codegen.java.views.GenericView;
 import com.speedment.codegen.java.views.ImportView;
+import com.speedment.codegen.java.views.InterfaceFieldView;
 import com.speedment.codegen.java.views.InterfaceView;
 import com.speedment.codegen.java.views.JavadocView;
 import com.speedment.codegen.java.views.MethodView;
@@ -80,5 +82,6 @@ public class Java8 extends Version<Java8> {
 		install(ReferenceValue.class, ReferenceValueView.class);
 		install(TextValue.class, TextValueView.class);
 		install(InterfaceMethod.class, InterfaceMethodView.class);
+		install(InterfaceField.class, InterfaceFieldView.class);
     }
 }

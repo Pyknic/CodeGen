@@ -63,7 +63,7 @@ public class Example {
 			).get() + "\n"
 		);
 		
-		System.out.println(cg.on(new Interface("org.duncan.test.Player")
+		System.out.println(cg.on(new Class("org.duncan.test.Player")
 				/***** Class declaration *****/
 				.public_()
 				.setJavadoc(new Javadoc(
@@ -78,7 +78,7 @@ public class Example {
 				)
 				.add(new Field("primitiveCards", myEnum.asType().setArrayDimension(2))
 					.private_().final_().static_()
-					.setValue(new ReferenceValue("new Card() [100];"))
+					.setValue(new ReferenceValue("new Card() [4][13]"))
 				)
 				.add(new Field("favoriteCard", myEnum.asType())
 					.private_().final_()

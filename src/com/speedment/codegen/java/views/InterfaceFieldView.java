@@ -17,29 +17,33 @@ package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.java.models.Field;
-import com.speedment.util.CodeCombiner;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Version;
+import com.speedment.codegen.java.models.InterfaceField;
+import static com.speedment.codegen.java.models.modifiers.Modifier.FINAL;
+import static com.speedment.codegen.java.models.modifiers.Modifier.STATIC;
 import java.util.Optional;
 
 /**
  *
  * @author Emil Forslund
  */
-public class FieldView implements CodeView<Field> {
+public class InterfaceFieldView implements CodeView<InterfaceField> {
 
 	@Override
-	public <V extends Version<V>> Optional<String> render(CodeGenerator<V> cg, Field model) {
-		return Optional.of(
-			cg.on(model.getJavadoc()).orElse(EMPTY) +
-			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
-			cg.on(model.getType()).orElse(EMPTY) + SPACE +
-			model.getName() +
-			ifelse(model.getValue(), 
-				v -> SPACE + EQUALS + SPACE + cg.on(v).orElse(EMPTY), 
-			EMPTY)
-		);
+	public <V extends Version<V>> Optional<String> render(CodeGenerator<V> cg, InterfaceField model) {
+		if (model.getModifiers().contains(STATIC)) {
+			return Optional.of(
+				cg.on(model.getJavadoc()).orElse(EMPTY) +	
+				(model.getModifiers().contains(FINAL) ?
+					cg.on(FINAL).get() + SPACE : EMPTY
+				) +		
+				cg.on(model.getType()).orElse(EMPTY) + SPACE +
+				model.getName()
+			);
+		} else {
+			return Optional.empty();
+		}
 	}
 	
 }
