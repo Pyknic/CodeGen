@@ -23,6 +23,8 @@ import com.speedment.codegen.base.DependencyManager;
 import com.speedment.codegen.base.Version;
 import java.util.Optional;
 import com.speedment.util.CodeCombiner;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -30,17 +32,21 @@ import com.speedment.util.CodeCombiner;
  */
 public class TypeView implements CodeView<Type> {
 	private <V extends Version<V>> Optional<String> renderName(CodeGenerator<V> cg, Type model, String name) {
-		String gen = cg.onEach(model.getGenerics()).collect(
+		return Optional.of(
+			name + cg.onEach(model.getGenerics()).collect(
 				CodeCombiner.joinIfNotEmpty(
 					COMMA_SPACE, 
 					SS, 
 					SE
 				)
-			);
-		
-		return Optional.of(
-			name + gen
-			
+			) + 
+			(model.getArrayDimension() > 0 ?
+				Collections.nCopies(
+					model.getArrayDimension(), 
+					(AS + AE)
+				).stream().collect(Collectors.joining())
+				: EMPTY
+			)
 		);
 	}
 	
