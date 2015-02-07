@@ -17,7 +17,7 @@ package com.speedment.codegen.java.views;
 
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.VersionEnum;
+import com.speedment.codegen.base.Version;
 import com.speedment.codegen.java.models.Enum;
 import com.speedment.util.CodeCombiner;
 
@@ -42,7 +42,7 @@ public class EnumView extends ClassOrInterfaceView<Enum> {
 	}
 
 	@Override
-	protected <V extends java.lang.Enum<V> & VersionEnum> String onBeforeFields(CodeGenerator<V> cg, Enum model) {
+	protected <V extends Version<V>> String onBeforeFields(CodeGenerator<V> cg, Enum model) {
 		return model.getConstants().stream()
 			.map(c -> cg.on(c).get()).collect(
 				CodeCombiner.joinIfNotEmpty(

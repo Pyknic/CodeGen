@@ -19,7 +19,7 @@ import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.base.DependencyManager;
-import com.speedment.codegen.base.VersionEnum;
+import com.speedment.codegen.base.Version;
 import com.speedment.codegen.java.models.ClassOrInterface;
 import java.util.Optional;
 import com.speedment.util.CodeCombiner;
@@ -48,16 +48,16 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 		}
 	}
 	
-	protected <V extends Enum<V> & VersionEnum> String onBeforeFields(CodeGenerator<V> cg, M model) {
+	protected <V extends Version<V>> String onBeforeFields(CodeGenerator<V> cg, M model) {
 		return EMPTY;
 	}
 	
 	protected abstract String classOrInterfaceLabel();
 	protected abstract String extendsOrImplementsLabel();
-	protected abstract <V extends Enum<V> & VersionEnum> String onSuperType(CodeGenerator<V> cg, M model);
+	protected abstract <V extends Version<V>> String onSuperType(CodeGenerator<V> cg, M model);
 
 	@Override
-	public <V extends Enum<V> & VersionEnum> Optional<String> render(CodeGenerator<V> cg, M model) {
+	public <V extends Version<V>> Optional<String> render(CodeGenerator<V> cg, M model) {
 		Optional<String> packageName = packageName(model.getName());
 		final DependencyManager mgr = cg.getDependencyMgr();
 		mgr.clearDependencies();

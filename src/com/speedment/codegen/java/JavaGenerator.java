@@ -15,8 +15,8 @@
  */
 package com.speedment.codegen.java;
 
-import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.DefaultDependencyManager;
+import com.speedment.codegen.base.CodeGenerator;
 
 /**
  *
@@ -24,6 +24,6 @@ import com.speedment.codegen.DefaultDependencyManager;
  */
 public class JavaGenerator extends CodeGenerator<Java8> {
 	public JavaGenerator() {
-		super (Java8.class, new DefaultDependencyManager("java.lang"));
+		super (new Java8(), new DefaultDependencyManager("java.lang"));
 	}
 }

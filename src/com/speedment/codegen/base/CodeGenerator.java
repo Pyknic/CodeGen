@@ -16,14 +16,8 @@
 package com.speedment.codegen.base;
 
 import com.speedment.codegen.DefaultDependencyManager;
-import com.speedment.codegen.java.JavaGenerator;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.EnumMap;
-import java.util.Map;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 /**
@@ -37,40 +31,29 @@ import java.util.stream.Stream;
  * @author Emil Forslund
  * @param <T> The code version to use when mapping models to views.
  */
-public abstract class CodeGenerator<T extends Enum<T> & VersionEnum> {
-	private final Map<T, CodeView> views;
-	private final Class<T> tclass;
+public abstract class CodeGenerator<T extends Version<T>> {
+	private final Version version;
 	private final DependencyManager dependencyMgr;
 	
 	/**
 	 * Initialises the code generator using a default dependency manager.
-	 * See <code>CodeGenerator(Class\<T\>, DefaultDependencyManager)</code> for a full
+	 * See <code>CodeGenerator(Version, DefaultDependencyManager)</code> for a full
 	 * description.
-	 * @param tclass 
+	 * @param version
 	 */
-	public CodeGenerator(Class<T> tclass) {
-		this(tclass, new DefaultDependencyManager());
+	public CodeGenerator(Version version) {
+		this(version, new DefaultDependencyManager());
 	}
 	
 	/**
 	 * Initialises a code generator based on the specified code version. The
 	 * code version will be used to map models to the appropriate view.
-	 * @param tclass An enum that implements <code>VersionEnum</code>.
+	 * @param version A subclass of <code>Version</code>.
 	 * @param mgr A DefaultDependencyManager to keep track of dependencies.
 	 */
-	public CodeGenerator(Class<T> tclass, DependencyManager mgr) {
-		views = new EnumMap<>(tclass);
-		this.tclass = tclass;
-
-		Arrays.asList(tclass.getEnumConstants()).forEach(e -> {
-			try {
-				views.put(e, e.getViewClass().newInstance());
-			} catch (InstantiationException | IllegalAccessException ex) {
-				Logger.getLogger(JavaGenerator.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		});
-		
-		dependencyMgr = mgr;
+	public CodeGenerator(Version version, DependencyManager mgr) {
+		this.version = version;
+		this.dependencyMgr = mgr;
 	}
 	
 	/**
@@ -92,7 +75,7 @@ public abstract class CodeGenerator<T extends Enum<T> & VersionEnum> {
 	 * @return The viewed text if any.
 	 */
 	public Optional<String> on(CodeModel m) {
-		return views.get(VersionEnum.of(m.getClass(), tclass)).render(this, m);
+		return version.get(m.getClass()).render(this, m);
 	}
 	
 	/**

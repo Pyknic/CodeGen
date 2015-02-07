@@ -11,7 +11,7 @@ import com.speedment.codegen.java.models.values.ArrayValue;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.base.VersionEnum;
+import com.speedment.codegen.base.Version;
 
 /**
  *
@@ -19,7 +19,7 @@ import com.speedment.codegen.base.VersionEnum;
  */
 public class ArrayValueView implements CodeView<ArrayValue> {
 	@Override
-	public <V extends Enum<V> & VersionEnum> Optional<String> render(CodeGenerator<V> cg, ArrayValue model) {
+	public <V extends Version<V>> Optional<String> render(CodeGenerator<V> cg, ArrayValue model) {
 		return Optional.of(
 			cg.onEach(model.getValue()).collect(
 				Collectors.joining(

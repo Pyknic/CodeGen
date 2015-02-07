@@ -21,7 +21,7 @@ import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.java.models.Javadoc;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.base.VersionEnum;
+import com.speedment.codegen.base.Version;
 
 /**
  *
@@ -34,7 +34,7 @@ public class JavadocView implements CodeView<Javadoc> {
 		JAVADOC_SUFFIX = nl() + SPACE + STAR + SLASH + nl();
 	
 	@Override
-	public <V extends Enum<V> & VersionEnum> Optional<String> render(CodeGenerator<V> cg, Javadoc model) {
+	public <V extends Version<V>> Optional<String> render(CodeGenerator<V> cg, Javadoc model) {
 		return CodeCombiner.ifEmpty(
 			model.getRows().stream().collect(
 				CodeCombiner.joinIfNotEmpty(
