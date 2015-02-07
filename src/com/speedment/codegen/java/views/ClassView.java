@@ -26,7 +26,7 @@ import com.speedment.codegen.java.models.Class;
 public class ClassView extends ClassOrInterfaceView<Class> {
 	@Override
 	protected String classOrInterfaceLabel() {
-		return INTERFACE_STRING;
+		return CLASS_STRING;
 	}
 
 	@Override

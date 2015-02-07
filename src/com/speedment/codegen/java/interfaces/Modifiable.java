@@ -24,5 +24,5 @@ import java.util.Set;
  * @param <T>
  */
 public interface Modifiable<T extends Modifiable<T>> {
-	public Set<Modifier> getModifiers();
+	Set<Modifier> getModifiers();
 }
