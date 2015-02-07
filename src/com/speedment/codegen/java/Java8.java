@@ -15,6 +15,7 @@
  */
 package com.speedment.codegen.java;
 
+import com.speedment.codegen.java.views.InterfaceMethodView;
 import com.speedment.codegen.base.Version;
 import com.speedment.codegen.java.models.Annotation;
 import com.speedment.codegen.java.models.Class;
@@ -24,6 +25,7 @@ import com.speedment.codegen.java.models.Field;
 import com.speedment.codegen.java.models.Generic;
 import com.speedment.codegen.java.models.Import;
 import com.speedment.codegen.java.models.Interface;
+import com.speedment.codegen.java.models.InterfaceMethod;
 import com.speedment.codegen.java.models.Javadoc;
 import com.speedment.codegen.java.models.Method;
 import com.speedment.codegen.java.models.Type;
@@ -77,5 +79,6 @@ public class Java8 extends Version<Java8> {
 		install(NumberValue.class, NumberValueView.class);
 		install(ReferenceValue.class, ReferenceValueView.class);
 		install(TextValue.class, TextValueView.class);
+		install(InterfaceMethod.class, InterfaceMethodView.class);
     }
 }

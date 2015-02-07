@@ -52,6 +52,12 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 		return EMPTY;
 	}
 	
+	protected <V extends Version<V>> String onMethods(CodeGenerator<V> cg, M model) {
+		return cg.onEach(model.getMethods())
+			.collect(CodeCombiner.joinIfNotEmpty(dnl()))
+			.toString();
+	}
+	
 	protected abstract String classOrInterfaceLabel();
 	protected abstract String extendsOrImplementsLabel();
 	protected abstract <V extends Version<V>> String onSuperType(CodeGenerator<V> cg, M model);
@@ -80,8 +86,9 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 			cg.onEach(model.getInterfaces()).collect(CodeCombiner.joinIfNotEmpty(SPACE, extendsOrImplementsLabel(), SPACE)) +
 			looseBracketsIndent(
 				onBeforeFields(cg, model) +
-				cg.onEach(model.getFields()).collect(CodeCombiner.joinIfNotEmpty(scnl(), EMPTY, scdnl())) +
-				cg.onEach(model.getMethods()).collect(CodeCombiner.joinIfNotEmpty(dnl()))
+				cg.onEach(model.getFields())
+					.collect(CodeCombiner.joinIfNotEmpty(scnl(), EMPTY, scdnl())) +
+				onMethods(cg, model)
 			)
 		);
 		

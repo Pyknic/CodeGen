@@ -16,8 +16,13 @@
 package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.Formatting;
+import static com.speedment.codegen.Formatting.dnl;
+import static com.speedment.codegen.Formatting.nl;
 import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.base.Version;
 import com.speedment.codegen.java.models.Interface;
+import com.speedment.codegen.java.models.InterfaceMethod;
+import com.speedment.util.CodeCombiner;
 
 /**
  *
@@ -37,5 +42,14 @@ public class InterfaceView extends ClassOrInterfaceView<Interface> {
 	@Override
 	protected String onSuperType(CodeGenerator cg, Interface model) {
 		return Formatting.EMPTY;
+	}
+
+	@Override
+	protected <V extends Version<V>> String onMethods(CodeGenerator<V> cg, Interface model) {
+		return model.getMethods().stream()
+			.map(m -> cg.on(new InterfaceMethod(m)))
+			.filter(m -> m.isPresent())
+			.map(m -> m.get())
+			.collect(CodeCombiner.joinIfNotEmpty(dnl()));
 	}
 }
