@@ -20,6 +20,7 @@ import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.java.models.Type;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.DependencyManager;
+import com.speedment.codegen.base.Version;
 import java.util.Optional;
 import com.speedment.util.CodeCombiner;
 
@@ -28,21 +29,23 @@ import com.speedment.util.CodeCombiner;
  * @author Emil Forslund
  */
 public class TypeView implements CodeView<Type> {
-	private Optional<String> renderName(CodeGenerator cg, Type model, String name) {
-		return Optional.of(
-			name +
-			cg.onEach(model.getGenerics()).collect(
+	private <V extends Version<V>> Optional<String> renderName(CodeGenerator<V> cg, Type model, String name) {
+		String gen = cg.onEach(model.getGenerics()).collect(
 				CodeCombiner.joinIfNotEmpty(
-					COMMA, 
+					COMMA_SPACE, 
 					SS, 
 					SE
 				)
-			)
+			);
+		
+		return Optional.of(
+			name + gen
+			
 		);
 	}
 	
 	@Override
-	public Optional<String> render(CodeGenerator cg, Type model) {
+	public <V extends Version<V>> Optional<String> render(CodeGenerator<V> cg, Type model) {
 		final DependencyManager mgr = cg.getDependencyMgr();
 
 		if (mgr.isLoaded(model.getName())) {

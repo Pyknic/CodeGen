@@ -24,6 +24,7 @@ import java.util.Stack;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import javax.annotation.Generated;
 
 /**
  *
@@ -39,7 +40,8 @@ public abstract class Default {
 		NATIVE		= new AnnotationUsage.Const(new Type(Native.class)),
 		REPEATABLE	= new AnnotationUsage.Const(new Type(Repeatable.class)),
 		RETENTION	= new AnnotationUsage.Const(new Type(Retention.class)),
-		TARGET		= new AnnotationUsage.Const(new Type(Target.class));
+		TARGET		= new AnnotationUsage.Const(new Type(Target.class)),
+		GENERATED	= new AnnotationUsage.Const(new Type(Generated.class));
 	
 	public static final Type 
 		BYTE_PRIMITIVE = new Type.Const(byte.class),
@@ -81,7 +83,7 @@ public abstract class Default {
 	}
 	
 	public static final Type map(Type innerTypeA, Type innerTypeB) {
-		return MAP.add(new Generic().add(innerTypeA).add(innerTypeB));
+		return MAP.add(new Generic().add(innerTypeA)).add(new Generic(innerTypeB));
 	}
 	
 	public static final Type queue(Type innerType) {

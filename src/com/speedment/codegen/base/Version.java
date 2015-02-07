@@ -20,8 +20,12 @@ public abstract class Version<T extends Version<T>> {
 		modelToView.put(model, view);
 		return (T) this;
 	}
-			
-	private Class<? extends CodeView> lookup(Class<? extends CodeModel> model) {
+
+	public CodeView get(Class<? extends CodeModel> model) {
+		return create(viewOf(model));
+	}
+	
+	private Class<? extends CodeView> viewOf(Class<? extends CodeModel> model) {
 		final Class<? extends CodeView> result = modelToView.get(model);
 		
 		if (result == null) {
@@ -45,18 +49,15 @@ public abstract class Version<T extends Version<T>> {
 			"class extending Version."
 		);
 	}
-
-	public CodeView get(Class<? extends CodeModel> model) {
-		final Class<? extends CodeView> view = lookup(model);
-		
+	
+	public static <T> T create(Class<T> clazz) {
 		try {
-			return view.newInstance();
+			return clazz.newInstance();
 		} catch (InstantiationException | IllegalAccessException ex) {
 			Logger.getLogger(Version.class.getName()).log(Level.SEVERE, 
-				"The view '" + view.getName() + 
-				"' associated with the specified model '" + model.getName() + 
+				"The class '" + clazz.getName() + 
 				"' could not be instantiated using the default constructor. " +
-				"Make sure it is the correct view and that the default " +
+				"Make sure it is the correct class and that the default " +
 				"constructor has been properly defined without no parameters.", ex);
 		}
 		
