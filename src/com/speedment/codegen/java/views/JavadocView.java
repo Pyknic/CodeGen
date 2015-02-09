@@ -21,6 +21,7 @@ import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.java.models.Javadoc;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
+import java.util.stream.Stream;
 
 /**
  *
@@ -30,12 +31,15 @@ public class JavadocView implements CodeView<Javadoc> {
 	private final static String
 		JAVADOC_DELIMITER = nl() + SPACE + STAR + SPACE,
 		JAVADOC_PREFIX = SLASH + STAR + STAR + nl() + SPACE + STAR + SPACE,
-		JAVADOC_SUFFIX = nl() + SPACE + STAR + SLASH + nl();
+		JAVADOC_SUFFIX = nl() + SPACE + STAR + SLASH;
 	
 	@Override
 	public Optional<String> render(CodeGenerator cg, Javadoc model) {
 		return CodeCombiner.ifEmpty(
-			model.getRows().stream().collect(
+			Stream.concat(
+				model.getRows().stream(),
+				cg.onEach(model.getTags())
+			).collect(
 				CodeCombiner.joinIfNotEmpty(
 					JAVADOC_DELIMITER, 
 					JAVADOC_PREFIX, 

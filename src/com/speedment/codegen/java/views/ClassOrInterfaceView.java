@@ -85,7 +85,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 		final Optional<String> view = Optional.of(
 			renderPackage(model) +
 			cg.onEach(model.getDependencies()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, dnl())) +
-			cg.on(model.getJavadoc()).orElse(EMPTY) +
+			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
 			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
 			classOrInterfaceLabel() + shortName(model.getName()) + SPACE +
 			onSuperType(cg, model) +

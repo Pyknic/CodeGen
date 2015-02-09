@@ -7,6 +7,7 @@ import static com.speedment.codegen.Formatting.PS;
 import static com.speedment.codegen.Formatting.SC;
 import static com.speedment.codegen.Formatting.SPACE;
 import static com.speedment.codegen.Formatting.block;
+import static com.speedment.codegen.Formatting.ifelse;
 import static com.speedment.codegen.Formatting.nl;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 public class InterfaceMethodView implements CodeView<InterfaceMethod> {
 	@Override
 	public Optional<String> render(CodeGenerator cg, InterfaceMethod model) {
-		return Optional.of(cg.on(model.getJavadoc()).orElse(EMPTY) +
+		return Optional.of(ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
 					
 			// The only modifiers allowed are default and static
 			(model.getModifiers().contains(DEFAULT) ? cg.on(DEFAULT) + SPACE : EMPTY) +

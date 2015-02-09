@@ -18,6 +18,7 @@ package com.speedment.codegen.java.models;
 import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.java.interfaces.Annotable;
 import com.speedment.codegen.java.interfaces.Documentable;
+import com.speedment.codegen.java.interfaces.Generable;
 import com.speedment.codegen.java.interfaces.Nameable;
 import com.speedment.codegen.java.interfaces.Typeable;
 import com.speedment.codegen.java.models.modifiers.MethodModifier;
@@ -36,6 +37,7 @@ import java.util.Set;
 public class Method implements CodeModel<Method>, 
 		Nameable<Method>,
 		Typeable<Method>,
+		Generable<Method>,
 		Documentable<Method>,
 		Annotable<Method>,
 		MethodModifier<Method> {
@@ -44,6 +46,7 @@ public class Method implements CodeModel<Method>,
 	private Type type;
 	private Optional<Javadoc> javadoc;
 	private final List<AnnotationUsage> annotations;
+	private final List<Generic> generics;
 	private final List<Field> params;
 	private final List<String> code;
 	private final Set<Modifier> modifiers;
@@ -53,6 +56,7 @@ public class Method implements CodeModel<Method>,
 		this.type			= type;
 		this.javadoc		= Optional.empty();
 		this.annotations	= new ArrayList<>();
+		this.generics		= new ArrayList<>();
 		this.params			= new ArrayList<>();
 		this.code			= new ArrayList<>();
 		this.modifiers		= EnumSet.noneOf(Modifier.class);
@@ -63,6 +67,7 @@ public class Method implements CodeModel<Method>,
 		type		= prototype.type.copy();
 		javadoc		= Copier.copy(prototype.javadoc);
 		annotations	= Copier.copy(prototype.annotations);
+		generics	= Copier.copy(prototype.generics);
 		params		= Copier.copy(prototype.params);
 		code		= Copier.copy(prototype.code, c -> c);
 		modifiers	= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
@@ -138,5 +143,16 @@ public class Method implements CodeModel<Method>,
 	@Override
 	public List<AnnotationUsage> getAnnotations() {
 		return annotations;
+	}
+
+	@Override
+	public Method add(Generic generic) {
+		generics.add(generic);
+		return this;
+	}
+
+	@Override
+	public List<Generic> getGenerics() {
+		return generics;
 	}
 }

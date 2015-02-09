@@ -7,6 +7,7 @@ package com.speedment.codegen.java.models.constants;
 
 import com.speedment.codegen.java.models.AnnotationUsage;
 import com.speedment.codegen.java.models.Generic;
+import com.speedment.codegen.java.models.JavadocTag;
 import com.speedment.codegen.java.models.Type;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
@@ -26,6 +27,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import javax.annotation.Generated;
 
+
 /**
  *
  * @author Emil Forslund
@@ -42,6 +44,16 @@ public abstract class Default {
 		RETENTION	= new AnnotationUsage.Const(new Type(Retention.class)),
 		TARGET		= new AnnotationUsage.Const(new Type(Target.class)),
 		GENERATED	= new AnnotationUsage.Const(new Type(Generated.class));
+	
+	public final static JavadocTag
+		PARAM		= new JavadocTag("param"),
+		AUTHOR		= new JavadocTag("author"),
+		DEPRICATED	= new JavadocTag("depricated"),
+		RETURN		= new JavadocTag("return"),
+		SEE			= new JavadocTag("see"),
+		THROWS		= new JavadocTag("throws"),
+		SINCE		= new JavadocTag("since"),
+		VERSION		= new JavadocTag("version");
 	
 	public static final Type 
 		BYTE_PRIMITIVE = new Type.Const(byte.class),
@@ -112,5 +124,9 @@ public abstract class Default {
 	
 	public static final Type consumer(Type innerType) {
 		return CONSUMER.add(new Generic().add(innerType));
+	}
+	
+	public static boolean isVoid(Type type) {
+		return type == null || type.equals(VOID) || type.getName().equals("void");
 	}
 }

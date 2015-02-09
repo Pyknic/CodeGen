@@ -28,17 +28,21 @@ import java.util.List;
  */
 public class Javadoc implements CodeModel<Javadoc> {
 	private final List<String> rows;
+	private final List<JavadocTag> tags;
 
 	public Javadoc() {
 		rows = new ArrayList<>();
+		tags = new ArrayList<>();
 	}
 	
 	public Javadoc(final String text) {
 		rows = Arrays.asList(text.split("\n"));
+		tags = new ArrayList<>();
 	}
 	
 	private Javadoc(final Javadoc prototype) {
 		rows = Copier.copy(prototype.rows, c -> c);
+		tags = Copier.copy(prototype.tags);
 	}
 	
 	public Javadoc add(String row) {
@@ -59,5 +63,14 @@ public class Javadoc implements CodeModel<Javadoc> {
 	@Override
 	public Javadoc copy() {
 		return new Javadoc(this);
+	}
+
+	public Javadoc add(JavadocTag tag) {
+		tags.add(tag);
+		return this;
+	}
+
+	public List<JavadocTag> getTags() {
+		return tags;
 	}
 }
