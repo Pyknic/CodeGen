@@ -31,7 +31,7 @@ public class AnnotationView implements CodeView<Annotation> {
 			INTERFACE_STRING + model.getName() +
 				
 			// Block of code
-			looseBracketsIndent(
+			block(
 				model.getFields().stream().map(f ->
 					// Field javadoc (optional)
 					ifelse(cg.on(f.getJavadoc()), jd -> nl() + jd + nl(), EMPTY) +

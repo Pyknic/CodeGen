@@ -6,7 +6,7 @@ import static com.speedment.codegen.Formatting.PE;
 import static com.speedment.codegen.Formatting.PS;
 import static com.speedment.codegen.Formatting.SC;
 import static com.speedment.codegen.Formatting.SPACE;
-import static com.speedment.codegen.Formatting.looseBracketsIndent;
+import static com.speedment.codegen.Formatting.block;
 import static com.speedment.codegen.Formatting.nl;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
@@ -22,8 +22,7 @@ import java.util.stream.Collectors;
 public class InterfaceMethodView implements CodeView<InterfaceMethod> {
 	@Override
 	public Optional<String> render(CodeGenerator cg, InterfaceMethod model) {
-		return Optional.of(
-			cg.on(model.getJavadoc()).orElse(EMPTY) +
+		return Optional.of(cg.on(model.getJavadoc()).orElse(EMPTY) +
 					
 			// The only modifiers allowed are default and static
 			(model.getModifiers().contains(DEFAULT) ? cg.on(DEFAULT) + SPACE : EMPTY) +
@@ -38,7 +37,7 @@ public class InterfaceMethodView implements CodeView<InterfaceMethod> {
 			// Append body only if it is either default or static.
 			(model.getModifiers().contains(DEFAULT) 
 			|| model.getModifiers().contains(STATIC) ?
-			SPACE + looseBracketsIndent(
+			SPACE + block(
 				model.getCode().stream().collect(
 					Collectors.joining(nl())
 				)

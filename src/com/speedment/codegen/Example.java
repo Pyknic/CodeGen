@@ -9,7 +9,7 @@ import com.speedment.codegen.java.models.Field;
 import com.speedment.codegen.java.models.Method;
 import com.speedment.codegen.java.models.Type;
 import static com.speedment.codegen.java.models.constants.Default.*;
-
+import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.java.controller.FinalParameters;
 import com.speedment.codegen.java.models.Javadoc;
 import com.speedment.codegen.java.models.Import;
@@ -140,10 +140,10 @@ public class Example {
 						"This method can be used to kill either player."
 					))
 					.add(new Field("name", STRING))
-					.add("switch (name) {")
-					.add("case (this.player1Name) : killPlayer1(); break;")
-					.add("case (this.player2Name) : killPlayer2(); break;")
-					.add("}")
+					.add("switch (name) " + block(
+						"case (this.player1Name) : killPlayer1(); break;",
+						"case (this.player2Name) : killPlayer2(); break;"
+					))
 				)
 				.add(new Method("killPlayer1", VOID).protected_()
 					.add("this.player2Score += 20;")

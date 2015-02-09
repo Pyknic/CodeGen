@@ -38,7 +38,7 @@ public class MethodView implements CodeView<Method> {
 			model.getName() +
 			cg.onEach(model.getParams()).collect(
 				Collectors.joining(COMMA_SPACE, PS, PE)
-			) + SPACE + looseBracketsIndent(
+			) + SPACE + block(
 				model.getCode().stream().collect(
 					Collectors.joining(nl())
 				)

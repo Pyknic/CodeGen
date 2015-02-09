@@ -90,7 +90,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 			classOrInterfaceLabel() + shortName(model.getName()) + SPACE +
 			onSuperType(cg, model) +
 			cg.onEach(model.getInterfaces()).collect(CodeCombiner.joinIfNotEmpty(SPACE, extendsOrImplementsLabel(), SPACE)) +
-			looseBracketsIndent(
+			block(
 				onBeforeFields(cg, model) +
 				cg.onEach(wrap(model.getFields(), (Field f) -> wrapField(f)))
 					.collect(CodeCombiner.joinIfNotEmpty(scnl(), EMPTY, scdnl())) +

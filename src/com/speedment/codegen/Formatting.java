@@ -16,8 +16,10 @@
  */
 package com.speedment.codegen;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -66,35 +68,29 @@ public class Formatting {
     }
 
     /**
-     * Surrounds the specified text with brackets.
-     *
-     * @param text The text to surround.
-     * @return The text with a '{' before and a '}' afterwards.
-     */
-    public static String tightBrackets(String text) {
-        return BS + text + BE;
-    }
-
-    /**
-     * Surrounds the specified text with brackets and put the content on a
-     * separate line.
-     *
-     * @param text The text to surround.
-     * @return The text with a '{\n' before and a '\n}' afterwards.
-     */
-    public static String looseBrackets(String text) {
-        return BS + nl + text + nl + BE;
-    }
-
-    /**
      * Indents the specified text, surrounds it with brackets and put the
      * content on a separate line.
      *
      * @param text The text to surround.
      * @return The text with a '{\n' before and a '\n}' afterwards.
      */
-    public static String looseBracketsIndent(String text) {
+    public static String block(String text) {
         return BS + nl + indent(text) + nl + BE;
+    }
+	
+	/**
+     * Indents the specified text, surrounds it with brackets and put the
+     * content on a separate line.
+	 * @param row The first row of the text.
+	 * @param rows The rest of the rows.
+     * @return The text with a '{\n' before and a '\n}' afterwards.
+     */
+    public static String block(String row, String... rows) {
+        return block(
+			Arrays.stream(rows).collect(Collectors.joining(
+				nl(), row + nl(), EMPTY)
+			)
+		);
     }
 
     /**
