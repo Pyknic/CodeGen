@@ -18,6 +18,7 @@ package com.speedment.codegen.base;
 import com.speedment.codegen.DefaultDependencyManager;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
@@ -82,7 +83,7 @@ public abstract class CodeGenerator {
 	 * instead. The model will be checked to see if it is present before calling
 	 * the standard <code>on</code>-method. If the model is not present, an
 	 * empty <code>Optional</code> will be returned.
-	 * @param <M>
+	 * @param <M> The model class to render.
 	 * @param m The model.
 	 * @return The viewed text if any.
 	 */
@@ -108,5 +109,53 @@ public abstract class CodeGenerator {
 			if (str.isPresent()) build.add(str.get());
 		});
 		return build.build();
+	}
+	
+	/**
+	 * Locates the <code>CodeView</code> that corresponds to the specified model
+	 * and uses it to generate a String. If no view is associated with the 
+	 * model type, a <code>NullPointerException</code> will be thrown.
+	 * 
+	 * Since views may not return a result for a particular model, the consumer
+	 * might not be called.
+	 * 
+	 * @param m The model.
+	 * @param consumer The consumer to accept the resulting String.
+	 * @return The viewed text if any.
+	 */
+	public CodeGenerator on(CodeModel m, Consumer<String> consumer) {
+		on(m).ifPresent(consumer);
+		return this;
+	}
+	
+	/**
+	 * The same as <code>on(CodeModel)</code> except it takes an <code>Optional\<CodeModel\></code>
+	 * instead. The model will be checked to see if it is present before calling
+	 * the standard <code>on</code>-method. If the model is not present or the
+	 * view does not render any result, the consumer will not be called.
+	 * @param <M> The model class to render.
+	 * @param m The model.
+	 * @param consumer The consumer to accept the result.
+	 * @return The viewed text if any.
+	 */
+	public <M extends CodeModel> CodeGenerator on(Optional<M> m, Consumer<String> consumer) {
+		if (m.isPresent()) {
+			on(m.get(), consumer);
+		}
+		
+		return this;
+	}
+	
+	/**
+	 * Attempts to generate a text from each of the models in the collection.
+	 * The texts that are present will be added to a stream that is then returned.
+	 * @param <M> The model class to render.
+	 * @param models A collection of models to view.
+	 * @param consumer The consumer to accept the result.
+	 * @return The viewed text.
+	 */
+	public <M extends CodeModel> CodeGenerator onEach(Collection<M> models, Consumer<String> consumer) {
+		models.forEach(m -> on(m, consumer));
+		return this;
 	}
 }
