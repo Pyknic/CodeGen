@@ -5,7 +5,7 @@ A model-view based code generator written in Java. It is completely object orien
 ```java
 System.out.println(new JavaGenerator()
 	.on(new Class("org.example.BasicExample")
-	  .add(Default.GENERATED)
+		.add(Default.GENERATED)
 		.public_()
 		.add(
 			new Field("BASIC_MESSAGE", Default.STRING)
@@ -24,7 +24,7 @@ System.out.println(new JavaGenerator()
 				"System.out.println(BASIC_MESSAGE);"
 			)
 		)
-	).get()
+	).call(new AutoJavadoc()).get()
 );
 ```
 	
@@ -32,6 +32,9 @@ System.out.println(new JavaGenerator()
 ```java
 package org.example;
 
+/**
+ * @author Your Name
+ */
 @Generated
 public class BasicExample {
 	public final static String BASIC_MESSAGE;
