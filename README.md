@@ -3,8 +3,8 @@ A model-view based code generator written in Java. It is completely object orien
 
 # Example
 ```java
-System.out.println(new JavaGenerator()
-	.on(new Class("org.example.BasicExample")
+System.out.println(new JavaGenerator().on(
+	new Class("org.example.BasicExample")
 		.add(Default.GENERATED)
 		.public_()
 		.add(
