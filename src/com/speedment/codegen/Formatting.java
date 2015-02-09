@@ -109,12 +109,13 @@ public class Formatting {
 	 * with its value and the result will be returned. Else the
 	 * false-value will be returned.
 	 * @param <E> The inner type of the condition.
+	 * @param <R> The result type.
 	 * @param condition The condition to be evaluated for presence.
 	 * @param trueMap The function that will be called if present.
 	 * @param falseValue The value returned if the condition is not present.
 	 * @return The value.
 	 */
-	public static <E> String ifelse(Optional<E> condition, Function<E, String> trueMap, String falseValue) {
+	public static <E, R> R ifelse(Optional<E> condition, Function<E, R> trueMap, R falseValue) {
 		if (condition.isPresent()) {
 			return trueMap.apply(condition.get());
 		} else {

@@ -86,4 +86,38 @@ public class JavadocTag implements CodeModel<JavadocTag>, Nameable<JavadocTag> {
 	public JavadocTag copy() {
 		return new JavadocTag(this);
 	}
+	
+	public final static class Const extends JavadocTag {
+		public Const(String name) {
+			super(name);
+		}
+
+		public Const(String name, String value) {
+			super(name, value);
+		}
+
+		public Const(String name, String value, String text) {
+			super(name, value, text);
+		}
+		
+		@Override
+		public JavadocTag setValue(String value) {
+			return copy().setValue(value);
+		}
+		
+		@Override
+		public JavadocTag setText(String text) {
+			return copy().setText(text);
+		}
+
+		@Override
+		public JavadocTag setName(String name) {
+			return copy().setName(name);
+		}
+		
+		@Override
+		public JavadocTag copy() {
+			return new JavadocTag(this);
+		}
+	}
 }

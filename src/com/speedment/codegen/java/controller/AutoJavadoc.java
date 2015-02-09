@@ -1,7 +1,6 @@
 package com.speedment.codegen.java.controller;
 
-import static com.speedment.codegen.Formatting.SE;
-import static com.speedment.codegen.Formatting.SS;
+import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.java.interfaces.Documentable;
 import com.speedment.codegen.java.interfaces.Generable;
 import com.speedment.codegen.java.models.Class;
@@ -29,10 +28,13 @@ public class AutoJavadoc implements Consumer<Class> {
     private static <T extends Documentable & Generable> T generateJavadocFor(T m) {
 		if (!m.getJavadoc().isPresent()) {
 			final Javadoc doc = new Javadoc("Write some documentation here.");
+			if (m instanceof Class) {
+				doc.add(Default.AUTHOR.setName("Your Name"));
+			}
 			paramsForGenerable(doc, m);
 			m.setJavadoc(doc);
 		}
-		
+
 		return m;
     }
 	
@@ -47,9 +49,14 @@ public class AutoJavadoc implements Consumer<Class> {
 	
 	private static Method paramsForMethod(Method m) {
 		m.getJavadoc().ifPresent(doc -> {
-			m.getParams().forEach(p -> 
-				doc.add(Default.PARAM.setValue(p.getName()))
-			);
+			m.getParams().forEach(p -> {
+				if (!(doc.getTags().stream().anyMatch(tag ->
+					tag.getName().equals("param") &&
+					ifelse(tag.getValue(), s -> p.getName().equals(s), false)
+				))) {
+					doc.add(Default.PARAM.setValue(p.getName()));
+				}
+			});
 
 			if (!Default.isVoid(m.getType())) {
 				doc.add(Default.RETURN);

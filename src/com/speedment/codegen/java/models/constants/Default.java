@@ -46,14 +46,14 @@ public abstract class Default {
 		GENERATED	= new AnnotationUsage.Const(new Type(Generated.class));
 	
 	public final static JavadocTag
-		PARAM		= new JavadocTag("param"),
-		AUTHOR		= new JavadocTag("author"),
-		DEPRICATED	= new JavadocTag("depricated"),
-		RETURN		= new JavadocTag("return"),
-		SEE			= new JavadocTag("see"),
-		THROWS		= new JavadocTag("throws"),
-		SINCE		= new JavadocTag("since"),
-		VERSION		= new JavadocTag("version");
+		PARAM		= new JavadocTag.Const("param"),
+		AUTHOR		= new JavadocTag.Const("author"),
+		DEPRICATED	= new JavadocTag.Const("depricated"),
+		RETURN		= new JavadocTag.Const("return"),
+		SEE			= new JavadocTag.Const("see"),
+		THROWS		= new JavadocTag.Const("throws"),
+		SINCE		= new JavadocTag.Const("since"),
+		VERSION		= new JavadocTag.Const("version");
 	
 	public static final Type 
 		BYTE_PRIMITIVE = new Type.Const(byte.class),
@@ -127,6 +127,6 @@ public abstract class Default {
 	}
 	
 	public static boolean isVoid(Type type) {
-		return type == null || type.equals(VOID) || type.getName().equals("void");
+		return type == null || VOID.equals(type) || "void".equals(type.getName());
 	}
 }
