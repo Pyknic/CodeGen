@@ -22,7 +22,7 @@ import com.speedment.codegen.base.CodeGenerator;
  *
  * @author Emil Forslund
  */
-public class JavaGenerator extends CodeGenerator<Java8> {
+public class JavaGenerator extends CodeGenerator {
 	public JavaGenerator() {
 		super (new Java8(), new DefaultDependencyManager("java.lang"));
 	}

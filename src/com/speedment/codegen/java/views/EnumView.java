@@ -42,7 +42,7 @@ public class EnumView extends ClassOrInterfaceView<Enum> {
 	}
 
 	@Override
-	protected <V extends Version<V>> String onBeforeFields(CodeGenerator<V> cg, Enum model) {
+	protected String onBeforeFields(CodeGenerator cg, Enum model) {
 		return model.getConstants().stream()
 			.map(c -> cg.on(c).get()).collect(
 				CodeCombiner.joinIfNotEmpty(

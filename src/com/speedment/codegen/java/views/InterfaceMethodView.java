@@ -10,7 +10,6 @@ import static com.speedment.codegen.Formatting.looseBracketsIndent;
 import static com.speedment.codegen.Formatting.nl;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.base.Version;
 import com.speedment.codegen.java.models.InterfaceMethod;
 import static com.speedment.codegen.java.models.modifiers.Modifier.*;
 import java.util.Optional;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
  */
 public class InterfaceMethodView implements CodeView<InterfaceMethod> {
 	@Override
-	public <V extends Version<V>> Optional<String> render(CodeGenerator<V> cg, InterfaceMethod model) {
+	public Optional<String> render(CodeGenerator cg, InterfaceMethod model) {
 		return Optional.of(
 			cg.on(model.getJavadoc()).orElse(EMPTY) +
 					

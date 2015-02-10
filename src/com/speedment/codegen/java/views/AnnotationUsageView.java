@@ -5,7 +5,6 @@ import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.java.models.AnnotationUsage;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.base.Version;
 import com.speedment.util.CodeCombiner;
 
 /**
@@ -18,7 +17,7 @@ public class AnnotationUsageView implements CodeView<AnnotationUsage> {
 		EQUALS = " = ";
 
 	@Override
-	public <V extends Version<V>> Optional<String> render(CodeGenerator<V> cg, AnnotationUsage model) {
+	public Optional<String> render(CodeGenerator cg, AnnotationUsage model) {
 		return Optional.of(
 			AT + cg.on(model.getType()) +
 			model.getValues().stream()

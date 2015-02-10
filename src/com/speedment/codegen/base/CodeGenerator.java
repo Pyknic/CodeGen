@@ -29,10 +29,9 @@ import java.util.stream.Stream;
  * been imported.
  * 
  * @author Emil Forslund
- * @param <T> The code version to use when mapping models to views.
  */
-public abstract class CodeGenerator<T extends Version<T>> {
-	private final Version version;
+public abstract class CodeGenerator {
+	private final Version<?> version;
 	private final DependencyManager dependencyMgr;
 	
 	/**

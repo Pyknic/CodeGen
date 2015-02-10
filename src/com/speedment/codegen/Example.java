@@ -63,7 +63,7 @@ public class Example {
 			).get() + "\n"
 		);
 		
-		System.out.println(cg.on(new Class("org.duncan.test.Player")
+		System.out.println(cg.on(new Interface("org.duncan.test.Player")
 				/***** Class declaration *****/
 				.public_()
 				.setJavadoc(new Javadoc(

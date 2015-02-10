@@ -3,7 +3,6 @@ package com.speedment.codegen.projects;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.base.Version;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,9 +20,9 @@ import java.util.logging.Logger;
  */
 public class FileManager<M extends CodeModel<M>, V extends Version<V>> {
 	private final Set<TextFile> files = new TreeSet<>();
-	private final CodeGenerator<V> cg;
+	private final CodeGenerator cg;
 	
-	public FileManager(CodeGenerator<V> cg) {
+	public FileManager(CodeGenerator cg) {
 		this.cg = cg;
 	}
 	

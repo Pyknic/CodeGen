@@ -20,7 +20,6 @@ import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.java.models.Method;
 import com.speedment.util.CodeCombiner;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.base.Version;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -31,7 +30,7 @@ import java.util.stream.Collectors;
 public class MethodView implements CodeView<Method> {
 
 	@Override
-	public <V extends Version<V>> Optional<String> render(CodeGenerator<V> cg, Method model) {
+	public Optional<String> render(CodeGenerator cg, Method model) {
 		return Optional.of(
 			cg.on(model.getJavadoc()).orElse(EMPTY) +
 			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +

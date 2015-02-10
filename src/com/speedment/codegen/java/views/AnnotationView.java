@@ -5,7 +5,6 @@ import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.java.models.Annotation;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.base.Version;
 import com.speedment.util.CodeCombiner;
 
 /**
@@ -18,7 +17,7 @@ public class AnnotationView implements CodeView<Annotation> {
 		DEFAULT_STRING = " default ";
 	
 	@Override
-	public <V extends Version<V>> Optional<String> render(CodeGenerator<V> cg, Annotation model) {
+	public Optional<String> render(CodeGenerator cg, Annotation model) {
 		return Optional.of(
 			// Javadoc (optional)
 			ifelse(cg.on(model.getJavadoc()), c -> c + nl(), EMPTY) +

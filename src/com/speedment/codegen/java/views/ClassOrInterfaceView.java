@@ -20,15 +20,12 @@ import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.base.DependencyManager;
-import com.speedment.codegen.base.Version;
 import com.speedment.codegen.java.models.ClassOrInterface;
 import com.speedment.codegen.java.models.Field;
-import com.speedment.codegen.java.models.InterfaceMethod;
 import com.speedment.codegen.java.models.Method;
 import java.util.Optional;
 import com.speedment.util.CodeCombiner;
 import java.util.Collection;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -56,7 +53,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 		}
 	}
 	
-	protected <V extends Version<V>> String onBeforeFields(CodeGenerator<V> cg, M model) {
+	protected String onBeforeFields(CodeGenerator cg, M model) {
 		return EMPTY;
 	}
 	
@@ -69,10 +66,10 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 	
 	protected abstract String classOrInterfaceLabel();
 	protected abstract String extendsOrImplementsLabel();
-	protected abstract <V extends Version<V>> String onSuperType(CodeGenerator<V> cg, M model);
+	protected abstract String onSuperType(CodeGenerator cg, M model);
 
 	@Override
-	public <V extends Version<V>> Optional<String> render(CodeGenerator<V> cg, M model) {
+	public Optional<String> render(CodeGenerator cg, M model) {
 		Optional<String> packageName = packageName(model.getName());
 		final DependencyManager mgr = cg.getDependencyMgr();
 		mgr.clearDependencies();
