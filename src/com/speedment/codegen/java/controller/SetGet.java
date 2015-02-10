@@ -15,19 +15,19 @@
  */
 package com.speedment.codegen.java.controller;
 
-import com.speedment.codegen.base.CodeController;
 import com.speedment.codegen.java.models.Class;
 import com.speedment.codegen.java.models.Method;
 import static com.speedment.codegen.Formatting.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  *
  * @author Emil Forslund
  */
-public class SetGet implements CodeController<Class> {
+public class SetGet implements Consumer<Class> {
 	private final static String 
 		SET_STRING = "set",
 		GET_STRING = "get",

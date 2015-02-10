@@ -15,14 +15,14 @@
  */
 package com.speedment.codegen.java.controller;
 
-import com.speedment.codegen.base.CodeController;
 import com.speedment.codegen.java.models.Class;
+import java.util.function.Consumer;
 
 /**
  *
  * @author Emil Forslund
  */
-public class FinalParameters implements CodeController<Class> {
+public class FinalParameters implements Consumer<Class> {
 
 	@Override
 	public void accept(Class model) {
