@@ -31,7 +31,7 @@ import java.util.stream.Stream;
  * @author Emil Forslund
  */
 public abstract class CodeGenerator {
-	private final Version<?> version;
+	private final Version version;
 	private final DependencyManager dependencyMgr;
 	
 	/**
