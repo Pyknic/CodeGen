@@ -72,7 +72,7 @@ public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements
 		this.modifiers		= EnumSet.noneOf(Modifier.class);
 	}
 	
-	public ClassOrInterface(ClassOrInterface<T> prototype) {
+	protected ClassOrInterface(ClassOrInterface<T> prototype) {
 		name			= prototype.name;
 		javadoc			= Copier.copy(prototype.javadoc);
 		annotations		= Copier.copy(prototype.annotations);

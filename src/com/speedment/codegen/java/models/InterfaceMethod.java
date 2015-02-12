@@ -47,6 +47,6 @@ public class InterfaceMethod implements CodeModel<InterfaceMethod> {
 
 	@Override
 	public InterfaceMethod copy() {
-		return new InterfaceMethod(m);
+		return new InterfaceMethod(m.copy());
 	}
 }

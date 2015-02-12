@@ -16,9 +16,8 @@ import java.util.logging.Logger;
  *
  * @author Emil Forslund
  * @param <M> The Class-model used in this version.
- * @param <V> The current version to use.
  */
-public class FileManager<M extends CodeModel<M>, V extends Version<V>> {
+public class FileManager<M extends CodeModel<M>> {
 	private final Set<TextFile> files = new TreeSet<>();
 	private final CodeGenerator cg;
 	
@@ -26,7 +25,7 @@ public class FileManager<M extends CodeModel<M>, V extends Version<V>> {
 		this.cg = cg;
 	}
 	
-	public FileManager<M, V> add(M model, Path relativePath) {
+	public FileManager<M> add(M model, Path relativePath) {
 		files.add(new TextFile(relativePath, cg.on(model).get()));
 		return this;
 	}

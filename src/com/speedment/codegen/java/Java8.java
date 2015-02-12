@@ -63,7 +63,7 @@ import com.speedment.codegen.java.views.values.TextValueView;
  *
  * @author Emil Forslund
  */
-public class Java8 extends Version<Java8> {
+public class Java8 extends Version {
     public Java8() {
         install(Class.class, ClassView.class);
         install(Interface.class, InterfaceView.class);

@@ -10,15 +10,15 @@ import java.util.logging.Logger;
  * @author Emil Forslund
  * @param <T>
  */
-public abstract class Version<T extends Version<T>> {
+public abstract class Version {
 
 	private final Map<Class<? extends CodeModel>, Class<? extends CodeView>> 
 			modelToView = new HashMap<>();
 
 	protected <M extends CodeModel, V extends CodeView<M>>
-			T install(Class<M> model, Class<V> view) {
+			Version install(Class<M> model, Class<V> view) {
 		modelToView.put(model, view);
-		return (T) this;
+		return this;
 	}
 
 	public CodeView get(Class<? extends CodeModel> model) {

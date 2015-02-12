@@ -28,7 +28,7 @@ public class Interface extends ClassOrInterface<Interface> implements
 		super (name);
     }
 	
-	public Interface(Interface prototype) {
+	private Interface(Interface prototype) {
 		super (prototype);
     }
 

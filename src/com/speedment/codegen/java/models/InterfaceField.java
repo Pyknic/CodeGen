@@ -2,6 +2,7 @@ package com.speedment.codegen.java.models;
 
 import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.java.models.modifiers.Modifier;
+import com.speedment.util.Copier;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -43,6 +44,6 @@ public class InterfaceField implements CodeModel<InterfaceField> {
 	
 	@Override
 	public InterfaceField copy() {
-		return new InterfaceField(f);
+		return new InterfaceField(f.copy());
 	}
 }

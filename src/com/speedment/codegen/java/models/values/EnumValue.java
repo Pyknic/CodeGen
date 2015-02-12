@@ -38,6 +38,6 @@ public class EnumValue extends Value<String, EnumValue>
 	
 	@Override
 	public EnumValue copy() {
-		return new EnumValue(getType(), getValue());
+		return new EnumValue(this);
 	}
 }

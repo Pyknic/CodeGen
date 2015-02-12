@@ -20,6 +20,7 @@ import com.speedment.codegen.java.models.values.EnumValue;
 import com.speedment.codegen.java.models.values.NumberValue;
 import com.speedment.codegen.java.models.values.ReferenceValue;
 import com.speedment.codegen.java.models.values.TextValue;
+import java.time.LocalDate;
 
 /**
  *
@@ -35,6 +36,10 @@ public class Example {
 		final CodeGenerator cg = new JavaGenerator();
 		
 		Formatting.tab("    ");
+		
+		LocalDate t = LocalDate.now();
+		LocalDate t2 = LocalDate.now().plus(null);
+		//Duration.ofDays(7)
 		
 		final Type typeThread  = new Type(Thread.class);
 		final Type spriteStore = new Type("org.duncan.test.SpriteStore");

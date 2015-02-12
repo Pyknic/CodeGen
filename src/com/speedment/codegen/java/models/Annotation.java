@@ -43,7 +43,7 @@ public class Annotation implements CodeModel<Annotation>,
 		this.modifiers		= EnumSet.noneOf(Modifier.class);
 	}
 	
-	public Annotation(Annotation prototype) {
+	private Annotation(Annotation prototype) {
 		name			= prototype.name;
 		javadoc			= Copier.copy(prototype.javadoc);
 		annotations		= Copier.copy(prototype.annotations);
