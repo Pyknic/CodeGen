@@ -1,8 +1,6 @@
 package com.speedment.codegen.projects;
 
 import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.CodeModel;
-import com.speedment.codegen.base.Version;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,7 +15,7 @@ import java.util.logging.Logger;
  * @author Emil Forslund
  * @param <M> The Class-model used in this version.
  */
-public class FileManager<M extends CodeModel<M>> {
+public class FileManager<M> {
 	private final Set<TextFile> files = new TreeSet<>();
 	private final CodeGenerator cg;
 	

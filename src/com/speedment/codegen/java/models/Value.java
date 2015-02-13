@@ -5,7 +5,7 @@
  */
 package com.speedment.codegen.java.models;
 
-import com.speedment.codegen.base.CodeModel;
+import com.speedment.codegen.java.interfaces.Copyable;
 
 /**
  *
@@ -13,7 +13,7 @@ import com.speedment.codegen.base.CodeModel;
  * @param <T>
  * @param <R>
  */
-public abstract class Value<T, R extends Value<T, R>> implements CodeModel<Value<T, R>> {
+public abstract class Value<T, R extends Value<T, R>> implements Copyable<R> {
 	private T value;
 	
 	public Value(T val) {

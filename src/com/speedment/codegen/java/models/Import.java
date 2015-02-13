@@ -15,7 +15,7 @@
  */
 package com.speedment.codegen.java.models;
 
-import com.speedment.codegen.base.CodeModel;
+import com.speedment.codegen.java.interfaces.Copyable;
 import com.speedment.codegen.java.interfaces.Typeable;
 import com.speedment.codegen.java.models.modifiers.DependencyModifier;
 import com.speedment.codegen.java.models.modifiers.Modifier;
@@ -27,7 +27,8 @@ import java.util.Set;
  *
  * @author Emil Forslund
  */
-public class Import implements CodeModel<Import>, 
+public class Import implements 
+		Copyable<Import>,
 		Typeable<Import>,
 		DependencyModifier<Import> {
 	

@@ -74,7 +74,7 @@ public abstract class CodeGenerator {
 	 * @param m The model.
 	 * @return The viewed text if any.
 	 */
-	public Optional<String> on(CodeModel m) {
+	public Optional<String> on(Object m) {
 		return version.get(m.getClass()).render(this, m);
 	}
 	
@@ -87,7 +87,7 @@ public abstract class CodeGenerator {
 	 * @param m The model.
 	 * @return The viewed text if any.
 	 */
-	public <M extends CodeModel> Optional<String> on(Optional<M> m) {
+	public <M> Optional<String> on(Optional<M> m) {
 		if (m.isPresent()) {
 			return on(m.get());
 		} else {
@@ -102,7 +102,7 @@ public abstract class CodeGenerator {
 	 * @param models A collection of models to view.
 	 * @return The viewed text.
 	 */
-	public <M extends CodeModel> Stream<String> onEach(Collection<M> models) {
+	public <M> Stream<String> onEach(Collection<M> models) {
 		final Stream.Builder<String> build = Stream.builder();
 		models.forEach(m -> {
 			final Optional<String> str = on(m);
@@ -123,7 +123,7 @@ public abstract class CodeGenerator {
 	 * @param consumer The consumer to accept the resulting String.
 	 * @return The viewed text if any.
 	 */
-	public CodeGenerator on(CodeModel m, Consumer<String> consumer) {
+	public CodeGenerator on(Object m, Consumer<String> consumer) {
 		on(m).ifPresent(consumer);
 		return this;
 	}
@@ -138,7 +138,7 @@ public abstract class CodeGenerator {
 	 * @param consumer The consumer to accept the result.
 	 * @return The viewed text if any.
 	 */
-	public <M extends CodeModel> CodeGenerator on(Optional<M> m, Consumer<String> consumer) {
+	public <M> CodeGenerator on(Optional<M> m, Consumer<String> consumer) {
 		if (m.isPresent()) {
 			on(m.get(), consumer);
 		}
@@ -154,7 +154,7 @@ public abstract class CodeGenerator {
 	 * @param consumer The consumer to accept the result.
 	 * @return The viewed text.
 	 */
-	public <M extends CodeModel> CodeGenerator onEach(Collection<M> models, Consumer<String> consumer) {
+	public <M> CodeGenerator onEach(Collection<M> models, Consumer<String> consumer) {
 		models.forEach(m -> on(m, consumer));
 		return this;
 	}

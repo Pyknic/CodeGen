@@ -17,7 +17,6 @@ package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.Formatting;
 import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.java.models.Field;
 import com.speedment.codegen.java.models.Interface;
 import com.speedment.codegen.java.models.InterfaceField;
@@ -47,12 +46,12 @@ public class InterfaceView extends ClassOrInterfaceView<Interface> {
 	}
 
 	@Override
-	protected CodeModel wrapField(Field field) {
+	protected Object wrapField(Field field) {
 		return new InterfaceField(field);
 	}
 
 	@Override
-	protected CodeModel wrapMethod(Method method) {
+	protected Object wrapMethod(Method method) {
 		return new InterfaceMethod(method);
 	}
 }

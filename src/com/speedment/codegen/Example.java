@@ -37,10 +37,6 @@ public class Example {
 		
 		Formatting.tab("    ");
 		
-		LocalDate t = LocalDate.now();
-		LocalDate t2 = LocalDate.now().plus(null);
-		//Duration.ofDays(7)
-		
 		final Type typeThread  = new Type(Thread.class);
 		final Type spriteStore = new Type("org.duncan.test.SpriteStore");
 		final Type soundStore  = new Type("org.duncan.test.SoundStore");

@@ -15,13 +15,13 @@
  */
 package com.speedment.codegen.java.models.modifiers;
 
-import com.speedment.codegen.base.CodeModel;
+import com.speedment.codegen.java.interfaces.Copyable;
 
 /**
  *
  * @author Emil Forslund
  */
-public enum Modifier implements CodeModel<Modifier> {
+public enum Modifier implements Copyable<Modifier> {
 	PUBLIC ("public"),
 	PROTECTED ("protected"),
 	PRIVATE ("private"),

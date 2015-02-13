@@ -15,7 +15,7 @@
  */
 package com.speedment.codegen.java.models;
 
-import com.speedment.codegen.base.CodeModel;
+import com.speedment.codegen.java.interfaces.Copyable;
 import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @author Emil Forslund
  */
-public class Javadoc implements CodeModel<Javadoc> {
+public class Javadoc implements Copyable<Javadoc> {
 	private final List<String> rows;
 	private final List<JavadocTag> tags;
 

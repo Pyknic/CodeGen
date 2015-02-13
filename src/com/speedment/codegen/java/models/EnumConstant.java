@@ -15,7 +15,7 @@
  */
 package com.speedment.codegen.java.models;
 
-import com.speedment.codegen.base.CodeModel;
+import com.speedment.codegen.java.interfaces.Copyable;
 import com.speedment.codegen.java.interfaces.Nameable;
 import com.speedment.util.Copier;
 import java.util.ArrayList;
@@ -25,7 +25,8 @@ import java.util.List;
  *
  * @author Duncan
  */
-public class EnumConstant implements CodeModel<EnumConstant>, 
+public class EnumConstant implements 
+		Copyable<EnumConstant>,
 		Nameable<EnumConstant> {
 	
 	private String name;

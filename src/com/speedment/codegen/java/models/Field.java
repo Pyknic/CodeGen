@@ -15,8 +15,8 @@
  */
 package com.speedment.codegen.java.models;
 
-import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.java.interfaces.Annotable;
+import com.speedment.codegen.java.interfaces.Copyable;
 import com.speedment.codegen.java.interfaces.Documentable;
 import com.speedment.codegen.java.interfaces.Nameable;
 import com.speedment.codegen.java.interfaces.Typeable;
@@ -34,7 +34,8 @@ import java.util.Set;
  *
  * @author Emil Forslund
  */
-public class Field implements CodeModel<Field>, 
+public class Field implements 
+		Copyable<Field>,
 		Nameable<Field>,
 		Typeable<Field>,
 		Documentable<Field>,

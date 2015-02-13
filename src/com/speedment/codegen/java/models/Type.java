@@ -15,8 +15,8 @@
  */
 package com.speedment.codegen.java.models;
 
-import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.java.interfaces.Annotable;
+import com.speedment.codegen.java.interfaces.Copyable;
 import com.speedment.codegen.java.interfaces.Generable;
 import com.speedment.codegen.java.interfaces.Nameable;
 import com.speedment.util.Copier;
@@ -28,7 +28,8 @@ import java.util.Optional;
  *
  * @author Emil Forslund
  */
-public class Type implements CodeModel<Type>,
+public class Type implements 
+		Copyable<Type>,
         Nameable<Type>,
         Generable<Type>,
         Annotable<Type> {

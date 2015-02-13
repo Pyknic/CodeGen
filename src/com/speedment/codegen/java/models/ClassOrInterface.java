@@ -15,8 +15,9 @@
  */
 package com.speedment.codegen.java.models;
 
-import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.java.interfaces.Annotable;
+import com.speedment.codegen.java.interfaces.Callable;
+import com.speedment.codegen.java.interfaces.Copyable;
 import com.speedment.codegen.java.interfaces.Dependable;
 import com.speedment.codegen.java.interfaces.Documentable;
 import com.speedment.codegen.java.interfaces.Fieldable;
@@ -39,7 +40,8 @@ import java.util.Set;
  * @param <T>
  */
 public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements 
-		CodeModel<T>,
+		Copyable<T>,
+		Callable<T>,
 		Nameable<T>, 
 		Documentable<T>, 
 		Dependable<T>,

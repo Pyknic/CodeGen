@@ -1,7 +1,7 @@
 package com.speedment.codegen.java.models;
 
-import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.java.interfaces.Annotable;
+import com.speedment.codegen.java.interfaces.Copyable;
 import com.speedment.codegen.java.interfaces.Dependable;
 import com.speedment.codegen.java.interfaces.Documentable;
 import com.speedment.codegen.java.interfaces.Fieldable;
@@ -19,7 +19,8 @@ import java.util.Set;
  *
  * @author Emil Forslund
  */
-public class Annotation implements CodeModel<Annotation>, 
+public class Annotation implements
+		Copyable<Annotation>,
 		Nameable<Annotation>,
 		Documentable<Annotation>,
 		Fieldable<Annotation>,

@@ -1,8 +1,7 @@
 package com.speedment.codegen.java.models;
 
-import com.speedment.codegen.base.CodeModel;
+import com.speedment.codegen.java.interfaces.Copyable;
 import com.speedment.codegen.java.models.modifiers.Modifier;
-import com.speedment.util.Copier;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -11,7 +10,7 @@ import java.util.Set;
  *
  * @author Emil Forslund
  */
-public class InterfaceField implements CodeModel<InterfaceField> {
+public class InterfaceField implements Copyable<InterfaceField> {
 	private final Field f;
 	
 	public InterfaceField(Field wrapped) {

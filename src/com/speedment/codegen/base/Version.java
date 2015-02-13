@@ -8,31 +8,27 @@ import java.util.logging.Logger;
 /**
  *
  * @author Emil Forslund
- * @param <T>
  */
 public abstract class Version {
 
-	private final Map<Class<? extends CodeModel>, Class<? extends CodeView>> 
+	private final Map<Class<?>, Class<? extends CodeView>> 
 			modelToView = new HashMap<>();
 
-	protected <M extends CodeModel, V extends CodeView<M>>
+	protected <M, V extends CodeView<M>>
 			Version install(Class<M> model, Class<V> view) {
 		modelToView.put(model, view);
 		return this;
 	}
 
-	public CodeView get(Class<? extends CodeModel> model) {
+	public CodeView get(Class<?> model) {
 		return create(viewOf(model));
 	}
 	
-	private Class<? extends CodeView> viewOf(Class<? extends CodeModel> model) {
+	private Class<? extends CodeView> viewOf(Class<?> model) {
 		final Class<? extends CodeView> result = modelToView.get(model);
 		
 		if (result == null) {
-			for (Map.Entry<
-					Class<? extends CodeModel>, 
-					Class<? extends CodeView>
-				> e : modelToView.entrySet()) {
+			for (Map.Entry<Class<?>, Class<? extends CodeView>> e : modelToView.entrySet()) {
 				if (e.getKey().isAssignableFrom(model)) {
 					return e.getValue();
 				}

@@ -1,6 +1,6 @@
 package com.speedment.codegen.java.models;
 
-import com.speedment.codegen.base.CodeModel;
+import com.speedment.codegen.java.interfaces.Copyable;
 import com.speedment.codegen.java.models.modifiers.Modifier;
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +10,7 @@ import java.util.Set;
  *
  * @author Emil Forslund
  */
-public class InterfaceMethod implements CodeModel<InterfaceMethod> {
+public class InterfaceMethod implements Copyable<InterfaceMethod> {
 	private final Method m;
 	
 	public InterfaceMethod(Method wrapped) {

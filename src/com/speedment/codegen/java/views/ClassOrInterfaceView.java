@@ -17,7 +17,6 @@ package com.speedment.codegen.java.views;
 
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.CodeModel;
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.base.DependencyManager;
 import com.speedment.codegen.java.models.ClassOrInterface;
@@ -57,12 +56,13 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 		return EMPTY;
 	}
 	
-	private <In extends CodeModel, C extends Collection<In>> Collection<CodeModel> 
-		wrap(C models, Function<In, CodeModel> wrapper) {
+	protected Object wrapField(Field field) {return field;}
+	protected Object wrapMethod(Method method) {return method;}
+	
+	private <In, C extends Collection<In>> Collection<Object> 
+		wrap(C models, Function<In, Object> wrapper) {
 		return models.stream().map(wrapper).collect(Collectors.toList());
 	}
-	protected CodeModel wrapField(Field field) {return field;}
-	protected CodeModel wrapMethod(Method method) {return method;}
 	
 	protected abstract String classOrInterfaceLabel();
 	protected abstract String extendsOrImplementsLabel();

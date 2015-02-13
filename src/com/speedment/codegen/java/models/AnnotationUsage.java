@@ -1,6 +1,6 @@
 package com.speedment.codegen.java.models;
 
-import com.speedment.codegen.base.CodeModel;
+import com.speedment.codegen.java.interfaces.Copyable;
 import com.speedment.codegen.java.interfaces.Typeable;
 import com.speedment.codegen.java.interfaces.Valuable;
 import com.speedment.util.Copier;
@@ -14,7 +14,8 @@ import java.util.Optional;
  *
  * @author Emil Forslund
  */
-public class AnnotationUsage implements CodeModel<AnnotationUsage>, 
+public class AnnotationUsage implements
+		Copyable<AnnotationUsage>,
 		Typeable<AnnotationUsage>,
 		Valuable<AnnotationUsage> {
 	
@@ -31,7 +32,11 @@ public class AnnotationUsage implements CodeModel<AnnotationUsage>,
 	private AnnotationUsage(AnnotationUsage prototype) {
 		type   = prototype.type.copy();
 		value  = Copier.copy(prototype.value);
-		values = Copier.copy(prototype.values, e -> new AbstractMap.SimpleEntry<>(e.getKey(), e.getValue().copy()));
+		values = Copier.copy(prototype.values, 
+			e -> new AbstractMap.SimpleEntry<>(
+				e.getKey(), e.getValue().copy()
+			)
+		);
 	}
 	
 	@Override
