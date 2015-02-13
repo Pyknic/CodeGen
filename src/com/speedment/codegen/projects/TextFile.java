@@ -1,6 +1,7 @@
 package com.speedment.codegen.projects;
 
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  *
@@ -30,5 +31,25 @@ public class TextFile implements Comparable {
 		} else {
 			return 0;
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 3;
+		hash = 11 * hash + Objects.hashCode(this.path);
+		hash = 11 * hash + Objects.hashCode(this.content);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		} else if (getClass() != obj.getClass()) {
+			return false;
+		}
+		
+		final TextFile other = (TextFile) obj;
+		return path.equals(other.path) && content.equals(other.content);
 	}
 }

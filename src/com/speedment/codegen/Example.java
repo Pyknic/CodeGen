@@ -20,7 +20,6 @@ import com.speedment.codegen.java.models.values.EnumValue;
 import com.speedment.codegen.java.models.values.NumberValue;
 import com.speedment.codegen.java.models.values.ReferenceValue;
 import com.speedment.codegen.java.models.values.TextValue;
-import java.time.LocalDate;
 
 /**
  *
