@@ -1,7 +1,7 @@
 /*
  * Copyright 2015 Duncan.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, DefaultInstaller 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -17,7 +17,6 @@ package com.speedment.codegen.java.views;
 
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.Version;
 import com.speedment.codegen.lang.models.Enum;
 import com.speedment.util.CodeCombiner;
 

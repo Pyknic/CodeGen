@@ -1,7 +1,5 @@
 package com.speedment.codegen;
 
-import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.java.JavaGenerator;
 import com.speedment.codegen.lang.controller.AutoJavadoc;
 import com.speedment.codegen.lang.controller.SetGet;
 import com.speedment.codegen.lang.models.Class;
@@ -10,6 +8,9 @@ import com.speedment.codegen.lang.models.Method;
 import com.speedment.codegen.lang.models.Type;
 import static com.speedment.codegen.lang.models.constants.Default.*;
 import static com.speedment.codegen.Formatting.*;
+import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.base.DefaultCodeGenerator;
+import com.speedment.codegen.java.JavaInstaller;
 import com.speedment.codegen.lang.controller.FinalParameters;
 import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.Import;
@@ -32,7 +33,7 @@ public class Example {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-		final CodeGenerator cg = new JavaGenerator();
+		final CodeGenerator cg = new DefaultCodeGenerator(new JavaInstaller());
 		
 		Formatting.tab("    ");
 		

@@ -1,7 +1,7 @@
 /*
  * Copyright 2015 Emil Forslund.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, DefaultInstaller 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -16,7 +16,7 @@
 package com.speedment.codegen.java;
 
 import com.speedment.codegen.java.views.InterfaceMethodView;
-import com.speedment.codegen.base.Version;
+import com.speedment.codegen.base.DefaultInstaller;
 import com.speedment.codegen.lang.models.Annotation;
 import com.speedment.codegen.lang.models.Class;
 import com.speedment.codegen.lang.models.Enum;
@@ -63,8 +63,8 @@ import com.speedment.codegen.java.views.values.TextValueView;
  *
  * @author Emil Forslund
  */
-public class Java8 extends Version {
-    public Java8() {
+public class JavaInstaller extends DefaultInstaller {
+    public JavaInstaller() {
         install(Class.class, ClassView.class);
         install(Interface.class, InterfaceView.class);
         install(Method.class, MethodView.class);

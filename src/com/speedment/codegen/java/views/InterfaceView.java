@@ -22,8 +22,6 @@ import com.speedment.codegen.lang.models.Interface;
 import com.speedment.codegen.lang.models.InterfaceField;
 import com.speedment.codegen.lang.models.InterfaceMethod;
 import com.speedment.codegen.lang.models.Method;
-import java.util.Collection;
-import java.util.stream.Collectors;
 
 /**
  *

@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.speedment.codegen;
+package com.speedment.codegen.base;
 
-import com.speedment.codegen.base.DependencyManager;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -43,7 +42,7 @@ public class DefaultDependencyManager implements DependencyManager {
 	 */
 	public DefaultDependencyManager(String ignoredPackage) {
 		ignorePackages = new HashSet<>();
-		ignorePackages.add(ignoredPackage.toString());
+		ignorePackages.add(ignoredPackage);
 	}
 	
 	/**
@@ -64,7 +63,7 @@ public class DefaultDependencyManager implements DependencyManager {
 	 */
 	@Override
 	public void ignorePackage(String packageName) {
-		ignorePackages.add(packageName.toString());
+		ignorePackages.add(packageName);
 	}
 	
 	/**
