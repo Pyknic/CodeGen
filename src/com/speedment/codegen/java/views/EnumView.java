@@ -18,7 +18,7 @@ package com.speedment.codegen.java.views;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.Version;
-import com.speedment.codegen.java.models.Enum;
+import com.speedment.codegen.lang.models.Enum;
 import com.speedment.util.CodeCombiner;
 
 /**

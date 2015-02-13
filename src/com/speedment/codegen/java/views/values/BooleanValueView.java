@@ -7,7 +7,7 @@ package com.speedment.codegen.java.views.values;
 
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.java.models.values.BooleanValue;
+import com.speedment.codegen.lang.models.values.BooleanValue;
 import java.util.Optional;
 
 /**

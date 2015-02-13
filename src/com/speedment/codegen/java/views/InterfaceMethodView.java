@@ -11,8 +11,8 @@ import static com.speedment.codegen.Formatting.ifelse;
 import static com.speedment.codegen.Formatting.nl;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.java.models.InterfaceMethod;
-import static com.speedment.codegen.java.models.modifiers.Modifier.*;
+import com.speedment.codegen.lang.models.InterfaceMethod;
+import static com.speedment.codegen.lang.models.modifiers.Modifier.*;
 import java.util.Optional;
 import java.util.stream.Collectors;
 

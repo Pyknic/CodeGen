@@ -1,6 +1,6 @@
 package com.speedment.util;
 
-import com.speedment.codegen.java.interfaces.Copyable;
+import com.speedment.codegen.lang.interfaces.Copyable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;

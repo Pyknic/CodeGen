@@ -17,11 +17,11 @@ package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.Formatting;
 import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.java.models.Field;
-import com.speedment.codegen.java.models.Interface;
-import com.speedment.codegen.java.models.InterfaceField;
-import com.speedment.codegen.java.models.InterfaceMethod;
-import com.speedment.codegen.java.models.Method;
+import com.speedment.codegen.lang.models.Field;
+import com.speedment.codegen.lang.models.Interface;
+import com.speedment.codegen.lang.models.InterfaceField;
+import com.speedment.codegen.lang.models.InterfaceMethod;
+import com.speedment.codegen.lang.models.Method;
 import java.util.Collection;
 import java.util.stream.Collectors;
 

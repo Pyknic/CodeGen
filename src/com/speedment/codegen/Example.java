@@ -2,24 +2,24 @@ package com.speedment.codegen;
 
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.java.JavaGenerator;
-import com.speedment.codegen.java.controller.AutoJavadoc;
-import com.speedment.codegen.java.controller.SetGet;
-import com.speedment.codegen.java.models.Class;
-import com.speedment.codegen.java.models.Field;
-import com.speedment.codegen.java.models.Method;
-import com.speedment.codegen.java.models.Type;
-import static com.speedment.codegen.java.models.constants.Default.*;
+import com.speedment.codegen.lang.controller.AutoJavadoc;
+import com.speedment.codegen.lang.controller.SetGet;
+import com.speedment.codegen.lang.models.Class;
+import com.speedment.codegen.lang.models.Field;
+import com.speedment.codegen.lang.models.Method;
+import com.speedment.codegen.lang.models.Type;
+import static com.speedment.codegen.lang.models.constants.Default.*;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.java.controller.FinalParameters;
-import com.speedment.codegen.java.models.Javadoc;
-import com.speedment.codegen.java.models.Import;
-import com.speedment.codegen.java.models.EnumConstant;
-import com.speedment.codegen.java.models.Enum;
-import com.speedment.codegen.java.models.Interface;
-import com.speedment.codegen.java.models.values.EnumValue;
-import com.speedment.codegen.java.models.values.NumberValue;
-import com.speedment.codegen.java.models.values.ReferenceValue;
-import com.speedment.codegen.java.models.values.TextValue;
+import com.speedment.codegen.lang.controller.FinalParameters;
+import com.speedment.codegen.lang.models.Javadoc;
+import com.speedment.codegen.lang.models.Import;
+import com.speedment.codegen.lang.models.EnumConstant;
+import com.speedment.codegen.lang.models.Enum;
+import com.speedment.codegen.lang.models.Interface;
+import com.speedment.codegen.lang.models.values.EnumValue;
+import com.speedment.codegen.lang.models.values.NumberValue;
+import com.speedment.codegen.lang.models.values.ReferenceValue;
+import com.speedment.codegen.lang.models.values.TextValue;
 
 /**
  *

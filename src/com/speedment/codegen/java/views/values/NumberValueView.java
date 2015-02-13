@@ -7,7 +7,7 @@ package com.speedment.codegen.java.views.values;
 
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.java.models.values.NumberValue;
+import com.speedment.codegen.lang.models.values.NumberValue;
 import java.util.Optional;
 
 /**
