@@ -1,9 +1,10 @@
 package com.speedment.codegen.base;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -11,20 +12,20 @@ import java.util.stream.Stream;
  * @author Emil Forslund
  */
 public class DefaultInstaller implements Installer {
-	private final Map<Class<?>, Class<? extends CodeView>> modelToView;
+	private final Set<Map.Entry<Class<?>, Class<? extends CodeView>>> modelToView;
 	
 	public DefaultInstaller() {
-		modelToView = new HashMap<>();
+		modelToView = new HashSet<>();
 	}
 
 	@Override
 	public <M, V extends CodeView<M>> void install(Class<M> model, Class<V> view) {
-		modelToView.put(model, view);
+		modelToView.add(new SimpleImmutableEntry<>(model, view));
 	}
 
 	@Override
 	public Optional<CodeView> withOne(Class<?> model) {
-		for (final Map.Entry<Class<?>, Class<? extends CodeView>> e : modelToView.entrySet()) {
+		for (final Map.Entry<Class<?>, Class<? extends CodeView>> e : modelToView) {
 			if (e.getKey().isAssignableFrom(model)) {
 				return Optional.of(Installer.create(e.getValue()));
 			}
@@ -35,7 +36,7 @@ public class DefaultInstaller implements Installer {
 	@Override
 	public Stream<CodeView> withAll(Class<?> model) {
 		final Stream.Builder<CodeView> stream = Stream.builder();
-		modelToView.entrySet().stream()
+		modelToView.stream()
 			.filter(e -> e.getKey().isAssignableFrom(model))
 			.forEach((e) -> {
 				stream.add(Installer.create(e.getValue()));
