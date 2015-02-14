@@ -35,13 +35,8 @@ public class DefaultInstaller implements Installer {
 	
 	@Override
 	public Stream<CodeView> withAll(Class<?> model) {
-		final Stream.Builder<CodeView> stream = Stream.builder();
-		modelToView.stream()
+		return modelToView.stream()
 			.filter(e -> e.getKey().isAssignableFrom(model))
-			.forEach((e) -> {
-				stream.add(Installer.create(e.getValue()));
-			}
-		);
-		return stream.build();
+			.map(e -> Installer.create(e.getValue()));
 	}
 }
