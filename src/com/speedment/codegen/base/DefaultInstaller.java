@@ -1,71 +1,47 @@
 package com.speedment.codegen.base;
 
-import java.util.HashMap;
+import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  *
  * @author Emil Forslund
  */
 public class DefaultInstaller implements Installer {
-	private final Map<Class<?>, Class<? extends CodeView>> 
-			modelToView = new HashMap<>();
+	private final Set<Map.Entry<Class<?>, Class<? extends CodeView>>> modelToView;
+	
+	public DefaultInstaller() {
+		modelToView = new HashSet<>();
+	}
 
 	@Override
 	public <M, V extends CodeView<M>> void install(Class<M> model, Class<V> view) {
-		modelToView.put(model, view);
-	}
-			
-	@Override
-	public boolean hasInstallment(Class<?> model) {
-		return modelToView.containsKey(model);
+		modelToView.add(new SimpleImmutableEntry<>(model, view));
 	}
 
 	@Override
-	public Map<Class<?>, Class<? extends CodeView>> getInstallments() {
-		return modelToView;
-	}
-
-	@Override
-	public CodeView get(Class<?> model) {
-		return create(viewOf(model));
-	}
-	
-	private Class<? extends CodeView> viewOf(Class<?> model) {
-		final Class<? extends CodeView> result = modelToView.get(model);
-		
-		if (result == null) {
-			for (Map.Entry<Class<?>, Class<? extends CodeView>> e : modelToView.entrySet()) {
-				if (e.getKey().isAssignableFrom(model)) {
-					return e.getValue();
-				}
+	public Optional<CodeView> withOne(Class<?> model) {
+		for (final Map.Entry<Class<?>, Class<? extends CodeView>> e : modelToView) {
+			if (e.getKey().isAssignableFrom(model)) {
+				return Optional.of(Installer.create(e.getValue()));
 			}
-		} else {
-			return result;
 		}
-		
-		throw new UnsupportedOperationException(
-			"Attemting to view the model '" + model.getName() + 
-			"' that is not associated in the current Version." +
-			"Please make sure there exists a view for each model " + 
-			"and that they have been properly installed to the " +
-			"class extending Version."
-		);
+		return Optional.empty();
 	}
 	
-	public static <T> T create(Class<T> clazz) {
-		try {
-			return clazz.newInstance();
-		} catch (InstantiationException | IllegalAccessException ex) {
-			Logger.getLogger(DefaultInstaller.class.getName()).log(Level.SEVERE, 
-				"The class '" + clazz.getName() + 
-				"' could not be instantiated using the default constructor. " +
-				"Make sure it is the correct class and that the default " +
-				"constructor has been properly defined without no parameters.", ex);
-		}
-		
-		return null;
+	@Override
+	public Stream<CodeView> withAll(Class<?> model) {
+		final Stream.Builder<CodeView> stream = Stream.builder();
+		modelToView.stream()
+			.filter(e -> e.getKey().isAssignableFrom(model))
+			.forEach((e) -> {
+				stream.add(Installer.create(e.getValue()));
+			}
+		);
+		return stream.build();
 	}
 }

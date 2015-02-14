@@ -9,12 +9,7 @@ import java.util.stream.Stream;
  *
  * @author Emil Forslund
  */
-public interface CodeGenerator {
-	/**
-	 * @return the installer used in this generator.
-	 */
-	Installer getInstaller();
-	
+public interface CodeGenerator {	
 	/**
 	 * @return the dependency manager.
 	 */
@@ -42,7 +37,13 @@ public interface CodeGenerator {
 	 * @param model The model.
 	 * @return The viewed text if any.
 	 */
-	<T> Optional<String> on(Optional<T> model);
+	default public <T> Optional<String> on(Optional<T> model) {
+		if (model.isPresent()) {
+			return on(model.get());
+		} else {
+			return Optional.empty();
+		}
+	}
 	
 	/**
 	 * Attempts to generate a text from each of the models in the collection.
@@ -51,7 +52,14 @@ public interface CodeGenerator {
 	 * @param models A collection of models to view.
 	 * @return The viewed text.
 	 */
-	public <T> Stream<String> onEach(Collection<T> models);
+	default public <T> Stream<String> onEach(Collection<T> models) {
+		final Stream.Builder<String> build = Stream.builder();
+		models.forEach(m -> {
+			final Optional<String> str = on(m);
+			if (str.isPresent()) build.add(str.get());
+		});
+		return build.build();
+	}
 	
 	/**
 	 * Locates the <code>CodeView</code> that corresponds to the specified model
@@ -64,7 +72,9 @@ public interface CodeGenerator {
 	 * @param model The model.
 	 * @param consumer The consumer to accept the resulting String.
 	 */
-	public void on(Object model, Consumer<String> consumer);
+	default public void on(Object model, Consumer<String> consumer) {
+		on(model).ifPresent(consumer);
+	}
 	
 	/**
 	 * The same as <code>on(CodeModel)</code> except it takes an <code>Optional\<CodeModel\></code>
@@ -75,7 +85,9 @@ public interface CodeGenerator {
 	 * @param model The model.
 	 * @param consumer The consumer to accept the result.
 	 */
-	public <T> void on(Optional<T> model, Consumer<String> consumer);
+	default public <T> void on(Optional<T> model, Consumer<String> consumer) {
+		model.ifPresent(m -> on(m, consumer));
+	}
 	
 	/**
 	 * Attempts to generate a text from each of the models in the collection.
@@ -84,5 +96,7 @@ public interface CodeGenerator {
 	 * @param models A collection of models to view.
 	 * @param consumer The consumer to accept the result.
 	 */
-	public <T> void onEach(Collection<T> models, Consumer<String> consumer);
+	default public <T> void onEach(Collection<T> models, Consumer<String> consumer) {
+		models.forEach(m -> on(m, consumer));
+	}
 }
