@@ -8,8 +8,8 @@ import com.speedment.codegen.lang.models.Value;
  */
 public class ReferenceValue extends Value<String, ReferenceValue> {
 
-	public ReferenceValue(String num) {
-		super(num);
+	public ReferenceValue(String value) {
+		super(value);
 	}
 
 	@Override

@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.speedment.codegen.lang.models.constants;
 
 import com.speedment.codegen.lang.models.AnnotationUsage;
 import com.speedment.codegen.lang.models.Generic;
 import com.speedment.codegen.lang.models.JavadocTag;
 import com.speedment.codegen.lang.models.Type;
+import com.speedment.codegen.lang.models.Value;
+import com.speedment.codegen.lang.models.values.NullValue;
+import com.speedment.codegen.lang.models.values.TextValue;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Native;
@@ -85,6 +83,10 @@ public abstract class Default {
 		FUNCTION = new Type.Const(Function.class),
 		PREDICATE = new Type.Const(Predicate.class),
 		CONSUMER = new Type.Const(Consumer.class);
+	
+	public final static Value
+		NULL			= new NullValue(),
+		EMPTY_STRING	= new TextValue("");
 		
 	public static final Type list(Type innerType) {
 		return LIST.add(new Generic().add(innerType));
