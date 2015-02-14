@@ -67,14 +67,13 @@ public interface CodeGenerator {
 	 * model type, a <code>NullPointerException</code> will be thrown.
 	 * 
 	 * Since views may not return a result for a particular model, the consumer
-	 * might not be called.
+	 * might not be called. If the same model has multiple views, they are all
+	 * executed.
 	 * 
 	 * @param model The model.
 	 * @param consumer The consumer to accept the resulting String.
 	 */
-	default public void on(Object model, Consumer<String> consumer) {
-		on(model).ifPresent(consumer);
-	}
+	void on(Object model, Consumer<String> consumer);
 	
 	/**
 	 * The same as <code>on(CodeModel)</code> except it takes an <code>Optional\<CodeModel\></code>

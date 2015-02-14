@@ -45,8 +45,8 @@ public class MultiGenerator implements CodeGenerator {
 
 	@Override
 	public void on(Object model, Consumer<String> consumer) {
-		installers.stream().map(i -> i.withOne(model.getClass())).forEach((view) -> {
-			view.ifPresent(v -> v.render(this, model).ifPresent(consumer));
-		});
+		installers.stream()
+			.flatMap(i -> i.withAll(model.getClass()))
+			.forEach(v -> v.render(this, model).ifPresent(consumer));
 	}
 }

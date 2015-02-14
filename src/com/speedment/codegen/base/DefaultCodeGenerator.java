@@ -76,10 +76,25 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	 */
 	@Override
 	public Optional<String> on(Object model) {
-		return installer
-			.withOne(model.getClass())
+		return installer.withOne(model.getClass())
 			.flatMap(v -> v.render(this, model));
 	}
-	
-	
+
+	/**
+	 * Locates the <code>CodeView</code> that corresponds to the specified model
+	 * and uses it to generate a String. If no view is associated with the 
+	 * model type, a <code>NullPointerException</code> will be thrown.
+	 * 
+	 * Since views may not return a result for a particular model, the consumer
+	 * might not be called. If the same model has multiple views, they are all
+	 * executed.
+	 * 
+	 * @param model The model.
+	 * @param consumer The consumer to accept the resulting String.
+	 */
+	@Override
+	public void on(Object model, Consumer<String> consumer) {
+		installer.withAll(model.getClass())
+			.forEach(v -> v.render(this, model));
+	}
 }
