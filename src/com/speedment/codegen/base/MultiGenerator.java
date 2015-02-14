@@ -17,20 +17,43 @@ public class MultiGenerator implements CodeGenerator {
 	private final DependencyManager mgr;
 	private final List<Installer> installers;
 	
+	/**
+	 * Creates a new MultiGenerator.
+	 * @param installers 
+	 */
 	public MultiGenerator(Installer... installers) {
 		this(new DefaultDependencyManager(), installers);
 	}
 	
+	/**
+	 * Creates a new MultiGenerator.
+	 * @param mgr
+	 * @param installers 
+	 */
 	public MultiGenerator(DependencyManager mgr, Installer... installers) {
 		this.installers = Arrays.asList(installers);
 		this.mgr = mgr;
 	}
 	
+	/**
+	 * @return the dependency manager.
+	 */
 	@Override
 	public DependencyManager getDependencyMgr() {
 		return mgr;
 	}
 
+	/**
+	 * Locates the <code>CodeView</code> that corresponds to the specified model
+	 * and uses it to generate a String. If no view is associated with the 
+	 * model type, a <code>NullPointerException</code> will be thrown.
+	 * 
+	 * The result will be a <code>Optional</code>. It is present only if the
+	 * result from the view is present.
+	 * 
+	 * @param model The model.
+	 * @return The viewed text if any.
+	 */
 	@Override
 	public Optional<String> on(Object model) {
 		for (Installer i : installers) {
@@ -43,6 +66,18 @@ public class MultiGenerator implements CodeGenerator {
 		return Optional.empty();
 	}
 
+	/**
+	 * Locates the <code>CodeView</code> that corresponds to the specified model
+	 * and uses it to generate a String. If no view is associated with the 
+	 * model type, a <code>NullPointerException</code> will be thrown.
+	 * 
+	 * Since views may not return a result for a particular model, the consumer
+	 * might not be called. If the same model has multiple views, they are all
+	 * executed.
+	 * 
+	 * @param model The model.
+	 * @param consumer The consumer to accept the resulting String.
+	 */
 	@Override
 	public void on(Object model, Consumer<String> consumer) {
 		installers.stream()
