@@ -4,8 +4,8 @@ import com.speedment.codegen.lang.interfaces.Commentable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Nameable;
 import com.speedment.codegen.lang.models.Value;
-import com.speedment.codegen.lang.models.constants.Default;
 import com.speedment.util.Copier;
+import java.sql.JDBCType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +20,7 @@ public class Column implements
 		Commentable<Column> {
 	
 	private String name;
-	private ColumnType type;
+	private JDBCType type;
 	private int size = 11;
 	private boolean nullable = true;
 	private boolean increasing = true;
@@ -29,7 +29,7 @@ public class Column implements
 	private Optional<ForeignKey> foreignKey;
 	private final List<Index> indexes;
 	
-	public Column(String name, ColumnType type) {
+	public Column(String name, JDBCType type) {
 		this.name			= name;
 		this.type			= type;
 		this.defaultValue	= Optional.empty();
@@ -61,11 +61,11 @@ public class Column implements
 		return this;
 	}
 
-	public ColumnType getType() {
+	public JDBCType getType() {
 		return type;
 	}
 	
-	public Column setType(ColumnType type) {
+	public Column setType(JDBCType type) {
 		this.type = type;
 		return this;
 	}

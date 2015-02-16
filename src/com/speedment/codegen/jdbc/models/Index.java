@@ -16,7 +16,7 @@ public class Index implements
 	Commentable<Index> {
 	
 	private String name;
-	private Type jdbcType;
+	private Type type;
 	private Column column;
 	private Optional<String> comment;
 	
@@ -24,14 +24,14 @@ public class Index implements
 		INDEX, UNIQUE, PRIMARY
 	}
 	
-	public Index(String name, Type jdbcType) {
-		this.name		= name;
-		this.jdbcType	= jdbcType;
+	public Index(String name, Type type) {
+		this.name	= name;
+		this.type	= type;
 	}
 	
 	private Index(Index prototype) {
 		this.name		= prototype.name;
-		this.jdbcType	= prototype.jdbcType;
+		this.type		= prototype.type;
 		this.column		= prototype.column.copy();
 		this.comment	= Copier.copy(prototype.comment, s -> s);
 	}
@@ -47,12 +47,12 @@ public class Index implements
 		return name;
 	}
 
-	public Type getJdbcType() {
-		return jdbcType;
+	public Type getType() {
+		return type;
 	}
 
-	public Index setJdbcType(Type type) {
-		this.jdbcType = type;
+	public Index setType(Type type) {
+		this.type = type;
 		return this;
 	}
 	

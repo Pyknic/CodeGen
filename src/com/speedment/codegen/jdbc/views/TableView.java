@@ -1,19 +1,24 @@
 package com.speedment.codegen.jdbc.views;
 
-import static com.speedment.codegen.Formatting.ifelse;
-import static com.speedment.codegen.Formatting.lcfirst;
-import static com.speedment.codegen.Formatting.ucfirst;
+import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.jdbc.models.Column;
+import com.speedment.codegen.jdbc.models.Index;
 import com.speedment.codegen.jdbc.models.Table;
+import com.speedment.codegen.lang.controller.AutoImports;
+import com.speedment.codegen.lang.controller.AutoJavadoc;
+import com.speedment.codegen.lang.controller.FinalParameters;
 import com.speedment.codegen.lang.controller.SetGet;
 import java.util.Optional;
 import com.speedment.codegen.lang.models.Class;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Javadoc;
+import com.speedment.codegen.lang.models.Method;
 import com.speedment.codegen.lang.models.Type;
+import com.speedment.codegen.lang.models.constants.Default;
 import static com.speedment.codegen.lang.models.constants.Default.*;
-import java.sql.Types;
+import java.sql.JDBCType;
 
 /**
  *
@@ -24,35 +29,93 @@ public class TableView implements CodeView<Table> {
 	
 	@Override
 	public Optional<String> render(CodeGenerator cg, Table model) {
-		final Class entity = new Class(ucfirst(model.getName()));
-			
-		ifelse(model.getComment(), c -> entity.setJavadoc(new Javadoc(c)), null);
-		
-		model.getColumns().forEach(c -> {
+		final Class entity = new Class("org.example.authexample." + model.getName())
+			.public_().add(Default.GENERATED);
+		model.getComment().ifPresent(cmt -> entity.setJavadoc(new Javadoc(cmt)));
+
+		model.getColumns().forEach(col -> {
 			final Field field = new Field(
-				lcfirst(c.getName()), 
-				jdbcToModel(c.getType().getJdbcType())
+				varName(col.getName()), 
+				jdbcToModel(col.getType())
 			);
 			
-			ifelse(c.getComment(), x -> field.setJavadoc(new Javadoc(x)), null);
-			ifelse(c.getDefaultValue(), x -> field.setValue(x), null);
+			col.getComment().ifPresent(jd -> field.setJavadoc(new Javadoc(jd)));
+			col.getDefaultValue().ifPresent(dv -> field.setValue(dv));
+			
+			renderForeignKey(entity, col);
+			renderIndexes(entity, col);
 			
 			entity.add(field);
 		});
 		
-		entity.call(new SetGet());
+		entity
+			.call(new SetGet())
+			.call(new FinalParameters())
+			.call(new AutoJavadoc())
+			.call(new AutoImports(cg.getDependencyMgr()));
 		
 		return cg.on(entity);
 	}
 	
-	private static Type jdbcToModel(int jdbcType) {
+	private void renderForeignKey(Class cls, Column col) {
+		col.getForeignKey().ifPresent(fk -> {
+			final String target = className(fk.getTargetTable().getName());
+			
+			cls.add(new Method(
+				"get" + target + FK,
+				new Type(target)
+			).public_().setJavadoc(new Javadoc(
+				"Returns the foreign " + target + 
+				" referenced in the column '" + col.getName() + "'."
+			)).add(
+				"return " + target + ".findBy" + 
+				ucfirst(fk.getTargetColumn().getName()) + 
+				"(" + varName(col.getName()) + ");"
+			));
+		});
+	}
+	
+	private void renderIndexes(Class cls, Column col) {
+		col.getIndexes().forEach(idx -> {
+			final Type returnType;
+			
+			if (idx.getType() == Index.Type.INDEX) {
+				returnType = Default.list(cls.asType());
+			} else {
+				returnType = cls.asType();
+			}
+			
+			cls.add(new Method(
+				"findBy" + ucfirst(col.getName()),
+				returnType
+			).public_().static_().setJavadoc(new Javadoc(
+				"Returns the object with the specified unique value."
+			))
+			.add(new Field(varName(col.getName()), jdbcToModel(col.getType())))
+			.add(
+				"return " + ucfirst(shortName(cls.getName())) + "Mgr.inst().findBy" + 
+				ucfirst(col.getName()) + 
+				"(" + varName(col.getName()) + ");"
+			));
+		});
+	}
+	
+	private static String className(String cls) {
+		return ucfirst(cls);
+	}
+	
+	private static String varName(String var) {
+		return lcfirst(var);
+	}
+	
+	private static Type jdbcToModel(JDBCType jdbcType) {
 		switch (jdbcType) {
-			case Types.BIGINT : return LONG;
-			case Types.INTEGER : return INT;
-			case Types.SMALLINT : return SHORT;
-			case Types.NUMERIC : case Types.FLOAT : return DOUBLE;
-			case Types.BIT : case Types.BOOLEAN : return BOOLEAN;
-			case Types.CHAR : case Types.VARCHAR : return STRING;
+			case BIGINT :				return LONG;
+			case INTEGER :				return INT;
+			case SMALLINT :				return SHORT;
+			case NUMERIC : case FLOAT : return DOUBLE;
+			case BIT : case BOOLEAN :	return BOOLEAN;
+			case CHAR : case VARCHAR :	return STRING;
 				
 			default: throw new UnsupportedOperationException(
 				"Attempting to model datatype '" + jdbcType + "' that " +

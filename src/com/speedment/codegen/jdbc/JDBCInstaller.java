@@ -10,7 +10,7 @@ import com.speedment.codegen.jdbc.views.TableView;
  */
 public class JDBCInstaller extends DefaultInstaller {
 	public JDBCInstaller() {
-		super(new HashMap<>());
+		super();
 		install(Table.class, TableView.class);
 	}
 }

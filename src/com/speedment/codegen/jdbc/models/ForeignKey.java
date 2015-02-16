@@ -26,6 +26,7 @@ public class ForeignKey implements
 	
 	private ForeignKey(ForeignKey prototype) {
 		name			= prototype.name;
+		targetTable		= prototype.targetTable.copy();
 		targetColumn	= prototype.targetColumn.copy();
 		comment			= Copier.copy(prototype.comment, s -> s);
 	}
@@ -49,6 +50,15 @@ public class ForeignKey implements
 	@Override
 	public ForeignKey setComment(String comment) {
 		this.comment = Optional.of(comment);
+		return this;
+	}
+	
+	public Table getTargetTable() {
+		return targetTable;
+	}
+	
+	public ForeignKey setTargetTable(Table targetTable) {
+		this.targetTable = targetTable;
 		return this;
 	}
 
