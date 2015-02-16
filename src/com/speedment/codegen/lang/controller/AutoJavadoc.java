@@ -29,7 +29,7 @@ public class AutoJavadoc implements Consumer<Class> {
 		if (!m.getJavadoc().isPresent()) {
 			final Javadoc doc = new Javadoc("Write some documentation here.");
 			if (m instanceof Class) {
-				doc.add(Default.AUTHOR.setName("Your Name"));
+				doc.add(Default.AUTHOR.setValue("Your Name"));
 			}
 			paramsForGenerable(doc, m);
 			m.setJavadoc(doc);
