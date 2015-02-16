@@ -89,7 +89,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
 			classOrInterfaceLabel() + shortName(model.getName()) + SPACE +
 			onSuperType(cg, model) +
-			cg.onEach(model.getInterfaces()).collect(CodeCombiner.joinIfNotEmpty(SPACE, extendsOrImplementsLabel(), SPACE)) +
+			cg.onEach(model.getInterfaces()).collect(CodeCombiner.joinIfNotEmpty(COMMA_SPACE, extendsOrImplementsLabel(), SPACE)) +
 			block(
 				onBeforeFields(cg, model) +
 				cg.onEach(wrap(model.getFields(), (Field f) -> wrapField(f)))

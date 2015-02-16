@@ -18,6 +18,7 @@ package com.speedment.codegen.lang.controller;
 import com.speedment.codegen.lang.models.Class;
 import com.speedment.codegen.lang.models.Method;
 import static com.speedment.codegen.Formatting.*;
+import com.speedment.codegen.lang.models.Field;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -53,7 +54,7 @@ public class SetGet implements Consumer<Class> {
 			if (includeMethod(model, setName)) {
 				model.add(new Method(setName, model.asType())
 					.public_()
-					.add(f.copy())
+					.add(new Field(f.getName(), f.getType()))
 					.add(THIS_STRING + f.getName() + ASSIGN_STRING + f.getName() + SC)
 					.add(RETURN_STRING + SC)
 				);
