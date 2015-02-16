@@ -20,6 +20,7 @@ import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.base.DependencyManager;
 import com.speedment.codegen.lang.models.ClassOrInterface;
+import com.speedment.codegen.lang.models.Constructor;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Method;
 import java.util.Optional;
@@ -58,6 +59,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 	
 	protected Object wrapField(Field field) {return field;}
 	protected Object wrapMethod(Method method) {return method;}
+	protected String onAfterFields(CodeGenerator cg, M model) {return EMPTY;}
 	
 	private <In, C extends Collection<In>> Collection<Object> 
 		wrap(C models, Function<In, Object> wrapper) {
@@ -82,8 +84,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 			}
 		}
 		
-		final Optional<String> view = Optional.of(
-			renderPackage(model) +
+		final Optional<String> view = Optional.of(renderPackage(model) +
 			cg.onEach(model.getDependencies()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, dnl())) +
 			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
 			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
@@ -94,6 +95,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 				onBeforeFields(cg, model) +
 				cg.onEach(wrap(model.getFields(), (Field f) -> wrapField(f)))
 					.collect(CodeCombiner.joinIfNotEmpty(scnl(), EMPTY, scdnl())) +
+				onAfterFields(cg, model) +
 				cg.onEach(wrap(model.getMethods(), (Method m) -> wrapMethod(m)))
 					.collect(CodeCombiner.joinIfNotEmpty(dnl()))
 			)

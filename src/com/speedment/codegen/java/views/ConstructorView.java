@@ -15,37 +15,32 @@
  */
 package com.speedment.codegen.java.views;
 
+import com.speedment.codegen.base.CodeView;
+import com.speedment.util.CodeCombiner;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.lang.models.Class;
-import com.speedment.util.CodeCombiner;
+import com.speedment.codegen.lang.models.Constructor;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  *
  * @author Emil Forslund
  */
-public class ClassView extends ClassOrInterfaceView<Class> {
-	@Override
-	protected String classOrInterfaceLabel() {
-		return CLASS_STRING;
-	}
+public class ConstructorView implements CodeView<Constructor> {
 
 	@Override
-	protected String extendsOrImplementsLabel() {
-		return EXTENDS_STRING;
-	}
-
-	@Override
-	protected String onAfterFields(CodeGenerator cg, Class model) {
-		return cg.onEach(model.getConstructors()).collect(CodeCombiner.joinIfNotEmpty(dnl(), EMPTY, dnl()));
-	}
-
-	@Override
-	protected String onSuperType(CodeGenerator cg, Class model) {
-		if (model.getSuperType().isPresent()) {
-			return EXTENDS_STRING + cg.on(model.getSuperType().get()).orElse(EMPTY) + SPACE;
-		} else {
-			return EMPTY;
-		}
+	public Optional<String> render(CodeGenerator cg, Constructor model) {
+		return Optional.of(
+			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
+			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
+			cg.onEach(model.getParams()).collect(
+				Collectors.joining(COMMA_SPACE, PS, PE)
+			) + SPACE + block(
+				model.getCode().stream().collect(
+					Collectors.joining(nl())
+				)
+			)
+		);
 	}
 }
