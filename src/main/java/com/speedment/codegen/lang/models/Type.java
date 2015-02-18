@@ -63,7 +63,7 @@ public class Type implements
         annotations = Copier.copy(prototype.annotations);
         generics = Copier.copy(prototype.generics);
         javaImpl = prototype.javaImpl;
-    }
+	}
 
     @Override
     public String getName() {

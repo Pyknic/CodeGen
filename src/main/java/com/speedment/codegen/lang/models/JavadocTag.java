@@ -36,10 +36,10 @@ public class JavadocTag implements Copyable<JavadocTag>, Nameable<JavadocTag> {
 		this.text  = Optional.empty();
 	}
 	
-	public JavadocTag(String name, String value) {
+	public JavadocTag(String name, String text) {
 		this.name  = name;
-		this.value = Optional.of(value);
-		this.text  = Optional.empty();
+		this.value = Optional.empty();
+		this.text  = Optional.of(text);
 	}
 	
 	public JavadocTag(String name, String value, String text) {

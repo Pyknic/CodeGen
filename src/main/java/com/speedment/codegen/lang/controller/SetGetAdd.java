@@ -26,6 +26,7 @@ import com.speedment.codegen.lang.models.JavadocTag;
 import com.speedment.codegen.lang.models.Type;
 import static com.speedment.codegen.lang.models.constants.Default.OPTIONAL;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
@@ -37,17 +38,23 @@ import java.util.stream.Collectors;
  */
 public class SetGetAdd implements Consumer<Class> {
 	private final static String 
-		SET_STRING = "set",
-		GET_STRING = "get",
-		THIS_STRING = "this.",
-		ASSIGN_STRING = " = ",
-		OPTIONAL_OF_STRING = "Optional.of(",
-		RETURN_STRING = "return this",
-		ADD_STRING = "add",
-		DOC_PARAM = "param",
-		DOC_PARAM_TEXT = "the new value.",
-		DOC_RETURN = "return",
-		DOC_RETURN_TEXT = "a reference to this object.",
+		SET = "set",
+		GET = "get",
+		THIS = "this.",
+		ASSIGN = " = ",
+		OPTIONAL_OF = "Optional.of(",
+		RETURN = "return",
+		RETURN_THIS = RETURN + " this",
+		ADD = "add",
+		ADD_TO = ".add(",
+		THE = "the ",
+		G = "G", S = "S", Y = "y",
+		ETS_THE = "ets the ",
+		ADDS_THE_SPECIFIED = "Adds the specified ",
+		PARAM = "param",
+		THE_NEW_VALUE = "the new value.",
+		A_REFERENCE_TO_THIS = "a reference to this object.",
+		OF_THIS = " of this ",
 		BRACKETS = BS + BE;
 	
 	private final List<String> methods;
@@ -68,30 +75,36 @@ public class SetGetAdd implements Consumer<Class> {
 			f.private_();
 			
 			if (isCollection(f.getType())) {
-				final Method add = new Method(ADD_STRING, model.asType())
-					.public_()
-					.add(new Field(f.getName(), f.getType()))
-					.add(THIS_STRING + f.getName() + ASSIGN_STRING + f.getName() + SC)
-					.add(RETURN_STRING + SC);
+				final Field param = new Field(singular(f.getName()), f.getType().getGenerics().get(0).getUpperBounds().get(0));
+				final Method add = new Method(ADD, model.asType())
+					.setJavadoc(new Javadoc()
+						.add(ADDS_THE_SPECIFIED + lcfirst(shortName(param.getType().getName())) + " to this " + shortName(model.getName()) + DOT)
+						.add(new JavadocTag(PARAM, param.getName(), THE_NEW_VALUE))
+						.add(new JavadocTag(RETURN, A_REFERENCE_TO_THIS))
+					).public_()
+					.add(param)
+					.add(THIS + f.getName() + ADD_TO + param.getName() + PE + SC)
+					.add(RETURN_THIS + SC);
 				
 				if (includeMethod(model, add)) {
 					model.add(add);
 				}
 			} else {
-				final Method set = new Method(SET_STRING + ucfirst(f.getName()), model.asType())
-					.public_().setJavadoc(new Javadoc()
-						.add(new JavadocTag(DOC_PARAM, f.getName(), DOC_PARAM_TEXT))
-						.add(new JavadocTag(DOC_RETURN, null, DOC_RETURN_TEXT))
-					);
+				final Method set = new Method(SET + ucfirst(f.getName()), model.asType())
+					.setJavadoc(new Javadoc()
+						.add(S + ETS_THE + f.getName() + OF_THIS + shortName(model.getName()) + DOT)
+						.add(new JavadocTag(PARAM, f.getName(), THE_NEW_VALUE))
+						.add(new JavadocTag(RETURN, A_REFERENCE_TO_THIS))
+					).public_();
 				
 				if (isOptional(f.getType())) {
 					set.add(new Field(f.getName(), f.getType().getGenerics().get(0).getUpperBounds().get(0)))
-						.add(THIS_STRING + f.getName() + ASSIGN_STRING + OPTIONAL_OF_STRING + f.getName() + PE + SC)
-						.add(RETURN_STRING + SC);
+						.add(THIS + f.getName() + ASSIGN + OPTIONAL_OF + f.getName() + PE + SC)
+						.add(RETURN_THIS + SC);
 				} else {
 					set.add(new Field(f.getName(), f.getType()))
-						.add(THIS_STRING + f.getName() + ASSIGN_STRING + f.getName() + SC)
-						.add(RETURN_STRING + SC);
+						.add(THIS + f.getName() + ASSIGN + f.getName() + SC)
+						.add(RETURN_THIS + SC);
 				}
 				
 				if (includeMethod(model, set)) {
@@ -99,8 +112,12 @@ public class SetGetAdd implements Consumer<Class> {
 				}
 			}
 			
-			final Method get = new Method(GET_STRING + ucfirst(f.getName()), f.getType())
-				.public_().add(RETURN_STRING + DOT + f.getName() + SC);
+			final Method get = new Method(GET + ucfirst(f.getName()), f.getType())
+				.setJavadoc(new Javadoc()
+					.add(G + ETS_THE + f.getName() + OF_THIS + shortName(model.getName()) + DOT)
+					.add(new JavadocTag(RETURN, THE + f.getName() + DOT))
+				).public_()
+				.add(RETURN_THIS + DOT + f.getName() + SC);
 			
 			if (includeMethod(model, get)) {
 				model.add(get);
@@ -110,9 +127,19 @@ public class SetGetAdd implements Consumer<Class> {
 	
 	private boolean isCollection(Type type) {
 		if (type.getJavaImpl().isPresent()) {
-			return Collections.class.isAssignableFrom(type.getJavaImpl().get());
+			return Collection.class.isAssignableFrom(type.getJavaImpl().get());
 		} else {
 			return false;
+		}
+	}
+	
+	private String singular(String name) {
+		if (name.endsWith("ies")) {
+			return name.substring(0, name.length() - 3) + Y;
+		} else if (name.endsWith("s")) {
+			return name.substring(0, name.length() - 1);
+		} else {
+			return name;
 		}
 	}
 	
