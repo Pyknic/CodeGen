@@ -20,7 +20,9 @@ import com.speedment.codegen.base.CodeView;
 import com.speedment.util.CodeCombiner;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.lang.interfaces.Nameable;
 import com.speedment.codegen.lang.models.Constructor;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -35,6 +37,7 @@ public class ConstructorView implements CodeView<Constructor> {
 		return Optional.of(
 			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
 			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
+			renderName(cg).get() +
 			cg.onEach(model.getFields()).collect(
 				Collectors.joining(COMMA_SPACE, PS, PE)
 			) + SPACE + block(
@@ -43,5 +46,16 @@ public class ConstructorView implements CodeView<Constructor> {
 				)
 			)
 		);
+	}
+	
+	private static Optional<String> renderName(CodeGenerator cg) {
+		final List stack = cg.getRenderStack();
+		if (stack.size() >= 2) {
+			final Object parent = stack.get(stack.size() - 2);
+			if (parent instanceof Nameable<?>) {
+				return Optional.of(shortName(((Nameable) parent).getName()));
+			}
+		}
+		return Optional.empty();
 	}
 }

@@ -17,6 +17,7 @@
 package com.speedment.codegen.base;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -30,6 +31,28 @@ public interface CodeGenerator {
 	 * @return the dependency manager.
 	 */
 	DependencyManager getDependencyMgr();
+	
+	/**
+	 * Returns the current rendering stack. The top element will be the one most
+	 * recent rendered and the bottom one will be the element that was first
+	 * passed to the generator. Elements are removed from the stack once they
+	 * have finished rendering.
+	 * 
+	 * If an element needs to access its parent, it can call this method and
+	 * peek on the second element from the top.
+	 * 
+	 * The elements in the Stack will be of Object type. That is because the
+	 * framework doesn't put any constraints on what can be rendered.
+	 * The elements should not be cast directly to the model class but rather
+	 * to an interface describing the properties you need to read. That way,
+	 * the design remains dynamic even if the exact implementation isn't the
+	 * same.
+	 * 
+	 * The returned Stack will be immutable.
+	 * 
+	 * @return the current rendering stack.
+	 */
+	List getRenderStack();
 	
 	/**
 	 * Locates the <code>CodeView</code> that corresponds to the specified model

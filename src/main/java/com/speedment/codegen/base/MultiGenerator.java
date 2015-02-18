@@ -17,8 +17,10 @@
 package com.speedment.codegen.base;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Stack;
 import java.util.function.Consumer;
 
 /**
@@ -32,6 +34,7 @@ import java.util.function.Consumer;
 public class MultiGenerator implements CodeGenerator {
 	private final DependencyManager mgr;
 	private final List<Installer> installers;
+	private final Stack renderStack;
 	
 	/**
 	 * Creates a new MultiGenerator.
@@ -49,6 +52,7 @@ public class MultiGenerator implements CodeGenerator {
 	public MultiGenerator(DependencyManager mgr, Installer... installers) {
 		this.installers = Arrays.asList(installers);
 		this.mgr = mgr;
+		this.renderStack = new Stack();
 	}
 	
 	/**
@@ -57,6 +61,31 @@ public class MultiGenerator implements CodeGenerator {
 	@Override
 	public DependencyManager getDependencyMgr() {
 		return mgr;
+	}
+	
+	/**
+	 * Returns the current rendering stack. The top element will be the one most
+	 * recent rendered and the bottom one will be the element that was first
+	 * passed to the generator. Elements are removed from the stack once they
+	 * have finished rendering.
+	 * 
+	 * If an element needs to access its parent, it can call this method and
+	 * peek on the second element from the top.
+	 * 
+	 * The elements in the Stack will be of Object type. That is because the
+	 * framework doesn't put any constraints on what can be rendered.
+	 * The elements should not be cast directly to the model class but rather
+	 * to an interface describing the properties you need to read. That way,
+	 * the design remains dynamic even if the exact implementation isn't the
+	 * same.
+	 * 
+	 * The returned Stack will be immutable.
+	 * 
+	 * @return the current rendering stack.
+	 */
+	@Override
+	public List getRenderStack() {
+		return Collections.unmodifiableList(renderStack);
 	}
 
 	/**
@@ -75,7 +104,7 @@ public class MultiGenerator implements CodeGenerator {
 		for (Installer i : installers) {
 			final Optional<CodeView> view = i.withOne(model.getClass());
 			if (view.isPresent()) {
-				return view.get().render(this, model);
+				return render(view.get(), model);
 			}
 		}
 		
@@ -98,6 +127,13 @@ public class MultiGenerator implements CodeGenerator {
 	public void on(Object model, Consumer<String> consumer) {
 		installers.stream()
 			.flatMap(i -> i.withAll(model.getClass()))
-			.forEach(v -> v.render(this, model).ifPresent(consumer));
+			.forEach(v -> render(v, model).ifPresent(consumer));
+	}
+
+	private Optional<String> render(CodeView view, Object model) {
+		renderStack.push(model);
+		final Optional<String> result = view.render(this, model);
+		renderStack.pop();
+		return result;
 	}
 }

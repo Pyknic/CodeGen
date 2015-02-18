@@ -16,10 +16,11 @@
  */
 package com.speedment.codegen.base;
 
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.Stack;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 /**
  * A <code>DefaultCodeGenerator</code> is the class that is called to view a model. The
@@ -34,6 +35,7 @@ import java.util.stream.Stream;
 public class DefaultCodeGenerator implements CodeGenerator {
 	private final Installer installer;
 	private final DependencyManager dependencyMgr;
+	private final Stack renderStack;
 	
 	/**
 	 * Initialises the code generator using a default dependency manager.
@@ -54,6 +56,32 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	public DefaultCodeGenerator(Installer installer, DependencyManager mgr) {
 		this.installer = installer;
 		this.dependencyMgr = mgr;
+		this.renderStack = new Stack();
+	}
+	
+	/**
+	 * Returns the current rendering stack. The top element will be the one most
+	 * recent rendered and the bottom one will be the element that was first
+	 * passed to the generator. Elements are removed from the stack once they
+	 * have finished rendering.
+	 * 
+	 * If an element needs to access its parent, it can call this method and
+	 * peek on the second element from the top.
+	 * 
+	 * The elements in the Stack will be of Object type. That is because the
+	 * framework doesn't put any constraints on what can be rendered.
+	 * The elements should not be cast directly to the model class but rather
+	 * to an interface describing the properties you need to read. That way,
+	 * the design remains dynamic even if the exact implementation isn't the
+	 * same.
+	 * 
+	 * The returned Stack will be immutable.
+	 * 
+	 * @return the current rendering stack.
+	 */
+	@Override
+	public List getRenderStack() {
+		return Collections.unmodifiableList(renderStack);
 	}
 	
 	/**
@@ -78,7 +106,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	@Override
 	public Optional<String> on(Object model) {
 		return installer.withOne(model.getClass())
-			.flatMap(v -> v.render(this, model));
+			.flatMap(v -> render(v, model));
 	}
 
 	/**
@@ -96,6 +124,13 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	@Override
 	public void on(Object model, Consumer<String> consumer) {
 		installer.withAll(model.getClass())
-			.forEach(v -> v.render(this, model));
+			.forEach(v -> render(v, model));
+	}
+	
+	private Optional<String> render(CodeView view, Object model) {
+		renderStack.push(model);
+		final Optional<String> result = view.render(this, model);
+		renderStack.pop();
+		return result;
 	}
 }
