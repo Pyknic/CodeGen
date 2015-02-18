@@ -21,6 +21,7 @@ import com.speedment.codegen.lang.interfaces.Documentable;
 import com.speedment.codegen.lang.interfaces.Generable;
 import com.speedment.codegen.lang.models.Class;
 import com.speedment.codegen.lang.models.Javadoc;
+import com.speedment.codegen.lang.models.JavadocTag;
 import com.speedment.codegen.lang.models.Method;
 import com.speedment.codegen.lang.models.constants.Default;
 import java.util.function.Consumer;
@@ -66,18 +67,24 @@ public class AutoJavadoc implements Consumer<Class> {
 	private static Method paramsForMethod(Method m) {
 		m.getJavadoc().ifPresent(doc -> {
 			m.getParams().forEach(p -> {
-				if (!(doc.getTags().stream().anyMatch(tag ->
-					tag.getName().equals("param") &&
-					ifelse(tag.getValue(), s -> p.getName().equals(s), false)
-				))) {
-					doc.add(Default.PARAM.setValue(p.getName()));
+				final JavadocTag tag = Default.PARAM.setValue(p.getName());
+				if (!hasTagAlready(doc, tag)) {
+					doc.add(tag);
 				}
 			});
 
-			if (!Default.isVoid(m.getType())) {
+			if (!Default.isVoid(m.getType())
+			&& !hasTagAlready(doc, Default.RETURN)) {
 				doc.add(Default.RETURN);
 			}
 		});
 		return m;
+	}
+	
+	private static boolean hasTagAlready(Javadoc doc, JavadocTag tag) {
+		return doc.getTags().stream().anyMatch(t -> 
+			tag.getName().equals(t.getName())
+			&& tag.getValue().equals(t.getValue())
+		);
 	}
 }

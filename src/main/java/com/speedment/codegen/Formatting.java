@@ -66,6 +66,22 @@ public class Formatting {
             );
         }
     }
+	
+	/**
+	 * Repeats the specified substring count times.
+	 * @param str The string to repeat.
+	 * @param count The number of times to repeat it.
+	 * @return The new String.
+	 */
+	public static String repeat(String str, int count) {
+		final StringBuilder result = new StringBuilder();
+
+		for (int i = 0; i < count; i++) {
+			result.append(str);
+		}
+		
+		return result.toString();
+	}
 
     /**
      * Indents the specified text, surrounds it with brackets and put the

@@ -1,0 +1,142 @@
+/**
+ *
+ * Copyright (c) 2006-2015, Speedment, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); You may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at:
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package com.speedment.codegen.lang.controller;
+
+import com.speedment.codegen.Formatting;
+import com.speedment.codegen.lang.models.Class;
+import com.speedment.codegen.lang.models.Method;
+import static com.speedment.codegen.Formatting.*;
+import com.speedment.codegen.lang.models.Field;
+import com.speedment.codegen.lang.models.Javadoc;
+import com.speedment.codegen.lang.models.JavadocTag;
+import com.speedment.codegen.lang.models.Type;
+import static com.speedment.codegen.lang.models.constants.Default.OPTIONAL;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+/**
+ *
+ * @author Emil Forslund
+ */
+public class SetGetAdd implements Consumer<Class> {
+	private final static String 
+		SET_STRING = "set",
+		GET_STRING = "get",
+		THIS_STRING = "this.",
+		ASSIGN_STRING = " = ",
+		OPTIONAL_OF_STRING = "Optional.of(",
+		RETURN_STRING = "return this",
+		ADD_STRING = "add",
+		DOC_PARAM = "param",
+		DOC_PARAM_TEXT = "the new value.",
+		DOC_RETURN = "return",
+		DOC_RETURN_TEXT = "a reference to this object.",
+		BRACKETS = BS + BE;
+	
+	private final List<String> methods;
+	
+	public SetGetAdd() {
+		this.methods = Collections.EMPTY_LIST;
+	}
+	
+	public SetGetAdd(Method... methods) {
+		this.methods = Arrays.stream(methods)
+			.map(m -> getSignature(m))
+			.collect(Collectors.toList());
+	}
+	
+	@Override
+	public void accept(Class model) {
+		model.getFields().stream().forEach(f -> {
+			f.private_();
+			
+			if (isCollection(f.getType())) {
+				final Method add = new Method(ADD_STRING, model.asType())
+					.public_()
+					.add(new Field(f.getName(), f.getType()))
+					.add(THIS_STRING + f.getName() + ASSIGN_STRING + f.getName() + SC)
+					.add(RETURN_STRING + SC);
+				
+				if (includeMethod(model, add)) {
+					model.add(add);
+				}
+			} else {
+				final Method set = new Method(SET_STRING + ucfirst(f.getName()), model.asType())
+					.public_().setJavadoc(new Javadoc()
+						.add(new JavadocTag(DOC_PARAM, f.getName(), DOC_PARAM_TEXT))
+						.add(new JavadocTag(DOC_RETURN, null, DOC_RETURN_TEXT))
+					);
+				
+				if (isOptional(f.getType())) {
+					set.add(new Field(f.getName(), f.getType().getGenerics().get(0).getUpperBounds().get(0)))
+						.add(THIS_STRING + f.getName() + ASSIGN_STRING + OPTIONAL_OF_STRING + f.getName() + PE + SC)
+						.add(RETURN_STRING + SC);
+				} else {
+					set.add(new Field(f.getName(), f.getType()))
+						.add(THIS_STRING + f.getName() + ASSIGN_STRING + f.getName() + SC)
+						.add(RETURN_STRING + SC);
+				}
+				
+				if (includeMethod(model, set)) {
+					model.add(set);
+				}
+			}
+			
+			final Method get = new Method(GET_STRING + ucfirst(f.getName()), f.getType())
+				.public_().add(RETURN_STRING + DOT + f.getName() + SC);
+			
+			if (includeMethod(model, get)) {
+				model.add(get);
+			}
+		});
+	}
+	
+	private boolean isCollection(Type type) {
+		if (type.getJavaImpl().isPresent()) {
+			return Collections.class.isAssignableFrom(type.getJavaImpl().get());
+		} else {
+			return false;
+		}
+	}
+	
+	private boolean isOptional(Type fieldType) {
+		return fieldType.getName().equals(OPTIONAL.getName())
+		&& !fieldType.getGenerics().isEmpty()
+		&& !fieldType.getGenerics().get(0).getUpperBounds().isEmpty();
+	}
+
+	private boolean includeMethod(Class class_, Method method) {
+		if (methods.isEmpty() || methods.contains(getSignature(method))) {
+			return !class_.getMethods().stream().anyMatch(
+					m -> getSignature(method).equals(getSignature(m))
+			);
+		} else {
+			return false;
+		}
+	}
+	
+	private String getSignature(Method method) {
+		return method.getName() + PS +
+			method.getParams().stream().map(f -> 
+				f.getType().getName() + 
+				Formatting.repeat(BRACKETS, f.getType().getArrayDimension())
+			).collect(Collectors.joining(COMMA)) + PE;
+	}
+}

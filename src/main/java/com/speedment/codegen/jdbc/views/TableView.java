@@ -25,7 +25,7 @@ import com.speedment.codegen.jdbc.models.Table;
 import com.speedment.codegen.lang.controller.AutoImports;
 import com.speedment.codegen.lang.controller.AutoJavadoc;
 import com.speedment.codegen.lang.controller.FinalParameters;
-import com.speedment.codegen.lang.controller.SetGet;
+import com.speedment.codegen.lang.controller.SetGetAdd;
 import java.util.Optional;
 import com.speedment.codegen.lang.models.Class;
 import com.speedment.codegen.lang.models.Field;
@@ -65,7 +65,7 @@ public class TableView implements CodeView<Table> {
 		});
 		
 		entity
-			.call(new SetGet())
+			.call(new SetGetAdd())
 			.call(new FinalParameters())
 			.call(new AutoJavadoc())
 			.call(new AutoImports(cg.getDependencyMgr()));
