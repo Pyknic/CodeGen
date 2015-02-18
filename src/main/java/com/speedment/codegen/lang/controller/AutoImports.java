@@ -16,6 +16,7 @@
  */
 package com.speedment.codegen.lang.controller;
 
+import static com.speedment.codegen.Formatting.packageName;
 import com.speedment.codegen.base.DependencyManager;
 import com.speedment.codegen.lang.models.Class;
 import com.speedment.codegen.lang.models.Import;
@@ -45,18 +46,20 @@ public class AutoImports implements Consumer<Class> {
 		});
     }
 	
-	public void add(Class model, Type type) {
+	private void add(Class model, Type type) {
 		if (!model.getName().equals(type.getName())) {
-			if (!mgr.isIgnored(type.getName())) {
-				if (!model.getDependencies().stream()
-				.anyMatch(imp -> imp.getType().getName().equals(type.getName()))) {
-					model.add(new Import(new Type(type.getName())));
+			if (!packageName(model.getName()).get().equals(packageName(type.getName()).get())) {
+				if (!mgr.isIgnored(type.getName())) {
+					if (!model.getDependencies().stream()
+					.anyMatch(imp -> imp.getType().getName().equals(type.getName()))) {
+						model.add(new Import(type));
+					}
 				}
 			}
 		}
 	}
 	
-	public void addAll(Class model, Collection<Type> types) {
+	private void addAll(Class model, Collection<Type> types) {
 		types.forEach(t -> add(model, t));
 	}
 }

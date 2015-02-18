@@ -85,8 +85,9 @@ public class DefaultDependencyManager implements DependencyManager {
 	 */
 	@Override
 	public boolean isIgnored(String fullname) {
-		return ignorePackages.stream().anyMatch(
-			p -> fullname.startsWith(p + DOT)
+		return ignorePackages.stream().anyMatch(p -> 
+			fullname.startsWith(p + DOT) ||
+			fullname.equals(p)
 		);
 	}
 

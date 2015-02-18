@@ -35,7 +35,7 @@ public class ImportView implements CodeView<Import> {
 		return Optional.of(
 			IMPORT_STRING +
 			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
-			cg.on(model.getType()).orElse(EMPTY) +
+			model.getType().getName() +
 			SC
 		).filter(x -> {
 			cg.getDependencyMgr().load(model.getType().getName());
