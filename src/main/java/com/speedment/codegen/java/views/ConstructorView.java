@@ -35,7 +35,7 @@ public class ConstructorView implements CodeView<Constructor> {
 		return Optional.of(
 			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
 			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
-			cg.onEach(model.getParams()).collect(
+			cg.onEach(model.getFields()).collect(
 				Collectors.joining(COMMA_SPACE, PS, PE)
 			) + SPACE + block(
 				model.getCode().stream().collect(

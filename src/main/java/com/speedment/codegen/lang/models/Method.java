@@ -19,6 +19,7 @@ package com.speedment.codegen.lang.models;
 import com.speedment.codegen.lang.interfaces.Annotable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Documentable;
+import com.speedment.codegen.lang.interfaces.Fieldable;
 import com.speedment.codegen.lang.interfaces.Generable;
 import com.speedment.codegen.lang.interfaces.Nameable;
 import com.speedment.codegen.lang.interfaces.Typeable;
@@ -40,6 +41,7 @@ public class Method implements
 		Nameable<Method>,
 		Typeable<Method>,
 		Generable<Method>,
+		Fieldable<Method>,
 		Documentable<Method>,
 		Annotable<Method>,
 		MethodModifier<Method> {
@@ -97,10 +99,12 @@ public class Method implements
 		return this;
 	}
 
-	public List<Field> getParams() {
+	@Override
+	public List<Field> getFields() {
 		return params;
 	}
 
+	@Override
 	public Method add(Field param) {
 		params.add(param);
 		return this;

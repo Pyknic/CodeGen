@@ -19,6 +19,7 @@ package com.speedment.codegen.lang.models;
 import com.speedment.codegen.lang.interfaces.Annotable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Documentable;
+import com.speedment.codegen.lang.interfaces.Fieldable;
 import com.speedment.codegen.lang.models.modifiers.ConstructorModifier;
 import com.speedment.codegen.lang.models.modifiers.Modifier;
 import com.speedment.util.Copier;
@@ -37,6 +38,7 @@ public class Constructor implements
 		Copyable<Constructor>,
 		Documentable<Constructor>,
 		Annotable<Constructor>,
+		Fieldable<Constructor>,
 		ConstructorModifier<Constructor> {
 	
 	private Optional<Javadoc> javadoc;
@@ -61,10 +63,12 @@ public class Constructor implements
 		modifiers	= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
-	public List<Field> getParams() {
+	@Override
+	public List<Field> getFields() {
 		return params;
 	}
 
+	@Override
 	public Constructor add(Field param) {
 		params.add(param);
 		return this;

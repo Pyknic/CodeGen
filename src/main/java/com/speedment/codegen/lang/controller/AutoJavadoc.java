@@ -17,9 +17,12 @@
 package com.speedment.codegen.lang.controller;
 
 import static com.speedment.codegen.Formatting.*;
+import com.speedment.codegen.lang.interfaces.Constructable;
 import com.speedment.codegen.lang.interfaces.Documentable;
+import com.speedment.codegen.lang.interfaces.Fieldable;
 import com.speedment.codegen.lang.interfaces.Generable;
-import com.speedment.codegen.lang.models.Class;
+import com.speedment.codegen.lang.interfaces.Methodable;
+import com.speedment.codegen.lang.models.ClassOrInterface;
 import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.JavadocTag;
 import com.speedment.codegen.lang.models.Method;
@@ -29,56 +32,67 @@ import java.util.function.Consumer;
 /**
  *
  * @author Duncan
+ * @param <T>
  */
-public class AutoJavadoc implements Consumer<Class> {
+public class AutoJavadoc<T extends Documentable> implements Consumer<T> {
+	private final static String 
+			DEFAULT_TEXT = "Write some documentation here.",
+			DEFAULT_NAME = "Your Name";
  
     @Override
-    public void accept(Class model) {
-		generateJavadocFor(model);
-		model.getMethods().forEach(m -> 
-			paramsForMethod(
-				generateJavadocFor(m)
-			)
-		);
+    public void accept(Documentable model) {
+		createJavadoc(model);
     }
-    
-    private static <T extends Documentable & Generable> T generateJavadocFor(T m) {
-		if (!m.getJavadoc().isPresent()) {
-			final Javadoc doc = new Javadoc("Write some documentation here.");
-			if (m instanceof Class) {
-				doc.add(Default.AUTHOR.setValue("Your Name"));
-			}
-			paramsForGenerable(doc, m);
-			m.setJavadoc(doc);
+	
+	private static <T extends Documentable<?>> T createJavadoc(T model) {
+		final Javadoc doc = model.getJavadoc().orElse(new Javadoc(DEFAULT_TEXT));
+		model.setJavadoc(doc);
+		
+		// Add @param for each type variable.
+		if (model instanceof Generable) {
+			((Generable<?>) model).getGenerics().forEach(g -> 
+				g.getLowerBound().ifPresent(t -> addTag(doc, 
+					Default.PARAM.setValue(SS + t + SE)
+				))
+			);
 		}
 
-		return m;
-    }
-	
-	private static Generable<?> paramsForGenerable(Javadoc doc, Generable<?> gen) {
-		gen.getGenerics().forEach(g -> 
-			g.getLowerBound().ifPresent(t -> doc.add(
-				Default.PARAM.setValue(SS + t + SE)
-			))
-		);
-		return gen;
+		if (model instanceof ClassOrInterface) {
+			// Add @author
+			doc.add(Default.AUTHOR.setValue(DEFAULT_NAME));
+		} else {
+			// Add @param for each parameter.
+			if (model instanceof Fieldable) {
+				((Fieldable<?>) model).getFields().forEach(f -> 
+					addTag(doc, Default.PARAM.setValue(f.getName()))
+				);
+			}
+		}
+		
+		// Add @return to methods.
+		if (model instanceof Method) {
+			addTag(doc, Default.RETURN);
+		}
+		
+		// Generate javadoc for each constructor.
+		if (model instanceof Constructable) {
+			((Constructable<?>) model).getConstructors()
+				.forEach(m -> createJavadoc(m));
+		}
+
+		// Generate javadoc for each method.
+		if (model instanceof Methodable) {
+			((Methodable<?>) model).getMethods()
+				.forEach(m -> createJavadoc(m));
+		}
+		
+		return model;
 	}
 	
-	private static Method paramsForMethod(Method m) {
-		m.getJavadoc().ifPresent(doc -> {
-			m.getParams().forEach(p -> {
-				final JavadocTag tag = Default.PARAM.setValue(p.getName());
-				if (!hasTagAlready(doc, tag)) {
-					doc.add(tag);
-				}
-			});
-
-			if (!Default.isVoid(m.getType())
-			&& !hasTagAlready(doc, Default.RETURN)) {
-				doc.add(Default.RETURN);
-			}
-		});
-		return m;
+	private static void addTag(Javadoc doc, JavadocTag tag) {
+		if (!hasTagAlready(doc, tag)) {
+			doc.add(tag);
+		}
 	}
 	
 	private static boolean hasTagAlready(Javadoc doc, JavadocTag tag) {

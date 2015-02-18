@@ -32,7 +32,7 @@ public class Class extends ClassOrInterface<Class> implements
 		ClassModifier<Class> {
 
 	private Optional<Type> superType;
-	private List<Constructor> constructors;
+	private final List<Constructor> constructors;
 
 	public Class(String name) {
 		super(name);

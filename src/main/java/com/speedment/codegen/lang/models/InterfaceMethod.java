@@ -42,7 +42,7 @@ public class InterfaceMethod implements Copyable<InterfaceMethod> {
 	}
 
 	public List<Field> getParams() {
-		return m.getParams();
+		return m.getFields();
 	}
 
 	public List<String> getCode() {

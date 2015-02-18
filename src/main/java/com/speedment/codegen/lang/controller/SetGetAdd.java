@@ -161,7 +161,7 @@ public class SetGetAdd implements Consumer<Class> {
 	
 	private String getSignature(Method method) {
 		return method.getName() + PS +
-			method.getParams().stream().map(f -> 
+			method.getFields().stream().map(f -> 
 				f.getType().getName() + 
 				Formatting.repeat(BRACKETS, f.getType().getArrayDimension())
 			).collect(Collectors.joining(COMMA)) + PE;

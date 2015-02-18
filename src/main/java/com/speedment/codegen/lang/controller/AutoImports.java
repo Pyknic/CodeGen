@@ -41,7 +41,7 @@ public class AutoImports implements Consumer<Class> {
 		model.getFields().forEach(f -> add(model, f.getType()));
 		model.getMethods().forEach(m -> {
 			add(model, m.getType());
-			m.getParams().forEach(p -> add(model, p.getType()));
+			m.getFields().forEach(p -> add(model, p.getType()));
 		});
     }
 	
