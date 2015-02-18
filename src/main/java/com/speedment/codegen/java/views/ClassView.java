@@ -33,7 +33,7 @@ public class ClassView extends ClassOrInterfaceView<Class> {
 
 	@Override
 	protected String extendsOrImplementsLabel() {
-		return EXTENDS_STRING;
+		return IMPLEMENTS_STRING;
 	}
 
 	@Override

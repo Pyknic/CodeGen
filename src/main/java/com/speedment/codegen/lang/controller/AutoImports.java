@@ -48,14 +48,16 @@ public class AutoImports implements Consumer<Class> {
 	
 	private void add(Class model, Type type) {
 		if (!model.getName().equals(type.getName())) {
-			if (!packageName(model.getName()).get().equals(packageName(type.getName()).get())) {
-				if (!mgr.isIgnored(type.getName())) {
-					if (!model.getDependencies().stream()
-					.anyMatch(imp -> imp.getType().getName().equals(type.getName()))) {
-						model.add(new Import(type));
+			packageName(type.getName()).ifPresent(typeName -> {
+				if (!packageName(model.getName()).get().equals(typeName)) {
+					if (!mgr.isIgnored(type.getName())) {
+						if (!model.getDependencies().stream()
+						.anyMatch(imp -> imp.getType().getName().equals(type.getName()))) {
+							model.add(new Import(type));
+						}
 					}
 				}
-			}
+			});
 		}
 	}
 	
