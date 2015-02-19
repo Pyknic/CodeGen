@@ -20,8 +20,8 @@ import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.base.DependencyManager;
+import com.speedment.codegen.lang.interfaces.Constructable;
 import com.speedment.codegen.lang.models.ClassOrInterface;
-import com.speedment.codegen.lang.models.Constructor;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Method;
 import java.util.Optional;
@@ -60,7 +60,15 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 	
 	protected Object wrapField(Field field) {return field;}
 	protected Object wrapMethod(Method method) {return method;}
-	protected String onAfterFields(CodeGenerator cg, M model) {return EMPTY;}
+	protected String onAfterFields(CodeGenerator cg, M model) {
+		if (model instanceof Constructable) {
+			return cg.onEach(
+				((Constructable<?>) model).getConstructors()
+			).collect(CodeCombiner.joinIfNotEmpty(dnl(), EMPTY, dnl()));
+		} else {
+			return EMPTY;
+		}
+	}
 	
 	private <In, C extends Collection<In>> Collection<Object> 
 		wrap(C models, Function<In, Object> wrapper) {

@@ -19,7 +19,6 @@ package com.speedment.codegen.java.views;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.lang.models.Class;
-import com.speedment.util.CodeCombiner;
 
 /**
  *
@@ -34,11 +33,6 @@ public class ClassView extends ClassOrInterfaceView<Class> {
 	@Override
 	protected String extendsOrImplementsLabel() {
 		return IMPLEMENTS_STRING;
-	}
-
-	@Override
-	protected String onAfterFields(CodeGenerator cg, Class model) {
-		return cg.onEach(model.getConstructors()).collect(CodeCombiner.joinIfNotEmpty(dnl(), EMPTY, dnl()));
 	}
 
 	@Override
