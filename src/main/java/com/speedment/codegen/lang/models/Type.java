@@ -22,7 +22,9 @@ import com.speedment.codegen.lang.interfaces.Generable;
 import com.speedment.codegen.lang.interfaces.Nameable;
 import com.speedment.util.Copier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -109,6 +111,36 @@ public class Type implements
     public Type copy() {
         return new Type(this);
     }
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		} else if (obj instanceof Type) {
+			final Type other = (Type) obj;
+			return other.name.equals(name)
+				&& other.arrayDimension == arrayDimension
+				&& other.annotations.size() == annotations.size()
+				&& other.generics.size() == generics.size()
+				&& Arrays.deepEquals(other.annotations.toArray(), annotations.toArray())
+				&& Arrays.deepEquals(other.generics.toArray(), generics.toArray())
+				&& other.javaImpl.equals(javaImpl)
+			;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 61 * hash + Objects.hashCode(this.name);
+		hash = 61 * hash + this.arrayDimension;
+		hash = 61 * hash + Objects.hashCode(this.annotations);
+		hash = 61 * hash + Objects.hashCode(this.generics);
+		hash = 61 * hash + Objects.hashCode(this.javaImpl);
+		return hash;
+	}
 
     @Override
     public Type add(AnnotationUsage annotation) {

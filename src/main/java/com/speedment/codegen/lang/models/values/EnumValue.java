@@ -19,6 +19,7 @@ package com.speedment.codegen.lang.models.values;
 import com.speedment.codegen.lang.interfaces.Typeable;
 import com.speedment.codegen.lang.models.Type;
 import com.speedment.codegen.lang.models.Value;
+import java.util.Objects;
 
 /**
  *
@@ -55,5 +56,30 @@ public class EnumValue extends Value<String, EnumValue>
 	@Override
 	public EnumValue copy() {
 		return new EnumValue(this);
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 3;
+		hash = 59 * hash + Objects.hashCode(this.type);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		
+		final EnumValue other = (EnumValue) obj;
+		if (!Objects.equals(this.type, other.type)) {
+			return false;
+		}
+		
+		return super.equals(obj);
 	}
 }

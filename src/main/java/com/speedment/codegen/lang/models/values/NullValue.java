@@ -32,4 +32,17 @@ public class NullValue extends Value<Number, NullValue> {
 	public NullValue copy() {
 		return this;
 	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		return getClass() == obj.getClass();
+	}
 }

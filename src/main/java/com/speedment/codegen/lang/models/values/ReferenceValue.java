@@ -32,4 +32,17 @@ public class ReferenceValue extends Value<String, ReferenceValue> {
 	public ReferenceValue copy() {
 		return new ReferenceValue(getValue());
 	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		return getClass() == obj.getClass();
+	}
 }

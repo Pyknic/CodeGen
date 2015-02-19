@@ -34,4 +34,17 @@ public class ArrayValue extends Value<List<Value>, ArrayValue> {
 	public ArrayValue copy() {
 		return new ArrayValue(Copier.copy(getValue()));
 	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		return getClass() == obj.getClass();
+	}
 }

@@ -24,7 +24,7 @@ import java.util.List;
  * @author Emil Forslund
  * @param <T>
  */
-public interface Annotable<T extends Annotable> {
+public interface Annotable<T extends Annotable<T>> {
 	T add(final AnnotationUsage annotation);
 	List<AnnotationUsage> getAnnotations();
 }

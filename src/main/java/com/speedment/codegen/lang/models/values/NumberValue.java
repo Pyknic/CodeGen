@@ -32,4 +32,17 @@ public class NumberValue extends Value<Number, NumberValue> {
 	public NumberValue copy() {
 		return new NumberValue(getValue());
 	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		return getClass() == obj.getClass();
+	}
 }

@@ -22,6 +22,7 @@
 package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Copyable;
+import java.util.Objects;
 
 /**
  *
@@ -47,4 +48,23 @@ public abstract class Value<T, R extends Value<T, R>> implements Copyable<R> {
 
 	@Override
 	public abstract R copy();
+
+	@Override
+	public int hashCode() {
+		return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		
+		final Value<T, R> other = (Value<T, R>) obj;
+		return Objects.equals(this.value, other.value);
+	}
 }
