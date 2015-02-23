@@ -75,6 +75,8 @@ public class SetGetAdd implements Consumer<Class> {
 			f.private_();
 			
 			if (isCollection(f.getType())) {
+				f.final_();
+				
 				final Field param = new Field(singular(f.getName()), f.getType().getGenerics().get(0).getUpperBounds().get(0));
 				final Method add = new Method(ADD, new Type(model.getName()))
 					.setJavadoc(new Javadoc()
