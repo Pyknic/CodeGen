@@ -14,8 +14,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.speedment.codegen;
+package com.speedment.codegen.examples;
 
+import com.speedment.codegen.Formatting;
 import static com.speedment.codegen.Formatting.block;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.java.JavaGenerator;

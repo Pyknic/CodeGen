@@ -46,7 +46,8 @@ public class FileView implements CodeView<File> {
 	@Override
 	public Optional<String> render(CodeGenerator cg, File model) {
 		final DependencyManager mgr = cg.getDependencyMgr();
-		Optional<String> packageName = packageName(model.getName());
+		Optional<String> className = fileToClassName(model.getName());
+		Optional<String> packageName = packageName(className.orElse(EMPTY));
 		mgr.clearDependencies();
 		
 		if (packageName.isPresent()) {
