@@ -46,6 +46,7 @@ import com.speedment.codegen.java.views.ConstructorView;
 import com.speedment.codegen.java.views.EnumConstantView;
 import com.speedment.codegen.java.views.EnumView;
 import com.speedment.codegen.java.views.FieldView;
+import com.speedment.codegen.java.views.FileView;
 import com.speedment.codegen.java.views.GenericView;
 import com.speedment.codegen.java.views.ImportView;
 import com.speedment.codegen.java.views.InterfaceFieldView;
@@ -63,6 +64,7 @@ import com.speedment.codegen.java.views.values.ReferenceValueView;
 import com.speedment.codegen.java.views.values.TextValueView;
 import com.speedment.codegen.lang.models.AnnotationUsage;
 import com.speedment.codegen.lang.models.Constructor;
+import com.speedment.codegen.lang.models.File;
 
 /**
  *
@@ -93,5 +95,6 @@ public class JavaInstaller extends DefaultInstaller {
 		install(InterfaceMethod.class, InterfaceMethodView.class);
 		install(InterfaceField.class, InterfaceFieldView.class);
 		install(Constructor.class, ConstructorView.class);
+		install(File.class, FileView.class);
     }
 }
