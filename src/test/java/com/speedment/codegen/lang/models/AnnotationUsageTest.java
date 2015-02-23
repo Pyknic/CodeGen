@@ -1,17 +1,18 @@
-/*
- * Copyright 2015 Emil Forslund.
+/**
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Copyright (c) 2006-2015, Speedment, Inc. All Rights Reserved.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under the Apache License, Version 2.0 (the "License"); You may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at:
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.speedment.codegen.lang.models;
 
@@ -113,14 +114,6 @@ public class AnnotationUsageTest {
 				assertNotNull("Make sure no entries are null.", e);
 				assertNotNull("Make sure no entry keys are null.", e.getKey());
 				assertNotNull("Make sure no entry values are null.", e.getValue());
-				
-				System.out.println("----------------------");
-				System.out.println("Counter: " + counter);
-				System.out.println("Key: '" + e.getKey() + "'");
-				System.out.println("Label: '" + TEST_LABELS[counter] + "'");
-				System.out.println("Value: '" + e.getValue().getValue() + "'");
-				System.out.println("Number: '" + TEST_VALUES[counter] + "'");
-				
 				assertTrue("Make sure keys are in the same order (" + counter + ").", e.getKey().equals(TEST_LABELS[counter]));
 				assertTrue("Make sure values are in the same order.", e.getValue().getValue().equals(TEST_VALUES[counter]));
 				counter++;
