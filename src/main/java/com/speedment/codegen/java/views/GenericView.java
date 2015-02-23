@@ -25,7 +25,7 @@ import com.speedment.util.CodeCombiner;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
 public class GenericView implements CodeView<Generic> {
 	private final static String 

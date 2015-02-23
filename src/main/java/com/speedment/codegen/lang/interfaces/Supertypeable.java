@@ -21,7 +21,7 @@ import java.util.Optional;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  * @param <T>
  */
 public interface Supertypeable<T extends Supertypeable<T>> {

@@ -20,7 +20,7 @@ import com.speedment.codegen.lang.models.modifiers.InterfaceModifier;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
 public class Interface extends ClassOrInterface<Interface> implements
 		InterfaceModifier<Interface> {

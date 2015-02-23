@@ -29,7 +29,7 @@ import java.util.Optional;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
 public class File implements 
 		Copyable<File>,

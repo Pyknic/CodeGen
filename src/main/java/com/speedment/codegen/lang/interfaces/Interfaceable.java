@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  * @param <T>
  */
 public interface Interfaceable<T extends Interfaceable<T>> {

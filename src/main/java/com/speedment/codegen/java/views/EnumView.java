@@ -23,7 +23,7 @@ import com.speedment.util.CodeCombiner;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
 public class EnumView extends ClassOrInterfaceView<Enum> {
 	@Override

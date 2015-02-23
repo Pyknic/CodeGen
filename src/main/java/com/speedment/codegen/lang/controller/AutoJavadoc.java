@@ -31,7 +31,7 @@ import java.util.function.Consumer;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  * @param <T>
  */
 public class AutoJavadoc<T extends Documentable> implements Consumer<T> {

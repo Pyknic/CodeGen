@@ -23,7 +23,7 @@ import java.util.Optional;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
 public class JavadocTag implements Copyable<JavadocTag>, Nameable<JavadocTag> {
 	private String name;

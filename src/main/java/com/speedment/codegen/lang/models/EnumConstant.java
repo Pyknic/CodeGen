@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
 public class EnumConstant implements 
 		Copyable<EnumConstant>,

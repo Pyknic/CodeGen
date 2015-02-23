@@ -24,7 +24,7 @@ import java.util.Optional;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
 public class JavadocTagView implements CodeView<JavadocTag> {
 

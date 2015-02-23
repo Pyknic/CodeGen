@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
 public class Enum extends ClassOrInterface<Enum> implements 
 		EnumModifier<Enum>,

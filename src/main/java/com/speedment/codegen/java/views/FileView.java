@@ -26,7 +26,7 @@ import java.util.Optional;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
 public class FileView implements CodeView<File> {
 	private final static String PACKAGE_STRING = "package ";

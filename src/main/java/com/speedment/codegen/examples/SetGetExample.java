@@ -30,7 +30,7 @@ import com.speedment.codegen.lang.models.constants.Default;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
 public class SetGetExample {
 	public static void main(String... params) {

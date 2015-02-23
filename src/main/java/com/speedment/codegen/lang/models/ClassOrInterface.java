@@ -37,7 +37,7 @@ import java.util.Set;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  * @param <T>
  */
 public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements 

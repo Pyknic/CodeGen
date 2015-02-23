@@ -36,7 +36,7 @@ import java.util.function.Consumer;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
 public class AutoImports implements Consumer<File> {
 	private final DependencyManager mgr;

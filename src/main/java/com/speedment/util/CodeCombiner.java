@@ -29,7 +29,7 @@ import java.util.function.Supplier;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
 public class CodeCombiner {
 	public static Collector<String, ?, String> joinIfNotEmpty(String delimiter) {
