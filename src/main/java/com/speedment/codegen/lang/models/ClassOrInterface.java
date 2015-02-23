@@ -18,8 +18,8 @@ package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Annotable;
 import com.speedment.codegen.lang.interfaces.Callable;
+import com.speedment.codegen.lang.interfaces.Classable;
 import com.speedment.codegen.lang.interfaces.Copyable;
-import com.speedment.codegen.lang.interfaces.Dependable;
 import com.speedment.codegen.lang.interfaces.Documentable;
 import com.speedment.codegen.lang.interfaces.Fieldable;
 import com.speedment.codegen.lang.interfaces.Generable;
@@ -32,7 +32,6 @@ import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -46,9 +45,9 @@ public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements
 		Callable<T>,
 		Nameable<T>, 
 		Documentable<T>, 
-		Dependable<T>,
 		Generable<T>,
 		Interfaceable<T>,
+		Classable<T>,
 		Methodable<T>,
 		Fieldable<T>,
 		Annotable<T>,
@@ -57,22 +56,22 @@ public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements
 	private String name;
 	private Optional<Javadoc> javadoc;
 	private final List<AnnotationUsage> annotations;
-	private final List<Import> dependencies;
 	private final List<Generic> generics;
 	private final List<Type> interfaces;
 	private final List<Field> fields;
 	private final List<Method> methods;
+	private final List<ClassOrInterface> classes;
 	private final Set<Modifier> modifiers;
 
 	public ClassOrInterface(String name) {
 		this.name			= name;
 		this.javadoc		= Optional.empty();
 		this.annotations	= new ArrayList<>();
-		this.dependencies	= new ArrayList<>();
 		this.generics		= new ArrayList<>();
 		this.interfaces		= new ArrayList<>();
 		this.fields			= new ArrayList<>();
 		this.methods		= new ArrayList<>();
+		this.classes		= new ArrayList<>();
 		this.modifiers		= EnumSet.noneOf(Modifier.class);
 	}
 	
@@ -80,11 +79,11 @@ public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements
 		name			= prototype.name;
 		javadoc			= Copier.copy(prototype.javadoc);
 		annotations		= Copier.copy(prototype.annotations);
-		dependencies	= Copier.copy(prototype.dependencies);
 		generics		= Copier.copy(prototype.generics);
 		interfaces		= Copier.copy(prototype.interfaces);
 		fields			= Copier.copy(prototype.fields);
 		methods			= Copier.copy(prototype.methods);
+		classes			= Copier.copy(prototype.classes);
 		modifiers		= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
@@ -108,17 +107,6 @@ public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements
 	@Override
 	public Optional<Javadoc> getJavadoc() {
 		return javadoc;
-	}
-
-	@Override
-	public T add(Import dep) {
-		dependencies.add(dep);
-		return (T) this;
-	}
-
-	@Override
-	public List<Import> getDependencies() {
-		return dependencies;
 	}
 
 	@Override
@@ -154,10 +142,6 @@ public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements
 		return interfaces;
 	}
 	
-	public Type asType() {
-		return new Type(name);
-	}
-	
 	@Override
 	public Set<Modifier> getModifiers() {
 		return modifiers;
@@ -183,5 +167,16 @@ public abstract class ClassOrInterface<T extends ClassOrInterface<T>> implements
 	@Override
 	public List<AnnotationUsage> getAnnotations() {
 		return annotations;
+	}
+
+	@Override
+	public T add(ClassOrInterface member) {
+		classes.add(member);
+		return (T) this;
+	}
+
+	@Override
+	public List<ClassOrInterface> getClasses() {
+		return classes;
 	}
 }

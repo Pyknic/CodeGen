@@ -29,6 +29,7 @@ import com.speedment.util.CodeCombiner;
 import java.util.Collection;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -42,29 +43,21 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 		INTERFACE_STRING = "interface ",
 		ENUM_STRING = "enum ",
 		IMPLEMENTS_STRING = "implements ",
-		EXTENDS_STRING = "extends ",
-		PACKAGE_STRING = "package ";
-	
-	private String renderPackage(M model) {
-		Optional<String> pack = packageName(model.getName());
-		if (pack.isPresent()) {
-			return PACKAGE_STRING + pack.get() + scdnl();
-		} else {
-			return EMPTY;
-		}
-	}
-	
+		EXTENDS_STRING = "extends ";
+
 	protected String onBeforeFields(CodeGenerator cg, M model) {
 		return EMPTY;
 	}
 	
 	protected Object wrapField(Field field) {return field;}
+	protected Object wrapClassOrInterface(ClassOrInterface clazz) {return clazz;}
 	protected Object wrapMethod(Method method) {return method;}
+	
 	protected String onAfterFields(CodeGenerator cg, M model) {
 		if (model instanceof Constructable) {
 			return cg.onEach(
 				((Constructable<?>) model).getConstructors()
-			).collect(CodeCombiner.joinIfNotEmpty(dnl(), EMPTY, dnl()));
+			).collect(Collectors.joining(dnl()));
 		} else {
 			return EMPTY;
 		}
@@ -81,40 +74,29 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 
 	@Override
 	public Optional<String> render(CodeGenerator cg, M model) {
-		Optional<String> packageName = packageName(model.getName());
-		final DependencyManager mgr = cg.getDependencyMgr();
-		mgr.clearDependencies();
-		
-		if (packageName.isPresent()) {
-			if (mgr.isIgnored(packageName.get())) {
-				packageName = Optional.empty();
-			} else {
-				mgr.ignorePackage(packageName.get());
-			}
-		}
-		
-		final Optional<String> view = Optional.of(renderPackage(model) +
-			cg.onEach(model.getDependencies()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, dnl())) +
+		return Optional.of(
 			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
 			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
 			classOrInterfaceLabel() + shortName(model.getName()) + SPACE +
 			onSuperType(cg, model) +
 			cg.onEach(model.getInterfaces()).collect(CodeCombiner.joinIfNotEmpty(COMMA_SPACE, extendsOrImplementsLabel(), SPACE)) +
-			block(
-				onBeforeFields(cg, model) +
+			block(separate(
+				onBeforeFields(cg, model),
 				cg.onEach(wrap(model.getFields(), (Field f) -> wrapField(f)))
-					.collect(CodeCombiner.joinIfNotEmpty(scnl(), EMPTY, scdnl())) +
-				onAfterFields(cg, model) +
+					.collect(Collectors.joining(scnl(), EMPTY, SC)),
+				onAfterFields(cg, model),
 				cg.onEach(wrap(model.getMethods(), (Method m) -> wrapMethod(m)))
-					.collect(CodeCombiner.joinIfNotEmpty(dnl()))
-			)
+					.collect(Collectors.joining(dnl())),
+				cg.onEach(wrap(model.getClasses(), (ClassOrInterface c) -> wrapClassOrInterface(c)))
+					.collect(Collectors.joining(dnl()))
+			))
 		);
-		
-		if (packageName.isPresent()) {
-			mgr.acceptPackage(packageName.get());
-		}
-		
-		return view;
 	}
 	
+	private String separate(Object... strings) {
+		return Stream.of(strings)
+			.map(o -> o.toString())
+			.filter(s -> s.length() > 0)
+			.collect(Collectors.joining(dnl()));
+	}
 }

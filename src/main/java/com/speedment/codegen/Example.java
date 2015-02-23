@@ -25,24 +25,17 @@ import com.speedment.codegen.lang.controller.AutoImports;
 import com.speedment.codegen.lang.controller.AutoJavadoc;
 import com.speedment.codegen.lang.controller.FinalParameters;
 import com.speedment.codegen.lang.controller.SetGetAdd;
-import com.speedment.codegen.lang.models.EnumConstant;
-import com.speedment.codegen.lang.models.Enum;
 import com.speedment.codegen.lang.models.Class;
+import com.speedment.codegen.lang.models.Constructor;
 import com.speedment.codegen.lang.models.Field;
-import com.speedment.codegen.lang.models.Import;
-import com.speedment.codegen.lang.models.Interface;
+import com.speedment.codegen.lang.models.File;
 import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.Method;
 import com.speedment.codegen.lang.models.Type;
 import static com.speedment.codegen.lang.models.constants.Default.INT_PRIMITIVE;
-import static com.speedment.codegen.lang.models.constants.Default.LIST;
 import static com.speedment.codegen.lang.models.constants.Default.STRING;
 import static com.speedment.codegen.lang.models.constants.Default.VOID;
 import static com.speedment.codegen.lang.models.constants.Default.list;
-import com.speedment.codegen.lang.models.values.EnumValue;
-import com.speedment.codegen.lang.models.values.NumberValue;
-import com.speedment.codegen.lang.models.values.ReferenceValue;
-import com.speedment.codegen.lang.models.values.TextValue;
 
 /**
  *
@@ -60,87 +53,14 @@ public class Example {
 		);
 		
 		Formatting.tab("    ");
-		
-//		System.out.println(cg.on(new Table("Account")
-//			.add(new Column("id", JDBCType.INTEGER)
-//				.add(new Index("PRIMARY", Index.Type.PRIMARY))
-//			)
-//			.add(new Column("mail", JDBCType.VARCHAR).setSize(128)
-//				.add(new Index("mail_Idx", Index.Type.UNIQUE))
-//			)
-//			.add(new Column("username", JDBCType.VARCHAR).setSize(32)
-//				.add(new Index("username_Idx", Index.Type.UNIQUE))
-//			)
-//			.add(new Column("password", JDBCType.CHAR).setSize(32)
-//				.add(new Index("password_Idx", Index.Type.INDEX))
-//			)
-//			.add(new Column("salt", JDBCType.CHAR).setSize(32))
-//		).get());
-		
+
 		final Type typeThread  = new Type(Thread.class);
 		final Type spriteStore = new Type("org.duncan.test.SpriteStore");
 		final Type soundStore  = new Type("org.duncan.test.SoundStore");
-		
-		Enum myEnum;
-		System.out.println(cg.on(myEnum = new Enum("org.duncan.util.Card")
-				.public_()
-					
-				.add(new EnumConstant("HEART_OF_ACE")
-					.add(new NumberValue(1))
-					.add(new TextValue("♥"))
-				)
-				.add(new EnumConstant("HEART_OF_SPADES")
-					.add(new NumberValue(1))
-					.add(new TextValue("♠"))
-				)
-				.add(new EnumConstant("HEART_OF_CLUBS")
-					.add(new NumberValue(1))
-					.add(new TextValue("♣"))
-				)
-				.add(new EnumConstant("HEART_OF_DIAMONDS")
-					.add(new NumberValue(1))
-					.add(new TextValue("♦"))
-				)
-			).get() + "\n"
-		);
-		
-		System.out.println(cg.on(new Interface("org.duncan.test.Player")
-				/***** Class declaration *****/
-				.public_()
-				.setJavadoc(new Javadoc(
-					"This is a test class to demonstrate how the\n" +
-					"code generator is working."
-				))
-					
-				/***** Fields *****/
-				.add(new Field("cards", list(myEnum.asType()))
-					.private_().final_().static_()
-					.setValue(new ReferenceValue("new ArrayList<>()"))
-				)
-				.add(new Field("primitiveCards", myEnum.asType().setArrayDimension(2))
-					.private_().final_().static_()
-					.setValue(new ReferenceValue("new Card() [4][13]"))
-				)
-				.add(new Field("favoriteCard", myEnum.asType())
-					.private_().final_()
-					.setValue(new EnumValue(myEnum.asType(), "HEART_OF_ACE"))
-				)	
-					
-				/***** Methods *****/
-				.add(new Method("spawn", VOID)
-					.setJavadoc(new Javadoc(
-						"This function is used to reset the Player."
-					))
-					.add(new Field("name", STRING))
-					.add(new Field("score", INT_PRIMITIVE))
-				)
-			).get() + "\n"
-		);
-		
-		System.out.println(cg.on(new Class("org.duncan.test.MittTest", typeThread)
-				/***** Dependencies *****/
-				.add(new Import(LIST))
-				
+
+		System.out.println(cg.on(new File("org/duncan/test/MittTest.java")
+			.setJavadoc(new Javadoc("Copyright (c) Example Company, 2015."))
+			.add(new Class("MittTest", typeThread)
 				/***** Class declaration *****/
 				.public_()
 				.setJavadoc(new Javadoc(
@@ -156,6 +76,18 @@ public class Example {
 				.add(new Field("players", list(new Type("org.duncan.test.Player"))))
 				.add(new Field("spriteStore", spriteStore))
 				.add(new Field("soundStore", soundStore))
+					
+				/***** Subclass *****/
+				.add(new Class("Impl").private_()
+					.add(new Field("gameId", INT_PRIMITIVE).private_().final_())
+					.add(new Constructor().protected_()
+						.add(new Field("gameId", INT_PRIMITIVE))
+						.add("this.gameId = gameId;")
+					)
+					.call(new SetGetAdd())
+					.call(new FinalParameters())
+					.call(new AutoJavadoc())
+				)
 					
 				/***** Methods *****/
 				.add(new Method("spawnPlayer1", VOID).public_()
@@ -202,10 +134,8 @@ public class Example {
 				.call(new AutoEquals())
 				.call(new FinalParameters())
 				.call(new AutoJavadoc())
-				.call(new AutoImports(cg.getDependencyMgr()))
 			
-			).get() + "\n"
-		);
+			).call(new AutoImports(cg.getDependencyMgr()))
+		).get() + "\n");
 	}
-	
 }

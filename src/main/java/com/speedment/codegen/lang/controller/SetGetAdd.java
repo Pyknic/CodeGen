@@ -76,7 +76,7 @@ public class SetGetAdd implements Consumer<Class> {
 			
 			if (isCollection(f.getType())) {
 				final Field param = new Field(singular(f.getName()), f.getType().getGenerics().get(0).getUpperBounds().get(0));
-				final Method add = new Method(ADD, model.asType())
+				final Method add = new Method(ADD, new Type(model.getName()))
 					.setJavadoc(new Javadoc()
 						.add(ADDS_THE_SPECIFIED + lcfirst(shortName(param.getType().getName())) + " to this " + shortName(model.getName()) + DOT)
 						.add(new JavadocTag(PARAM, param.getName(), THE_NEW_VALUE))
@@ -90,7 +90,7 @@ public class SetGetAdd implements Consumer<Class> {
 					model.add(add);
 				}
 			} else {
-				final Method set = new Method(SET + ucfirst(f.getName()), model.asType())
+				final Method set = new Method(SET + ucfirst(f.getName()), new Type(model.getName()))
 					.setJavadoc(new Javadoc()
 						.add(S + ETS_THE + f.getName() + OF_THIS + shortName(model.getName()) + DOT)
 						.add(new JavadocTag(PARAM, f.getName(), THE_NEW_VALUE))

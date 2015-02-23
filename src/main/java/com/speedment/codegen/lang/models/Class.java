@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Constructable;
+import com.speedment.codegen.lang.interfaces.Supertypeable;
 import com.speedment.codegen.lang.models.modifiers.ClassModifier;
 import com.speedment.util.Copier;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import java.util.Optional;
  */
 public class Class extends ClassOrInterface<Class> implements 
 		Constructable<Class>,
+		Supertypeable<Class>,
 		ClassModifier<Class> {
 
 	private Optional<Type> superType;
@@ -52,12 +54,14 @@ public class Class extends ClassOrInterface<Class> implements
 		this.constructors = Copier.copy(prototype.constructors);
 	}
 
-	public Class setSuperType(Type superType) {
+	@Override
+	public Class setSupertype(Type superType) {
 		this.superType = Optional.of(superType);
 		return this;
 	}
 
-	public Optional<Type> getSuperType() {
+	@Override
+	public Optional<Type> getSupertype() {
 		return superType;
 	}
 

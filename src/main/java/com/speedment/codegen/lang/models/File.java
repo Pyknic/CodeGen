@@ -16,6 +16,7 @@
  */
 package com.speedment.codegen.lang.models;
 
+import com.speedment.codegen.lang.interfaces.Callable;
 import com.speedment.codegen.lang.interfaces.Classable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Dependable;
@@ -35,7 +36,8 @@ public class File implements
 		Nameable<File>,
 		Documentable<File>,
 		Dependable<File>,
-		Classable<File> {
+		Classable<File>,
+		Callable<File> {
 	
 	private String name;
 	private Optional<Javadoc> doc;

@@ -35,13 +35,11 @@ import java.util.stream.Collectors;
  * @author Emil Forslund
  * @param <T>
  */
-public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>&Dependable<T>> implements Consumer<T> {
-	private boolean hasImportedObjects = false;
-	
+public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>> implements Consumer<T> {
+
 	@Override
 	public void accept(T t) {
 		t.getFields();
-		hasImportedObjects = false;
 		
 		if (!hasMethod(t, "equals", 1)) {
 			final String type = shortName(t.getName());
@@ -78,10 +76,6 @@ public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>&Dependa
 		if (isPrimitive(f.getType())) {
 			return "(" + f.getName() + " == o." + f.getName() + ")";
 		} else {
-			if (!hasImportedObjects) {
-				t.add(new Import(new Type(Objects.class)));
-				hasImportedObjects = true;
-			}
 			return "Objects.equals(this." + f.getName() + ", o." + f.getName() + ")";
 		}
 	}

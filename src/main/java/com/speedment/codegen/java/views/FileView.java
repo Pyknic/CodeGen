@@ -19,6 +19,7 @@ package com.speedment.codegen.java.views;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.DependencyManager;
 import com.speedment.codegen.lang.models.File;
 import com.speedment.util.CodeCombiner;
 import java.util.Optional;
@@ -31,21 +32,42 @@ public class FileView implements CodeView<File> {
 	private final static String PACKAGE_STRING = "package ";
 	
 	private String renderPackage(File file) {
-		final Optional<String> pack = packageName(file.getName());
-		if (pack.isPresent()) {
-			return PACKAGE_STRING + pack.get() + scdnl();
-		} else {
-			return EMPTY;
+		final Optional<String> name = fileToClassName(file.getName());
+		if (name.isPresent()) {
+			final Optional<String> pack = packageName(name.get());
+			if (pack.isPresent()) {
+				return PACKAGE_STRING + pack.get() + scdnl();
+			}
 		}
+		
+		return EMPTY;
 	}
 	
 	@Override
 	public Optional<String> render(CodeGenerator cg, File model) {
-		return Optional.of(
+		final DependencyManager mgr = cg.getDependencyMgr();
+		Optional<String> packageName = packageName(model.getName());
+		mgr.clearDependencies();
+		
+		if (packageName.isPresent()) {
+			if (mgr.isIgnored(packageName.get())) {
+				packageName = Optional.empty();
+			} else {
+				mgr.ignorePackage(packageName.get());
+			}
+		}
+
+		final Optional<String> view = Optional.of(
 			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
 			renderPackage(model) +
 			cg.onEach(model.getDependencies()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, dnl())) +
 			cg.onEach(model.getClasses()).collect(CodeCombiner.joinIfNotEmpty(dnl()))
 		);
+		
+		if (packageName.isPresent()) {
+			mgr.acceptPackage(packageName.get());
+		}
+		
+		return view;
 	}
 }
