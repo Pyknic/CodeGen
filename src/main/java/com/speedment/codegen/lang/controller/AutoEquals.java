@@ -36,34 +36,6 @@ import java.util.stream.Collectors;
  * @param <T>
  */
 public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>&Dependable<T>> implements Consumer<T> {
-	private final static String 
-		M_EQUALS = "equals",
-//		M_COMPARE_TO = "compareTo",
-		F_OTHER = "other",
-		F_SUCCESS = "success",
-		RETURN_FALSE = "return false;",
-		IF = "if (",
-		IF_NOT = "if (!",
-		RETURN = "return ",
-//		IF_OTHER_IS_NULL = "if (other == null) ",
-		IF_CLASS_DIFFERS = "if (other.class != this.class) {",
-		CLASS = ".getClass()",
-		THIS = "this",
-		ELSE = " else ",
-		FINAL = "final ",
-		O = "o",
-		O_EQUALS = " o = (",
-		REF_OTHER = ") other;",
-		NULL = "null",
-//		OR = " || ",
-//		AND = " && ",
-		ASSIGN = " = ",
-		EQUALS = " == ",
-		NOT_EQUALS = " != ",
-		TRUE = "true",
-		FALSE = "false",
-		BOOLEAN = "boolean ";
-	
 	private boolean hasImportedObjects = false;
 	
 	@Override
@@ -74,9 +46,10 @@ public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>&Dependa
 		if (!hasMethod(t, "equals", 1)) {
 			final String type = shortName(t.getName());
 			t.add(new Method("equals", Default.BOOLEAN_PRIMITIVE)
+				.add(Default.OVERRIDE)
 				.public_()
 				.add(new Field("other", Default.OBJECT))
-				.add(Default.OVERRIDE)
+				
 				.add("if (other == null) return false;" + nl())
 				.add(
 					"if (!getClass().equals(other.getClass())) " + block(
@@ -87,6 +60,16 @@ public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>&Dependa
 				.add(t.getFields().stream().map(f -> compare(t, f)).collect(
 					Collectors.joining(nl() + " && ", "return (", ");")
 				))
+			);
+		}
+		
+		if (!hasMethod(t, "hashCode", 0)) {
+			t.add(new Method("hashCode", Default.INT_PRIMITIVE)
+				.add(Default.OVERRIDE)
+				.public_()
+				.add("int hash = 7;")
+				.add(t.getFields().stream().map(f -> hash(f)).collect(Collectors.joining(nl())))
+				.add("return hash;")
 			);
 		}
 	}
@@ -100,6 +83,23 @@ public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>&Dependa
 				hasImportedObjects = true;
 			}
 			return "Objects.equals(this." + f.getName() + ", o." + f.getName() + ")";
+		}
+	}
+	
+	private String hash(Field f) {
+		final String prefix = "hash = 13 * hash + ";
+		final String suffix = ".hashCode(this." + f.getName() + ");";
+
+		switch (f.getType().getName()) {
+			case "byte" : return prefix + "Byte" + suffix;
+			case "short" : return prefix + "Short" + suffix;
+			case "int" : return prefix + "Integer" + suffix;
+			case "long" : return prefix + "Long" + suffix;
+			case "float" : return prefix + "Float" + suffix;
+			case "double" : return prefix + "Double" + suffix;
+			case "boolean" : return prefix + "Boolean" + suffix;
+			case "char" : return prefix + "Character" + suffix;
+			default: return prefix + "this." + f.getName() + ".hashCode();";
 		}
 	}
 	
