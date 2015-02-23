@@ -34,6 +34,7 @@ public class MethodView implements CodeView<Method> {
 	public Optional<String> render(CodeGenerator cg, Method model) {
 		return Optional.of(
 			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
+			cg.onEach(model.getAnnotations()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, nl())) +
 			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
 			cg.onEach(model.getGenerics()).collect(CodeCombiner.joinIfNotEmpty(COMMA_SPACE, SS, SE + SPACE)) +
 			ifelse(cg.on(model.getType()), s -> s + SPACE, EMPTY) +

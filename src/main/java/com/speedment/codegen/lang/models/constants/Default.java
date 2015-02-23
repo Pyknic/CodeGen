@@ -87,6 +87,7 @@ public abstract class Default {
 		BOOLEAN = new Type.Const(Boolean.class),
 		CHARACTER = new Type.Const(Character.class),
 		STRING = new Type.Const(String.class),
+		OBJECT = new Type.Const(Object.class),
 		VOID = new Type.Const("void"),
 		WILDCARD = new Type.Const("?"),
 		LIST = new Type.Const(List.class),

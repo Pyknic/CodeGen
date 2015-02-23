@@ -21,6 +21,7 @@ import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.java.JavaGenerator;
 import com.speedment.codegen.java.JavaInstaller;
 import com.speedment.codegen.jdbc.JDBCInstaller;
+import com.speedment.codegen.lang.controller.AutoEquals;
 import com.speedment.codegen.lang.controller.AutoImports;
 import com.speedment.codegen.lang.controller.AutoJavadoc;
 import com.speedment.codegen.lang.controller.FinalParameters;
@@ -34,6 +35,7 @@ import com.speedment.codegen.lang.models.Interface;
 import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.Method;
 import com.speedment.codegen.lang.models.Type;
+import com.speedment.codegen.lang.models.constants.Default;
 import static com.speedment.codegen.lang.models.constants.Default.INT_PRIMITIVE;
 import static com.speedment.codegen.lang.models.constants.Default.LIST;
 import static com.speedment.codegen.lang.models.constants.Default.STRING;
@@ -200,6 +202,7 @@ public class Example {
 				
 				/***** Controllers *****/
 				.call(new SetGetAdd())
+				.call(new AutoEquals())
 				.call(new FinalParameters())
 				.call(new AutoJavadoc())
 				.call(new AutoImports(cg.getDependencyMgr()))
