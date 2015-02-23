@@ -19,7 +19,6 @@ package com.speedment.codegen.java.views;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.base.DependencyManager;
 import com.speedment.codegen.lang.interfaces.Constructable;
 import com.speedment.codegen.lang.models.ClassOrInterface;
 import com.speedment.codegen.lang.models.Field;
