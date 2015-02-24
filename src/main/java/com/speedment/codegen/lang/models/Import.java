@@ -18,7 +18,7 @@ package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Typeable;
-import com.speedment.codegen.lang.models.modifiers.DependencyModifier;
+import com.speedment.codegen.lang.models.modifiers.ImportModifier;
 import com.speedment.codegen.lang.models.modifiers.Modifier;
 import com.speedment.util.Copier;
 import java.util.EnumSet;
@@ -31,7 +31,7 @@ import java.util.Set;
 public class Import implements 
 		Copyable<Import>,
 		Typeable<Import>,
-		DependencyModifier<Import> {
+		ImportModifier<Import> {
 	
 	private Type type;
 	private final Set<Modifier> modifiers;

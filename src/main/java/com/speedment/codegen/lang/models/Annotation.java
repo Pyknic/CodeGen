@@ -21,8 +21,8 @@ import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Dependable;
 import com.speedment.codegen.lang.interfaces.Documentable;
 import com.speedment.codegen.lang.interfaces.Fieldable;
-import com.speedment.codegen.lang.interfaces.Modifiable;
 import com.speedment.codegen.lang.interfaces.Nameable;
+import com.speedment.codegen.lang.models.modifiers.AnnotationModifier;
 import com.speedment.codegen.lang.models.modifiers.Modifier;
 import com.speedment.util.Copier;
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class Annotation implements
 		Documentable<Annotation>,
 		Fieldable<Annotation>,
 		Dependable<Annotation>,
-		Modifiable<Annotation>,
+		AnnotationModifier<Annotation>,
 		Annotable<Annotation> {
 	
 	private String name;

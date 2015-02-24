@@ -24,7 +24,7 @@ import static com.speedment.codegen.lang.models.modifiers.Modifier.STATIC;
  * @author Emil Forslund
  * @param <T>
  */
-public interface DependencyModifier<T extends DependencyModifier<T>> extends Modifiable<T> {
+public interface ImportModifier<T extends ImportModifier<T>> extends Modifiable<T> {
 	default T static_() {
 		getModifiers().add(STATIC);
 		return (T) this;
