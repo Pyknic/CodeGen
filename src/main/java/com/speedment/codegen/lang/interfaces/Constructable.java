@@ -25,6 +25,8 @@ import java.util.List;
  * @param <T>
  */
 public interface Constructable<T extends Constructable<T>> {
+    
+    @SuppressWarnings("unchecked")
     default T add(final Constructor constr) {
         getConstructors().add(constr);
         return (T) this;

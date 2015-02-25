@@ -33,6 +33,6 @@ import com.speedment.codegen.lang.interfaces.Nameable;
  * @author Emil Forslund
  */
 public interface ClassOrInterface<T extends ClassOrInterface<T>> extends 
-		Copyable<T>, Callable<T>, Nameable<T>, Documentable<T>, Generable<T>,
-		Interfaceable<T>, Classable<T>, Methodable<T>, Fieldable<T>, 
-        Annotable<T>, Modifiable<T> {}
+    Copyable<T>, Callable<T>, Nameable<T>, Documentable<T>, Generable<T>,
+    Interfaceable<T>, Classable<T>, Methodable<T>, Fieldable<T>, 
+    Annotable<T>, Modifiable<T> {}

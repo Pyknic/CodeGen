@@ -25,10 +25,12 @@ import java.util.List;
  * @param <T>
  */
 public interface Classable<T extends Classable<T>> {
-    default T add(ClassOrInterface member) {
+    
+    @SuppressWarnings("unchecked")
+    default T add(ClassOrInterface<?> member) {
         getClasses().add(member);
         return (T) this;
     }
     
-	List<ClassOrInterface> getClasses();
+	List<ClassOrInterface<?>> getClasses();
 }

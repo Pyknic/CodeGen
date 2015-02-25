@@ -25,36 +25,43 @@ import static com.speedment.codegen.lang.models.modifiers.Modifier.*;
  * @param <T>
  */
 public interface ClassModifier<T extends ClassModifier<T>> extends Modifiable<T> {
-	default T public_() {
+	@SuppressWarnings("unchecked")
+    default T public_() {
 		getModifiers().add(PUBLIC);
 		return (T) this;
 	}
 	
+    @SuppressWarnings("unchecked")
 	default T protected_() {
 		getModifiers().add(PROTECTED);
 		return (T) this;
 	}
 	
+    @SuppressWarnings("unchecked")
 	default T private_() {
 		getModifiers().add(PRIVATE);
 		return (T) this;
 	}
 	
+    @SuppressWarnings("unchecked")
 	default T abstract_() {
 		getModifiers().add(ABSTRACT);
 		return (T) this;
 	}
 	
+    @SuppressWarnings("unchecked")
 	default T static_() {
 		getModifiers().add(STATIC);
 		return (T) this;
 	}
 	
+    @SuppressWarnings("unchecked")
 	default T final_() {
 		getModifiers().add(FINAL);
 		return (T) this;
 	}
 	
+    @SuppressWarnings("unchecked")
 	default T strictfp_() {
 		getModifiers().add(STRICTFP);
 		return (T) this;

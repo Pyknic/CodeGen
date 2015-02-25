@@ -104,7 +104,7 @@ public abstract class Default {
 		PREDICATE = new TypeImpl.Const(Predicate.class),
 		CONSUMER = new TypeImpl.Const(Consumer.class);
 	
-	public final static Value
+	public final static Value<?>
 		NULL			= new NullValue(),
 		EMPTY_STRING	= new TextValue("");
 		

@@ -29,7 +29,7 @@ import java.util.List;
 public class EnumConstantImpl implements EnumConstant {
 	
 	private String name;
-	private final List<Value> values;
+	private final List<Value<?>> values;
 
 	public EnumConstantImpl(String name) {
 		this.name	= name;
@@ -38,7 +38,7 @@ public class EnumConstantImpl implements EnumConstant {
 	
 	private EnumConstantImpl(EnumConstantImpl prototype) {
 		name	= prototype.name;
-		values	= Copier.copy(prototype.values);
+		values	= Copier.copy(prototype.values, v -> v.copy());
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class EnumConstantImpl implements EnumConstant {
 	}
 	
     @Override
-	public List<Value> getValues() {
+	public List<Value<?>> getValues() {
 		return values;
 	}
 

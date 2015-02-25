@@ -28,9 +28,9 @@ import com.speedment.codegen.lang.models.implementation.JavadocImpl;
 import com.speedment.codegen.lang.models.implementation.JavadocTagImpl;
 import com.speedment.codegen.lang.models.implementation.MethodImpl;
 import com.speedment.codegen.lang.models.implementation.TypeImpl;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -63,7 +63,7 @@ public class SetGetAdd implements Consumer<Class> {
 	private final List<String> methods;
 	
 	public SetGetAdd() {
-		this.methods = Collections.EMPTY_LIST;
+		this.methods = new ArrayList<>();
 	}
 	
 	public SetGetAdd(Method... methods) {
@@ -103,7 +103,7 @@ public class SetGetAdd implements Consumer<Class> {
 					).public_();
                 
 				if (isOptional(f.getType())) {
-					set.add(new FieldImpl(f.getName(), (Type) f.getType().getGenerics().get(0).getUpperBounds().get(0)))
+					set.add(new FieldImpl(f.getName(), f.getType().getGenerics().get(0).getUpperBounds().get(0)))
 						.add(THIS + f.getName() + ASSIGN + OPTIONAL_OF + f.getName() + PE + SC)
 						.add(RETURN_THIS + SC);
 				} else {

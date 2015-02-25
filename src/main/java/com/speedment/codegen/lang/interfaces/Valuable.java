@@ -25,6 +25,6 @@ import java.util.Optional;
  * @param <T>
  */
 public interface Valuable<T extends Valuable<T>> {
-	T setValue(final Value val);
-	Optional<Value> getValue();
+	T setValue(final Value<?> val);
+	Optional<Value<?>> getValue();
 }

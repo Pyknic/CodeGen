@@ -25,7 +25,8 @@ import static com.speedment.codegen.lang.models.modifiers.Modifier.PUBLIC;
  * @param <T>
  */
 public interface InterfaceModifier<T extends InterfaceModifier<T>> extends Modifiable<T> {
-	default T public_() {
+	@SuppressWarnings("unchecked")
+    default T public_() {
 		getModifiers().add(PUBLIC);
 		return (T) this;
 	}

@@ -66,6 +66,7 @@ public abstract class ValueImpl<V> implements Value<V> {
 			return false;
 		}
 		
+        @SuppressWarnings("unchecked")
 		final ValueImpl<V> other = (ValueImpl<V>) obj;
 		return Objects.equals(this.value, other.value);
 	}

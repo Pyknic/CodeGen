@@ -40,14 +40,14 @@ public interface Installer {
 	 * @param model The model.
 	 * @return The view or empty as an Optional.
 	 */
-	Optional<CodeView> withOne(Class<?> model);
+	Optional<CodeView<?>> withOne(Class<?> model);
 	
 	/**
 	 * Builds a stream of all views that match the specified model.
 	 * @param model The model.
 	 * @return A stream of all matching views.
 	 */
-	Stream<CodeView> withAll(Class<?> model);
+	<M> Stream<CodeView<M>> withAll(Class<M> model);
 	
 	/**
 	 * Instantiates the specified class and returns it.

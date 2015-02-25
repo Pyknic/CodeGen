@@ -34,7 +34,7 @@ import java.util.function.Consumer;
 public class MultiGenerator implements CodeGenerator {
 	private final DependencyManager mgr;
 	private final List<Installer> installers;
-	private final Stack renderStack;
+	private final Stack<Object> renderStack;
 	
 	/**
 	 * Creates a new MultiGenerator.
@@ -84,7 +84,7 @@ public class MultiGenerator implements CodeGenerator {
 	 * @return the current rendering stack.
 	 */
 	@Override
-	public List getRenderStack() {
+	public List<Object> getRenderStack() {
 		return Collections.unmodifiableList(renderStack);
 	}
 
@@ -102,7 +102,7 @@ public class MultiGenerator implements CodeGenerator {
 	@Override
 	public Optional<String> on(Object model) {
 		for (Installer i : installers) {
-			final Optional<CodeView> view = i.withOne(model.getClass());
+			final Optional<CodeView<?>> view = i.withOne(model.getClass());
 			if (view.isPresent()) {
 				return render(view.get(), model);
 			}

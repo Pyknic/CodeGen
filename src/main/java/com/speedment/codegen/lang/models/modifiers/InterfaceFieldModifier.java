@@ -25,7 +25,8 @@ import static com.speedment.codegen.lang.models.modifiers.Modifier.*;
  * @param <T>
  */
 public interface InterfaceFieldModifier<T extends InterfaceFieldModifier<T>> extends Modifiable<T> {
-	default T final_() {
+	@SuppressWarnings("unchecked")
+    default T final_() {
 		getModifiers().add(FINAL);
 		return (T) this;
 	}

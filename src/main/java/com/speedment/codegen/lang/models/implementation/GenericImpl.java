@@ -54,7 +54,7 @@ public class GenericImpl implements Generic {
 	}
 	
 	private GenericImpl(GenericImpl prototype) {
-		lowerBound  = Copier.copy(prototype.lowerBound, c -> c);
+		lowerBound  = Copier.copy(prototype.lowerBound, s -> s);
 		upperBounds = Copier.copy(prototype.upperBounds);
 	}
 

@@ -46,7 +46,7 @@ public abstract class ClassOrInterfaceImpl<T extends ClassOrInterface<T>>
 	private final List<Type> interfaces;
 	private final List<Field> fields;
 	private final List<Method> methods;
-	private final List<ClassOrInterface> classes;
+	private final List<ClassOrInterface<?>> classes;
 	private final Set<Modifier> modifiers;
 
 	public ClassOrInterfaceImpl(String name) {
@@ -69,11 +69,12 @@ public abstract class ClassOrInterfaceImpl<T extends ClassOrInterface<T>>
 		interfaces		= Copier.copy(prototype.interfaces);
 		fields			= Copier.copy(prototype.fields);
 		methods			= Copier.copy(prototype.methods);
-		classes			= Copier.copy(prototype.classes);
+		classes			= Copier.copy(prototype.classes, c -> c.copy());
 		modifiers		= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
 	@Override
+    @SuppressWarnings("unchecked")
 	public T setName(String name) {
 		this.name = name;
 		return (T) this;
@@ -85,6 +86,7 @@ public abstract class ClassOrInterfaceImpl<T extends ClassOrInterface<T>>
 	}
 
 	@Override
+    @SuppressWarnings("unchecked")
 	public T setJavadoc(Javadoc doc) {
 		javadoc = Optional.of(doc);
 		return (T) this;
@@ -126,7 +128,7 @@ public abstract class ClassOrInterfaceImpl<T extends ClassOrInterface<T>>
 	}
 
 	@Override
-	public List<ClassOrInterface> getClasses() {
+	public List<ClassOrInterface<?>> getClasses() {
 		return classes;
 	}
 }

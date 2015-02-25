@@ -59,7 +59,7 @@ public class InterfaceFieldImpl implements InterfaceField {
 	}
 
     @Override
-	public Optional<Value> getValue() {
+	public Optional<Value<?>> getValue() {
 		return f.getValue();
 	}
 

@@ -25,6 +25,8 @@ import java.util.List;
  * @param <T>
  */
 public interface Methodable<T extends Methodable<T>> {
+    
+    @SuppressWarnings("unchecked")
     default T add(final Method meth) {
         getMethods().add(meth);
         return (T) this;

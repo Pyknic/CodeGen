@@ -25,6 +25,8 @@ import java.util.List;
  * @param <T>
  */
 public interface Importable<T extends Importable<T>> {
+    
+    @SuppressWarnings("unchecked")
     default T add(final Import dep) {
         getImports().add(dep);
         return (T) this;

@@ -25,11 +25,13 @@ import static com.speedment.codegen.lang.models.modifiers.Modifier.*;
  * @param <T>
  */
 public interface InterfaceMethodModifier<T extends InterfaceMethodModifier<T>> extends Modifiable<T> {
-	default T static_() {
+	@SuppressWarnings("unchecked")
+    default T static_() {
 		getModifiers().add(STATIC);
 		return (T) this;
 	}
 
+    @SuppressWarnings("unchecked")
 	default T default_() {
 		getModifiers().add(DEFAULT);
 		return (T) this;

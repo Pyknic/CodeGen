@@ -25,7 +25,8 @@ import static com.speedment.codegen.lang.models.modifiers.Modifier.STATIC;
  * @param <T>
  */
 public interface ImportModifier<T extends ImportModifier<T>> extends Modifiable<T> {
-	default T static_() {
+	@SuppressWarnings("unchecked")
+    default T static_() {
 		getModifiers().add(STATIC);
 		return (T) this;
 	}

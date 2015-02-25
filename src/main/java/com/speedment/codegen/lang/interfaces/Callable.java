@@ -24,7 +24,8 @@ import java.util.function.Consumer;
  * @param <T>
  */
 public interface Callable<T> {
-	default public T call(Consumer<T> procedure) {
+	@SuppressWarnings("unchecked")
+    default public T call(Consumer<T> procedure) {
 		procedure.accept((T) this);
 		return (T) this;
 	}

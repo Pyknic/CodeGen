@@ -25,15 +25,15 @@ import java.util.List;
  *
  * @author Emil Forslund
  */
-public class ArrayValue extends ValueImpl<List<Value>> {
+public class ArrayValue extends ValueImpl<List<Value<?>>> {
 
-	public ArrayValue(List<Value> val) {
+	public ArrayValue(List<Value<?>> val) {
 		super(val);
 	}
 
 	@Override
 	public ArrayValue copy() {
-		return new ArrayValue(Copier.copy(getValue()));
+		return new ArrayValue(Copier.copy(getValue(), s -> s.copy()));
 	}
 
 	@Override

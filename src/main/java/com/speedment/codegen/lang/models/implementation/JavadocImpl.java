@@ -42,7 +42,7 @@ public class JavadocImpl implements Javadoc {
 	}
 	
 	private JavadocImpl(final JavadocImpl prototype) {
-		rows = Copier.copy(prototype.rows, c -> c);
+		rows = Copier.copy(prototype.rows, s -> s);
 		tags = Copier.copy(prototype.tags);
 	}
 	

@@ -23,6 +23,8 @@ import java.util.List;
  * @author Emil Forslund
  */
 public interface Codeable<T extends Codeable<T>> {
+    
+    @SuppressWarnings("unchecked")
     default T add(String row) {
         getCode().add(row);
         return (T) this;

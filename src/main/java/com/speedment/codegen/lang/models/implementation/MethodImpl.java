@@ -63,7 +63,7 @@ public class MethodImpl implements Method {
 		annotations	= Copier.copy(prototype.annotations);
 		generics	= Copier.copy(prototype.generics);
 		params		= Copier.copy(prototype.params);
-		code		= Copier.copy(prototype.code, c -> c);
+		code		= Copier.copy(prototype.code, s -> s);
 		modifiers	= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 

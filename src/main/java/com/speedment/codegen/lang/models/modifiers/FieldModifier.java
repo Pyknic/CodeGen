@@ -25,41 +25,49 @@ import static com.speedment.codegen.lang.models.modifiers.Modifier.*;
  * @param <T>
  */
 public interface FieldModifier<T extends FieldModifier<T>> extends Modifiable<T> {
-	default T public_() {
+	@SuppressWarnings("unchecked")
+    default T public_() {
 		getModifiers().add(PUBLIC);
 		return (T) this;
 	}
 	
+    @SuppressWarnings("unchecked")
 	default T protected_() {
 		getModifiers().add(PROTECTED);
 		return (T) this;
 	}
 	
+    @SuppressWarnings("unchecked")
 	default T private_() {
 		getModifiers().add(PRIVATE);
 		return (T) this;
 	}
 	
+    @SuppressWarnings("unchecked")
 	default T static_() {
 		getModifiers().add(STATIC);
 		return (T) this;
 	}
 	
+    @SuppressWarnings("unchecked")
 	default T final_() {
 		getModifiers().add(FINAL);
 		return (T) this;
 	}
 
+    @SuppressWarnings("unchecked")
 	default T synchronized_() {
 		getModifiers().add(SYNCHRONIZED);
 		return (T) this;
 	}
 	
+    @SuppressWarnings("unchecked")
 	default T transient_() {
 		getModifiers().add(TRANSIENT);
 		return (T) this;
 	}
 	
+    @SuppressWarnings("unchecked")
 	default T volatile_() {
 		getModifiers().add(VOLATILE);
 		return (T) this;

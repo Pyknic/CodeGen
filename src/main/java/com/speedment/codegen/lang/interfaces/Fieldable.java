@@ -25,6 +25,8 @@ import java.util.List;
  * @param <T>
  */
 public interface Fieldable<T extends Fieldable<T>> {
+    
+    @SuppressWarnings("unchecked")
     default T add(final Field field) {
         getFields().add(field);
         return (T) this;

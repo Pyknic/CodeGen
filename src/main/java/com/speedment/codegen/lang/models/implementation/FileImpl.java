@@ -34,7 +34,7 @@ public class FileImpl implements File {
 	private String name;
 	private Optional<Javadoc> doc;
 	private final List<Import> imports;
-	private final List<ClassOrInterface> classes;
+	private final List<ClassOrInterface<?>> classes;
 	
 	public FileImpl(String name) {
 		this.name	 = name;
@@ -47,7 +47,7 @@ public class FileImpl implements File {
 		this.name	 = prototype.name;
 		this.doc	 = Copier.copy(prototype.doc);
 		this.imports = Copier.copy(prototype.imports);
-		this.classes = Copier.copy(prototype.classes);
+		this.classes = Copier.copy(prototype.classes, c -> c.copy());
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class FileImpl implements File {
 	}
 
 	@Override
-	public List<ClassOrInterface> getClasses() {
+	public List<ClassOrInterface<?>> getClasses() {
 		return classes;
 	}
 

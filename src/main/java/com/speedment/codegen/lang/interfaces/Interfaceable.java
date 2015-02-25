@@ -25,6 +25,8 @@ import java.util.List;
  * @param <T>
  */
 public interface Interfaceable<T extends Interfaceable<T>> {
+    
+    @SuppressWarnings("unchecked")
     default T add(final Type interf) {
         getInterfaces().add(interf);
         return (T) this;

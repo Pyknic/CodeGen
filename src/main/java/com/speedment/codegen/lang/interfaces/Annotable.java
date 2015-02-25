@@ -25,6 +25,8 @@ import java.util.List;
  * @param <T>
  */
 public interface Annotable<T extends Annotable<T>> {
+    
+    @SuppressWarnings("unchecked")
     default T add(final AnnotationUsage annotation) {
         getAnnotations().add(annotation);
         return (T) this;

@@ -40,7 +40,7 @@ public class DefaultInstaller implements Installer {
 	}
 
 	@Override
-	public Optional<CodeView> withOne(Class<?> model) {
+	public Optional<CodeView<?>> withOne(Class<?> model) {
 		for (final Map.Entry<Class<?>, Class<? extends CodeView>> e : modelToView) {
 			if (e.getKey().isAssignableFrom(model)) {
 				return Optional.of(Installer.create(e.getValue()));
@@ -50,7 +50,7 @@ public class DefaultInstaller implements Installer {
 	}
 	
 	@Override
-	public Stream<CodeView> withAll(Class<?> model) {
+	public <M> Stream<CodeView<M>> withAll(Class<M> model) {
 		return modelToView.stream()
 			.filter(e -> e.getKey().isAssignableFrom(model))
 			.map(e -> Installer.create(e.getValue()));

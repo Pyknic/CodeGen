@@ -52,7 +52,7 @@ public interface CodeGenerator {
 	 * 
 	 * @return the current rendering stack.
 	 */
-	List getRenderStack();
+	List<Object> getRenderStack();
 	
 	/**
 	 * Locates the <code>CodeView</code> that corresponds to the specified model

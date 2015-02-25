@@ -49,8 +49,8 @@ public class JavadocTagImpl implements JavadocTag {
 	
 	private JavadocTagImpl(JavadocTagImpl prototype) {
 		this.name  = prototype.name;
-		this.value = Copier.copy(prototype.value, c -> c);
-		this.text  = Copier.copy(prototype.text, c -> c);
+		this.value = Copier.copy(prototype.value, s -> s);
+		this.text  = Copier.copy(prototype.text, s -> s);
 	}
 
     @Override

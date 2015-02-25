@@ -26,10 +26,10 @@ import java.util.List;
  */
 public interface EnumConstant extends Copyable<EnumConstant>, Nameable<EnumConstant> {
     
-    default EnumConstant add(Value value) {
+    default EnumConstant add(Value<?> value) {
         getValues().add(value);
         return this;
     }
     
-    List<Value> getValues();
+    List<Value<?>> getValues();
 }

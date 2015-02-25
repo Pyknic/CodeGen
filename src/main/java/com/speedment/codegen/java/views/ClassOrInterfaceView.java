@@ -36,7 +36,7 @@ import java.util.stream.Stream;
  * @author Emil Forslund
  * @param <M>
  */
-public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implements CodeView<M> {
+public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implements CodeView<M> {
 	protected final static String
 		CLASS_STRING = "class ",
 		INTERFACE_STRING = "interface ",
@@ -49,7 +49,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 	}
 	
 	protected Object wrapField(Field field) {return field;}
-	protected Object wrapClassOrInterface(ClassOrInterface clazz) {return clazz;}
+	protected Object wrapClassOrInterface(ClassOrInterface<?> clazz) {return clazz;}
 	protected Object wrapMethod(Method method) {return method;}
 	
 	protected String onAfterFields(CodeGenerator cg, M model) {
@@ -86,7 +86,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 				onAfterFields(cg, model),
 				cg.onEach(wrap(model.getMethods(), (Method m) -> wrapMethod(m)))
 					.collect(Collectors.joining(dnl())),
-				cg.onEach(wrap(model.getClasses(), (ClassOrInterface c) -> wrapClassOrInterface(c)))
+				cg.onEach(wrap(model.getClasses(), (ClassOrInterface<?> c) -> wrapClassOrInterface(c)))
 					.collect(Collectors.joining(dnl()))
 			))
 		);

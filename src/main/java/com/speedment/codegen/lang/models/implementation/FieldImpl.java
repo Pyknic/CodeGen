@@ -37,7 +37,7 @@ public class FieldImpl implements Field {
 	
 	private String name;
 	private Type type;
-	private Optional<Value> value;
+	private Optional<Value<?>> value;
 	private Optional<Javadoc> javadoc;
 	private final List<AnnotationUsage> annotations;
 	private final Set<Modifier> modifiers;
@@ -54,7 +54,7 @@ public class FieldImpl implements Field {
 	private FieldImpl(FieldImpl prototype) {
 		name		= prototype.name;
 		type		= prototype.type;
-		value		= Copier.copy(prototype.value);
+		value		= Copier.copy(prototype.value, v -> v.copy());
 		javadoc		= Copier.copy(prototype.javadoc);
 		annotations	= Copier.copy(prototype.annotations);
 		modifiers	= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
@@ -105,7 +105,7 @@ public class FieldImpl implements Field {
 	}
 
 	@Override
-	public Optional<Value> getValue() {
+	public Optional<Value<?>> getValue() {
 		return value;
 	}
 
