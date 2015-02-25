@@ -28,8 +28,9 @@ import com.speedment.codegen.lang.interfaces.Methodable;
 import com.speedment.codegen.lang.interfaces.Supertypeable;
 import com.speedment.codegen.lang.interfaces.Typeable;
 import com.speedment.codegen.lang.models.File;
-import com.speedment.codegen.lang.models.Import;
+import com.speedment.codegen.lang.models.Generic;
 import com.speedment.codegen.lang.models.Type;
+import com.speedment.codegen.lang.models.implementation.ImportImpl;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -48,7 +49,7 @@ public class AutoImports implements Consumer<File> {
 	@Override
 	public void accept(File file) {
 		findTypesIn(file).forEach((s, t) -> {
-			file.add(new Import(t));
+			file.add(new ImportImpl(t));
 		});
 	}
 	
@@ -91,7 +92,7 @@ public class AutoImports implements Consumer<File> {
 		if (Generable.class.isAssignableFrom(o.getClass())) {
 			((Generable<?>) o).getGenerics().forEach(g -> {
 				g.getUpperBounds().forEach(ub -> {
-					addType(ub, types);
+					addType((Type) ub, types);
 				});
 			});
 		}

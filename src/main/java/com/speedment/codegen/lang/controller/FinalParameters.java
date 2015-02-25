@@ -24,10 +24,8 @@ import java.util.function.Consumer;
  * @author Emil Forslund
  */
 public class FinalParameters implements Consumer<Class> {
-
 	@Override
 	public void accept(Class model) {
 		model.getMethods().forEach(m -> m.getFields().forEach(p -> p.final_()));
 	}
-	
 }

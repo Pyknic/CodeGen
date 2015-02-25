@@ -25,6 +25,10 @@ import java.util.List;
  * @param <T>
  */
 public interface Generable<T extends Generable<T>> {
-	T add(final Generic generic);
+    default T add(final Generic generic) {
+        getGenerics().add(generic);
+        return (T) this;
+    }
+    
     List<Generic> getGenerics();
 }

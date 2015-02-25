@@ -61,7 +61,7 @@ public class FileView implements CodeView<File> {
 		final Optional<String> view = Optional.of(
 			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
 			renderPackage(model) +
-			cg.onEach(model.getDependencies()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, dnl())) +
+			cg.onEach(model.getImports()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, dnl())) +
 			cg.onEach(model.getClasses()).collect(CodeCombiner.joinIfNotEmpty(dnl()))
 		);
 		

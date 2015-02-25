@@ -16,13 +16,13 @@
  */
 package com.speedment.codegen.lang.models.values;
 
-import com.speedment.codegen.lang.models.Value;
+import com.speedment.codegen.lang.models.implementation.ValueImpl;
 
 /**
  *
  * @author Emil Forslund
  */
-public class TextValue extends Value<String, TextValue> {
+public class TextValue extends ValueImpl<String> {
 
 	public TextValue(String num) {
 		super(num);

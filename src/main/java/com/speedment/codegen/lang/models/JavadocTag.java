@@ -18,107 +18,15 @@ package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Nameable;
-import com.speedment.util.Copier;
 import java.util.Optional;
 
 /**
  *
  * @author Emil Forslund
  */
-public class JavadocTag implements Copyable<JavadocTag>, Nameable<JavadocTag> {
-	private String name;
-	private Optional<String> value;
-	private Optional<String> text;
-	
-	public JavadocTag(String name) {
-		this.name  = name;
-		this.value = Optional.empty();
-		this.text  = Optional.empty();
-	}
-	
-	public JavadocTag(String name, String text) {
-		this.name  = name;
-		this.value = Optional.empty();
-		this.text  = Optional.of(text);
-	}
-	
-	public JavadocTag(String name, String value, String text) {
-		this.name  = name;
-		this.value = Optional.of(value);
-		this.text  = Optional.of(text);
-	}
-	
-	private JavadocTag(JavadocTag prototype) {
-		this.name  = prototype.name;
-		this.value = Copier.copy(prototype.value, c -> c);
-		this.text  = Copier.copy(prototype.text, c -> c);
-	}
-
-	public Optional<String> getValue() {
-		return value;
-	}
-
-	public JavadocTag setValue(String value) {
-		this.value = Optional.of(value);
-		return this;
-	}
-
-	public Optional<String> getText() {
-		return text;
-	}
-
-	public JavadocTag setText(String text) {
-		this.text = Optional.of(text);
-		return this;
-	}
-
-	@Override
-	public JavadocTag setName(String name) {
-		this.name = name;
-		return this;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-	
-	@Override
-	public JavadocTag copy() {
-		return new JavadocTag(this);
-	}
-	
-	public final static class Const extends JavadocTag {
-		public Const(String name) {
-			super(name);
-		}
-
-		public Const(String name, String value) {
-			super(name, value);
-		}
-
-		public Const(String name, String value, String text) {
-			super(name, value, text);
-		}
-		
-		@Override
-		public JavadocTag setValue(String value) {
-			return copy().setValue(value);
-		}
-		
-		@Override
-		public JavadocTag setText(String text) {
-			return copy().setText(text);
-		}
-
-		@Override
-		public JavadocTag setName(String name) {
-			return copy().setName(name);
-		}
-		
-		@Override
-		public JavadocTag copy() {
-			return new JavadocTag(this);
-		}
-	}
+public interface JavadocTag extends Copyable<JavadocTag>, Nameable<JavadocTag> {
+    JavadocTag setValue(String value);
+    Optional<String> getValue();
+    JavadocTag setText(String text);
+	Optional<String> getText();
 }

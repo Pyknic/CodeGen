@@ -17,10 +17,13 @@
 package com.speedment.codegen.lang.models.constants;
 
 import com.speedment.codegen.lang.models.AnnotationUsage;
-import com.speedment.codegen.lang.models.Generic;
 import com.speedment.codegen.lang.models.JavadocTag;
 import com.speedment.codegen.lang.models.Type;
 import com.speedment.codegen.lang.models.Value;
+import com.speedment.codegen.lang.models.implementation.AnnotationUsageImpl;
+import com.speedment.codegen.lang.models.implementation.GenericImpl;
+import com.speedment.codegen.lang.models.implementation.JavadocTagImpl;
+import com.speedment.codegen.lang.models.implementation.TypeImpl;
 import com.speedment.codegen.lang.models.values.NullValue;
 import com.speedment.codegen.lang.models.values.TextValue;
 import java.lang.annotation.Documented;
@@ -50,99 +53,99 @@ public abstract class Default {
 	private Default() {}
 	
 	public final static AnnotationUsage
-		OVERRIDE	= new AnnotationUsage.Const(new Type(Override.class)),
-		DOCUMENTED	= new AnnotationUsage.Const(new Type(Documented.class)),
-		INHERITED	= new AnnotationUsage.Const(new Type(Inherited.class)),
-		NATIVE		= new AnnotationUsage.Const(new Type(Native.class)),
-		REPEATABLE	= new AnnotationUsage.Const(new Type(Repeatable.class)),
-		RETENTION	= new AnnotationUsage.Const(new Type(Retention.class)),
-		TARGET		= new AnnotationUsage.Const(new Type(Target.class)),
-		GENERATED	= new AnnotationUsage.Const(new Type(Generated.class));
+		OVERRIDE	= new AnnotationUsageImpl.Const(new TypeImpl(Override.class)),
+		DOCUMENTED	= new AnnotationUsageImpl.Const(new TypeImpl(Documented.class)),
+		INHERITED	= new AnnotationUsageImpl.Const(new TypeImpl(Inherited.class)),
+		NATIVE		= new AnnotationUsageImpl.Const(new TypeImpl(Native.class)),
+		REPEATABLE	= new AnnotationUsageImpl.Const(new TypeImpl(Repeatable.class)),
+		RETENTION	= new AnnotationUsageImpl.Const(new TypeImpl(Retention.class)),
+		TARGET		= new AnnotationUsageImpl.Const(new TypeImpl(Target.class)),
+		GENERATED	= new AnnotationUsageImpl.Const(new TypeImpl(Generated.class));
 	
 	public final static JavadocTag
-		PARAM		= new JavadocTag.Const("param"),
-		AUTHOR		= new JavadocTag.Const("author"),
-		DEPRICATED	= new JavadocTag.Const("depricated"),
-		RETURN		= new JavadocTag.Const("return"),
-		SEE			= new JavadocTag.Const("see"),
-		THROWS		= new JavadocTag.Const("throws"),
-		SINCE		= new JavadocTag.Const("since"),
-		VERSION		= new JavadocTag.Const("version");
+		PARAM		= new JavadocTagImpl.Const("param"),
+		AUTHOR		= new JavadocTagImpl.Const("author"),
+		DEPRICATED	= new JavadocTagImpl.Const("depricated"),
+		RETURN		= new JavadocTagImpl.Const("return"),
+		SEE			= new JavadocTagImpl.Const("see"),
+		THROWS		= new JavadocTagImpl.Const("throws"),
+		SINCE		= new JavadocTagImpl.Const("since"),
+		VERSION		= new JavadocTagImpl.Const("version");
 	
-	public static final Type 
-		BYTE_PRIMITIVE = new Type.Const(byte.class),
-		SHORT_PRIMITIVE = new Type.Const(short.class),
-		INT_PRIMITIVE = new Type.Const(int.class),
-		LONG_PRIMITIVE = new Type.Const(long.class),
-		FLOAT_PRIMITIVE = new Type.Const(float.class),
-		DOUBLE_PRIMITIVE = new Type.Const(double.class),
-		BOOLEAN_PRIMITIVE = new Type.Const(boolean.class),
-		CHAR_PRIMITIVE = new Type.Const(char.class),
-		BYTE = new Type.Const(Byte.class),
-		SHORT = new Type.Const(Short.class),
-		INT = new Type.Const(Integer.class),
-		LONG = new Type.Const(Long.class),
-		FLOAT = new Type.Const(Float.class),
-		DOUBLE = new Type.Const(Double.class),
-		BOOLEAN = new Type.Const(Boolean.class),
-		CHARACTER = new Type.Const(Character.class),
-		STRING = new Type.Const(String.class),
-		OBJECT = new Type.Const(Object.class),
-		VOID = new Type.Const("void"),
-		WILDCARD = new Type.Const("?"),
-		LIST = new Type.Const(List.class),
-		SET = new Type.Const(Set.class),
-		MAP = new Type.Const(Map.class),
-		QUEUE = new Type.Const(Queue.class),
-		STACK = new Type.Const(Stack.class),
-		OPTIONAL = new Type.Const(Optional.class),
-		ENTRY = new Type.Const(HashMap.Entry.class),
-		FUNCTION = new Type.Const(Function.class),
-		PREDICATE = new Type.Const(Predicate.class),
-		CONSUMER = new Type.Const(Consumer.class);
+	public static final Type
+		BYTE_PRIMITIVE = new TypeImpl.Const(byte.class),
+		SHORT_PRIMITIVE = new TypeImpl.Const(short.class),
+		INT_PRIMITIVE = new TypeImpl.Const(int.class),
+		LONG_PRIMITIVE = new TypeImpl.Const(long.class),
+		FLOAT_PRIMITIVE = new TypeImpl.Const(float.class),
+		DOUBLE_PRIMITIVE = new TypeImpl.Const(double.class),
+		BOOLEAN_PRIMITIVE = new TypeImpl.Const(boolean.class),
+		CHAR_PRIMITIVE = new TypeImpl.Const(char.class),
+		BYTE = new TypeImpl.Const(Byte.class),
+		SHORT = new TypeImpl.Const(Short.class),
+		INT = new TypeImpl.Const(Integer.class),
+		LONG = new TypeImpl.Const(Long.class),
+		FLOAT = new TypeImpl.Const(Float.class),
+		DOUBLE = new TypeImpl.Const(Double.class),
+		BOOLEAN = new TypeImpl.Const(Boolean.class),
+		CHARACTER = new TypeImpl.Const(Character.class),
+		STRING = new TypeImpl.Const(String.class),
+		OBJECT = new TypeImpl.Const(Object.class),
+		VOID = new TypeImpl.Const("void"),
+		WILDCARD = new TypeImpl.Const("?"),
+		LIST = new TypeImpl.Const(List.class),
+		SET = new TypeImpl.Const(Set.class),
+		MAP = new TypeImpl.Const(Map.class),
+		QUEUE = new TypeImpl.Const(Queue.class),
+		STACK = new TypeImpl.Const(Stack.class),
+		OPTIONAL = new TypeImpl.Const(Optional.class),
+		ENTRY = new TypeImpl.Const(HashMap.Entry.class),
+		FUNCTION = new TypeImpl.Const(Function.class),
+		PREDICATE = new TypeImpl.Const(Predicate.class),
+		CONSUMER = new TypeImpl.Const(Consumer.class);
 	
 	public final static Value
 		NULL			= new NullValue(),
 		EMPTY_STRING	= new TextValue("");
 		
 	public static final Type list(Type innerType) {
-		return LIST.add(new Generic().add(innerType));
+		return LIST.add(new GenericImpl().add(innerType));
 	}
 	
 	public static final Type set(Type innerType) {
-		return SET.add(new Generic().add(innerType));
+		return SET.add(new GenericImpl().add(innerType));
 	}
 	
 	public static final Type map(Type innerTypeA, Type innerTypeB) {
-		return MAP.add(new Generic().add(innerTypeA)).add(new Generic(innerTypeB));
+		return MAP.add(new GenericImpl().add(innerTypeA)).add(new GenericImpl(innerTypeB));
 	}
 	
 	public static final Type queue(Type innerType) {
-		return QUEUE.add(new Generic().add(innerType));
+		return QUEUE.add(new GenericImpl().add(innerType));
 	}
 	
 	public static final Type stack(Type innerType) {
-		return STACK.add(new Generic().add(innerType));
+		return STACK.add(new GenericImpl().add(innerType));
 	}
 	
 	public static final Type optional(Type innerType) {
-		return OPTIONAL.add(new Generic().add(innerType));
+		return OPTIONAL.add(new GenericImpl().add(innerType));
 	}
 	
 	public static final Type entry(Type innerTypeA, Type innerTypeB) {
-		return ENTRY.add(new Generic().add(innerTypeA).add(innerTypeB));
+		return ENTRY.add(new GenericImpl().add(innerTypeA).add(innerTypeB));
 	}
 	
 	public static final Type function(Type innerTypeA, Type innerTypeB) {
-		return FUNCTION.add(new Generic().add(innerTypeA).add(innerTypeB));
+		return FUNCTION.add(new GenericImpl().add(innerTypeA).add(innerTypeB));
 	}
 	
 	public static final Type predicate(Type innerType) {
-		return PREDICATE.add(new Generic().add(innerType));
+		return PREDICATE.add(new GenericImpl().add(innerType));
 	}
 	
 	public static final Type consumer(Type innerType) {
-		return CONSUMER.add(new Generic().add(innerType));
+		return CONSUMER.add(new GenericImpl().add(innerType));
 	}
 	
 	public static boolean isVoid(Type type) {

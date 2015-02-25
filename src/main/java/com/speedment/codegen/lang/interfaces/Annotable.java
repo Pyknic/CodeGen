@@ -25,6 +25,10 @@ import java.util.List;
  * @param <T>
  */
 public interface Annotable<T extends Annotable<T>> {
-	T add(final AnnotationUsage annotation);
+    default T add(final AnnotationUsage annotation) {
+        getAnnotations().add(annotation);
+        return (T) this;
+    }
+    
 	List<AnnotationUsage> getAnnotations();
 }

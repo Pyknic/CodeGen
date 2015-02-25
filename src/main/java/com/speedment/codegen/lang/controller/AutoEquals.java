@@ -23,11 +23,10 @@ import com.speedment.codegen.lang.models.Method;
 import com.speedment.codegen.lang.models.constants.Default;
 import java.util.function.Consumer;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.lang.interfaces.Dependable;
 import com.speedment.codegen.lang.interfaces.Nameable;
-import com.speedment.codegen.lang.models.Import;
 import com.speedment.codegen.lang.models.Type;
-import java.util.Objects;
+import com.speedment.codegen.lang.models.implementation.FieldImpl;
+import com.speedment.codegen.lang.models.implementation.MethodImpl;
 import java.util.stream.Collectors;
 
 /**
@@ -43,10 +42,10 @@ public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>> implem
 		
 		if (!hasMethod(t, "equals", 1)) {
 			final String type = shortName(t.getName());
-			t.add(new Method("equals", Default.BOOLEAN_PRIMITIVE)
+			t.add(new MethodImpl("equals", Default.BOOLEAN_PRIMITIVE)
 				.add(Default.OVERRIDE)
 				.public_()
-				.add(new Field("other", Default.OBJECT))
+				.add(new FieldImpl("other", Default.OBJECT))
 				
 				.add("if (other == null) return false;" + nl())
 				.add(
@@ -62,7 +61,7 @@ public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>> implem
 		}
 		
 		if (!hasMethod(t, "hashCode", 0)) {
-			t.add(new Method("hashCode", Default.INT_PRIMITIVE)
+			t.add(new MethodImpl("hashCode", Default.INT_PRIMITIVE)
 				.add(Default.OVERRIDE)
 				.public_()
 				.add("int hash = 7;")

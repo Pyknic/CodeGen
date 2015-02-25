@@ -16,13 +16,13 @@
  */
 package com.speedment.codegen.lang.models.values;
 
-import com.speedment.codegen.lang.models.Value;
+import com.speedment.codegen.lang.models.implementation.ValueImpl;
 
 /**
  *
  * @author Emil Forslund
  */
-public class ReferenceValue extends Value<String, ReferenceValue> {
+public class ReferenceValue extends ValueImpl<String> {
 
 	public ReferenceValue(String value) {
 		super(value);

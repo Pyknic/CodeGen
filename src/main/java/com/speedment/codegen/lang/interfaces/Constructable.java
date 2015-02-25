@@ -25,6 +25,10 @@ import java.util.List;
  * @param <T>
  */
 public interface Constructable<T extends Constructable<T>> {
-    T add(final Constructor constr);
+    default T add(final Constructor constr) {
+        getConstructors().add(constr);
+        return (T) this;
+    }
+    
     List<Constructor> getConstructors();
 }

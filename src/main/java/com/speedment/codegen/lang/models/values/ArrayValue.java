@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.models.values;
 
 import com.speedment.codegen.lang.models.Value;
+import com.speedment.codegen.lang.models.implementation.ValueImpl;
 import com.speedment.util.Copier;
 import java.util.List;
 
@@ -24,7 +25,7 @@ import java.util.List;
  *
  * @author Emil Forslund
  */
-public class ArrayValue extends Value<List<Value>, ArrayValue> {
+public class ArrayValue extends ValueImpl<List<Value>> {
 
 	public ArrayValue(List<Value> val) {
 		super(val);

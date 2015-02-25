@@ -25,6 +25,10 @@ import java.util.List;
  * @param <T>
  */
 public interface Fieldable<T extends Fieldable<T>> {
-    T add(final Field field);
+    default T add(final Field field) {
+        getFields().add(field);
+        return (T) this;
+    }
+    
     List<Field> getFields();
 }

@@ -19,91 +19,13 @@ package com.speedment.codegen.lang.models;
 import com.speedment.codegen.lang.interfaces.Callable;
 import com.speedment.codegen.lang.interfaces.Classable;
 import com.speedment.codegen.lang.interfaces.Copyable;
-import com.speedment.codegen.lang.interfaces.Dependable;
+import com.speedment.codegen.lang.interfaces.Importable;
 import com.speedment.codegen.lang.interfaces.Documentable;
 import com.speedment.codegen.lang.interfaces.Nameable;
-import com.speedment.util.Copier;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 /**
  *
  * @author Emil Forslund
  */
-public class File implements 
-		Copyable<File>,
-		Nameable<File>,
-		Documentable<File>,
-		Dependable<File>,
-		Classable<File>,
-		Callable<File> {
-	
-	private String name;
-	private Optional<Javadoc> doc;
-	private final List<Import> imports;
-	private final List<ClassOrInterface> classes;
-	
-	public File(String name) {
-		this.name	 = name;
-		this.doc	 = Optional.empty();
-		this.imports = new ArrayList<>();
-		this.classes = new ArrayList<>();
-	}
-	
-	private File(File prototype) {
-		this.name	 = prototype.name;
-		this.doc	 = Copier.copy(prototype.doc);
-		this.imports = Copier.copy(prototype.imports);
-		this.classes = Copier.copy(prototype.classes);
-	}
-
-	@Override
-	public File setName(String name) {
-		this.name = name;
-		return this;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public File setJavadoc(Javadoc doc) {
-		this.doc = Optional.of(doc);
-		return this;
-	}
-
-	@Override
-	public Optional<Javadoc> getJavadoc() {
-		return doc;
-	}
-	
-	@Override
-	public File add(Import dep) {
-		imports.add(dep);
-		return this;
-	}
-
-	@Override
-	public List<Import> getDependencies() {
-		return imports;
-	}
-
-	@Override
-	public File add(ClassOrInterface member) {
-		classes.add(member);
-		return this;
-	}
-
-	@Override
-	public List<ClassOrInterface> getClasses() {
-		return classes;
-	}
-
-	@Override
-	public File copy() {
-		return new File(this);
-	}
-}
+public interface File extends Copyable<File>, Nameable<File>, Documentable<File>, 
+    Importable<File>, Classable<File>, Callable<File> {}

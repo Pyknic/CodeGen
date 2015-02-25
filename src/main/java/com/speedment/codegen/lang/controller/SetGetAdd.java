@@ -21,10 +21,13 @@ import com.speedment.codegen.lang.models.Class;
 import com.speedment.codegen.lang.models.Method;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.lang.models.Field;
-import com.speedment.codegen.lang.models.Javadoc;
-import com.speedment.codegen.lang.models.JavadocTag;
 import com.speedment.codegen.lang.models.Type;
 import static com.speedment.codegen.lang.models.constants.Default.OPTIONAL;
+import com.speedment.codegen.lang.models.implementation.FieldImpl;
+import com.speedment.codegen.lang.models.implementation.JavadocImpl;
+import com.speedment.codegen.lang.models.implementation.JavadocTagImpl;
+import com.speedment.codegen.lang.models.implementation.MethodImpl;
+import com.speedment.codegen.lang.models.implementation.TypeImpl;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -77,12 +80,12 @@ public class SetGetAdd implements Consumer<Class> {
 			if (isCollection(f.getType())) {
 				f.final_();
 				
-				final Field param = new Field(singular(f.getName()), f.getType().getGenerics().get(0).getUpperBounds().get(0));
-				final Method add = new Method(ADD, new Type(model.getName()))
-					.setJavadoc(new Javadoc()
+				final Field param = new FieldImpl(singular(f.getName()), f.getType().getGenerics().get(0).getUpperBounds().get(0));
+				final Method add = new MethodImpl(ADD, new TypeImpl(model.getName()))
+					.setJavadoc(new JavadocImpl()
 						.add(ADDS_THE_SPECIFIED + lcfirst(shortName(param.getType().getName())) + " to this " + shortName(model.getName()) + DOT)
-						.add(new JavadocTag(PARAM, param.getName(), THE_NEW_VALUE))
-						.add(new JavadocTag(RETURN, A_REFERENCE_TO_THIS))
+						.add(new JavadocTagImpl(PARAM, param.getName(), THE_NEW_VALUE))
+						.add(new JavadocTagImpl(RETURN, A_REFERENCE_TO_THIS))
 					).public_()
 					.add(param)
 					.add(THIS + f.getName() + ADD_TO + param.getName() + PE + SC)
@@ -92,19 +95,19 @@ public class SetGetAdd implements Consumer<Class> {
 					model.add(add);
 				}
 			} else {
-				final Method set = new Method(SET + ucfirst(f.getName()), new Type(model.getName()))
-					.setJavadoc(new Javadoc()
+				final Method set = new MethodImpl(SET + ucfirst(f.getName()), new TypeImpl(model.getName()))
+					.setJavadoc(new JavadocImpl()
 						.add(S + ETS_THE + f.getName() + OF_THIS + shortName(model.getName()) + DOT)
-						.add(new JavadocTag(PARAM, f.getName(), THE_NEW_VALUE))
-						.add(new JavadocTag(RETURN, A_REFERENCE_TO_THIS))
+						.add(new JavadocTagImpl(PARAM, f.getName(), THE_NEW_VALUE))
+						.add(new JavadocTagImpl(RETURN, A_REFERENCE_TO_THIS))
 					).public_();
-				
+                
 				if (isOptional(f.getType())) {
-					set.add(new Field(f.getName(), f.getType().getGenerics().get(0).getUpperBounds().get(0)))
+					set.add(new FieldImpl(f.getName(), (Type) f.getType().getGenerics().get(0).getUpperBounds().get(0)))
 						.add(THIS + f.getName() + ASSIGN + OPTIONAL_OF + f.getName() + PE + SC)
 						.add(RETURN_THIS + SC);
 				} else {
-					set.add(new Field(f.getName(), f.getType()))
+					set.add(new FieldImpl(f.getName(), f.getType()))
 						.add(THIS + f.getName() + ASSIGN + f.getName() + SC)
 						.add(RETURN_THIS + SC);
 				}
@@ -114,10 +117,10 @@ public class SetGetAdd implements Consumer<Class> {
 				}
 			}
 			
-			final Method get = new Method(GET + ucfirst(f.getName()), f.getType())
-				.setJavadoc(new Javadoc()
+			final Method get = new MethodImpl(GET + ucfirst(f.getName()), f.getType())
+				.setJavadoc(new JavadocImpl()
 					.add(G + ETS_THE + f.getName() + OF_THIS + shortName(model.getName()) + DOT)
-					.add(new JavadocTag(RETURN, THE + f.getName() + DOT))
+					.add(new JavadocTagImpl(RETURN, THE + f.getName() + DOT))
 				).public_()
 				.add(RETURN_THIS + DOT + f.getName() + SC);
 			

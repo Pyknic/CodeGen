@@ -25,6 +25,10 @@ import java.util.List;
  * @param <T>
  */
 public interface Classable<T extends Classable<T>> {
-	T add(ClassOrInterface member);
+    default T add(ClassOrInterface member) {
+        getClasses().add(member);
+        return (T) this;
+    }
+    
 	List<ClassOrInterface> getClasses();
 }

@@ -25,6 +25,10 @@ import java.util.List;
  * @param <T>
  */
 public interface Methodable<T extends Methodable<T>> {
-    T add(final Method meth);
+    default T add(final Method meth) {
+        getMethods().add(meth);
+        return (T) this;
+    }
+    
     List<Method> getMethods();
 }

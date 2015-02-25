@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.models.constants.Default;
+import com.speedment.codegen.lang.models.implementation.AnnotationUsageImpl;
 import com.speedment.codegen.lang.models.values.NumberValue;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +80,7 @@ public class AnnotationUsageTest {
 	@Test
 	public void testSetValue_Value() {
 		System.out.println("setValue(Value)");
-		final AnnotationUsage instance = new AnnotationUsage(Default.DOUBLE);
+		final AnnotationUsage instance = new AnnotationUsageImpl(Default.DOUBLE);
 		
 		for (final Number n : TEST_VALUES) {
 			assertNotNull("Make sure Optional 'value' is not null before set.", instance.getValue());
@@ -98,7 +99,7 @@ public class AnnotationUsageTest {
 		System.out.println("setValue(String, Value)");
 
 		for (int i = 0; i < TEST_VALUES.length; i++) {
-			final AnnotationUsage instance = new AnnotationUsage(Default.DOUBLE);
+			final AnnotationUsage instance = new AnnotationUsageImpl(Default.DOUBLE);
 			assertNotNull("Make sure values are not null", instance.getValues());
 			assertEquals("Make sure values are empty", instance.getValues().size(), 0);
 		
@@ -106,11 +107,11 @@ public class AnnotationUsageTest {
 				instance.setValue(TEST_LABELS[j], new NumberValue(TEST_VALUES[j]));
 			}
 			
-			final List<Map.Entry<String, Value>> result = instance.getValues();
+			final List<Map.Entry<String, Value<?>>> result = instance.getValues();
 			
 			int counter = 0;
 			
-			for (Map.Entry<String, Value> e : result) {
+			for (Map.Entry<String, Value<?>> e : result) {
 				assertNotNull("Make sure no entries are null.", e);
 				assertNotNull("Make sure no entry keys are null.", e.getKey());
 				assertNotNull("Make sure no entry values are null.", e.getValue());
@@ -131,7 +132,7 @@ public class AnnotationUsageTest {
 		System.out.println("copy");
 		
 		for (Number n : TEST_VALUES) {
-			final AnnotationUsage instance = new AnnotationUsage(Default.DOUBLE);
+			final AnnotationUsage instance = new AnnotationUsageImpl(Default.DOUBLE);
 			instance.setValue(new NumberValue(n));
 			
 			for (int i = 0; i < TEST_VALUES.length; i++) {
@@ -142,8 +143,8 @@ public class AnnotationUsageTest {
 			assertEquals("Make sure type is the same.", instance.getType(), instance2.getType());
 			assertTrue("Make sure value is the same.", instance.getValue().equals(instance2.getValue()));
 			
-			final List<Map.Entry<String, Value>> result = instance.getValues();
-			final List<Map.Entry<String, Value>> result2 = instance2.getValues();
+			final List<Map.Entry<String, Value<?>>> result = instance.getValues();
+			final List<Map.Entry<String, Value<?>>> result2 = instance2.getValues();
 			
 			for (int i = 0; i < result.size(); i++) {
 				assertEquals("Make sure value keys are the same.", result.get(i).getKey(), result2.get(i).getKey());

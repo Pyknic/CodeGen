@@ -25,6 +25,10 @@ import java.util.List;
  * @param <T>
  */
 public interface Interfaceable<T extends Interfaceable<T>> {
-    T add(final Type interf);
+    default T add(final Type interf) {
+        getInterfaces().add(interf);
+        return (T) this;
+    }
+    
     List<Type> getInterfaces();
 }

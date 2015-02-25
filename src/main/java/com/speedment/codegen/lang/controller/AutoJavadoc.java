@@ -27,6 +27,7 @@ import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.JavadocTag;
 import com.speedment.codegen.lang.models.Method;
 import com.speedment.codegen.lang.models.constants.Default;
+import com.speedment.codegen.lang.models.implementation.JavadocImpl;
 import java.util.function.Consumer;
 
 /**
@@ -45,7 +46,7 @@ public class AutoJavadoc<T extends Documentable> implements Consumer<T> {
     }
 	
 	private static <T extends Documentable<?>> T createJavadoc(T model) {
-		final Javadoc doc = model.getJavadoc().orElse(new Javadoc(DEFAULT_TEXT));
+		final Javadoc doc = model.getJavadoc().orElse(new JavadocImpl(DEFAULT_TEXT));
 		model.setJavadoc(doc);
 		
 		// Add @param for each type variable.

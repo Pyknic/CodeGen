@@ -18,55 +18,19 @@ package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Constructable;
 import com.speedment.codegen.lang.models.modifiers.EnumModifier;
-import com.speedment.util.Copier;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author Emil Forslund
  */
-public class Enum extends ClassOrInterface<Enum> implements 
-		EnumModifier<Enum>,
-		Constructable<Enum> {
-	
-	private final List<EnumConstant> constants;
-	private final List<Constructor> constructors;
-	
-	public Enum(String name) {
-		super(name);
-		constants = new ArrayList<>();
-		constructors = new ArrayList<>();
-	}
-	
-	private Enum(Enum prototype) {
-		super (prototype);
-		constants = Copier.copy(prototype.constants);
-		constructors = Copier.copy(prototype.constructors);
-	}
-	
-	public Enum add(EnumConstant constant) {
-		constants.add(constant);
-		return this;
-	}
-	
-	public List<EnumConstant> getConstants() {
-		return constants;
-	}
-	
-	@Override
-	public Enum add(Constructor constr) {
-		constructors.add(constr);
-		return this;
-	}
-	
-	@Override
-	public List<Constructor> getConstructors() {
-		return constructors;
-	}
+public interface Enum extends ClassOrInterface<Enum>, EnumModifier<Enum>, 
+    Constructable<Enum> {
 
-	@Override
-	public Enum copy() {
-		return new Enum(this);
+    default Enum add(EnumConstant constant) {
+		getConstants().add(constant);
+		return this;
 	}
+	
+	List<EnumConstant> getConstants();
 }

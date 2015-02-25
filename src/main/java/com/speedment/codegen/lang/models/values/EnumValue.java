@@ -18,14 +18,14 @@ package com.speedment.codegen.lang.models.values;
 
 import com.speedment.codegen.lang.interfaces.Typeable;
 import com.speedment.codegen.lang.models.Type;
-import com.speedment.codegen.lang.models.Value;
+import com.speedment.codegen.lang.models.implementation.ValueImpl;
 import java.util.Objects;
 
 /**
  *
  * @author Emil Forslund
  */
-public class EnumValue extends Value<String, EnumValue>
+public class EnumValue extends ValueImpl<String>
 		implements Typeable<EnumValue> {
 	
 	private Type type;

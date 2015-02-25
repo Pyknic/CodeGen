@@ -16,13 +16,13 @@
  */
 package com.speedment.codegen.lang.models.values;
 
-import com.speedment.codegen.lang.models.Value;
+import com.speedment.codegen.lang.models.implementation.ValueImpl;
 
 /**
  *
  * @author Emil Forslund
  */
-public class NullValue extends Value<Number, NullValue> {
+public class NullValue extends ValueImpl<Number> {
 
 	public NullValue() {
 		super(0);

@@ -18,53 +18,18 @@ package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Nameable;
-import com.speedment.util.Copier;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author Emil Forslund
  */
-public class EnumConstant implements 
-		Copyable<EnumConstant>,
-		Nameable<EnumConstant> {
-	
-	private String name;
-	private final List<Value> values;
-
-	public EnumConstant(String name) {
-		this.name	= name;
-		this.values = new ArrayList<>();
-	}
-	
-	private EnumConstant(EnumConstant prototype) {
-		name	= prototype.name;
-		values	= Copier.copy(prototype.values);
-	}
-
-	@Override
-	public EnumConstant setName(String name) {
-		this.name = name;
-		return this;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-	
-	public EnumConstant add(Value value) {
-		values.add(value);
-		return this;
-	}
-	
-	public List<Value> getValues() {
-		return values;
-	}
-
-	@Override
-	public EnumConstant copy() {
-		return new EnumConstant(this);
-	}
+public interface EnumConstant extends Copyable<EnumConstant>, Nameable<EnumConstant> {
+    
+    default EnumConstant add(Value value) {
+        getValues().add(value);
+        return this;
+    }
+    
+    List<Value> getValues();
 }

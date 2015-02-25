@@ -22,19 +22,4 @@ import com.speedment.codegen.lang.models.modifiers.InterfaceModifier;
  *
  * @author Emil Forslund
  */
-public class Interface extends ClassOrInterface<Interface> implements
-		InterfaceModifier<Interface> {
-
-    public Interface(String name) {
-		super (name);
-    }
-	
-	private Interface(Interface prototype) {
-		super (prototype);
-    }
-
-	@Override
-	public Interface copy() {
-		return new Interface(this);
-	}
-}
+public interface Interface extends ClassOrInterface<Interface>, InterfaceModifier<Interface> {}

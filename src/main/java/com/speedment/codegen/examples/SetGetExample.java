@@ -22,11 +22,12 @@ import com.speedment.codegen.java.JavaGenerator;
 import com.speedment.codegen.java.JavaInstaller;
 import com.speedment.codegen.lang.controller.AutoImports;
 import com.speedment.codegen.lang.controller.SetGetAdd;
-import com.speedment.codegen.lang.models.Class;
-import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.File;
-import com.speedment.codegen.lang.models.Type;
 import com.speedment.codegen.lang.models.constants.Default;
+import com.speedment.codegen.lang.models.implementation.ClassImpl;
+import com.speedment.codegen.lang.models.implementation.FieldImpl;
+import com.speedment.codegen.lang.models.implementation.FileImpl;
+import com.speedment.codegen.lang.models.implementation.TypeImpl;
 
 /**
  *
@@ -37,12 +38,12 @@ public class SetGetExample {
 		final CodeGenerator cg = new JavaGenerator(new JavaInstaller());
 		Formatting.tab("    ");
 		
-		final File f = new File("org/example/codegen/Game.java")
-			.add(new Class("Game").public_()
-				.add(new Field("width", Default.INT_PRIMITIVE))
-				.add(new Field("height", Default.INT_PRIMITIVE))
-				.add(new Field("entities", Default.list(
-					new Type("org.example.codegen.Entity")
+		final File f = new FileImpl("org/example/codegen/Game.java")
+			.add(new ClassImpl("Game").public_()
+				.add(new FieldImpl("width", Default.INT_PRIMITIVE))
+				.add(new FieldImpl("height", Default.INT_PRIMITIVE))
+				.add(new FieldImpl("entities", Default.list(
+					new TypeImpl("org.example.codegen.Entity")
 				)))
 				.call(new SetGetAdd())
 			).call(new AutoImports(cg.getDependencyMgr()))

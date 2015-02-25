@@ -19,51 +19,10 @@ package com.speedment.codegen.lang.models;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Typeable;
 import com.speedment.codegen.lang.models.modifiers.ImportModifier;
-import com.speedment.codegen.lang.models.modifiers.Modifier;
-import com.speedment.util.Copier;
-import java.util.EnumSet;
-import java.util.Set;
 
 /**
  *
  * @author Emil Forslund
  */
-public class Import implements 
-		Copyable<Import>,
-		Typeable<Import>,
-		ImportModifier<Import> {
-	
-	private Type type;
-	private final Set<Modifier> modifiers;
-
-	public Import(Type type) {
-		this.type = type;
-		this.modifiers = EnumSet.noneOf(Modifier.class);
-	}
-	
-	private Import(Import prototype) {
-		type		= type.copy();
-		modifiers	= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
-	}
-
-	@Override
-	public Import setType(Type type) {
-		this.type = type;
-		return this;
-	}
-
-	@Override
-	public Type getType() {
-		return type;
-	}
-
-	@Override
-	public Set<Modifier> getModifiers() {
-		return this.modifiers;
-	}
-
-	@Override
-	public Import copy() {
-		return new Import(this);
-	}
-}
+public interface Import extends Copyable<Import>, Typeable<Import>, 
+    ImportModifier<Import> {}

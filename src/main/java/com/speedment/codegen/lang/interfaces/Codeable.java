@@ -16,15 +16,17 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
-import com.speedment.codegen.lang.models.Import;
 import java.util.List;
 
 /**
  *
  * @author Emil Forslund
- * @param <T>
  */
-public interface Dependable<T extends Dependable<T>> {
-    T add(final Import dep);
-    List<Import> getDependencies();
+public interface Codeable<T extends Codeable<T>> {
+    default T add(String row) {
+        getCode().add(row);
+        return (T) this;
+    }
+    
+    List<String> getCode();
 }
