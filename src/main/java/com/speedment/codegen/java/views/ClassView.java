@@ -26,12 +26,12 @@ import com.speedment.codegen.lang.models.Class;
  */
 public class ClassView extends ClassOrInterfaceView<Class> {
 	@Override
-	protected String classOrInterfaceLabel() {
+	protected String declarationType() {
 		return CLASS_STRING;
 	}
 
 	@Override
-	protected String extendsOrImplementsLabel() {
+	protected String extendsOrImplementsInterfaces() {
 		return IMPLEMENTS_STRING;
 	}
 

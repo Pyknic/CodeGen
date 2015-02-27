@@ -27,12 +27,12 @@ import com.speedment.util.CodeCombiner;
  */
 public class EnumView extends ClassOrInterfaceView<Enum> {
 	@Override
-	protected String classOrInterfaceLabel() {
+	protected String declarationType() {
 		return ENUM_STRING;
 	}
 
 	@Override
-	protected String extendsOrImplementsLabel() {
+	protected String extendsOrImplementsInterfaces() {
 		return IMPLEMENTS_STRING;
 	}
 

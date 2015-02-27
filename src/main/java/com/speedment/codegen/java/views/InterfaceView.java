@@ -30,12 +30,12 @@ import com.speedment.codegen.lang.models.implementation.InterfaceMethodImpl;
  */
 public class InterfaceView extends ClassOrInterfaceView<Interface> {
 	@Override
-	protected String classOrInterfaceLabel() {
+	protected String declarationType() {
 		return INTERFACE_STRING;
 	}
 
 	@Override
-	protected String extendsOrImplementsLabel() {
+	protected String extendsOrImplementsInterfaces() {
 		return EXTENDS_STRING;
 	}
 

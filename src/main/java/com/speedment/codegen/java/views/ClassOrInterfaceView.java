@@ -24,7 +24,7 @@ import com.speedment.codegen.lang.models.ClassOrInterface;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Method;
 import java.util.Optional;
-import com.speedment.util.CodeCombiner;
+import static com.speedment.util.CodeCombiner.*;
 import java.util.Collection;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -67,27 +67,44 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implem
 		return models.stream().map(wrapper).collect(Collectors.toList());
 	}
 	
-	protected abstract String classOrInterfaceLabel();
-	protected abstract String extendsOrImplementsLabel();
+	protected abstract String declarationType();
+	protected abstract String extendsOrImplementsInterfaces();
 	protected abstract String onSuperType(CodeGenerator cg, M model);
 
 	@Override
 	public Optional<String> render(CodeGenerator cg, M model) {
-		return Optional.of(
+		return Optional.of(// Javadoc
 			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
-			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
-			classOrInterfaceLabel() + shortName(model.getName()) + 
-            cg.onEach(model.getGenerics()).collect(CodeCombiner.joinIfNotEmpty(COMMA_SPACE, SS, SE)) + SPACE +
+                
+            // Modifiers
+			cg.onEach(model.getModifiers()).collect(joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
+            
+            // Declaration
+            declarationType() + shortName(model.getName()) + 
+                
+            // Declaration generics
+            cg.onEach(model.getGenerics()).collect(joinIfNotEmpty(COMMA_SPACE, SS, SE)) + SPACE +
+                
+            // Super type
 			onSuperType(cg, model) +
-			cg.onEach(model.getInterfaces()).collect(CodeCombiner.joinIfNotEmpty(COMMA_SPACE, extendsOrImplementsLabel(), SPACE)) +
+                
+            // Implemented interfaces
+			cg.onEach(model.getInterfaces()).collect(joinIfNotEmpty(COMMA_SPACE, extendsOrImplementsInterfaces(), SPACE)) +
+                
+            // Code
 			block(separate(
-				onBeforeFields(cg, model),
-				cg.onEach(wrap(model.getFields(), (Field f) -> wrapField(f)))
-					.collect(CodeCombiner.joinIfNotEmpty(scnl(), EMPTY, SC)),
-				onAfterFields(cg, model),
-				cg.onEach(wrap(model.getMethods(), (Method m) -> wrapMethod(m)))
+                // Fields
+				onBeforeFields(cg, model), // Enums have constants here.
+				cg.onEach(wrap(model.getFields(), f -> wrapField(f)))
+					.collect(joinIfNotEmpty(scnl(), EMPTY, SC)),
+				onAfterFields(cg, model), // Classes and enums have constructors here.
+                
+                // Methods
+				cg.onEach(wrap(model.getMethods(), m -> wrapMethod(m)))
 					.collect(Collectors.joining(dnl())),
-				cg.onEach(wrap(model.getClasses(), (ClassOrInterface<?> c) -> wrapClassOrInterface(c)))
+                
+                // Subclasses
+				cg.onEach(wrap(model.getClasses(), c -> wrapClassOrInterface(c)))
 					.collect(Collectors.joining(dnl()))
 			))
 		);
