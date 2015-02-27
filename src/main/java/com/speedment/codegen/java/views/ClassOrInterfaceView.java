@@ -82,7 +82,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implem
 			block(separate(
 				onBeforeFields(cg, model),
 				cg.onEach(wrap(model.getFields(), (Field f) -> wrapField(f)))
-					.collect(Collectors.joining(scnl(), EMPTY, SC)),
+					.collect(CodeCombiner.joinIfNotEmpty(scnl(), EMPTY, SC)),
 				onAfterFields(cg, model),
 				cg.onEach(wrap(model.getMethods(), (Method m) -> wrapMethod(m)))
 					.collect(Collectors.joining(dnl())),
