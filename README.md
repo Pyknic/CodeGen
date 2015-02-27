@@ -37,7 +37,7 @@ package org.example;
  */
 @Generated
 public class BasicExample {
-	public final static String BASIC_MESSAGE;
+	public final static String BASIC_MESSAGE = "Hello, world!";
 	
 	/**
 	 * This is a vary basic example of
