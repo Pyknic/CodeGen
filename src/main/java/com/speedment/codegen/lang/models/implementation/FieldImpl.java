@@ -99,7 +99,7 @@ public class FieldImpl implements Field {
 	}
 
 	@Override
-	public Field setValue(Value val) {
+	public Field setValue(Value<?> val) {
 		this.value = Optional.of(val);
 		return this;
 	}

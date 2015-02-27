@@ -84,7 +84,7 @@ public class Example {
 					)
 					.call(new SetGetAdd())
 					.call(new FinalParameters())
-					.call(new AutoJavadoc())
+					.call(new AutoJavadoc<>())
 				)
 					
 				/***** Methods *****/
@@ -129,9 +129,9 @@ public class Example {
 				
 				/***** Controllers *****/
 				.call(new SetGetAdd())
-				.call(new AutoEquals())
+				.call(new AutoEquals<>())
 				.call(new FinalParameters())
-				.call(new AutoJavadoc())
+				.call(new AutoJavadoc<>())
 			
 			).call(new AutoImports(cg.getDependencyMgr()))
 		).get() + "\n");

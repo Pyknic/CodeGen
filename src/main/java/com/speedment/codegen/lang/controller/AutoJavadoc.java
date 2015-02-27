@@ -35,13 +35,13 @@ import java.util.function.Consumer;
  * @author Emil Forslund
  * @param <T>
  */
-public class AutoJavadoc<T extends Documentable> implements Consumer<T> {
+public class AutoJavadoc<T extends Documentable<?>> implements Consumer<T> {
 	private final static String 
 			DEFAULT_TEXT = "Write some documentation here.",
 			DEFAULT_NAME = "Your Name";
  
     @Override
-    public void accept(Documentable model) {
+    public void accept(T model) {
 		createJavadoc(model);
     }
 	

@@ -52,7 +52,7 @@ public class MultiGenerator implements CodeGenerator {
 	public MultiGenerator(DependencyManager mgr, Installer... installers) {
 		this.installers = Arrays.asList(installers);
 		this.mgr = mgr;
-		this.renderStack = new Stack();
+		this.renderStack = new Stack<>();
 	}
 	
 	/**
@@ -100,11 +100,12 @@ public class MultiGenerator implements CodeGenerator {
 	 * @return The viewed text if any.
 	 */
 	@Override
+    @SuppressWarnings("unchecked")
 	public Optional<String> on(Object model) {
 		for (Installer i : installers) {
 			final Optional<CodeView<?>> view = i.withOne(model.getClass());
 			if (view.isPresent()) {
-				return render(view.get(), model);
+				return render((CodeView<Object>) view.get(), model);
 			}
 		}
 		
@@ -124,13 +125,15 @@ public class MultiGenerator implements CodeGenerator {
 	 * @param consumer The consumer to accept the resulting String.
 	 */
 	@Override
+    @SuppressWarnings("unchecked")
 	public void on(Object model, Consumer<String> consumer) {
 		installers.stream()
 			.flatMap(i -> i.withAll(model.getClass()))
+            .map(v -> (CodeView<Object>) v)
 			.forEach(v -> render(v, model).ifPresent(consumer));
 	}
 
-	private Optional<String> render(CodeView view, Object model) {
+	private <M> Optional<String> render(CodeView<M> view, M model) {
 		renderStack.push(model);
 		final Optional<String> result = view.render(this, model);
 		renderStack.pop();

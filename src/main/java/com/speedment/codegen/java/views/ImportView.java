@@ -49,7 +49,7 @@ public class ImportView implements CodeView<Import> {
 	}
 	
 	private boolean shouldImport(CodeGenerator cg, Type type) {
-		final List stack = cg.getRenderStack();
+		final List<Object> stack = cg.getRenderStack();
 		if (stack.size() >= 2) {
 			final Object parent = stack.get(0);
 			if (parent instanceof File) {

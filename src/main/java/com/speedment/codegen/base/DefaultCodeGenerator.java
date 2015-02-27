@@ -35,7 +35,7 @@ import java.util.function.Consumer;
 public class DefaultCodeGenerator implements CodeGenerator {
 	private final Installer installer;
 	private final DependencyManager dependencyMgr;
-	private final Stack renderStack;
+	private final Stack<Object> renderStack;
 	
 	/**
 	 * Initialises the code generator using a default dependency manager.
@@ -56,7 +56,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	public DefaultCodeGenerator(Installer installer, DependencyManager mgr) {
 		this.installer = installer;
 		this.dependencyMgr = mgr;
-		this.renderStack = new Stack();
+		this.renderStack = new Stack<>();
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	 * @return the current rendering stack.
 	 */
 	@Override
-	public List getRenderStack() {
+	public List<Object> getRenderStack() {
 		return Collections.unmodifiableList(renderStack);
 	}
 	
@@ -104,9 +104,10 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	 * @return The viewed text if any.
 	 */
 	@Override
+    @SuppressWarnings("unchecked")
 	public Optional<String> on(Object model) {
 		return installer.withOne(model.getClass())
-			.flatMap(v -> render(v, model));
+			.flatMap(v -> render((CodeView<Object>) v, model));
 	}
 
 	/**
@@ -122,12 +123,13 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	 * @param consumer The consumer to accept the resulting String.
 	 */
 	@Override
+    @SuppressWarnings("unchecked")
 	public void on(Object model, Consumer<String> consumer) {
 		installer.withAll(model.getClass())
-			.forEach(v -> render(v, model));
+			.forEach(v -> render((CodeView<Object>) v, model));
 	}
 	
-	private Optional<String> render(CodeView view, Object model) {
+	private <M> Optional<String> render(CodeView<M> view, M model) {
 		renderStack.push(model);
 		final Optional<String> result = view.render(this, model);
 		renderStack.pop();

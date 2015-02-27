@@ -92,7 +92,7 @@ public class AutoImports implements Consumer<File> {
 		if (Generable.class.isAssignableFrom(o.getClass())) {
 			((Generable<?>) o).getGenerics().forEach(g -> {
 				g.getUpperBounds().forEach(ub -> {
-					addType((Type) ub, types);
+					addType(ub, types);
 				});
 			});
 		}

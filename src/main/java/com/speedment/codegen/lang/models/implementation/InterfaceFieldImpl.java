@@ -87,7 +87,7 @@ public class InterfaceFieldImpl implements InterfaceField {
     }
 
     @Override
-    public InterfaceField setValue(Value val) {
+    public InterfaceField setValue(Value<?> val) {
         f.setValue(val);
         return this;
     }

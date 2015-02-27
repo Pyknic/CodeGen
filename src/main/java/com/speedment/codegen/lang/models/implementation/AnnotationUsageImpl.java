@@ -53,13 +53,13 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 	}
 	
 	@Override
-	public AnnotationUsage setValue(Value val) {
+	public AnnotationUsage setValue(Value<?> val) {
 		value = Optional.of(val);
 		return this;
 	}
 	
     @Override
-	public AnnotationUsage setValue(String key, Value val) {
+	public AnnotationUsage setValue(String key, Value<?> val) {
 		values.add(new AbstractMap.SimpleEntry<>(key, val));
 		return this;
 	}
@@ -96,12 +96,12 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 		}
 
 		@Override
-		public AnnotationUsage setValue(Value val) {
+		public AnnotationUsage setValue(Value<?> val) {
 			return copy().setValue(val);
 		}
 		
 		@Override
-		public AnnotationUsage setValue(String key, Value val) {
+		public AnnotationUsage setValue(String key, Value<?> val) {
 			return copy().setValue(key, val);
 		}
 
