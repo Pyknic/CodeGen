@@ -76,7 +76,8 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implem
 		return Optional.of(
 			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
 			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
-			classOrInterfaceLabel() + shortName(model.getName()) + SPACE +
+			classOrInterfaceLabel() + shortName(model.getName()) + 
+            cg.onEach(model.getGenerics()).collect(CodeCombiner.joinIfNotEmpty(COMMA_SPACE, SS, SE)) + SPACE +
 			onSuperType(cg, model) +
 			cg.onEach(model.getInterfaces()).collect(CodeCombiner.joinIfNotEmpty(COMMA_SPACE, extendsOrImplementsLabel(), SPACE)) +
 			block(separate(
