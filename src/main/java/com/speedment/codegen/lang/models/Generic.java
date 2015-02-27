@@ -26,7 +26,7 @@ import java.util.Optional;
  * @author Emil Forslund
  */
 public interface Generic extends Copyable<Generic> {
-    public static enum BoundType {UPPER, LOWER};
+    public static enum BoundType {EXTENDS, SUPER};
     
     Generic setLowerBound(String lowerBound);
 	Optional<String> getLowerBound();

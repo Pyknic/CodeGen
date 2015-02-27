@@ -33,7 +33,7 @@ public class GenericImpl implements Generic {
 	private Optional<String> lowerBound;
 	private final List<Type> upperBounds;
 
-	private BoundType type = BoundType.UPPER;
+	private BoundType type = BoundType.EXTENDS;
 	
 	public GenericImpl() {
 		lowerBound  = Optional.empty();

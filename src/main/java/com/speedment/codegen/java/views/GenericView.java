@@ -42,7 +42,7 @@ public class GenericView implements CodeView<Generic> {
 				model.getLowerBound().orElse(EMPTY) +
 				cg.onEach(model.getUpperBounds()).collect(CodeCombiner.joinIfNotEmpty(AND, 
 						model.getLowerBound().isPresent() ? 
-							model.getBoundType() == Generic.BoundType.UPPER ?
+							model.getBoundType() == Generic.BoundType.EXTENDS ?
 							EXTENDS_STRING : SUPER_STRING
 						: EMPTY, 
 						EMPTY
