@@ -29,6 +29,10 @@ public class JavaGenerator extends MultiGenerator {
 		"void", "byte", "short", "char", "int", "long", "float", 
 		"double", "boolean"
 	};
+    
+    public JavaGenerator() {
+        this(new JavaInstaller());
+    }
 	
 	public JavaGenerator(Installer... installers) {
 		super(new DefaultDependencyManager("java.lang", types), installers);

@@ -46,6 +46,6 @@ public class ArrayValue extends ValueImpl<List<Value<?>>> {
 		if (obj == null) {
 			return false;
 		}
-		return getClass() == obj.getClass();
+		return getClass().equals(obj.getClass());
 	}
 }

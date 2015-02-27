@@ -43,7 +43,7 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 	}
 	
 	private AnnotationUsageImpl(AnnotationUsageImpl prototype) {
-		type   = prototype.type.copy();
+		type   = prototype.type;
 		value  = Copier.copy(prototype.value, v -> v.copy());
 		values = Copier.copy(prototype.values, 
 			e -> new AbstractMap.SimpleEntry<>(

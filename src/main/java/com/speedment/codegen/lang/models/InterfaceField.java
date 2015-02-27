@@ -22,6 +22,7 @@ import com.speedment.codegen.lang.interfaces.Documentable;
 import com.speedment.codegen.lang.interfaces.Nameable;
 import com.speedment.codegen.lang.interfaces.Typeable;
 import com.speedment.codegen.lang.interfaces.Valuable;
+import com.speedment.codegen.lang.models.implementation.InterfaceFieldImpl;
 import com.speedment.codegen.lang.models.modifiers.InterfaceFieldModifier;
 
 /**
@@ -31,4 +32,9 @@ import com.speedment.codegen.lang.models.modifiers.InterfaceFieldModifier;
 public interface InterfaceField extends Nameable<InterfaceField>, 
     Typeable<InterfaceField>, InterfaceFieldModifier<InterfaceField>, 
     Documentable<InterfaceField>, Valuable<InterfaceField>, 
-    Annotable<InterfaceField>, Copyable<InterfaceField> {}
+    Annotable<InterfaceField>, Copyable<InterfaceField> {
+
+    static InterfaceField of(Field wrapped) {
+        return new InterfaceFieldImpl(wrapped);
+    }
+}

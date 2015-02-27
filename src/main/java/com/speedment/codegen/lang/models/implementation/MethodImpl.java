@@ -58,7 +58,7 @@ public class MethodImpl implements Method {
 	
 	private MethodImpl(final MethodImpl prototype) {
 		name		= prototype.name;
-		type		= prototype.type.copy();
+		type		= prototype.type;
 		javadoc		= Copier.copy(prototype.javadoc);
 		annotations	= Copier.copy(prototype.annotations);
 		generics	= Copier.copy(prototype.generics);

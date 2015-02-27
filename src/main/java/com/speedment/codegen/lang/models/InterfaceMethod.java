@@ -24,6 +24,7 @@ import com.speedment.codegen.lang.interfaces.Fieldable;
 import com.speedment.codegen.lang.interfaces.Generable;
 import com.speedment.codegen.lang.interfaces.Nameable;
 import com.speedment.codegen.lang.interfaces.Typeable;
+import com.speedment.codegen.lang.models.implementation.InterfaceMethodImpl;
 import com.speedment.codegen.lang.models.modifiers.InterfaceMethodModifier;
 
 /**
@@ -34,4 +35,9 @@ public interface InterfaceMethod extends Nameable<InterfaceMethod>,
     Typeable<InterfaceMethod>, Generable<InterfaceMethod>, 
     Fieldable<InterfaceMethod>, Documentable<InterfaceMethod>, 
     Annotable<InterfaceMethod>, Codeable<InterfaceMethod>, 
-    InterfaceMethodModifier<InterfaceMethod>, Copyable<InterfaceMethod> {}
+    InterfaceMethodModifier<InterfaceMethod>, Copyable<InterfaceMethod> {
+
+    static InterfaceMethod of(Method wrapped) {
+        return new InterfaceMethodImpl(wrapped);
+    }
+}

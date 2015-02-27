@@ -22,6 +22,7 @@ import com.speedment.codegen.lang.interfaces.Documentable;
 import com.speedment.codegen.lang.interfaces.Nameable;
 import com.speedment.codegen.lang.interfaces.Typeable;
 import com.speedment.codegen.lang.interfaces.Valuable;
+import com.speedment.codegen.lang.models.implementation.FieldImpl;
 import com.speedment.codegen.lang.models.modifiers.FieldModifier;
 
 /**
@@ -29,4 +30,17 @@ import com.speedment.codegen.lang.models.modifiers.FieldModifier;
  * @author Emil Forslund
  */
 public interface Field extends Copyable<Field>, Nameable<Field>, Typeable<Field>, 
-    Documentable<Field>, Valuable<Field>, Annotable<Field>, FieldModifier<Field> {}
+    Documentable<Field>, Valuable<Field>, Annotable<Field>, FieldModifier<Field> {
+
+    enum Factory { INST;
+        private Field prototype = new FieldImpl(null, null);
+    }
+
+    static Field of(String name, Type type) {
+        return Factory.INST.prototype.copy().setName(name).setType(type);
+    }
+    
+    static void setPrototype(Field a) {
+        Factory.INST.prototype = a;
+    }
+}

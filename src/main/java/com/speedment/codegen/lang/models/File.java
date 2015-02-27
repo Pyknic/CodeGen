@@ -22,10 +22,24 @@ import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Importable;
 import com.speedment.codegen.lang.interfaces.Documentable;
 import com.speedment.codegen.lang.interfaces.Nameable;
+import com.speedment.codegen.lang.models.implementation.FileImpl;
 
 /**
  *
  * @author Emil Forslund
  */
 public interface File extends Copyable<File>, Nameable<File>, Documentable<File>, 
-    Importable<File>, Classable<File>, Callable<File> {}
+    Importable<File>, Classable<File>, Callable<File> {
+
+    enum Factory { INST;
+        private File prototype = new FileImpl(null);
+    }
+
+    static File of(String name) {
+        return Factory.INST.prototype.copy().setName(name);
+    }
+    
+    static void setPrototype(File a) {
+        Factory.INST.prototype = a;
+    }
+}

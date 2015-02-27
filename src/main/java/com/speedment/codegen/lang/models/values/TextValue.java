@@ -43,6 +43,6 @@ public class TextValue extends ValueImpl<String> {
 		if (obj == null) {
 			return false;
 		}
-		return getClass() == obj.getClass();
+		return getClass().equals(obj.getClass());
 	}
 }

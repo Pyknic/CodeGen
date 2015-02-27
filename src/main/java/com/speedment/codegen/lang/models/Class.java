@@ -18,7 +18,21 @@ package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Constructable;
 import com.speedment.codegen.lang.interfaces.Supertypeable;
+import com.speedment.codegen.lang.models.implementation.ClassImpl;
 import com.speedment.codegen.lang.models.modifiers.ClassModifier;
 
 public interface Class extends ClassOrInterface<Class>, Constructable<Class>, 
-    Supertypeable<Class>, ClassModifier<Class> {}
+    Supertypeable<Class>, ClassModifier<Class> {
+
+    enum Factory { INST;
+        private Class prototype = new ClassImpl(null);
+    }
+
+    static Class of(String name) {
+        return Factory.INST.prototype.copy().setName(name);
+    }
+    
+    static void setPrototype(Class a) {
+        Factory.INST.prototype = a;
+    }
+}

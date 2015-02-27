@@ -43,6 +43,6 @@ public class NumberValue extends ValueImpl<Number> {
 		if (obj == null) {
 			return false;
 		}
-		return getClass() == obj.getClass();
+		return getClass().equals(obj.getClass());
 	}
 }

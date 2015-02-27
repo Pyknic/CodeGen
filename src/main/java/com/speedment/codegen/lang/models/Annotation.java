@@ -22,6 +22,7 @@ import com.speedment.codegen.lang.interfaces.Importable;
 import com.speedment.codegen.lang.interfaces.Documentable;
 import com.speedment.codegen.lang.interfaces.Fieldable;
 import com.speedment.codegen.lang.interfaces.Nameable;
+import com.speedment.codegen.lang.models.implementation.AnnotationImpl;
 import com.speedment.codegen.lang.models.modifiers.AnnotationModifier;
 
 /**
@@ -30,4 +31,17 @@ import com.speedment.codegen.lang.models.modifiers.AnnotationModifier;
  */
 public interface Annotation extends Copyable<Annotation>, Nameable<Annotation>, 
     Documentable<Annotation>, Fieldable<Annotation>, Importable<Annotation>, 
-    AnnotationModifier<Annotation>, Annotable<Annotation> {}
+    AnnotationModifier<Annotation>, Annotable<Annotation> {
+    
+    enum Factory { INST;
+        private Annotation prototype = new AnnotationImpl(null);
+    }
+
+    static Annotation of(String name) {
+        return Factory.INST.prototype.copy().setName(name);
+    }
+    
+    static void setPrototype(Annotation a) {
+        Factory.INST.prototype = a;
+    }
+}

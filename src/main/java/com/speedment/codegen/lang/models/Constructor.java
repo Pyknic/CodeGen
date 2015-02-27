@@ -21,6 +21,7 @@ import com.speedment.codegen.lang.interfaces.Codeable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Documentable;
 import com.speedment.codegen.lang.interfaces.Fieldable;
+import com.speedment.codegen.lang.models.implementation.ConstructorImpl;
 import com.speedment.codegen.lang.models.modifiers.ConstructorModifier;
 
 /**
@@ -29,4 +30,17 @@ import com.speedment.codegen.lang.models.modifiers.ConstructorModifier;
  */
 public interface Constructor extends Copyable<Constructor>, Documentable<Constructor>, 
     Annotable<Constructor>, Fieldable<Constructor>, Codeable<Constructor>, 
-    ConstructorModifier<Constructor> {}
+    ConstructorModifier<Constructor> {
+
+    enum Factory { INST;
+        private Constructor prototype = new ConstructorImpl();
+    }
+
+    static Constructor of() {
+        return Factory.INST.prototype.copy();
+    }
+    
+    static void setPrototype(Constructor a) {
+        Factory.INST.prototype = a;
+    }
+}

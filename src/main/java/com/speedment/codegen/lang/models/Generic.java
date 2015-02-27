@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Copyable;
+import com.speedment.codegen.lang.models.implementation.GenericImpl;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,4 +40,16 @@ public interface Generic extends Copyable<Generic> {
 	Generic setBoundType(BoundType type);
 	BoundType getBoundType();
 	Optional<Type> asType();
+    
+    enum Factory { INST;
+        private Generic prototype = new GenericImpl();
+    }
+
+    static Generic of() {
+        return Factory.INST.prototype.copy();
+    }
+    
+    static void setPrototype(Generic a) {
+        Factory.INST.prototype = a;
+    }
 }

@@ -19,6 +19,7 @@ package com.speedment.codegen.lang.models;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Typeable;
 import com.speedment.codegen.lang.interfaces.Valuable;
+import com.speedment.codegen.lang.models.implementation.AnnotationUsageImpl;
 import java.util.List;
 import java.util.Map;
 
@@ -31,4 +32,16 @@ public interface AnnotationUsage extends Copyable<AnnotationUsage>,
     
     AnnotationUsage setValue(String key, Value<?> val);
     List<Map.Entry<String, Value<?>>> getValues();
+    
+    enum Factory { INST;
+        private AnnotationUsage prototype = new AnnotationUsageImpl(null);
+    }
+
+    static AnnotationUsage of(Type type) {
+        return Factory.INST.prototype.copy().setType(type);
+    }
+    
+    static void setPrototype(AnnotationUsage a) {
+        Factory.INST.prototype = a;
+    }
 }

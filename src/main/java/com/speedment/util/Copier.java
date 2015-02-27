@@ -30,7 +30,12 @@ import java.util.function.Function;
  * @author Emil Forslund
  */
 public abstract class Copier {
-	public static <T extends Copyable<T>> Optional<T> copy(Optional<T> prototype) {
+	public static <T extends Copyable<T>> T copy(T prototype) {
+        if (prototype == null) return null;
+        else return prototype.copy();
+    }
+    
+    public static <T extends Copyable<T>> Optional<T> copy(Optional<T> prototype) {
 		return Copier.copy(prototype, c -> c.copy());
 	}
 	

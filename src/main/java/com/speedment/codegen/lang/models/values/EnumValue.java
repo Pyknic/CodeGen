@@ -36,10 +36,7 @@ public class EnumValue extends ValueImpl<String>
 	}
 	
 	private EnumValue(EnumValue prototype) {
-		this (
-			prototype.type.copy(),
-			prototype.getValue()
-		);
+		this (prototype.type, prototype.getValue());
 	}
 
 	@Override

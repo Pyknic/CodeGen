@@ -20,24 +20,22 @@ import com.speedment.codegen.Formatting;
 import static com.speedment.codegen.Formatting.block;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.java.JavaGenerator;
-import com.speedment.codegen.java.JavaInstaller;
 import com.speedment.codegen.lang.controller.AutoEquals;
 import com.speedment.codegen.lang.controller.AutoImports;
 import com.speedment.codegen.lang.controller.AutoJavadoc;
 import com.speedment.codegen.lang.controller.FinalParameters;
 import com.speedment.codegen.lang.controller.SetGetAdd;
+import com.speedment.codegen.lang.models.Field;
+import com.speedment.codegen.lang.models.File;
+import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.Type;
+import com.speedment.codegen.lang.models.Class;
+import com.speedment.codegen.lang.models.Constructor;
+import com.speedment.codegen.lang.models.Method;
 import static com.speedment.codegen.lang.models.constants.Default.INT_PRIMITIVE;
 import static com.speedment.codegen.lang.models.constants.Default.STRING;
 import static com.speedment.codegen.lang.models.constants.Default.VOID;
 import static com.speedment.codegen.lang.models.constants.Default.list;
-import com.speedment.codegen.lang.models.implementation.ClassImpl;
-import com.speedment.codegen.lang.models.implementation.ConstructorImpl;
-import com.speedment.codegen.lang.models.implementation.FieldImpl;
-import com.speedment.codegen.lang.models.implementation.FileImpl;
-import com.speedment.codegen.lang.models.implementation.JavadocImpl;
-import com.speedment.codegen.lang.models.implementation.MethodImpl;
-import com.speedment.codegen.lang.models.implementation.TypeImpl;
 
 /**
  *
@@ -50,40 +48,38 @@ public class Example {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-		final CodeGenerator cg = new JavaGenerator(
-			new JavaInstaller()
-		);
+		final CodeGenerator cg = new JavaGenerator();
 		
 		Formatting.tab("    ");
 
-		final Type typeThread  = new TypeImpl(Thread.class);
-		final Type spriteStore = new TypeImpl("org.duncan.test.SpriteStore");
-		final Type soundStore  = new TypeImpl("org.duncan.test.SoundStore");
+		final Type typeThread  = Type.of(Thread.class);
+		final Type spriteStore = Type.of("org.duncan.test.SpriteStore");
+		final Type soundStore  = Type.of("org.duncan.test.SoundStore");
 
-		System.out.println(cg.on(new FileImpl("org/duncan/test/MittTest.java")
-			.setJavadoc(new JavadocImpl("Copyright (c) Example Company, 2015."))
-			.add(new ClassImpl("MittTest", typeThread)
+		System.out.println(cg.on(File.of("org/duncan/test/MittTest.java")
+			.setJavadoc(Javadoc.of("Copyright (c) Example Company, 2015."))
+			.add(Class.of("MittTest").setSupertype(typeThread)
 				/***** Class declaration *****/
 				.public_()
-				.setJavadoc(new JavadocImpl(
-					"This is a test class to demonstrate how the\n" +
+				.setJavadoc(Javadoc.of(
+					"This is a test class to demonstrate how the ",
 					"code generator is working."
 				))
 				
 				/***** Fields *****/
-				.add(new FieldImpl("player1Name", STRING))
-				.add(new FieldImpl("player2Name", STRING))
-				.add(new FieldImpl("player1Score", INT_PRIMITIVE))
-				.add(new FieldImpl("player2Score", INT_PRIMITIVE))
-				.add(new FieldImpl("players", list(new TypeImpl("org.duncan.test.Player"))))
-				.add(new FieldImpl("spriteStore", spriteStore))
-				.add(new FieldImpl("soundStore", soundStore))
+				.add(Field.of("player1Name", STRING))
+				.add(Field.of("player2Name", STRING))
+				.add(Field.of("player1Score", INT_PRIMITIVE))
+				.add(Field.of("player2Score", INT_PRIMITIVE))
+				.add(Field.of("players", list(Type.of("org.duncan.test.Player"))))
+				.add(Field.of("spriteStore", spriteStore))
+				.add(Field.of("soundStore", soundStore))
 					
 				/***** Subclass *****/
-				.add(new ClassImpl("Impl").private_()
-					.add(new FieldImpl("gameId", INT_PRIMITIVE).private_().final_())
-					.add(new ConstructorImpl().protected_()
-						.add(new FieldImpl("gameId", INT_PRIMITIVE))
+				.add(Class.of("Impl").private_()
+					.add(Field.of("gameId", INT_PRIMITIVE).private_().final_())
+					.add(Constructor.of().protected_()
+						.add(Field.of("gameId", INT_PRIMITIVE))
 						.add("this.gameId = gameId;")
 					)
 					.call(new SetGetAdd())
@@ -92,41 +88,41 @@ public class Example {
 				)
 					
 				/***** Methods *****/
-				.add(new MethodImpl("spawnPlayer1", VOID).public_()
-					.setJavadoc(new JavadocImpl(
+				.add(Method.of("spawnPlayer1", VOID).public_()
+					.setJavadoc(Javadoc.of(
 						"This function is used to reset Player 1."
 					))
-					.add(new FieldImpl("name", STRING))
-					.add(new FieldImpl("score", INT_PRIMITIVE))
+					.add(Field.of("name", STRING))
+					.add(Field.of("score", INT_PRIMITIVE))
 					.add("this.player1Name = name;")
 					.add("this.player1Score = score;")
 				)
-				.add(new MethodImpl("spawnPlayer2", VOID).public_()
-					.setJavadoc(new JavadocImpl(
+				.add(Method.of("spawnPlayer2", VOID).public_()
+					.setJavadoc(Javadoc.of(
 						"This function is used to reset Player 2."
 					))
-					.add(new FieldImpl("name", STRING))
-					.add(new FieldImpl("score", INT_PRIMITIVE))
+					.add(Field.of("name", STRING))
+					.add(Field.of("score", INT_PRIMITIVE))
 					.add("this.player2Name = name;")
 					.add("this.player2Score = score;")
 				)
-				.add(new MethodImpl("killPlayer", VOID).public_()
-					.setJavadoc(new JavadocImpl(
+				.add(Method.of("killPlayer", VOID).public_()
+					.setJavadoc(Javadoc.of(
 						"This method can be used to kill either player."
 					))
-					.add(new FieldImpl("name", STRING))
+					.add(Field.of("name", STRING))
 					.add("switch (name) " + block(
 						"case (this.player1Name) : killPlayer1(); break;",
 						"case (this.player2Name) : killPlayer2(); break;"
 					))
 				)
-				.add(new MethodImpl("killPlayer1", VOID).protected_()
+				.add(Method.of("killPlayer1", VOID).protected_()
 					.add("this.player2Score += 20;")
 				)
-				.add(new MethodImpl("killPlayer2", VOID).protected_()
+				.add(Method.of("killPlayer2", VOID).protected_()
 					.add("this.player1Score += 20;")
 				)
-				.add(new MethodImpl("restart", VOID).public_()
+				.add(Method.of("restart", VOID).public_()
 					.add("spawnPlayer1();")
 					.add("spawnPlayer2();")
 				)

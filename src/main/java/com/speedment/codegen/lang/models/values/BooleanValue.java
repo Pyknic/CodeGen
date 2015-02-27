@@ -43,6 +43,6 @@ public class BooleanValue extends ValueImpl<Boolean> {
 		if (obj == null) {
 			return false;
 		}
-		return getClass() == obj.getClass();
+		return getClass().equals(obj.getClass());
 	}
 }

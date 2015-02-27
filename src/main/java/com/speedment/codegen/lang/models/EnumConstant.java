@@ -18,6 +18,7 @@ package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Nameable;
+import com.speedment.codegen.lang.models.implementation.EnumConstantImpl;
 import java.util.List;
 
 /**
@@ -32,4 +33,16 @@ public interface EnumConstant extends Copyable<EnumConstant>, Nameable<EnumConst
     }
     
     List<Value<?>> getValues();
+    
+    enum Factory { INST;
+        private EnumConstant prototype = new EnumConstantImpl(null);
+    }
+
+    static EnumConstant of(String name) {
+        return Factory.INST.prototype.copy().setName(name);
+    }
+    
+    static void setPrototype(EnumConstant a) {
+        Factory.INST.prototype = a;
+    }
 }

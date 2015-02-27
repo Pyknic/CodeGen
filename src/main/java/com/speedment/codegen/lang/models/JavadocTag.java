@@ -18,6 +18,7 @@ package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Nameable;
+import com.speedment.codegen.lang.models.implementation.JavadocTagImpl;
 import java.util.Optional;
 
 /**
@@ -29,4 +30,16 @@ public interface JavadocTag extends Copyable<JavadocTag>, Nameable<JavadocTag> {
     Optional<String> getValue();
     JavadocTag setText(String text);
 	Optional<String> getText();
+    
+    enum Factory { INST;
+        private JavadocTag prototype = new JavadocTagImpl(null);
+    }
+
+    static JavadocTag of(String name) {
+        return Factory.INST.prototype.copy().setName(name);
+    }
+    
+    static void setPrototype(JavadocTag a) {
+        Factory.INST.prototype = a;
+    }
 }

@@ -81,6 +81,7 @@ public class TypeImpl implements Type {
     @Override
     public Type setJavaImpl(java.lang.Class<?> javaImpl) {
         this.javaImpl = Optional.of(javaImpl);
+        this.name = javaImpl.getName();
         return this;
     }
 

@@ -20,6 +20,7 @@ import com.speedment.codegen.lang.interfaces.Annotable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Generable;
 import com.speedment.codegen.lang.interfaces.Nameable;
+import com.speedment.codegen.lang.models.implementation.TypeImpl;
 import java.util.Optional;
 
 /**
@@ -31,4 +32,20 @@ public interface Type extends Copyable<Type>, Nameable<Type>, Generable<Type>, A
     Optional<java.lang.Class<?>> getJavaImpl();
     Type setArrayDimension(int arrayDimension);
     int getArrayDimension();
+    
+    enum Factory { INST;
+        private Type prototype = new TypeImpl("");
+    }
+
+    static Type of(String name) {
+        return Factory.INST.prototype.copy().setName(name);
+    }
+    
+    static Type of(java.lang.Class<?> clazz) {
+        return Factory.INST.prototype.copy().setJavaImpl(clazz);
+    }
+    
+    static void setPrototype(Type a) {
+        Factory.INST.prototype = a;
+    }
 }

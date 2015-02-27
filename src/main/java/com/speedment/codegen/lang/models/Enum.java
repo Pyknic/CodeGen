@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Constructable;
+import com.speedment.codegen.lang.models.implementation.EnumImpl;
 import com.speedment.codegen.lang.models.modifiers.EnumModifier;
 import java.util.List;
 
@@ -33,4 +34,16 @@ public interface Enum extends ClassOrInterface<Enum>, EnumModifier<Enum>,
 	}
 	
 	List<EnumConstant> getConstants();
+    
+    enum Factory { INST;
+        private Enum prototype = new EnumImpl(null);
+    }
+
+    static Enum of(String name) {
+        return Factory.INST.prototype.copy().setName(name);
+    }
+    
+    static void setPrototype(Enum a) {
+        Factory.INST.prototype = a;
+    }
 }
