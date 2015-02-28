@@ -57,7 +57,7 @@ public interface CodeGenerator {
 	/**
 	 * Locates the <code>CodeView</code> that corresponds to the specified model
 	 * and uses it to generate a String. If no view is associated with the 
-	 * model type, a <code>NullPointerException</code> will be thrown.
+	 * model type, a <code>UnsupportedOperationException</code> will be thrown.
 	 * 
 	 * The result will be a <code>Optional</code>. It is present only if the
 	 * result from the view is present.
@@ -77,11 +77,7 @@ public interface CodeGenerator {
 	 * @return The viewed text if any.
 	 */
 	default public <T> Optional<String> on(Optional<T> model) {
-		if (model.isPresent()) {
-			return on(model.get());
-		} else {
-			return Optional.empty();
-		}
+		return model.flatMap(m -> on(m));
 	}
 	
 	/**
@@ -103,7 +99,7 @@ public interface CodeGenerator {
 	/**
 	 * Locates the <code>CodeView</code> that corresponds to the specified model
 	 * and uses it to generate a String. If no view is associated with the 
-	 * model type, a <code>NullPointerException</code> will be thrown.
+	 * model type, a <code>UnsupportedOperationException</code> will be thrown.
 	 * 
 	 * Since views may not return a result for a particular model, the consumer
 	 * might not be called. If the same model has multiple views, they are all

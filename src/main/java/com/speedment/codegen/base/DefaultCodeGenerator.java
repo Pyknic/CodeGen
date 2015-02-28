@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * A <code>DefaultCodeGenerator</code> is the class that is called to view a model. The
@@ -95,7 +97,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	/**
 	 * Locates the <code>CodeView</code> that corresponds to the specified model
 	 * and uses it to generate a String. If no view is associated with the 
-	 * model type, a <code>NullPointerException</code> will be thrown.
+	 * model type, a <code>UnsupportedOperationException</code> will be thrown.
 	 * 
 	 * The result will be a <code>Optional</code>. It is present only if the
 	 * result from the view is present.
@@ -106,14 +108,18 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	@Override
     @SuppressWarnings("unchecked")
 	public Optional<String> on(Object model) {
-		return installer.withOne(model.getClass())
-			.flatMap(v -> render((CodeView<Object>) v, model));
+		return render(
+            (CodeView<Object>) installer
+                .withOne(model.getClass())
+                .orElseThrow(UnsupportedOperationException::new),
+            model
+        );
 	}
 
 	/**
 	 * Locates the <code>CodeView</code> that corresponds to the specified model
 	 * and uses it to generate a String. If no view is associated with the 
-	 * model type, a <code>NullPointerException</code> will be thrown.
+	 * model type, a <code>UnsupportedOperationException</code> will be thrown.
 	 * 
 	 * Since views may not return a result for a particular model, the consumer
 	 * might not be called. If the same model has multiple views, they are all
@@ -125,8 +131,17 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	@Override
     @SuppressWarnings("unchecked")
 	public void on(Object model, Consumer<String> consumer) {
-		installer.withAll(model.getClass())
-			.forEach(v -> render((CodeView<Object>) v, model));
+		final Supplier<Stream<CodeView<Object>>> supplier = () ->
+            installer.withAll(model.getClass()).map(v -> (CodeView<Object>) v);
+        
+        if (supplier.get().anyMatch(v -> true)) {
+            supplier.get().forEach(v -> render((CodeView<Object>) v, model));
+        } else {
+            throw new UnsupportedOperationException(
+                "The model of type " + model.getClass().getName() + 
+                " passed to DefaultCodeGenerator does not have a corresponding view."
+            );
+        }
 	}
 	
 	private <M> Optional<String> render(CodeView<M> view, M model) {

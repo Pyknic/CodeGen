@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * A generator that can have multiple installers. If the same model is associated
@@ -91,7 +93,7 @@ public class MultiGenerator implements CodeGenerator {
 	/**
 	 * Locates the <code>CodeView</code> that corresponds to the specified model
 	 * and uses it to generate a String. If no view is associated with the 
-	 * model type, a <code>NullPointerException</code> will be thrown.
+	 * model type, an <code>UnsupportedOperationException</code> will be thrown.
 	 * 
 	 * The result will be a <code>Optional</code>. It is present only if the
 	 * result from the view is present.
@@ -109,13 +111,16 @@ public class MultiGenerator implements CodeGenerator {
 			}
 		}
 		
-		return Optional.empty();
+		throw new UnsupportedOperationException(
+            "The model of type " + model.getClass().getName() + 
+            " passed to MultiGenerator does not have a corresponding view."
+        );
 	}
 
 	/**
 	 * Locates the <code>CodeView</code> that corresponds to the specified model
 	 * and uses it to generate a String. If no view is associated with the 
-	 * model type, a <code>NullPointerException</code> will be thrown.
+	 * model type, an <code>UnsupportedOperationException</code> will be thrown.
 	 * 
 	 * Since views may not return a result for a particular model, the consumer
 	 * might not be called. If the same model has multiple views, they are all
@@ -127,10 +132,19 @@ public class MultiGenerator implements CodeGenerator {
 	@Override
     @SuppressWarnings("unchecked")
 	public void on(Object model, Consumer<String> consumer) {
-		installers.stream()
-			.flatMap(i -> i.withAll(model.getClass()))
-            .map(v -> (CodeView<Object>) v)
-			.forEach(v -> render(v, model).ifPresent(consumer));
+		final Supplier<Stream<CodeView<Object>>> supplier = () -> 
+            installers.stream()
+                .flatMap(i -> i.withAll(model.getClass()))
+                .map(v -> (CodeView<Object>) v);
+        
+        if (supplier.get().anyMatch(v -> true)) {
+            supplier.get().forEach(v -> render(v, model).ifPresent(consumer));
+        } else {
+            throw new UnsupportedOperationException(
+                "The model of type " + model.getClass().getName() + 
+                " passed to MultiGenerator does not have a corresponding view."
+            );
+        }
 	}
 
 	private <M> Optional<String> render(CodeView<M> view, M model) {
