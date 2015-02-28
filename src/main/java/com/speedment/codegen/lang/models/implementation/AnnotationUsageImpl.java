@@ -42,7 +42,7 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 		this.values = new ArrayList<>();
 	}
 	
-	private AnnotationUsageImpl(AnnotationUsageImpl prototype) {
+	protected AnnotationUsageImpl(AnnotationUsageImpl prototype) {
 		type   = prototype.type;
 		value  = Copier.copy(prototype.value, v -> v.copy());
 		values = Copier.copy(prototype.values, 

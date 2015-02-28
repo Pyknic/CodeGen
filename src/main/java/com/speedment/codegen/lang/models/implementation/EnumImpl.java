@@ -38,7 +38,7 @@ public class EnumImpl extends ClassOrInterfaceImpl<Enum> implements Enum {
 		constructors = new ArrayList<>();
 	}
 	
-	private EnumImpl(EnumImpl prototype) {
+	protected EnumImpl(EnumImpl prototype) {
 		super (prototype);
 		constants = Copier.copy(prototype.constants);
 		constructors = Copier.copy(prototype.constructors);

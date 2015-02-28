@@ -45,7 +45,7 @@ public class ClassImpl extends ClassOrInterfaceImpl<Class> implements Class {
 		this.constructors = new ArrayList<>();
 	}
 	
-	private ClassImpl(ClassImpl prototype) {
+	protected ClassImpl(ClassImpl prototype) {
 		super (prototype);
 		this.superType = Copier.copy(prototype.superType);
 		this.constructors = Copier.copy(prototype.constructors);

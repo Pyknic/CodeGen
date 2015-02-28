@@ -47,7 +47,7 @@ public class JavadocTagImpl implements JavadocTag {
 		this.text  = Optional.of(text);
 	}
 	
-	private JavadocTagImpl(JavadocTagImpl prototype) {
+	protected JavadocTagImpl(JavadocTagImpl prototype) {
 		this.name  = prototype.name;
 		this.value = Copier.copy(prototype.value, s -> s);
 		this.text  = Copier.copy(prototype.text, s -> s);

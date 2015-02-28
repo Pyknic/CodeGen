@@ -41,7 +41,7 @@ public class JavadocImpl implements Javadoc {
 		tags = new ArrayList<>();
 	}
 	
-	private JavadocImpl(final JavadocImpl prototype) {
+	protected JavadocImpl(final JavadocImpl prototype) {
 		rows = Copier.copy(prototype.rows, s -> s);
 		tags = Copier.copy(prototype.tags);
 	}

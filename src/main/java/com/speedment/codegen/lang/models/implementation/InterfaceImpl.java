@@ -28,7 +28,7 @@ public class InterfaceImpl extends ClassOrInterfaceImpl<Interface> implements In
 		super (name);
     }
 	
-	private InterfaceImpl(InterfaceImpl prototype) {
+	protected InterfaceImpl(InterfaceImpl prototype) {
 		super (prototype);
     }
 

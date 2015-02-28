@@ -53,7 +53,7 @@ public class GenericImpl implements Generic {
 		this.upperBounds = Arrays.asList(upperBounds);
 	}
 	
-	private GenericImpl(GenericImpl prototype) {
+	protected GenericImpl(GenericImpl prototype) {
 		lowerBound  = Copier.copy(prototype.lowerBound, s -> s);
 		upperBounds = Copier.copy(prototype.upperBounds);
 	}

@@ -51,7 +51,7 @@ public class AnnotationImpl implements Annotation {
 		this.modifiers		= EnumSet.noneOf(Modifier.class);
 	}
 	
-	private AnnotationImpl(AnnotationImpl prototype) {
+	protected AnnotationImpl(AnnotationImpl prototype) {
 		name			= prototype.name;
 		javadoc			= Copier.copy(prototype.javadoc);
 		annotations		= Copier.copy(prototype.annotations);

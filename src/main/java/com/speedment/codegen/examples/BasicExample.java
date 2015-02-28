@@ -23,6 +23,7 @@ import com.speedment.codegen.lang.models.Class;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.File;
 import com.speedment.codegen.lang.models.Javadoc;
+import com.speedment.codegen.lang.models.JavadocTag;
 import com.speedment.codegen.lang.models.Method;
 import com.speedment.codegen.lang.models.constants.Default;
 import com.speedment.codegen.lang.models.values.TextValue;
@@ -38,6 +39,7 @@ public class BasicExample {
         System.out.println(new JavaGenerator().on(
             File.of("org/example/BasicExample.java")
                 .add(Class.of("BasicExample")
+                    .setJavadoc(Javadoc.of("").add(JavadocTag.of("author", "Your name")))
                     .add(Default.GENERATED)
                     .public_()
                     .add(

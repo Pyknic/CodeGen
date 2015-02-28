@@ -43,7 +43,7 @@ public class FileImpl implements File {
 		this.classes = new ArrayList<>();
 	}
 	
-	private FileImpl(FileImpl prototype) {
+	protected FileImpl(FileImpl prototype) {
 		this.name	 = prototype.name;
 		this.doc	 = Copier.copy(prototype.doc);
 		this.imports = Copier.copy(prototype.imports);

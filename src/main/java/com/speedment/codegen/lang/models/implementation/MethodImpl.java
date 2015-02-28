@@ -56,7 +56,7 @@ public class MethodImpl implements Method {
 		this.modifiers		= EnumSet.noneOf(Modifier.class);
 	}
 	
-	private MethodImpl(final MethodImpl prototype) {
+	protected MethodImpl(final MethodImpl prototype) {
 		name		= prototype.name;
 		type		= prototype.type;
 		javadoc		= Copier.copy(prototype.javadoc);

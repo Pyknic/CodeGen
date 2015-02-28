@@ -54,7 +54,7 @@ public class TypeImpl implements Type {
         this.javaImpl = Optional.ofNullable(javaImpl);
     }
 
-    private TypeImpl(TypeImpl prototype) {
+    protected TypeImpl(TypeImpl prototype) {
         name = prototype.name;
         arrayDimension = prototype.arrayDimension;
         annotations = Copier.copy(prototype.annotations);

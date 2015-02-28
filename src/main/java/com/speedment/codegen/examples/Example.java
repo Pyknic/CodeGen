@@ -31,6 +31,7 @@ import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.Type;
 import com.speedment.codegen.lang.models.Class;
 import com.speedment.codegen.lang.models.Constructor;
+import com.speedment.codegen.lang.models.Generic;
 import com.speedment.codegen.lang.models.Method;
 import static com.speedment.codegen.lang.models.constants.Default.INT_PRIMITIVE;
 import static com.speedment.codegen.lang.models.constants.Default.STRING;

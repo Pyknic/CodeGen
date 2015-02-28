@@ -39,6 +39,14 @@ public interface JavadocTag extends Copyable<JavadocTag>, Nameable<JavadocTag> {
         return Factory.INST.prototype.copy().setName(name);
     }
     
+    static JavadocTag of(String name, String text) {
+        return Factory.INST.prototype.copy().setName(name).setText(text);
+    }
+    
+    static JavadocTag of(String name, String value, String text) {
+        return Factory.INST.prototype.copy().setName(name).setValue(value).setText(text);
+    }
+    
     static void setPrototype(JavadocTag a) {
         Factory.INST.prototype = a;
     }

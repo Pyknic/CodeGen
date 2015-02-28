@@ -51,7 +51,7 @@ public class FieldImpl implements Field {
 		this.modifiers		= EnumSet.noneOf(Modifier.class);
 	}
 	
-	private FieldImpl(FieldImpl prototype) {
+	protected FieldImpl(FieldImpl prototype) {
 		name		= prototype.name;
 		type		= prototype.type;
 		value		= Copier.copy(prototype.value, v -> v.copy());

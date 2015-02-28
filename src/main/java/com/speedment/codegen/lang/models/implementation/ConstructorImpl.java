@@ -49,7 +49,7 @@ public class ConstructorImpl implements Constructor {
 		modifiers	= new HashSet<>();
 	}
 	
-	private ConstructorImpl(final ConstructorImpl prototype) {
+	protected ConstructorImpl(final ConstructorImpl prototype) {
 		javadoc		= Copier.copy(prototype.javadoc);
 		annotations	= Copier.copy(prototype.annotations);
 		params		= Copier.copy(prototype.params);
