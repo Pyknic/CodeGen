@@ -24,6 +24,7 @@ import static com.speedment.codegen.lang.models.modifiers.Modifier.*;
  */
 interface Keyword {
     interface public_<T extends public_<T>> extends Modifiable<T> {
+        @SuppressWarnings("unchecked")
         default T public_() {
             getModifiers().add(PUBLIC);
             return (T) this;
@@ -31,6 +32,7 @@ interface Keyword {
     }
     
     interface protected_<T extends protected_<T>> extends Modifiable<T> {
+        @SuppressWarnings("unchecked")
         default T protected_() {
             getModifiers().add(PROTECTED);
             return (T) this;
@@ -38,6 +40,7 @@ interface Keyword {
     }
     
     interface private_<T extends private_<T>> extends Modifiable<T> {
+        @SuppressWarnings("unchecked")
         default T private_() {
             getModifiers().add(PRIVATE);
             return (T) this;
@@ -45,6 +48,7 @@ interface Keyword {
     }
     
     interface static_<T extends static_<T>> extends Modifiable<T> {
+        @SuppressWarnings("unchecked")
         default T static_() {
             getModifiers().add(STATIC);
             return (T) this;
@@ -52,6 +56,7 @@ interface Keyword {
     }
     
     interface final_<T extends final_<T>> extends Modifiable<T> {
+        @SuppressWarnings("unchecked")
         default T final_() {
             getModifiers().add(FINAL);
             return (T) this;
@@ -59,6 +64,7 @@ interface Keyword {
     }
     
     interface abstract_<T extends abstract_<T>> extends Modifiable<T> {
+        @SuppressWarnings("unchecked")
         default T abstract_() {
             getModifiers().add(ABSTRACT);
             return (T) this;
@@ -66,6 +72,7 @@ interface Keyword {
     }
     
     interface strictfp_<T extends strictfp_<T>> extends Modifiable<T> {
+        @SuppressWarnings("unchecked")
         default T strictfp_() {
             getModifiers().add(STRICTFP);
             return (T) this;
@@ -73,6 +80,7 @@ interface Keyword {
     }
     
     interface synchronized_<T extends synchronized_<T>> extends Modifiable<T> {
+        @SuppressWarnings("unchecked")
         default T synchronized_() {
             getModifiers().add(SYNCHRONIZED);
             return (T) this;
@@ -80,6 +88,7 @@ interface Keyword {
     }
     
     interface transient_<T extends transient_<T>> extends Modifiable<T> {
+        @SuppressWarnings("unchecked")
         default T transient_() {
             getModifiers().add(TRANSIENT);
             return (T) this;
@@ -87,6 +96,7 @@ interface Keyword {
     }
     
     interface volatile_<T extends volatile_<T>> extends Modifiable<T> {
+        @SuppressWarnings("unchecked")
         default T volatile_() {
             getModifiers().add(VOLATILE);
             return (T) this;
@@ -94,6 +104,7 @@ interface Keyword {
     }
     
     interface native_<T extends native_<T>> extends Modifiable<T> {
+        @SuppressWarnings("unchecked")
         default T native_() {
             getModifiers().add(NATIVE);
             return (T) this;
@@ -101,6 +112,7 @@ interface Keyword {
     }
 	
     interface default_<T extends default_<T>> extends Modifiable<T> {
+        @SuppressWarnings("unchecked")
         default T default_() {
             getModifiers().add(DEFAULT);
             return (T) this;

@@ -17,7 +17,6 @@
 package com.speedment.codegen.lang.models.modifiers;
 
 import com.speedment.codegen.lang.interfaces.Copyable;
-import com.speedment.codegen.lang.interfaces.Modifiable;
 
 /**
  *
