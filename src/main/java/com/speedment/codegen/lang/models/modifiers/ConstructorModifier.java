@@ -16,27 +16,14 @@
  */
 package com.speedment.codegen.lang.models.modifiers;
 
-import com.speedment.codegen.lang.interfaces.Modifiable;
-import static com.speedment.codegen.lang.models.modifiers.Modifier.*;
+import com.speedment.codegen.lang.models.modifiers.Keyword.private_;
+import com.speedment.codegen.lang.models.modifiers.Keyword.protected_;
+import com.speedment.codegen.lang.models.modifiers.Keyword.public_;
 
 /**
  *
  * @author Emil Forslund
  * @param <T>
  */
-public interface ConstructorModifier<T extends ConstructorModifier<T>> extends Modifiable<T> {
-	default T public_() {
-		getModifiers().add(PUBLIC);
-		return (T) this;
-	}
-	
-	default T protected_() {
-		getModifiers().add(PROTECTED);
-		return (T) this;
-	}
-	
-	default T private_() {
-		getModifiers().add(PRIVATE);
-		return (T) this;
-	}
-}
+public interface ConstructorModifier<T extends ConstructorModifier<T>> 
+extends public_<T>, protected_<T>, private_<T> {}

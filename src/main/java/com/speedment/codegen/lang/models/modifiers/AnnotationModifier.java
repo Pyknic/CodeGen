@@ -16,17 +16,12 @@
  */
 package com.speedment.codegen.lang.models.modifiers;
 
-import com.speedment.codegen.lang.interfaces.Modifiable;
-import static com.speedment.codegen.lang.models.modifiers.Modifier.PUBLIC;
+import com.speedment.codegen.lang.models.modifiers.Keyword.public_;
 
 /**
  *
  * @author Duncan
  * @param <T>
  */
-public interface AnnotationModifier<T extends AnnotationModifier<T>> extends Modifiable<T> {
-	default T public_() {
-		getModifiers().add(PUBLIC);
-		return (T) this;
-	}
-}
+public interface AnnotationModifier<T extends AnnotationModifier<T>> 
+extends public_<T> {}

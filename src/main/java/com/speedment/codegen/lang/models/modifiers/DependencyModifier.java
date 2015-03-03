@@ -16,17 +16,11 @@
  */
 package com.speedment.codegen.lang.models.modifiers;
 
-import com.speedment.codegen.lang.interfaces.Modifiable;
-import static com.speedment.codegen.lang.models.modifiers.Modifier.STATIC;
+import com.speedment.codegen.lang.models.modifiers.Keyword.static_;
 
 /**
  *
  * @author Emil Forslund
  * @param <T>
  */
-public interface DependencyModifier<T extends DependencyModifier<T>> extends Modifiable<T> {
-	default T static_() {
-		getModifiers().add(STATIC);
-		return (T) this;
-	}
-}
+public interface DependencyModifier<T extends DependencyModifier<T>> extends static_<T> {}
