@@ -101,7 +101,7 @@ public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>> implem
 	}
 	
 	private String hash(Field f) {
-		final String prefix = "hash = 13 * hash + ";
+		final String prefix = "hash = 31 * hash + ";
 		final String suffix = ".hashCode(this." + f.getName() + ");";
 
 		switch (f.getType().getName()) {
@@ -113,7 +113,7 @@ public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>> implem
 			case "double" : return prefix + "Double" + suffix;
 			case "boolean" : return prefix + "Boolean" + suffix;
 			case "char" : return prefix + "Character" + suffix;
-			default: return prefix + "this." + f.getName() + ".hashCode();";
+			default: return prefix + "(this." + f.getName() + " == null) ? 0 : this." + f.getName() + ".hashCode();";
 		}
 	}
 	
