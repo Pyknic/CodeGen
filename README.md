@@ -11,11 +11,11 @@ System.out.println(new JavaGenerator().on(
             .add(
                 Field.of("BASIC_MESSAGE", Default.STRING)
                 .public_().final_().static_()
-                .setValue(new TextValue("Hello, world!"))
+                .set(new TextValue("Hello, world!"))
             )
             .add(
                 Method.of("main", Default.VOID)
-                .setJavadoc(Javadoc.of(
+                .set(Javadoc.of(
                     "This is a vary basic example of ",
                     "the capabilities of the Code Generator."
                 ))
