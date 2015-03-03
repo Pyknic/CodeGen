@@ -141,17 +141,17 @@ public class TypeImpl implements Type {
 		return hash;
 	}
 
-    public static final class Const extends TypeImpl {
+    public static final class TypeConst extends TypeImpl {
 
-        public Const(java.lang.Class<?> javaImpl) {
+        public TypeConst(java.lang.Class<?> javaImpl) {
             super(javaImpl);
         }
 
-        public Const(String name) {
+        public TypeConst(String name) {
             super(name);
         }
 
-        public Const(String name, java.lang.Class<?> javaImpl) {
+        public TypeConst(String name, java.lang.Class<?> javaImpl) {
             super(name, javaImpl);
         }
 

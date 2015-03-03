@@ -28,7 +28,6 @@ import com.speedment.codegen.lang.interfaces.Methodable;
 import com.speedment.codegen.lang.interfaces.Supertypeable;
 import com.speedment.codegen.lang.interfaces.Typeable;
 import com.speedment.codegen.lang.models.File;
-import com.speedment.codegen.lang.models.Generic;
 import com.speedment.codegen.lang.models.Type;
 import com.speedment.codegen.lang.models.implementation.ImportImpl;
 import java.util.HashMap;

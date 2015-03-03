@@ -22,7 +22,7 @@ import com.speedment.codegen.lang.models.Method;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Type;
-import static com.speedment.codegen.lang.models.constants.Default.OPTIONAL;
+import static com.speedment.codegen.lang.models.constants.DefaultType.OPTIONAL;
 import com.speedment.codegen.lang.models.implementation.FieldImpl;
 import com.speedment.codegen.lang.models.implementation.JavadocImpl;
 import com.speedment.codegen.lang.models.implementation.JavadocTagImpl;

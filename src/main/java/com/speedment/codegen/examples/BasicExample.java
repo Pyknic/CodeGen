@@ -25,7 +25,8 @@ import com.speedment.codegen.lang.models.File;
 import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.JavadocTag;
 import com.speedment.codegen.lang.models.Method;
-import com.speedment.codegen.lang.models.constants.Default;
+import static com.speedment.codegen.lang.models.constants.DefaultAnnotationUsage.GENERATED;
+import com.speedment.codegen.lang.models.constants.DefaultType;
 import com.speedment.codegen.lang.models.values.TextValue;
 
 /**
@@ -36,25 +37,22 @@ public class BasicExample {
     public static void main(String... params) {
         Formatting.tab("    ");
         
-        System.out.println(new JavaGenerator().on(
-            File.of("org/example/BasicExample.java")
+        System.out.println(new JavaGenerator().on(File.of("org/example/BasicExample.java")
                 .add(Class.of("BasicExample")
                     .set(Javadoc.of("").add(JavadocTag.of("author", "Your name")))
-                    .add(Default.GENERATED)
+                    .add(GENERATED)
                     .public_()
-                    .add(
-                        Field.of("BASIC_MESSAGE", Default.STRING)
+                    .add(Field.of("BASIC_MESSAGE", DefaultType.STRING)
                         .public_().final_().static_()
                         .set(new TextValue("Hello, world!"))
                     )
-                    .add(
-                        Method.of("main", Default.VOID)
+                    .add(Method.of("main", DefaultType.VOID)
                         .set(Javadoc.of(
                             "This is a vary basic example of ",
                             "the capabilities of the Code Generator."
                         ))
                         .public_().static_()
-                        .add(Field.of("params", Default.STRING.setArrayDimension(1)))
+                        .add(Field.of("params", DefaultType.STRING.setArrayDimension(1)))
                         .add(
                             "System.out.println(BASIC_MESSAGE);"
                         )

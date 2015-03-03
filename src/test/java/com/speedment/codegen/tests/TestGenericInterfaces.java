@@ -23,7 +23,7 @@ import com.speedment.codegen.lang.models.Generic;
 import com.speedment.codegen.lang.models.Interface;
 import com.speedment.codegen.lang.models.Method;
 import com.speedment.codegen.lang.models.Type;
-import com.speedment.codegen.lang.models.constants.Default;
+import com.speedment.codegen.lang.models.constants.DefaultType;
 import com.speedment.codegen.lang.models.implementation.FieldImpl;
 import com.speedment.codegen.lang.models.implementation.GenericImpl;
 import com.speedment.codegen.lang.models.implementation.InterfaceImpl;
@@ -70,8 +70,8 @@ public class TestGenericInterfaces {
         
         model = Interface.of("Nameable")
             .add(t.copy().add(self))
-            .add(Method.of("getName", Default.STRING))
-            .add(Method.of("setName", t.asType().get()).add(Field.of("name", Default.STRING)));
+            .add(Method.of("getName", DefaultType.STRING))
+            .add(Method.of("setName", t.asType().get()).add(Field.of("name", DefaultType.STRING)));
         
         cg = new JavaGenerator();
     }

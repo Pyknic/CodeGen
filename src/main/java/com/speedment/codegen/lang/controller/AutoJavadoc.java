@@ -26,7 +26,9 @@ import com.speedment.codegen.lang.models.ClassOrInterface;
 import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.JavadocTag;
 import com.speedment.codegen.lang.models.Method;
-import com.speedment.codegen.lang.models.constants.Default;
+import static com.speedment.codegen.lang.models.constants.DefaultJavadocTag.AUTHOR;
+import static com.speedment.codegen.lang.models.constants.DefaultJavadocTag.PARAM;
+import static com.speedment.codegen.lang.models.constants.DefaultJavadocTag.RETURN;
 import com.speedment.codegen.lang.models.implementation.JavadocImpl;
 import java.util.function.Consumer;
 
@@ -53,26 +55,26 @@ public class AutoJavadoc<T extends Documentable<?>> implements Consumer<T> {
 		if (model instanceof Generable) {
 			((Generable<?>) model).getGenerics().forEach(g -> 
 				g.getLowerBound().ifPresent(t -> addTag(doc, 
-					Default.PARAM.setValue(SS + t + SE)
+					PARAM.setValue(SS + t + SE)
 				))
 			);
 		}
 
 		if (model instanceof ClassOrInterface) {
 			// Add @author
-			doc.add(Default.AUTHOR.setValue(DEFAULT_NAME));
+			doc.add(AUTHOR.setValue(DEFAULT_NAME));
 		} else {
 			// Add @param for each parameter.
 			if (model instanceof Fieldable) {
 				((Fieldable<?>) model).getFields().forEach(f -> 
-					addTag(doc, Default.PARAM.setValue(f.getName()))
+					addTag(doc, PARAM.setValue(f.getName()))
 				);
 			}
 		}
 		
 		// Add @return to methods.
 		if (model instanceof Method) {
-			addTag(doc, Default.RETURN);
+			addTag(doc, RETURN);
 		}
 		
 		// Generate javadoc for each constructor.

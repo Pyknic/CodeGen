@@ -34,11 +34,11 @@ import com.speedment.codegen.lang.models.Constructor;
 import com.speedment.codegen.lang.models.Import;
 import com.speedment.codegen.lang.models.Initalizer;
 import com.speedment.codegen.lang.models.Method;
-import static com.speedment.codegen.lang.models.constants.Default.EMPTY_STRING;
-import static com.speedment.codegen.lang.models.constants.Default.INT_PRIMITIVE;
-import static com.speedment.codegen.lang.models.constants.Default.STRING;
-import static com.speedment.codegen.lang.models.constants.Default.VOID;
-import static com.speedment.codegen.lang.models.constants.Default.list;
+import static com.speedment.codegen.lang.models.constants.DefaultType.INT_PRIMITIVE;
+import static com.speedment.codegen.lang.models.constants.DefaultType.STRING;
+import static com.speedment.codegen.lang.models.constants.DefaultType.VOID;
+import static com.speedment.codegen.lang.models.constants.DefaultType.list;
+import static com.speedment.codegen.lang.models.constants.DefaultValue.EMPTY_STRING;
 import com.speedment.codegen.lang.models.values.NumberValue;
 import com.speedment.codegen.lang.models.values.ReferenceValue;
 import java.util.ArrayList;
@@ -155,7 +155,7 @@ public class Example {
 				/***** Controllers *****/
 				.call(new SetGetAdd())
 				.call(new AutoEquals<>(file))
-				.call(new FinalParameters())
+				.call(new FinalParameters<>())
 				.call(new AutoJavadoc<>())
 			
 			).call(new AutoImports(cg.getDependencyMgr()))

@@ -26,7 +26,7 @@ import com.speedment.codegen.lang.models.Class;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Import;
 import com.speedment.codegen.lang.models.Type;
-import com.speedment.codegen.lang.models.constants.Default;
+import com.speedment.codegen.lang.models.constants.DefaultType;
 import com.speedment.codegen.lang.models.values.NumberValue;
 import com.speedment.codegen.lang.models.values.ReferenceValue;
 import java.util.ArrayList;
@@ -43,13 +43,13 @@ public class SetGetExample {
 		final File f = File.of("org/example/codegen/Game.java")
             .add(Import.of(Type.of(ArrayList.class)))
 			.add(Class.of("Game").public_()
-				.add(Field.of("width", Default.INT_PRIMITIVE)
+				.add(Field.of("width", DefaultType.INT_PRIMITIVE)
                     .set(new NumberValue(640))
                 )
-				.add(Field.of("height", Default.INT_PRIMITIVE)
+				.add(Field.of("height", DefaultType.INT_PRIMITIVE)
                     .set(new NumberValue(480))
                 )
-				.add(Field.of("entities", Default.list(
+				.add(Field.of("entities", DefaultType.list(
 					Type.of("org.example.codegen.Entity")
 				)).set(new ReferenceValue("new ArrayList<>()"))
                 )

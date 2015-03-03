@@ -16,7 +16,7 @@
  */
 package com.speedment.codegen.lang.models;
 
-import com.speedment.codegen.lang.models.constants.Default;
+import com.speedment.codegen.lang.models.constants.DefaultType;
 import com.speedment.codegen.lang.models.implementation.AnnotationUsageImpl;
 import com.speedment.codegen.lang.models.values.NumberValue;
 import java.util.List;
@@ -81,7 +81,7 @@ public class AnnotationUsageTest {
 	@Test
 	public void testSetValue_Value() {
 		System.out.println("setValue(Value)");
-		final AnnotationUsage instance = AnnotationUsage.of(Default.DOUBLE);
+		final AnnotationUsage instance = AnnotationUsage.of(DefaultType.DOUBLE);
 		
 		for (final Number n : TEST_VALUES) {
 			assertNotNull("Make sure Optional 'value' is not null before set.", instance.getValue());
@@ -100,7 +100,7 @@ public class AnnotationUsageTest {
 		System.out.println("setValue(String, Value)");
 
 		for (int i = 0; i < TEST_VALUES.length; i++) {
-			final AnnotationUsage instance = AnnotationUsage.of(Default.DOUBLE);
+			final AnnotationUsage instance = AnnotationUsage.of(DefaultType.DOUBLE);
 			assertNotNull("Make sure values are not null", instance.getValues());
 			assertEquals("Make sure values are empty", instance.getValues().size(), 0);
 		
@@ -133,7 +133,7 @@ public class AnnotationUsageTest {
 		System.out.println("copy");
 		
 		for (Number n : TEST_VALUES) {
-			final AnnotationUsage instance = AnnotationUsage.of(Default.DOUBLE);
+			final AnnotationUsage instance = AnnotationUsage.of(DefaultType.DOUBLE);
 			instance.set(new NumberValue(n));
 			
 			for (int i = 0; i < TEST_VALUES.length; i++) {

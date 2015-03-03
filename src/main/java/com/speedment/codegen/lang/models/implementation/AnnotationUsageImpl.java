@@ -41,6 +41,12 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 		this.value	= null;
 		this.values = new ArrayList<>();
 	}
+    
+    public AnnotationUsageImpl(Type type, Value<?> value) {
+		this.type	= type;
+		this.value	= null;
+		this.values = new ArrayList<>();
+	}
 	
 	protected AnnotationUsageImpl(AnnotationUsage prototype) {
 		type   = prototype.getType();
@@ -90,9 +96,13 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 		return new AnnotationUsageImpl(this);
 	}
 	
-	public final static class Const extends AnnotationUsageImpl {
-		public Const(Type type) { 
+	public final static class AnnotationUsageConst extends AnnotationUsageImpl {
+		public AnnotationUsageConst(Type type) { 
 			super(type); 
+		}
+        
+        public AnnotationUsageConst(Type type, Value<?> value) { 
+			super(type, value); 
 		}
 
 		@Override

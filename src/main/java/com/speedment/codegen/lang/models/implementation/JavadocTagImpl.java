@@ -91,16 +91,16 @@ public class JavadocTagImpl implements JavadocTag {
 		return new JavadocTagImpl(this);
 	}
 	
-	public final static class Const extends JavadocTagImpl {
-		public Const(String name) {
+	public final static class JavadocTagConst extends JavadocTagImpl {
+		public JavadocTagConst(String name) {
 			super(name);
 		}
 
-		public Const(String name, String value) {
+		public JavadocTagConst(String name, String value) {
 			super(name, value);
 		}
 
-		public Const(String name, String value, String text) {
+		public JavadocTagConst(String name, String value, String text) {
 			super(name, value, text);
 		}
 		
