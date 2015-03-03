@@ -16,11 +16,11 @@
  */
 package com.speedment.codegen.lang.models.modifiers;
 
-import com.speedment.codegen.lang.models.modifiers.Keyword.public_;
+import com.speedment.codegen.lang.models.modifiers.Keyword.static_;
 
 /**
  *
  * @author Emil Forslund
  * @param <T>
  */
-public interface InterfaceModifier<T extends InterfaceModifier<T>> extends public_<T> {}
+public interface ImportModifier<T extends ImportModifier<T>> extends static_<T> {}

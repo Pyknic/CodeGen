@@ -20,7 +20,7 @@ import com.speedment.codegen.lang.models.modifiers.Keyword.public_;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  * @param <T>
  */
 public interface AnnotationModifier<T extends AnnotationModifier<T>> 
