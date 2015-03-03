@@ -26,6 +26,7 @@ import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.lang.interfaces.Importable;
 import com.speedment.codegen.lang.interfaces.Nameable;
 import com.speedment.codegen.lang.models.Import;
+import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.Type;
 import java.util.Objects;
 import java.util.Optional;
@@ -55,25 +56,40 @@ public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>> implem
             }
             
 			t.add(Method.of("equals", BOOLEAN_PRIMITIVE)
-				.public_().add(OVERRIDE)
+                .set(
+                    Javadoc.of(
+                        "Compares this object with the specified one for equality.",
+                        "The other object must be of the same type and not null for",
+                        "the method to return true."
+                    )
+                    .add(PARAM.setValue("other").setText("The object to compare with."))
+                    .add(RETURN.setText("True if the objects are equal."))
+                ).public_()
+                .add(OVERRIDE)
 				.add(Field.of("other", OBJECT))
-                
                 .add("return Optional.ofNullable(other)")
-                
                 .add(tab() + ".filter(o -> getClass().isAssignableFrom(o.getClass()))")
                 .add(tab() + ".map(o -> (ValueImpl<V>) o)")
-                
                 .add(tab() + t.getFields().stream().map(f -> compare(t, f)).collect(
 					Collectors.joining(nl() + tab())
 				))
-                
                 .add(tab() + ".isPresent();")
 			);
 		}
 		
 		if (!hasMethod(t, "hashCode", 0)) {
 			t.add(Method.of("hashCode", INT_PRIMITIVE)
-				.public_().add(OVERRIDE)
+                .set(
+                    Javadoc.of(
+                        "Generates a hashCode for this object. If any field is ",
+                        "changed to another value, the hashCode may be different. ",
+                        "Two objects with the same values are garanteed to have ",
+                        "the same hashCode. Two objects with the same hashCode are ",
+                        "not garantueed to have the same hashCode."
+                    )
+                    .add(RETURN.setText("The hash code."))
+                ).public_()
+                .add(OVERRIDE)
 				.add("int hash = 7;")
 				.add(t.getFields().stream().map(f -> hash(f)).collect(Collectors.joining(nl())))
 				.add("return hash;")
