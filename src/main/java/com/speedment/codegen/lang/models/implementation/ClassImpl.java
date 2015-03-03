@@ -45,10 +45,10 @@ public class ClassImpl extends ClassOrInterfaceImpl<Class> implements Class {
 		this.constructors = new ArrayList<>();
 	}
 	
-	protected ClassImpl(ClassImpl prototype) {
+	protected ClassImpl(Class prototype) {
 		super (prototype);
-		this.superType = Copier.copy(prototype.superType);
-		this.constructors = Copier.copy(prototype.constructors);
+		this.superType = prototype.getSupertype().map(Copier::copy).orElse(null);
+		this.constructors = Copier.copy(prototype.getConstructors());
 	}
 
 	@Override

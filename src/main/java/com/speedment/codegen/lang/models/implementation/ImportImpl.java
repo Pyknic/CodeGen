@@ -37,9 +37,9 @@ public class ImportImpl implements Import {
 		this.modifiers = EnumSet.noneOf(Modifier.class);
 	}
 	
-	protected ImportImpl(ImportImpl prototype) {
-		type = prototype.type;
-		modifiers = Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
+	protected ImportImpl(Import prototype) {
+		type = prototype.getType().copy();
+		modifiers = Copier.copy(prototype.getModifiers(), c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
 	@Override

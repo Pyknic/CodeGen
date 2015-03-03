@@ -42,10 +42,10 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 		this.values = new ArrayList<>();
 	}
 	
-	protected AnnotationUsageImpl(AnnotationUsageImpl prototype) {
-		type   = prototype.type;
-		value  = prototype.value == null ? null : prototype.value;
-		values = Copier.copy(prototype.values, 
+	protected AnnotationUsageImpl(AnnotationUsage prototype) {
+		type   = prototype.getType();
+		value  = prototype.getValue().map(Copier::copy).orElse(null);
+		values = Copier.copy(prototype.getValues(), 
 			e -> new AbstractMap.SimpleEntry<>(
 				e.getKey(), e.getValue().copy()
 			)

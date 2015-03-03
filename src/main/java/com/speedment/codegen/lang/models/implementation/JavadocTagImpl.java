@@ -47,10 +47,10 @@ public class JavadocTagImpl implements JavadocTag {
 		this.text  = text;
 	}
 	
-	protected JavadocTagImpl(JavadocTagImpl prototype) {
-		this.name  = prototype.name;
-		this.value = prototype.value;
-		this.text  = prototype.text;
+	protected JavadocTagImpl(JavadocTag prototype) {
+		this.name  = prototype.getName();
+		this.value = prototype.getValue().orElse(null);
+		this.text  = prototype.getText().orElse(null);
 	}
 
     @Override

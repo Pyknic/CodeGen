@@ -43,11 +43,11 @@ public class FileImpl implements File {
 		this.classes = new ArrayList<>();
 	}
 	
-	protected FileImpl(FileImpl prototype) {
-		this.name	 = prototype.name;
-		this.doc	 = Copier.copy(prototype.doc);
-		this.imports = Copier.copy(prototype.imports);
-		this.classes = Copier.copy(prototype.classes, c -> c.copy());
+	protected FileImpl(File prototype) {
+		this.name	 = prototype.getName();
+		this.doc	 = prototype.getJavadoc().map(Copier::copy).orElse(null);
+		this.imports = Copier.copy(prototype.getImports());
+		this.classes = Copier.copy(prototype.getClasses(), c -> c.copy());
 	}
 
 	@Override

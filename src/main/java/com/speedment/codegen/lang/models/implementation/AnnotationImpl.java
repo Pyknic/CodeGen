@@ -39,25 +39,25 @@ public class AnnotationImpl implements Annotation {
 	private Javadoc javadoc;
 	private final List<AnnotationUsage> annotations;
 	private final List<Field> fields;
-	private final List<Import> dependencies;
+	private final List<Import> imports;
 	private final Set<Modifier> modifiers;
 
 	public AnnotationImpl(String name) {
-		this.name			= name;
-		this.javadoc		= null;
-		this.annotations	= new ArrayList<>();
-		this.fields			= new ArrayList<>();
-		this.dependencies	= new ArrayList<>();
-		this.modifiers		= EnumSet.noneOf(Modifier.class);
+		this.name        = name;
+		this.javadoc     = null;
+		this.annotations = new ArrayList<>();
+		this.fields      = new ArrayList<>();
+		this.imports	 = new ArrayList<>();
+		this.modifiers   = EnumSet.noneOf(Modifier.class);
 	}
 	
-	protected AnnotationImpl(AnnotationImpl prototype) {
-		name			= prototype.name;
-		javadoc			= Copier.copy(prototype.javadoc);
-		annotations		= Copier.copy(prototype.annotations);
-		fields			= Copier.copy(prototype.fields);
-		dependencies	= Copier.copy(prototype.dependencies);
-		modifiers		= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
+	protected AnnotationImpl(Annotation prototype) {
+		name        = prototype.getName();
+		javadoc     = prototype.getJavadoc().map(Copier::copy).orElse(null);
+		annotations = Copier.copy(prototype.getAnnotations());
+		fields      = Copier.copy(prototype.getFields());
+		imports     = Copier.copy(prototype.getImports());
+		modifiers   = Copier.copy(prototype.getModifiers(), c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class AnnotationImpl implements Annotation {
 
 	@Override
 	public List<Import> getImports() {
-		return dependencies;
+		return imports;
 	}
 
 	@Override

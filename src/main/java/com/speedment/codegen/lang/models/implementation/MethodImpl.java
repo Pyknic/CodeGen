@@ -56,15 +56,15 @@ public class MethodImpl implements Method {
 		this.modifiers		= EnumSet.noneOf(Modifier.class);
 	}
 	
-	protected MethodImpl(final MethodImpl prototype) {
-		name		= prototype.name;
-		type		= prototype.type;
-		javadoc		= Copier.copy(prototype.javadoc);
-		annotations	= Copier.copy(prototype.annotations);
-		generics	= Copier.copy(prototype.generics);
-		params		= Copier.copy(prototype.params);
-		code		= Copier.copy(prototype.code, s -> s);
-		modifiers	= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
+	protected MethodImpl(final Method prototype) {
+		name		= prototype.getName();
+		type		= Copier.copy(prototype.getType());
+		javadoc		= prototype.getJavadoc().map(Copier::copy).orElse(null);
+		annotations	= Copier.copy(prototype.getAnnotations());
+		generics	= Copier.copy(prototype.getGenerics());
+		params		= Copier.copy(prototype.getFields());
+		code		= Copier.copy(prototype.getCode(), s -> s);
+		modifiers	= Copier.copy(prototype.getModifiers(), c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
 	@Override

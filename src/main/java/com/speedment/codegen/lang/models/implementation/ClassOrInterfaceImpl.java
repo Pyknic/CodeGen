@@ -61,16 +61,16 @@ public abstract class ClassOrInterfaceImpl<T extends ClassOrInterface<T>>
 		this.modifiers		= EnumSet.noneOf(Modifier.class);
 	}
 	
-	protected ClassOrInterfaceImpl(ClassOrInterfaceImpl<T> prototype) {
-		name			= prototype.name;
-		javadoc			= Copier.copy(prototype.javadoc);
-		annotations		= Copier.copy(prototype.annotations);
-		generics		= Copier.copy(prototype.generics);
-		interfaces		= Copier.copy(prototype.interfaces);
-		fields			= Copier.copy(prototype.fields);
-		methods			= Copier.copy(prototype.methods);
-		classes			= Copier.copy(prototype.classes, c -> c.copy());
-		modifiers		= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
+	protected ClassOrInterfaceImpl(ClassOrInterface<T> prototype) {
+		name			= prototype.getName();
+		javadoc			= prototype.getJavadoc().map(Copier::copy).orElse(null);
+		annotations		= Copier.copy(prototype.getAnnotations());
+		generics		= Copier.copy(prototype.getGenerics());
+		interfaces		= Copier.copy(prototype.getInterfaces());
+		fields			= Copier.copy(prototype.getFields());
+		methods			= Copier.copy(prototype.getMethods());
+		classes			= Copier.copy(prototype.getClasses(), c -> c.copy());
+		modifiers		= Copier.copy(prototype.getModifiers(), c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
 	@Override

@@ -34,14 +34,14 @@ public class EnumImpl extends ClassOrInterfaceImpl<Enum> implements Enum {
 	
 	public EnumImpl(String name) {
 		super(name);
-		constants = new ArrayList<>();
+		constants    = new ArrayList<>();
 		constructors = new ArrayList<>();
 	}
 	
-	protected EnumImpl(EnumImpl prototype) {
+	protected EnumImpl(Enum prototype) {
 		super (prototype);
-		constants = Copier.copy(prototype.constants);
-		constructors = Copier.copy(prototype.constructors);
+		constants    = Copier.copy(prototype.getConstants());
+		constructors = Copier.copy(prototype.getConstructors());
 	}
 
     @Override

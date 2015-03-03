@@ -49,12 +49,12 @@ public class ConstructorImpl implements Constructor {
 		modifiers	= new HashSet<>();
 	}
 	
-	protected ConstructorImpl(final ConstructorImpl prototype) {
-		javadoc		= Copier.copy(prototype.javadoc);
-		annotations	= Copier.copy(prototype.annotations);
-		params		= Copier.copy(prototype.params);
-		code		= Copier.copy(prototype.code, c -> c);
-		modifiers	= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
+	protected ConstructorImpl(final Constructor prototype) {
+		javadoc		= prototype.getJavadoc().map(Copier::copy).orElse(null);
+		annotations	= Copier.copy(prototype.getAnnotations());
+		params		= Copier.copy(prototype.getFields());
+		code		= Copier.copy(prototype.getCode(), c -> c);
+		modifiers	= Copier.copy(prototype.getModifiers(), c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
 	@Override

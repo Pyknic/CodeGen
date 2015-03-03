@@ -52,13 +52,13 @@ public class FieldImpl implements Field {
 		this.modifiers		= EnumSet.noneOf(Modifier.class);
 	}
 	
-	protected FieldImpl(FieldImpl prototype) {
-		name		= prototype.name;
-		type		= prototype.type;
-		value		= prototype.value == null ? null : prototype.value;
-		javadoc		= Copier.copy(prototype.javadoc);
-		annotations	= Copier.copy(prototype.annotations);
-		modifiers	= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
+	protected FieldImpl(Field prototype) {
+		name		= prototype.getName();
+		type		= Copier.copy(prototype.getType());
+		value		= prototype.getValue().map(Copier::copy).orElse(null);
+		javadoc		= prototype.getJavadoc().map(Copier::copy).orElse(null);
+		annotations	= Copier.copy(prototype.getAnnotations());
+		modifiers	= Copier.copy(prototype.getModifiers(), c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
 	@Override

@@ -36,9 +36,9 @@ public class EnumConstantImpl implements EnumConstant {
 		this.values = new ArrayList<>();
 	}
 	
-	protected EnumConstantImpl(EnumConstantImpl prototype) {
-		name	= prototype.name;
-		values	= Copier.copy(prototype.values, v -> v.copy());
+	protected EnumConstantImpl(EnumConstant prototype) {
+		name	= prototype.getName();
+		values	= Copier.copy(prototype.getValues(), v -> v.copy());
 	}
 
 	@Override

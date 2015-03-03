@@ -54,12 +54,12 @@ public class TypeImpl implements Type {
         this.javaImpl = javaImpl;
     }
 
-    protected TypeImpl(TypeImpl prototype) {
-        name = prototype.name;
-        arrayDimension = prototype.arrayDimension;
-        annotations = Copier.copy(prototype.annotations);
-        generics = Copier.copy(prototype.generics);
-        javaImpl = prototype.javaImpl;
+    protected TypeImpl(Type prototype) {
+        name = prototype.getName();
+        arrayDimension = prototype.getArrayDimension();
+        annotations = Copier.copy(prototype.getAnnotations());
+        generics = Copier.copy(prototype.getGenerics());
+        javaImpl = prototype.getJavaImpl().orElse(null);
 	}
 
     @Override
