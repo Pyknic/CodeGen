@@ -99,6 +99,9 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implem
 					.collect(joinIfNotEmpty(scnl(), EMPTY, SC)),
 				onAfterFields(cg, model), // Classes and enums have constructors here.
                 
+                // Initalizers
+                cg.onEach(model.getInitalizers()).collect(Collectors.joining(dnl())),
+                
                 // Methods
 				cg.onEach(wrap(model.getMethods(), m -> wrapMethod(m)))
 					.collect(Collectors.joining(dnl())),

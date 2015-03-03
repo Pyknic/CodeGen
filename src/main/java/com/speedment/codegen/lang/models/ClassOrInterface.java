@@ -23,6 +23,7 @@ import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Documentable;
 import com.speedment.codegen.lang.interfaces.Fieldable;
 import com.speedment.codegen.lang.interfaces.Generable;
+import com.speedment.codegen.lang.interfaces.Initalizable;
 import com.speedment.codegen.lang.interfaces.Interfaceable;
 import com.speedment.codegen.lang.interfaces.Methodable;
 import com.speedment.codegen.lang.interfaces.Modifiable;
@@ -36,4 +37,4 @@ import com.speedment.codegen.lang.interfaces.Nameable;
 public interface ClassOrInterface<T extends ClassOrInterface<T>> extends 
     Copyable<T>, Callable<T>, Nameable<T>, Documentable<T>, Generable<T>,
     Interfaceable<T>, Classable<T>, Methodable<T>, Fieldable<T>, 
-    Annotable<T>, Modifiable<T> {}
+    Annotable<T>, Modifiable<T>, Initalizable<T> {}

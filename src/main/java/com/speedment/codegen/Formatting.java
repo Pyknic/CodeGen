@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -107,6 +108,16 @@ public class Formatting {
 				nl(), row + nl(), EMPTY)
 			)
 		);
+    }
+    
+    /**
+     * Indents the specified text, surrounds it with brackets and put the
+     * content on a separate line.
+	 * @param rows The rest of the rows.
+     * @return The text with a '{\n' before and a '\n}' afterwards.
+     */
+    public static String block(Stream<String> rows) {
+        return block(rows.collect(Collectors.joining(nl())));
     }
 
     /**

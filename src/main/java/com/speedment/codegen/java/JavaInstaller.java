@@ -49,6 +49,7 @@ import com.speedment.codegen.java.views.FieldView;
 import com.speedment.codegen.java.views.FileView;
 import com.speedment.codegen.java.views.GenericView;
 import com.speedment.codegen.java.views.ImportView;
+import com.speedment.codegen.java.views.InitalizerView;
 import com.speedment.codegen.java.views.InterfaceFieldView;
 import com.speedment.codegen.java.views.InterfaceView;
 import com.speedment.codegen.java.views.JavadocTagView;
@@ -65,6 +66,7 @@ import com.speedment.codegen.java.views.values.TextValueView;
 import com.speedment.codegen.lang.models.AnnotationUsage;
 import com.speedment.codegen.lang.models.Constructor;
 import com.speedment.codegen.lang.models.File;
+import com.speedment.codegen.lang.models.Initalizer;
 
 /**
  *
@@ -96,5 +98,6 @@ public class JavaInstaller extends DefaultInstaller {
 		install(InterfaceField.class, InterfaceFieldView.class);
 		install(Constructor.class, ConstructorView.class);
 		install(File.class, FileView.class);
+        install(Initalizer.class, InitalizerView.class);
     }
 }

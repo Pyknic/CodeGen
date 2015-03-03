@@ -20,6 +20,7 @@ import com.speedment.codegen.lang.models.AnnotationUsage;
 import com.speedment.codegen.lang.models.ClassOrInterface;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Generic;
+import com.speedment.codegen.lang.models.Initalizer;
 import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.Method;
 import com.speedment.codegen.lang.models.Type;
@@ -46,31 +47,35 @@ public abstract class ClassOrInterfaceImpl<T extends ClassOrInterface<T>>
 	private final List<Type> interfaces;
 	private final List<Field> fields;
 	private final List<Method> methods;
+    private final List<Initalizer> initalizers;
 	private final List<ClassOrInterface<?>> classes;
 	private final Set<Modifier> modifiers;
+    
 
 	public ClassOrInterfaceImpl(String name) {
-		this.name			= name;
-		this.javadoc		= null;
-		this.annotations	= new ArrayList<>();
-		this.generics		= new ArrayList<>();
-		this.interfaces		= new ArrayList<>();
-		this.fields			= new ArrayList<>();
-		this.methods		= new ArrayList<>();
-		this.classes		= new ArrayList<>();
-		this.modifiers		= EnumSet.noneOf(Modifier.class);
+		this.name		 = name;
+		this.javadoc	 = null;
+		this.annotations = new ArrayList<>();
+		this.generics	 = new ArrayList<>();
+		this.interfaces	 = new ArrayList<>();
+		this.fields		 = new ArrayList<>();
+		this.methods	 = new ArrayList<>();
+        this.initalizers = new ArrayList<>();
+		this.classes	 = new ArrayList<>();
+		this.modifiers	 = EnumSet.noneOf(Modifier.class);
 	}
 	
 	protected ClassOrInterfaceImpl(ClassOrInterface<T> prototype) {
-		name			= prototype.getName();
-		javadoc			= prototype.getJavadoc().map(Copier::copy).orElse(null);
-		annotations		= Copier.copy(prototype.getAnnotations());
-		generics		= Copier.copy(prototype.getGenerics());
-		interfaces		= Copier.copy(prototype.getInterfaces());
-		fields			= Copier.copy(prototype.getFields());
-		methods			= Copier.copy(prototype.getMethods());
-		classes			= Copier.copy(prototype.getClasses(), c -> c.copy());
-		modifiers		= Copier.copy(prototype.getModifiers(), c -> c.copy(), EnumSet.noneOf(Modifier.class));
+		name		= prototype.getName();
+		javadoc		= prototype.getJavadoc().map(Copier::copy).orElse(null);
+		annotations	= Copier.copy(prototype.getAnnotations());
+		generics	= Copier.copy(prototype.getGenerics());
+		interfaces	= Copier.copy(prototype.getInterfaces());
+		fields		= Copier.copy(prototype.getFields());
+		methods		= Copier.copy(prototype.getMethods());
+        initalizers = Copier.copy(prototype.getInitalizers());
+		classes		= Copier.copy(prototype.getClasses(), c -> c.copy());
+		modifiers	= Copier.copy(prototype.getModifiers(), c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
 	@Override
@@ -131,4 +136,9 @@ public abstract class ClassOrInterfaceImpl<T extends ClassOrInterface<T>>
 	public List<ClassOrInterface<?>> getClasses() {
 		return classes;
 	}
+
+    @Override
+    public List<Initalizer> getInitalizers() {
+        return initalizers;
+    }
 }

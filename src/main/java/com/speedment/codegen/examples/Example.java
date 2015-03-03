@@ -31,12 +31,15 @@ import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.Type;
 import com.speedment.codegen.lang.models.Class;
 import com.speedment.codegen.lang.models.Constructor;
-import com.speedment.codegen.lang.models.Generic;
+import com.speedment.codegen.lang.models.Initalizer;
 import com.speedment.codegen.lang.models.Method;
+import static com.speedment.codegen.lang.models.constants.Default.EMPTY_STRING;
 import static com.speedment.codegen.lang.models.constants.Default.INT_PRIMITIVE;
 import static com.speedment.codegen.lang.models.constants.Default.STRING;
 import static com.speedment.codegen.lang.models.constants.Default.VOID;
 import static com.speedment.codegen.lang.models.constants.Default.list;
+import com.speedment.codegen.lang.models.values.NumberValue;
+import com.speedment.codegen.lang.models.values.ReferenceValue;
 
 /**
  *
@@ -68,13 +71,26 @@ public class Example {
 				))
 				
 				/***** Fields *****/
-				.add(Field.of("player1Name", STRING))
-				.add(Field.of("player2Name", STRING))
-				.add(Field.of("player1Score", INT_PRIMITIVE))
-				.add(Field.of("player2Score", INT_PRIMITIVE))
-				.add(Field.of("players", list(Type.of("org.duncan.test.Player"))))
+				.add(Field.of("player1Name", STRING).set(EMPTY_STRING))
+				.add(Field.of("player2Name", STRING).set(EMPTY_STRING))
+				.add(Field.of("player1Score", INT_PRIMITIVE).set(new NumberValue(100)))
+				.add(Field.of("player2Score", INT_PRIMITIVE).set(new NumberValue(50)))
+                .add(Field.of("scoreSum", INT_PRIMITIVE))
+				.add(Field.of("players", list(Type.of("org.duncan.test.Player")))
+                    .static_()
+                    .set(new ReferenceValue("new ArrayList<>()"))
+                )
 				.add(Field.of("spriteStore", spriteStore))
 				.add(Field.of("soundStore", soundStore))
+                
+                /***** Intalizers *****/
+                .add(Initalizer.of().static_()
+                    .add("scoreSum = player1Score + player2Score;")
+                )
+                .add(Initalizer.of()
+                    .add("player1Name += \" (\" + player1Score + \")\";")
+                    .add("player2Name += \" (\" + player2Score + \")\";")
+                )
 					
 				/***** Subclass *****/
 				.add(Class.of("Impl").private_()
