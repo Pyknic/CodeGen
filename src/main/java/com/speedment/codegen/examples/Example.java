@@ -108,7 +108,7 @@ public class Example {
 						.add("this.gameId = gameId;")
 					)
 					.call(new SetGetAdd())
-					.call(new FinalParameters())
+					.call(new FinalParameters<>())
 					.call(new AutoJavadoc<>())
 				)
 					
