@@ -57,6 +57,7 @@ public abstract class ValueImpl<V> implements Value<V> {
 		return value.hashCode();
 	}
 
+    @SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object obj) {
         return Optional.ofNullable(obj)

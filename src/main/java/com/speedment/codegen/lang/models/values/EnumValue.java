@@ -20,6 +20,7 @@ import com.speedment.codegen.lang.interfaces.Typeable;
 import com.speedment.codegen.lang.models.Type;
 import com.speedment.codegen.lang.models.implementation.ValueImpl;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  *
@@ -35,7 +36,7 @@ public class EnumValue extends ValueImpl<String>
 		this.type = type;
 	}
 	
-	private EnumValue(EnumValue prototype) {
+	protected EnumValue(EnumValue prototype) {
 		this (prototype.type, prototype.getValue());
 	}
 
@@ -64,19 +65,11 @@ public class EnumValue extends ValueImpl<String>
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		
-		final EnumValue other = (EnumValue) obj;
-		if (!Objects.equals(this.type, other.type)) {
-			return false;
-		}
-		
-		return super.equals(obj);
+        return Optional.ofNullable(obj)
+            .filter(o -> getClass().equals(o.getClass()))
+            .map(o -> (EnumValue) o)
+            .filter(o -> Objects.equals(type, o.type))
+            .filter(o -> super.equals(o))
+            .isPresent();
 	}
 }

@@ -32,17 +32,4 @@ public class BooleanValue extends ValueImpl<Boolean> {
 	public BooleanValue copy() {
 		return new BooleanValue(getValue());
 	}
-	
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		return getClass().equals(obj.getClass());
-	}
 }

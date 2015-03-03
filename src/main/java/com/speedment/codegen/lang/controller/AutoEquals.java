@@ -39,12 +39,12 @@ import java.util.stream.Collectors;
  */
 public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>> implements Consumer<T> {
 
-    private final Importable importer;
+    private final Importable<?> importer;
     private final static String 
         EQUALS = "equals",
         HASHCODE = "hashCode";
 
-    public AutoEquals(Importable importer) {
+    public AutoEquals(Importable<?> importer) {
         this.importer = importer;
     }
     

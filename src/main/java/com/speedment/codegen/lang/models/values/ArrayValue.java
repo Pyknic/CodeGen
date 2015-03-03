@@ -35,17 +35,4 @@ public class ArrayValue extends ValueImpl<List<Value<?>>> {
 	public ArrayValue copy() {
 		return new ArrayValue(Copier.copy(getValue(), s -> s.copy()));
 	}
-
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		return getClass().equals(obj.getClass());
-	}
 }
