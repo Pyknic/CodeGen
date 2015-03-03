@@ -37,7 +37,7 @@ public interface Field extends Copyable<Field>, Nameable<Field>, Typeable<Field>
     }
 
     static Field of(String name, Type type) {
-        return Factory.INST.prototype.copy().setName(name).setType(type);
+        return Factory.INST.prototype.copy().setName(name).set(type);
     }
     
     static void setPrototype(Field a) {

@@ -84,7 +84,7 @@ public class MethodImpl implements Method {
 	}
 
 	@Override
-	public Method setType(Type type) {
+	public Method set(Type type) {
 		this.type = type;
 		return this;
 	}
@@ -105,7 +105,7 @@ public class MethodImpl implements Method {
 	}
 
 	@Override
-	public Method setJavadoc(Javadoc doc) {
+	public Method set(Javadoc doc) {
 		javadoc = doc;
 		return this;
 	}

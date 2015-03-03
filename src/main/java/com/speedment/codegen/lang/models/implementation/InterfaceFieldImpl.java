@@ -75,20 +75,20 @@ public class InterfaceFieldImpl implements InterfaceField {
     }
 
     @Override
-    public InterfaceField setType(Type type) {
-        f.setType(type);
+    public InterfaceField set(Type type) {
+        f.set(type);
         return this;
     }
 
     @Override
-    public InterfaceField setJavadoc(Javadoc doc) {
-        f.setJavadoc(doc);
+    public InterfaceField set(Javadoc doc) {
+        f.set(doc);
         return this;
     }
 
     @Override
-    public InterfaceField setValue(Value<?> val) {
-        f.setValue(val);
+    public InterfaceField set(Value<?> val) {
+        f.set(val);
         return this;
     }
     

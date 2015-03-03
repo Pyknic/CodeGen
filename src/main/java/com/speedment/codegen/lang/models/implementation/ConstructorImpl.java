@@ -73,7 +73,7 @@ public class ConstructorImpl implements Constructor {
 	}
 
 	@Override
-	public Constructor setJavadoc(Javadoc doc) {
+	public Constructor set(Javadoc doc) {
 		javadoc = doc;
 		return this;
 	}

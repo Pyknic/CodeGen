@@ -40,7 +40,7 @@ public class EnumValue extends ValueImpl<String>
 	}
 
 	@Override
-	public EnumValue setType(Type type) {
+	public EnumValue set(Type type) {
 		this.type = type;
 		return this;
 	}

@@ -87,7 +87,7 @@ public abstract class ClassOrInterfaceImpl<T extends ClassOrInterface<T>>
 
 	@Override
     @SuppressWarnings("unchecked")
-	public T setJavadoc(Javadoc doc) {
+	public T set(Javadoc doc) {
 		javadoc = doc;
 		return (T) this;
 	}

@@ -62,7 +62,7 @@ public class FileImpl implements File {
 	}
 
 	@Override
-	public File setJavadoc(Javadoc doc) {
+	public File set(Javadoc doc) {
 		this.doc = doc;
 		return this;
 	}

@@ -78,7 +78,7 @@ public class FieldImpl implements Field {
 	}
 
 	@Override
-	public Field setType(Type type) {
+	public Field set(Type type) {
 		this.type = type;
 		return this;
 	}
@@ -89,7 +89,7 @@ public class FieldImpl implements Field {
 	}
 
 	@Override
-	public Field setJavadoc(Javadoc doc) {
+	public Field set(Javadoc doc) {
 		javadoc = doc;
 		return this;
 	}
@@ -100,7 +100,7 @@ public class FieldImpl implements Field {
 	}
 
 	@Override
-	public Field setValue(Value<?> val) {
+	public Field set(Value<?> val) {
 		this.value = val;
 		return this;
 	}

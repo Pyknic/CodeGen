@@ -47,7 +47,7 @@ public class AutoJavadoc<T extends Documentable<?>> implements Consumer<T> {
 	
 	private static <T extends Documentable<?>> T createJavadoc(T model) {
 		final Javadoc doc = model.getJavadoc().orElse(new JavadocImpl(DEFAULT_TEXT));
-		model.setJavadoc(doc);
+		model.set(doc);
 		
 		// Add @param for each type variable.
 		if (model instanceof Generable) {

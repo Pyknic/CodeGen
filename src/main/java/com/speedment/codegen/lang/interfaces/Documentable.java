@@ -25,6 +25,6 @@ import java.util.Optional;
  * @param <T>
  */
 public interface Documentable<T extends Documentable<T>> {
-    T setJavadoc(final Javadoc doc);
+    T set(final Javadoc doc);
     Optional<Javadoc> getJavadoc();
 }

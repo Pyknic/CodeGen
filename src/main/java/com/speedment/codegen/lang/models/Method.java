@@ -40,7 +40,7 @@ public interface Method extends Nameable<Method>, Typeable<Method>,
     }
 
     static Method of(String name, Type type) {
-        return Factory.INST.prototype.copy().setName(name).setType(type);
+        return Factory.INST.prototype.copy().setName(name).set(type);
     }
     
     static void setPrototype(Method a) {

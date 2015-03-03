@@ -21,6 +21,7 @@ import java.util.List;
 /**
  *
  * @author Emil Forslund
+ * @param <T>
  */
 public interface Codeable<T extends Codeable<T>> {
     

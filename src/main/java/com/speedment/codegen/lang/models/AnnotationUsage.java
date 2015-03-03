@@ -38,7 +38,7 @@ public interface AnnotationUsage extends Copyable<AnnotationUsage>,
     }
 
     static AnnotationUsage of(Type type) {
-        return Factory.INST.prototype.copy().setType(type);
+        return Factory.INST.prototype.copy().set(type);
     }
     
     static void setPrototype(AnnotationUsage a) {

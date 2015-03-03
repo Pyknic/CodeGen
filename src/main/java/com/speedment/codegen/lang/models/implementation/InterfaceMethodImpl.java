@@ -81,8 +81,8 @@ public class InterfaceMethodImpl implements InterfaceMethod {
     }
 
     @Override
-    public InterfaceMethod setType(Type type) {
-        m.setType(type);
+    public InterfaceMethod set(Type type) {
+        m.set(type);
         return this;
     }
 
@@ -92,8 +92,8 @@ public class InterfaceMethodImpl implements InterfaceMethod {
     }
 
     @Override
-    public InterfaceMethod setJavadoc(Javadoc doc) {
-        m.setJavadoc(doc);
+    public InterfaceMethod set(Javadoc doc) {
+        m.set(doc);
         return this;
     }
     

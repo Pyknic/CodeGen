@@ -33,7 +33,7 @@ public interface Import extends Copyable<Import>, Typeable<Import>,
     }
 
     static Import of(Type type) {
-        return Factory.INST.prototype.copy().setType(type);
+        return Factory.INST.prototype.copy().set(type);
     }
     
     static void setPrototype(Import a) {

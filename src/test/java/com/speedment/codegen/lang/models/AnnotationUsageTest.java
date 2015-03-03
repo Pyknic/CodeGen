@@ -76,7 +76,7 @@ public class AnnotationUsageTest {
 	}
 
 	/**
-	 * Test of setValue method, of class AnnotationUsage.
+	 * Test of set method, of class AnnotationUsage.
 	 */
 	@Test
 	public void testSetValue_Value() {
@@ -85,7 +85,7 @@ public class AnnotationUsageTest {
 		
 		for (final Number n : TEST_VALUES) {
 			assertNotNull("Make sure Optional 'value' is not null before set.", instance.getValue());
-			instance.setValue(new NumberValue(n));
+			instance.set(new NumberValue(n));
 			assertNotNull("Make sure Optional 'value' is not null after set.", instance.getValue());
 			assertTrue("Make sure Optional have a value once on is set.", instance.getValue().isPresent());
 			assertEquals("Make sure value is correct.", instance.getValue().get().getValue(), n);
@@ -93,7 +93,7 @@ public class AnnotationUsageTest {
 	}
 
 	/**
-	 * Test of setValue method, of class AnnotationUsage.
+	 * Test of set method, of class AnnotationUsage.
 	 */
 	@Test
 	public void testSetValue_String_Value() {
@@ -134,7 +134,7 @@ public class AnnotationUsageTest {
 		
 		for (Number n : TEST_VALUES) {
 			final AnnotationUsage instance = AnnotationUsage.of(Default.DOUBLE);
-			instance.setValue(new NumberValue(n));
+			instance.set(new NumberValue(n));
 			
 			for (int i = 0; i < TEST_VALUES.length; i++) {
 				instance.setValue(TEST_LABELS[i], new NumberValue(TEST_VALUES[i]));

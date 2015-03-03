@@ -77,7 +77,7 @@ public class AnnotationImpl implements Annotation {
 	}
 
 	@Override
-	public Annotation setJavadoc(Javadoc doc) {
+	public Annotation set(Javadoc doc) {
 		this.javadoc = doc;
 		return this;
 	}

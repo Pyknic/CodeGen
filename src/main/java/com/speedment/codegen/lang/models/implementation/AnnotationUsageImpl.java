@@ -53,7 +53,7 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 	}
 	
 	@Override
-	public AnnotationUsage setValue(Value<?> val) {
+	public AnnotationUsage set(Value<?> val) {
 		value = val;
 		return this;
 	}
@@ -75,7 +75,7 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 	}
 
 	@Override
-	public AnnotationUsage setType(Type type) {
+	public AnnotationUsage set(Type type) {
 		this.type = type;
 		return this;
 	}
@@ -96,8 +96,8 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 		}
 
 		@Override
-		public AnnotationUsage setValue(Value<?> val) {
-			return copy().setValue(val);
+		public AnnotationUsage set(Value<?> val) {
+			return copy().set(val);
 		}
 		
 		@Override
@@ -106,8 +106,8 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 		}
 
 		@Override
-		public AnnotationUsage setType(Type type) {
-			return copy().setType(type);
+		public AnnotationUsage set(Type type) {
+			return copy().set(type);
 		}
 	}
 }

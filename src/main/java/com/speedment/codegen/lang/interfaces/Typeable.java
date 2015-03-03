@@ -24,6 +24,6 @@ import com.speedment.codegen.lang.models.Type;
  * @param <T>
  */
 public interface Typeable<T extends Typeable<T>> {
-    T setType(final Type type);
+    T set(final Type type);
     Type getType();
 }

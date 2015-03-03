@@ -58,11 +58,11 @@ public class Example {
 		final Type soundStore  = Type.of("org.duncan.test.SoundStore");
 
 		System.out.println(cg.on(File.of("org/duncan/test/MittTest.java")
-			.setJavadoc(Javadoc.of("Copyright (c) Example Company, 2015."))
+			.set(Javadoc.of("Copyright (c) Example Company, 2015."))
 			.add(Class.of("MittTest").setSupertype(typeThread)
 				/***** Class declaration *****/
 				.public_()
-				.setJavadoc(Javadoc.of(
+				.set(Javadoc.of(
 					"This is a test class to demonstrate how the ",
 					"code generator is working."
 				))
@@ -90,7 +90,7 @@ public class Example {
 					
 				/***** Methods *****/
 				.add(Method.of("spawnPlayer1", VOID).public_()
-					.setJavadoc(Javadoc.of(
+					.set(Javadoc.of(
 						"This function is used to reset Player 1."
 					))
 					.add(Field.of("name", STRING))
@@ -99,7 +99,7 @@ public class Example {
 					.add("this.player1Score = score;")
 				)
 				.add(Method.of("spawnPlayer2", VOID).public_()
-					.setJavadoc(Javadoc.of(
+					.set(Javadoc.of(
 						"This function is used to reset Player 2."
 					))
 					.add(Field.of("name", STRING))
@@ -108,7 +108,7 @@ public class Example {
 					.add("this.player2Score = score;")
 				)
 				.add(Method.of("killPlayer", VOID).public_()
-					.setJavadoc(Javadoc.of(
+					.set(Javadoc.of(
 						"This method can be used to kill either player."
 					))
 					.add(Field.of("name", STRING))

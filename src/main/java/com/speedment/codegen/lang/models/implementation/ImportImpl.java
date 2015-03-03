@@ -43,7 +43,7 @@ public class ImportImpl implements Import {
 	}
 
 	@Override
-	public Import setType(Type type) {
+	public Import set(Type type) {
 		this.type = type;
 		return this;
 	}

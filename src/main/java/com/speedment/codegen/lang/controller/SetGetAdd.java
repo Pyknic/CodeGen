@@ -82,7 +82,7 @@ public class SetGetAdd implements Consumer<Class> {
 				
 				final Field param = new FieldImpl(singular(f.getName()), f.getType().getGenerics().get(0).getUpperBounds().get(0));
 				final Method add = new MethodImpl(ADD, new TypeImpl(model.getName()))
-					.setJavadoc(new JavadocImpl()
+					.set(new JavadocImpl()
 						.add(ADDS_THE_SPECIFIED + lcfirst(shortName(param.getType().getName())) + " to this " + shortName(model.getName()) + DOT)
 						.add(new JavadocTagImpl(PARAM, param.getName(), THE_NEW_VALUE))
 						.add(new JavadocTagImpl(RETURN, A_REFERENCE_TO_THIS))
@@ -96,7 +96,7 @@ public class SetGetAdd implements Consumer<Class> {
 				}
 			} else {
 				final Method set = new MethodImpl(SET + ucfirst(f.getName()), new TypeImpl(model.getName()))
-					.setJavadoc(new JavadocImpl()
+					.set(new JavadocImpl()
 						.add(S + ETS_THE + f.getName() + OF_THIS + shortName(model.getName()) + DOT)
 						.add(new JavadocTagImpl(PARAM, f.getName(), THE_NEW_VALUE))
 						.add(new JavadocTagImpl(RETURN, A_REFERENCE_TO_THIS))
@@ -118,7 +118,7 @@ public class SetGetAdd implements Consumer<Class> {
 			}
 			
 			final Method get = new MethodImpl(GET + ucfirst(f.getName()), f.getType())
-				.setJavadoc(new JavadocImpl()
+				.set(new JavadocImpl()
 					.add(G + ETS_THE + f.getName() + OF_THIS + shortName(model.getName()) + DOT)
 					.add(new JavadocTagImpl(RETURN, THE + f.getName() + DOT))
 				).public_()
