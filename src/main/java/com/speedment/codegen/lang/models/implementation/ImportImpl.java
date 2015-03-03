@@ -38,7 +38,7 @@ public class ImportImpl implements Import {
 	}
 	
 	protected ImportImpl(Import prototype) {
-		type = prototype.getType().copy();
+		type = Copier.copy(prototype.getType());
 		modifiers = Copier.copy(prototype.getModifiers(), c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 

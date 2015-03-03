@@ -23,6 +23,7 @@ package com.speedment.codegen.lang.models.implementation;
 
 import com.speedment.codegen.lang.models.Value;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  *
@@ -58,16 +59,10 @@ public abstract class ValueImpl<V> implements Value<V> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		
-        @SuppressWarnings("unchecked")
-		final ValueImpl<V> other = (ValueImpl<V>) obj;
-		return Objects.equals(this.value, other.value);
+        return Optional.ofNullable(obj)
+            .filter(other -> getClass().isAssignableFrom(other.getClass()))
+            .map(other -> (ValueImpl<V>) other)
+            .filter(other -> Objects.equals(value, other.value))
+            .isPresent();
 	}
 }

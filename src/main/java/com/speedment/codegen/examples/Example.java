@@ -31,6 +31,7 @@ import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.Type;
 import com.speedment.codegen.lang.models.Class;
 import com.speedment.codegen.lang.models.Constructor;
+import com.speedment.codegen.lang.models.Import;
 import com.speedment.codegen.lang.models.Initalizer;
 import com.speedment.codegen.lang.models.Method;
 import static com.speedment.codegen.lang.models.constants.Default.EMPTY_STRING;
@@ -40,6 +41,7 @@ import static com.speedment.codegen.lang.models.constants.Default.VOID;
 import static com.speedment.codegen.lang.models.constants.Default.list;
 import com.speedment.codegen.lang.models.values.NumberValue;
 import com.speedment.codegen.lang.models.values.ReferenceValue;
+import java.util.ArrayList;
 
 /**
  *
@@ -59,9 +61,15 @@ public class Example {
 		final Type typeThread  = Type.of(Thread.class);
 		final Type spriteStore = Type.of("org.duncan.test.SpriteStore");
 		final Type soundStore  = Type.of("org.duncan.test.SoundStore");
+        
+        final File file = File.of("org/duncan/test/MittTest.java");
 
-		System.out.println(cg.on(File.of("org/duncan/test/MittTest.java")
+		System.out.println(cg.on(file
 			.set(Javadoc.of("Copyright (c) Example Company, 2015."))
+            
+            /***** Imports *****/
+            .add(Import.of(Type.of(ArrayList.class)))
+            
 			.add(Class.of("MittTest").setSupertype(typeThread)
 				/***** Class declaration *****/
 				.public_()
@@ -146,7 +154,7 @@ public class Example {
 				
 				/***** Controllers *****/
 				.call(new SetGetAdd())
-				.call(new AutoEquals<>())
+				.call(new AutoEquals<>(file))
 				.call(new FinalParameters())
 				.call(new AutoJavadoc<>())
 			

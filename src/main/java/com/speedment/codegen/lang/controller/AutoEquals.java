@@ -20,13 +20,15 @@ import com.speedment.codegen.lang.interfaces.Fieldable;
 import com.speedment.codegen.lang.interfaces.Methodable;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Method;
-import com.speedment.codegen.lang.models.constants.Default;
+import static com.speedment.codegen.lang.models.constants.Default.*;
 import java.util.function.Consumer;
 import static com.speedment.codegen.Formatting.*;
+import com.speedment.codegen.lang.interfaces.Importable;
 import com.speedment.codegen.lang.interfaces.Nameable;
+import com.speedment.codegen.lang.models.Import;
 import com.speedment.codegen.lang.models.Type;
-import com.speedment.codegen.lang.models.implementation.FieldImpl;
-import com.speedment.codegen.lang.models.implementation.MethodImpl;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -36,34 +38,42 @@ import java.util.stream.Collectors;
  */
 public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>> implements Consumer<T> {
 
+    private final Importable importer; 
+
+    public AutoEquals(Importable importer) {
+        this.importer = importer;
+    }
+    
 	@Override
 	public void accept(T t) {
 		t.getFields();
 		
 		if (!hasMethod(t, "equals", 1)) {
-			final String type = shortName(t.getName());
-			t.add(new MethodImpl("equals", Default.BOOLEAN_PRIMITIVE)
-				.add(Default.OVERRIDE)
-				.public_()
-				.add(new FieldImpl("other", Default.OBJECT))
-				
-				.add("if (other == null) return false;" + nl())
-				.add(
-					"if (!getClass().equals(other.getClass())) " + block(
-						"return false;"
-					) + nl()
-				)
-				.add("final " + type + " o = (" + type + ") other;")
-				.add(t.getFields().stream().map(f -> compare(t, f)).collect(
-					Collectors.joining(nl() + " && ", "return (", ");")
+            if (importer != null) {
+                importer.add(Import.of(Type.of(Objects.class)));
+                importer.add(Import.of(Type.of(Optional.class)));
+            }
+            
+			t.add(Method.of("equals", BOOLEAN_PRIMITIVE)
+				.public_().add(OVERRIDE)
+				.add(Field.of("other", OBJECT))
+                
+                .add("return Optional.ofNullable(other)")
+                
+                .add(tab() + ".filter(o -> getClass().isAssignableFrom(o.getClass()))")
+                .add(tab() + ".map(o -> (ValueImpl<V>) o)")
+                
+                .add(tab() + t.getFields().stream().map(f -> compare(t, f)).collect(
+					Collectors.joining(nl() + tab())
 				))
+                
+                .add(tab() + ".isPresent();")
 			);
 		}
 		
 		if (!hasMethod(t, "hashCode", 0)) {
-			t.add(new MethodImpl("hashCode", Default.INT_PRIMITIVE)
-				.add(Default.OVERRIDE)
-				.public_()
+			t.add(Method.of("hashCode", INT_PRIMITIVE)
+				.public_().add(OVERRIDE)
 				.add("int hash = 7;")
 				.add(t.getFields().stream().map(f -> hash(f)).collect(Collectors.joining(nl())))
 				.add("return hash;")
@@ -72,11 +82,22 @@ public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>> implem
 	}
 	
 	private String compare(T t, Field f) {
+        final StringBuilder str = new StringBuilder(".filter(o -> ");
 		if (isPrimitive(f.getType())) {
-			return "(" + f.getName() + " == o." + f.getName() + ")";
+			str.append("(this.")
+               .append(f.getName())
+               .append(" == o.")
+               .append(f.getName())
+               .append(")");
 		} else {
-			return "Objects.equals(this." + f.getName() + ", o." + f.getName() + ")";
+			str.append("Objects.equals(this.")
+               .append(f.getName())
+               .append(", o.")
+               .append(f.getName())
+               .append(")");
 		}
+        
+        return str.append(")").toString();
 	}
 	
 	private String hash(Field f) {
