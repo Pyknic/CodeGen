@@ -26,52 +26,52 @@ import java.util.Optional;
  */
 public class JavadocTagImpl implements JavadocTag {
 	private String name;
-	private Optional<String> value;
-	private Optional<String> text;
+	private String value;
+	private String text;
 	
 	public JavadocTagImpl(String name) {
 		this.name  = name;
-		this.value = Optional.empty();
-		this.text  = Optional.empty();
+		this.value = null;
+		this.text  = null;
 	}
 	
 	public JavadocTagImpl(String name, String text) {
 		this.name  = name;
-		this.value = Optional.empty();
-		this.text  = Optional.of(text);
-	}
+		this.value = null;
+		this.text  = text;
+    }
 	
 	public JavadocTagImpl(String name, String value, String text) {
 		this.name  = name;
-		this.value = Optional.of(value);
-		this.text  = Optional.of(text);
+		this.value = value;
+		this.text  = text;
 	}
 	
 	protected JavadocTagImpl(JavadocTagImpl prototype) {
 		this.name  = prototype.name;
-		this.value = Copier.copy(prototype.value, s -> s);
-		this.text  = Copier.copy(prototype.text, s -> s);
+		this.value = prototype.value;
+		this.text  = prototype.text;
 	}
 
     @Override
 	public Optional<String> getValue() {
-		return value;
+		return Optional.ofNullable(value);
 	}
 
     @Override
 	public JavadocTag setValue(String value) {
-		this.value = Optional.of(value);
+		this.value = value;
 		return this;
 	}
 
     @Override
 	public Optional<String> getText() {
-		return text;
+		return Optional.ofNullable(text);
 	}
 
     @Override
 	public JavadocTag setText(String text) {
-		this.text = Optional.of(text);
+		this.text = text;
 		return this;
 	}
 

@@ -35,14 +35,14 @@ import java.util.Set;
  */
 public class ConstructorImpl implements Constructor {
 	
-	private Optional<Javadoc> javadoc;
+	private Javadoc javadoc;
 	private final List<AnnotationUsage> annotations;
 	private final List<Field> params;
 	private final List<String> code;
 	private final Set<Modifier> modifiers;
 	
 	public ConstructorImpl() {
-		javadoc		= Optional.empty();
+		javadoc		= null;
 		annotations = new ArrayList<>();
 		params		= new ArrayList<>();
 		code		= new ArrayList<>();
@@ -74,13 +74,13 @@ public class ConstructorImpl implements Constructor {
 
 	@Override
 	public Constructor setJavadoc(Javadoc doc) {
-		javadoc = Optional.of(doc);
+		javadoc = doc;
 		return this;
 	}
 
 	@Override
 	public Optional<Javadoc> getJavadoc() {
-		return javadoc;
+		return Optional.ofNullable(javadoc);
 	}
 
 	@Override

@@ -36,7 +36,7 @@ public class TypeImpl implements Type {
     private int arrayDimension;
     private final List<AnnotationUsage> annotations;
     private final List<Generic> generics;
-    private Optional<java.lang.Class<?>> javaImpl;
+    private java.lang.Class<?> javaImpl;
 
     public TypeImpl(java.lang.Class<?> javaImpl) {
         this(javaImpl.getName(), javaImpl);
@@ -51,7 +51,7 @@ public class TypeImpl implements Type {
         this.arrayDimension = 0;
         this.annotations = new ArrayList<>();
         this.generics = new ArrayList<>();
-        this.javaImpl = Optional.ofNullable(javaImpl);
+        this.javaImpl = javaImpl;
     }
 
     protected TypeImpl(TypeImpl prototype) {
@@ -75,13 +75,13 @@ public class TypeImpl implements Type {
 
     @Override
     public Optional<java.lang.Class<?>> getJavaImpl() {
-        return javaImpl;
+        return Optional.ofNullable(javaImpl);
     }
 
     @Override
     public Type setJavaImpl(java.lang.Class<?> javaImpl) {
-        this.javaImpl = Optional.of(javaImpl);
-        this.name = javaImpl.getName();
+        this.javaImpl = javaImpl;
+        this.name     = javaImpl.getName();
         return this;
     }
 

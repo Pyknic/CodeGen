@@ -64,6 +64,10 @@ public class TestGenericInterfaces {
         final Generic t = Generic.of().setLowerBound("T");
         final Type self = Type.of("org.example.Nameable").add(t);
         
+        if (!t.asType().isPresent()) {
+            System.err.println("Lower bound is missing.");
+        }
+        
         model = Interface.of("Nameable")
             .add(t.copy().add(self))
             .add(Method.of("getName", Default.STRING))

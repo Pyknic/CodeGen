@@ -32,13 +32,13 @@ import java.util.Optional;
 public class FileImpl implements File {
 	
 	private String name;
-	private Optional<Javadoc> doc;
+	private Javadoc doc;
 	private final List<Import> imports;
 	private final List<ClassOrInterface<?>> classes;
 	
 	public FileImpl(String name) {
 		this.name	 = name;
-		this.doc	 = Optional.empty();
+		this.doc	 = null;
 		this.imports = new ArrayList<>();
 		this.classes = new ArrayList<>();
 	}
@@ -63,13 +63,13 @@ public class FileImpl implements File {
 
 	@Override
 	public File setJavadoc(Javadoc doc) {
-		this.doc = Optional.of(doc);
+		this.doc = doc;
 		return this;
 	}
 
 	@Override
 	public Optional<Javadoc> getJavadoc() {
-		return doc;
+		return Optional.ofNullable(doc);
 	}
 
 	@Override

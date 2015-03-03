@@ -31,8 +31,7 @@ import java.util.function.Function;
  */
 public abstract class Copier {
 	public static <T extends Copyable<T>> T copy(T prototype) {
-        if (prototype == null) return null;
-        else return prototype.copy();
+        return prototype == null ? null : prototype.copy();
     }
     
     public static <T extends Copyable<T>> Optional<T> copy(Optional<T> prototype) {

@@ -30,13 +30,13 @@ import java.util.Optional;
  */
 public class GenericImpl implements Generic {
 	
-	private Optional<String> lowerBound;
+	private String lowerBound;
 	private final List<Type> upperBounds;
 
 	private BoundType type = BoundType.EXTENDS;
 	
 	public GenericImpl() {
-		lowerBound  = Optional.empty();
+		lowerBound  = null;
 		upperBounds = new ArrayList<>();
 	}
 
@@ -49,24 +49,24 @@ public class GenericImpl implements Generic {
 	}
 	
 	public GenericImpl(String lowerBound, Type... upperBounds) {
-		this.lowerBound = Optional.ofNullable(lowerBound);
+		this.lowerBound = lowerBound;
 		this.upperBounds = Arrays.asList(upperBounds);
 	}
 	
 	protected GenericImpl(GenericImpl prototype) {
-		lowerBound  = Copier.copy(prototype.lowerBound, s -> s);
+		lowerBound  = prototype.lowerBound;
 		upperBounds = Copier.copy(prototype.upperBounds);
 	}
 
     @Override
 	public Generic setLowerBound(String lowerBound) {
-		this.lowerBound = Optional.of(lowerBound);
+		this.lowerBound = lowerBound;
 		return this;
 	}
 
     @Override
 	public Optional<String> getLowerBound() {
-		return lowerBound;
+		return Optional.ofNullable(lowerBound);
 	}
 	
     @Override
@@ -87,11 +87,10 @@ public class GenericImpl implements Generic {
 	
     @Override
 	public Optional<Type> asType() {
-		if (lowerBound.isPresent()) {
-			return Optional.of(new TypeImpl(lowerBound.get()));
-		} else {
-			return Optional.empty();
-		}
+		return (lowerBound == null ? 
+            Optional.empty() :
+            Optional.of(new TypeImpl(lowerBound))
+        );
 	}
 	
 	@Override

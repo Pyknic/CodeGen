@@ -38,7 +38,7 @@ public class MethodImpl implements Method {
 	
 	private String name;
 	private Type type;
-	private Optional<Javadoc> javadoc;
+	private Javadoc javadoc;
 	private final List<AnnotationUsage> annotations;
 	private final List<Generic> generics;
 	private final List<Field> params;
@@ -48,7 +48,7 @@ public class MethodImpl implements Method {
 	public MethodImpl(String name, Type type) {
 		this.name			= name;
 		this.type			= type;
-		this.javadoc		= Optional.empty();
+		this.javadoc		= null;
 		this.annotations	= new ArrayList<>();
 		this.generics		= new ArrayList<>();
 		this.params			= new ArrayList<>();
@@ -106,13 +106,13 @@ public class MethodImpl implements Method {
 
 	@Override
 	public Method setJavadoc(Javadoc doc) {
-		javadoc = Optional.of(doc);
+		javadoc = doc;
 		return this;
 	}
 
 	@Override
 	public Optional<Javadoc> getJavadoc() {
-		return javadoc;
+		return Optional.ofNullable(javadoc);
 	}
 
 	@Override

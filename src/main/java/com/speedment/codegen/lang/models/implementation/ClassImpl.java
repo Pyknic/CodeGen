@@ -30,18 +30,18 @@ import java.util.Optional;
  */
 public class ClassImpl extends ClassOrInterfaceImpl<Class> implements Class {
 
-	private Optional<Type> superType;
+	private Type superType;
 	private final List<Constructor> constructors;
 
 	public ClassImpl(String name) {
 		super(name);
-		superType = Optional.empty();
+		superType = null;
 		constructors = new ArrayList<>();
 	}
 
 	public ClassImpl(String name, Type superType) {
 		super(name);
-		this.superType = Optional.of(superType);
+		this.superType = superType;
 		this.constructors = new ArrayList<>();
 	}
 	
@@ -53,13 +53,13 @@ public class ClassImpl extends ClassOrInterfaceImpl<Class> implements Class {
 
 	@Override
 	public Class setSupertype(Type superType) {
-		this.superType = Optional.of(superType);
+		this.superType = superType;
 		return this;
 	}
 
 	@Override
 	public Optional<Type> getSupertype() {
-		return superType;
+		return Optional.ofNullable(superType);
 	}
 
 	@Override

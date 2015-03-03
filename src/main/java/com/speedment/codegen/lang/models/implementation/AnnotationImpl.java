@@ -36,7 +36,7 @@ import java.util.Set;
 public class AnnotationImpl implements Annotation {
 	
 	private String name;
-	private Optional<Javadoc> javadoc;
+	private Javadoc javadoc;
 	private final List<AnnotationUsage> annotations;
 	private final List<Field> fields;
 	private final List<Import> dependencies;
@@ -44,7 +44,7 @@ public class AnnotationImpl implements Annotation {
 
 	public AnnotationImpl(String name) {
 		this.name			= name;
-		this.javadoc		= Optional.empty();
+		this.javadoc		= null;
 		this.annotations	= new ArrayList<>();
 		this.fields			= new ArrayList<>();
 		this.dependencies	= new ArrayList<>();
@@ -78,13 +78,13 @@ public class AnnotationImpl implements Annotation {
 
 	@Override
 	public Annotation setJavadoc(Javadoc doc) {
-		this.javadoc = Optional.of(doc);
+		this.javadoc = doc;
 		return this;
 	}
 
 	@Override
 	public Optional<Javadoc> getJavadoc() {
-		return javadoc;
+		return Optional.ofNullable(javadoc);
 	}
 
 	@Override

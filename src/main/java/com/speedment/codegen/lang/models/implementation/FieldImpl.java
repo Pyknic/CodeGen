@@ -16,6 +16,7 @@
  */
 package com.speedment.codegen.lang.models.implementation;
 
+import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.models.AnnotationUsage;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Javadoc;
@@ -37,16 +38,16 @@ public class FieldImpl implements Field {
 	
 	private String name;
 	private Type type;
-	private Optional<Value<?>> value;
-	private Optional<Javadoc> javadoc;
+	private Value<?> value;
+	private Javadoc javadoc;
 	private final List<AnnotationUsage> annotations;
 	private final Set<Modifier> modifiers;
 	
 	public FieldImpl(String name, Type type) {
 		this.name			= name;
 		this.type			= type;
-		this.value			= Optional.empty();
-		this.javadoc		= Optional.empty();
+		this.value			= null;
+		this.javadoc		= null;
 		this.annotations	= new ArrayList<>();
 		this.modifiers		= EnumSet.noneOf(Modifier.class);
 	}
@@ -54,7 +55,7 @@ public class FieldImpl implements Field {
 	protected FieldImpl(FieldImpl prototype) {
 		name		= prototype.name;
 		type		= prototype.type;
-		value		= Copier.copy(prototype.value, v -> v.copy());
+		value		= prototype.value == null ? null : prototype.value;
 		javadoc		= Copier.copy(prototype.javadoc);
 		annotations	= Copier.copy(prototype.annotations);
 		modifiers	= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
@@ -89,24 +90,24 @@ public class FieldImpl implements Field {
 
 	@Override
 	public Field setJavadoc(Javadoc doc) {
-		javadoc = Optional.of(doc);
+		javadoc = doc;
 		return this;
 	}
 
 	@Override
 	public Optional<Javadoc> getJavadoc() {
-		return javadoc;
+		return Optional.ofNullable(javadoc);
 	}
 
 	@Override
 	public Field setValue(Value<?> val) {
-		this.value = Optional.of(val);
+		this.value = val;
 		return this;
 	}
 
 	@Override
 	public Optional<Value<?>> getValue() {
-		return value;
+		return Optional.ofNullable(value);
 	}
 
 	@Override

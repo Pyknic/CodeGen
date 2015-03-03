@@ -33,18 +33,18 @@ import java.util.Optional;
 public class AnnotationUsageImpl implements AnnotationUsage {
 	
 	private Type type;
-	private Optional<Value<?>> value;
+	private Value<?> value;
 	private final List<Entry<String, Value<?>>> values;
 	
 	public AnnotationUsageImpl(Type type) {
 		this.type	= type;
-		this.value	= Optional.empty();
+		this.value	= null;
 		this.values = new ArrayList<>();
 	}
 	
 	protected AnnotationUsageImpl(AnnotationUsageImpl prototype) {
 		type   = prototype.type;
-		value  = Copier.copy(prototype.value, v -> v.copy());
+		value  = prototype.value == null ? null : prototype.value;
 		values = Copier.copy(prototype.values, 
 			e -> new AbstractMap.SimpleEntry<>(
 				e.getKey(), e.getValue().copy()
@@ -54,7 +54,7 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 	
 	@Override
 	public AnnotationUsage setValue(Value<?> val) {
-		value = Optional.of(val);
+		value = val;
 		return this;
 	}
 	
@@ -66,7 +66,7 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 	
 	@Override
 	public Optional<Value<?>> getValue() {
-		return value;
+		return Optional.ofNullable(value);
 	}
 	
     @Override

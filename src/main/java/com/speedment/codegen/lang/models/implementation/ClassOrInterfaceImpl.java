@@ -40,7 +40,7 @@ public abstract class ClassOrInterfaceImpl<T extends ClassOrInterface<T>>
     implements ClassOrInterface<T> {
 	
 	private String name;
-	private Optional<Javadoc> javadoc;
+	private Javadoc javadoc;
 	private final List<AnnotationUsage> annotations;
 	private final List<Generic> generics;
 	private final List<Type> interfaces;
@@ -51,7 +51,7 @@ public abstract class ClassOrInterfaceImpl<T extends ClassOrInterface<T>>
 
 	public ClassOrInterfaceImpl(String name) {
 		this.name			= name;
-		this.javadoc		= Optional.empty();
+		this.javadoc		= null;
 		this.annotations	= new ArrayList<>();
 		this.generics		= new ArrayList<>();
 		this.interfaces		= new ArrayList<>();
@@ -88,13 +88,13 @@ public abstract class ClassOrInterfaceImpl<T extends ClassOrInterface<T>>
 	@Override
     @SuppressWarnings("unchecked")
 	public T setJavadoc(Javadoc doc) {
-		javadoc = Optional.of(doc);
+		javadoc = doc;
 		return (T) this;
 	}
 
 	@Override
 	public Optional<Javadoc> getJavadoc() {
-		return javadoc;
+		return Optional.ofNullable(javadoc);
 	}
 
 	@Override

@@ -135,7 +135,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
             installer.withAll(model.getClass()).map(v -> (CodeView<Object>) v);
         
         if (supplier.get().anyMatch(v -> true)) {
-            supplier.get().forEach(v -> render((CodeView<Object>) v, model));
+            supplier.get().forEach(v -> render(v, model));
         } else {
             throw new UnsupportedOperationException(
                 "The model of type " + model.getClass().getName() + 
