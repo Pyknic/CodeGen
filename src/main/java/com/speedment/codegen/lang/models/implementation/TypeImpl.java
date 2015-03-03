@@ -113,21 +113,18 @@ public class TypeImpl implements Type {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		} else if (obj instanceof TypeImpl) {
-			final TypeImpl other = (TypeImpl) obj;
-			return other.name.equals(name)
-				&& other.arrayDimension == arrayDimension
-				&& other.annotations.size() == annotations.size()
-				&& other.generics.size() == generics.size()
-				&& Arrays.deepEquals(other.annotations.toArray(), annotations.toArray())
-				&& Arrays.deepEquals(other.generics.toArray(), generics.toArray())
-				&& other.javaImpl.equals(javaImpl)
-			;
-		} else {
-			return false;
-		}
+		return Optional.ofNullable(obj)
+            .filter(o -> getClass().equals(o.getClass()))
+            .map(o -> (TypeImpl) o)
+            .filter(o -> 
+                o.name.equals(name)
+				&& o.arrayDimension == arrayDimension
+				&& o.annotations.size() == annotations.size()
+				&& o.generics.size() == generics.size()
+				&& Objects.equals(o.annotations, annotations)
+				&& Objects.equals(o.generics, generics)
+				&& o.javaImpl.equals(javaImpl)
+            ).isPresent();
 	}
 
 	@Override
