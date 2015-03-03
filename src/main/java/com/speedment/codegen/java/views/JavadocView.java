@@ -37,10 +37,10 @@ public class JavadocView implements CodeView<Javadoc> {
 	@Override
 	public Optional<String> render(CodeGenerator cg, Javadoc model) {
 		return CodeCombiner.ifEmpty(
-			Stream.concat(
-				model.getRows().stream(),
-				cg.onEach(model.getTags())
-			).collect(
+            Stream.of(
+                model.getRows().stream(),
+                renderParams(cg, model)
+			).flatMap(s -> s).collect(
 				CodeCombiner.joinIfNotEmpty(
 					JAVADOC_DELIMITER, 
 					JAVADOC_PREFIX, 
@@ -49,5 +49,14 @@ public class JavadocView implements CodeView<Javadoc> {
 			)
 		);
 	}
-	
+
+    private static Stream<String> renderParams(CodeGenerator cg, Javadoc model) {
+        final Stream<String> stream = cg.onEach(model.getTags());
+        
+        if (!model.getTags().isEmpty()) {
+            return Stream.of(Stream.of(EMPTY), stream).flatMap(s -> s);
+        } else {
+            return stream;
+        }
+    }
 }
