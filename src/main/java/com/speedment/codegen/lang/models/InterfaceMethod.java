@@ -16,53 +16,28 @@
  */
 package com.speedment.codegen.lang.models;
 
+import com.speedment.codegen.lang.interfaces.Annotable;
+import com.speedment.codegen.lang.interfaces.Codeable;
 import com.speedment.codegen.lang.interfaces.Copyable;
-import com.speedment.codegen.lang.models.modifiers.Modifier;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import com.speedment.codegen.lang.interfaces.Documentable;
+import com.speedment.codegen.lang.interfaces.Fieldable;
+import com.speedment.codegen.lang.interfaces.Generable;
+import com.speedment.codegen.lang.interfaces.Nameable;
+import com.speedment.codegen.lang.interfaces.Typeable;
+import com.speedment.codegen.lang.models.implementation.InterfaceMethodImpl;
+import com.speedment.codegen.lang.models.modifiers.InterfaceMethodModifier;
 
 /**
  *
  * @author Emil Forslund
  */
-public class InterfaceMethod implements Copyable<InterfaceMethod> {
-	private final Method m;
-	
-	public InterfaceMethod(Method wrapped) {
-		this.m = wrapped;
-	}
-	
-	public String getName() {
-		return m.getName();
-	}
+public interface InterfaceMethod extends Nameable<InterfaceMethod>, 
+    Typeable<InterfaceMethod>, Generable<InterfaceMethod>, 
+    Fieldable<InterfaceMethod>, Documentable<InterfaceMethod>, 
+    Annotable<InterfaceMethod>, Codeable<InterfaceMethod>, 
+    InterfaceMethodModifier<InterfaceMethod>, Copyable<InterfaceMethod> {
 
-	public Type getType() {
-		return m.getType();
-	}
-
-	public List<Field> getParams() {
-		return m.getFields();
-	}
-
-	public List<String> getCode() {
-		return m.getCode();
-	}
-
-	public Set<Modifier> getModifiers() {
-		return m.getModifiers();
-	}
-
-	public Optional<Javadoc> getJavadoc() {
-		return m.getJavadoc();
-	}
-
-	public List<AnnotationUsage> getAnnotations() {
-		return m.getAnnotations();
-	}
-
-	@Override
-	public InterfaceMethod copy() {
-		return new InterfaceMethod(m.copy());
-	}
+    static InterfaceMethod of(Method wrapped) {
+        return new InterfaceMethodImpl(wrapped);
+    }
 }

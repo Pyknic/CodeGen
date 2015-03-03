@@ -48,7 +48,7 @@ public class AnnotationView implements CodeView<Annotation> {
 				
 			// Block of code
 			block(
-				model.getFields().stream().map(f ->
+				model.getFields().stream().map(f -> 
 					// Field javadoc (optional)
 					ifelse(cg.on(f.getJavadoc()), jd -> nl() + jd + nl(), EMPTY) +
 					

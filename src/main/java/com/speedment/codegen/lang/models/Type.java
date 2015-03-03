@@ -20,171 +20,32 @@ import com.speedment.codegen.lang.interfaces.Annotable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Generable;
 import com.speedment.codegen.lang.interfaces.Nameable;
-import com.speedment.util.Copier;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import com.speedment.codegen.lang.models.implementation.TypeImpl;
 import java.util.Optional;
 
 /**
  *
  * @author Emil Forslund
  */
-public class Type implements 
-		Copyable<Type>,
-        Nameable<Type>,
-        Generable<Type>,
-        Annotable<Type> {
-
-    private String name;
-    private int arrayDimension;
-    private final List<AnnotationUsage> annotations;
-    private final List<Generic> generics;
-    private Optional<java.lang.Class<?>> javaImpl;
-
-    public Type(java.lang.Class<?> javaImpl) {
-        this(javaImpl.getName(), javaImpl);
+public interface Type extends Copyable<Type>, Nameable<Type>, Generable<Type>, Annotable<Type> {
+    Type setJavaImpl(java.lang.Class<?> javaImpl);
+    Optional<java.lang.Class<?>> getJavaImpl();
+    Type setArrayDimension(int arrayDimension);
+    int getArrayDimension();
+    
+    enum Factory { INST;
+        private Type prototype = new TypeImpl("");
     }
 
-    public Type(String name) {
-        this(name, null);
+    static Type of(String name) {
+        return Factory.INST.prototype.copy().setName(name);
     }
-
-    public Type(String name, java.lang.Class<?> javaImpl) {
-        this.name = name;
-        this.arrayDimension = 0;
-        this.annotations = new ArrayList<>();
-        this.generics = new ArrayList<>();
-        this.javaImpl = Optional.ofNullable(javaImpl);
+    
+    static Type of(java.lang.Class<?> clazz) {
+        return Factory.INST.prototype.copy().setJavaImpl(clazz);
     }
-
-    private Type(Type prototype) {
-        name = prototype.name;
-        arrayDimension = prototype.arrayDimension;
-        annotations = Copier.copy(prototype.annotations);
-        generics = Copier.copy(prototype.generics);
-        javaImpl = prototype.javaImpl;
-	}
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public Type setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public Optional<java.lang.Class<?>> getJavaImpl() {
-        return javaImpl;
-    }
-
-    public Type setJavaImpl(java.lang.Class<?> javaImpl) {
-        this.javaImpl = Optional.of(javaImpl);
-        return this;
-    }
-
-    public int getArrayDimension() {
-        return arrayDimension;
-    }
-
-    public Type setArrayDimension(int arrayDimension) {
-        this.arrayDimension = arrayDimension;
-        return this;
-    }
-
-    @Override
-    public Type add(Generic generic) {
-        generics.add(generic);
-        return this;
-    }
-
-    @Override
-    public List<Generic> getGenerics() {
-        return generics;
-    }
-
-    @Override
-    public Type copy() {
-        return new Type(this);
-    }
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		} else if (obj instanceof Type) {
-			final Type other = (Type) obj;
-			return other.name.equals(name)
-				&& other.arrayDimension == arrayDimension
-				&& other.annotations.size() == annotations.size()
-				&& other.generics.size() == generics.size()
-				&& Arrays.deepEquals(other.annotations.toArray(), annotations.toArray())
-				&& Arrays.deepEquals(other.generics.toArray(), generics.toArray())
-				&& other.javaImpl.equals(javaImpl)
-			;
-		} else {
-			return false;
-		}
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = 61 * hash + Objects.hashCode(this.name);
-		hash = 61 * hash + this.arrayDimension;
-		hash = 61 * hash + Objects.hashCode(this.annotations);
-		hash = 61 * hash + Objects.hashCode(this.generics);
-		hash = 61 * hash + Objects.hashCode(this.javaImpl);
-		return hash;
-	}
-
-    @Override
-    public Type add(AnnotationUsage annotation) {
-        annotations.add(annotation);
-        return this;
-    }
-
-    @Override
-    public List<AnnotationUsage> getAnnotations() {
-        return annotations;
-    }
-
-    public static final class Const extends Type {
-
-        public Const(java.lang.Class<?> javaImpl) {
-            super(javaImpl);
-        }
-
-        public Const(String name) {
-            super(name);
-        }
-
-        public Const(String name, java.lang.Class<?> javaImpl) {
-            super(name, javaImpl);
-        }
-
-        @Override
-        public Type setArrayDimension(int arrayDimension) {
-            return copy().setArrayDimension(arrayDimension);
-        }
-
-        @Override
-        public Type setJavaImpl(java.lang.Class<?> javaImpl) {
-            return copy().setJavaImpl(javaImpl);
-        }
-
-        @Override
-        public Type setName(String name) {
-            return copy().setName(name);
-        }
-
-        @Override
-        public Type add(Generic generic) {
-            return copy().add(generic);
-        }
+    
+    static void setPrototype(Type a) {
+        Factory.INST.prototype = a;
     }
 }

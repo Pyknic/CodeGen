@@ -16,52 +16,111 @@
  */
 package com.speedment.codegen.lang.controller;
 
-import static com.speedment.codegen.Formatting.packageName;
+import static com.speedment.codegen.Formatting.DOT;
 import com.speedment.codegen.base.DependencyManager;
-import com.speedment.codegen.lang.models.Class;
-import com.speedment.codegen.lang.models.Import;
+import com.speedment.codegen.lang.interfaces.Annotable;
+import com.speedment.codegen.lang.interfaces.Classable;
+import com.speedment.codegen.lang.interfaces.Constructable;
+import com.speedment.codegen.lang.interfaces.Fieldable;
+import com.speedment.codegen.lang.interfaces.Generable;
+import com.speedment.codegen.lang.interfaces.Interfaceable;
+import com.speedment.codegen.lang.interfaces.Methodable;
+import com.speedment.codegen.lang.interfaces.Supertypeable;
+import com.speedment.codegen.lang.interfaces.Typeable;
+import com.speedment.codegen.lang.models.File;
+import com.speedment.codegen.lang.models.Generic;
 import com.speedment.codegen.lang.models.Type;
-import java.util.Collection;
+import com.speedment.codegen.lang.models.implementation.ImportImpl;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
-public class AutoImports implements Consumer<Class> {
+public class AutoImports implements Consumer<File> {
 	private final DependencyManager mgr;
 	
 	public AutoImports(DependencyManager mgr) {
 		this.mgr = mgr;
 	}
- 
-    @Override
-    public void accept(Class model) {
-		model.getSuperType().ifPresent(st -> add(model, st));
-		addAll(model, model.getInterfaces());
-		model.getFields().forEach(f -> add(model, f.getType()));
-		model.getMethods().forEach(m -> {
-			add(model, m.getType());
-			m.getFields().forEach(p -> add(model, p.getType()));
-		});
-    }
 	
-	private void add(Class model, Type type) {
-		if (!model.getName().equals(type.getName())) {
-			packageName(type.getName()).ifPresent(typeName -> {
-				if (!packageName(model.getName()).get().equals(typeName)) {
-					if (!mgr.isIgnored(type.getName())) {
-						if (!model.getDependencies().stream()
-						.anyMatch(imp -> imp.getType().getName().equals(type.getName()))) {
-							model.add(new Import(type));
-						}
-					}
-				}
+	@Override
+	public void accept(File file) {
+		findTypesIn(file).forEach((s, t) -> {
+			file.add(new ImportImpl(t));
+		});
+	}
+	
+	private Map<String, Type> findTypesIn(Object o) {
+		final Map<String, Type> map = new HashMap<>();
+		findTypesIn(o, map);
+		return map;
+	}
+	
+	private void findTypesIn(Object o, Map<String, Type> types) {
+		if (Supertypeable.class.isAssignableFrom(o.getClass())) {
+			((Supertypeable<?>) o).getSupertype().ifPresent(t -> addType(t, types));
+		}
+		
+		if (Annotable.class.isAssignableFrom(o.getClass())) {
+			((Annotable<?>) o).getAnnotations().forEach(a -> {
+				addType(a.getType(), types);
 			});
+		}
+		
+		if (Classable.class.isAssignableFrom(o.getClass())) {
+			((Classable<?>) o).getClasses().forEach(c -> {
+				findTypesIn(c, types);
+			});
+		}
+		
+		if (Constructable.class.isAssignableFrom(o.getClass())) {
+			((Constructable<?>) o).getConstructors().forEach(c -> {
+				findTypesIn(c, types);
+			});
+		}
+		
+		if (Fieldable.class.isAssignableFrom(o.getClass())) {
+			((Fieldable<?>) o).getFields().forEach(f -> {
+				addType(f.getType(), types);
+				findTypesIn(f, types);
+			});
+		}
+		
+		if (Generable.class.isAssignableFrom(o.getClass())) {
+			((Generable<?>) o).getGenerics().forEach(g -> {
+				g.getUpperBounds().forEach(ub -> {
+					addType(ub, types);
+				});
+			});
+		}
+		
+		if (Interfaceable.class.isAssignableFrom(o.getClass())) {
+			((Interfaceable<?>) o).getInterfaces().forEach(i -> {
+				addType(i, types);
+			});
+		}
+		
+		if (Methodable.class.isAssignableFrom(o.getClass())) {
+			((Methodable<?>) o).getMethods().forEach(m -> {
+				addType(m.getType(), types);
+				findTypesIn(m, types);
+			});
+		}
+		
+		if (Typeable.class.isAssignableFrom(o.getClass())) {
+			addType(((Typeable<?>) o).getType(), types);
 		}
 	}
 	
-	private void addAll(Class model, Collection<Type> types) {
-		types.forEach(t -> add(model, t));
+	private void addType(Type type, Map<String, Type> types) {
+		final String name = type.getName();
+		if (name.contains(DOT)) {
+			if (!mgr.isIgnored(name)) {
+				types.put(name, type);
+			}
+		}
 	}
 }

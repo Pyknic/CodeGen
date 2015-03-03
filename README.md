@@ -4,49 +4,49 @@ A model-view based code generator written in Java. It is completely object orien
 # Example
 ```java
 System.out.println(new JavaGenerator().on(
-	new Class("org.example.BasicExample")
-		.add(Default.GENERATED)
-		.public_()
-		.add(
-			new Field("BASIC_MESSAGE", Default.STRING)
-			.public_().final_().static_()
-			.setValue(new TextValue("Hello, world!"))
-		)
-		.add(
-			new Method("main", Default.VOID)
-			.setJavadoc(new Javadoc(
-				"This is a vary basic example of\n" +
-				"the capabilities of the Code Generator."
-			))
-			.public_().static_()
-			.add(new Field("params", Default.STRING.setArrayDimension(1)))
-			.add(
-				"System.out.println(BASIC_MESSAGE);"
-			)
-		)
-	).call(new AutoJavadoc()).get()
+    File.of("org/example/BasicExample.java")
+        .add(Class.of("BasicExample")
+            .add(Default.GENERATED)
+            .public_()
+            .add(
+                Field.of("BASIC_MESSAGE", Default.STRING)
+                .public_().final_().static_()
+                .setValue(new TextValue("Hello, world!"))
+            )
+            .add(
+                Method.of("main", Default.VOID)
+                .setJavadoc(Javadoc.of(
+                    "This is a vary basic example of ",
+                    "the capabilities of the Code Generator."
+                ))
+                .public_().static_()
+                .add(Field.of("params", Default.STRING.setArrayDimension(1)))
+                .add(
+                    "System.out.println(BASIC_MESSAGE);"
+                )
+            )
+        ).call(new AutoJavadoc())
+    ).get()
 );
 ```
 	
 ## Result
 ```java
+/**
+ * Write some documentation here.
+ */
 package org.example;
 
-/**
- * @author Your Name
- */
-@Generated
 public class BasicExample {
-	public final static String BASIC_MESSAGE;
-	
-	/**
-	 * This is a vary basic example of
-	 * the capabilities of the Code Generator.
-	 * @param params
-	 */
-	public static void main(String[] params) {
-		System.out.println(BASIC_MESSAGE);
-	}
+    public final static String BASIC_MESSAGE = "Hello, world!";
+    
+    /**
+     * This is a vary basic example of 
+     * the capabilities of the Code Generator.
+     */
+    public static void main(String[] params) {
+        System.out.println(BASIC_MESSAGE);
+    }
 }
 ```
 

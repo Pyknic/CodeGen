@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
 public class Formatting {
 
@@ -254,6 +254,18 @@ public class Formatting {
 			return Optional.empty();
 		}
     }
+	
+	public static Optional<String> fileToClassName(String fileName) {
+		Optional<String> result = Optional.empty();
+		if (fileName.endsWith(".java")) {
+			String className = fileName;
+			className = className.replace('/', '.');
+			className = className.replace('\\', '.');
+			className = className.substring(0, className.length() - 6);
+			result = Optional.of(className);
+		}
+		return result;
+	}
 
     private static String nl = "\n",
             dnl = "\n\n",

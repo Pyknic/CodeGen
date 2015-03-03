@@ -21,10 +21,16 @@ import java.util.List;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  * @param <T>
  */
 public interface Generable<T extends Generable<T>> {
-	T add(final Generic generic);
+    
+    @SuppressWarnings("unchecked")
+    default T add(final Generic generic) {
+        getGenerics().add(generic);
+        return (T) this;
+    }
+    
     List<Generic> getGenerics();
 }

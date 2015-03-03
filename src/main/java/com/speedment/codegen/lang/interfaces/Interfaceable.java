@@ -21,10 +21,16 @@ import java.util.List;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  * @param <T>
  */
 public interface Interfaceable<T extends Interfaceable<T>> {
-    T add(final Type interf);
+    
+    @SuppressWarnings("unchecked")
+    default T add(final Type interf) {
+        getInterfaces().add(interf);
+        return (T) this;
+    }
+    
     List<Type> getInterfaces();
 }

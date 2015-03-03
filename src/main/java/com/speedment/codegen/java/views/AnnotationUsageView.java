@@ -35,7 +35,7 @@ public class AnnotationUsageView implements CodeView<AnnotationUsage> {
 	@Override
 	public Optional<String> render(CodeGenerator cg, AnnotationUsage model) {
 		return Optional.of(
-			AT + cg.on(model.getType()) +
+			AT + cg.on(model.getType()).get() +
 			model.getValues().stream()
 				.map(e -> e.getKey() + EQUALS + cg.on(e.getValue()))
 				.collect(

@@ -16,49 +16,25 @@
  */
 package com.speedment.codegen.lang.models;
 
+import com.speedment.codegen.lang.interfaces.Annotable;
 import com.speedment.codegen.lang.interfaces.Copyable;
-import com.speedment.codegen.lang.models.modifiers.Modifier;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import com.speedment.codegen.lang.interfaces.Documentable;
+import com.speedment.codegen.lang.interfaces.Nameable;
+import com.speedment.codegen.lang.interfaces.Typeable;
+import com.speedment.codegen.lang.interfaces.Valuable;
+import com.speedment.codegen.lang.models.implementation.InterfaceFieldImpl;
+import com.speedment.codegen.lang.models.modifiers.InterfaceFieldModifier;
 
 /**
  *
  * @author Emil Forslund
  */
-public class InterfaceField implements Copyable<InterfaceField> {
-	private final Field f;
-	
-	public InterfaceField(Field wrapped) {
-		f = wrapped;
-	}
+public interface InterfaceField extends Nameable<InterfaceField>, 
+    Typeable<InterfaceField>, InterfaceFieldModifier<InterfaceField>, 
+    Documentable<InterfaceField>, Valuable<InterfaceField>, 
+    Annotable<InterfaceField>, Copyable<InterfaceField> {
 
-	public String getName() {
-		return f.getName();
-	}
-	
-	public Type getType() {
-		return f.getType();
-	}
-
-	public Set<Modifier> getModifiers() {
-		return f.getModifiers();
-	}
-
-	public Optional<Javadoc> getJavadoc() {
-		return f.getJavadoc();
-	}
-
-	public Optional<Value> getValue() {
-		return f.getValue();
-	}
-
-	public List<AnnotationUsage> getAnnotations() {
-		return f.getAnnotations();
-	}
-	
-	@Override
-	public InterfaceField copy() {
-		return new InterfaceField(f.copy());
-	}
+    static InterfaceField of(Field wrapped) {
+        return new InterfaceFieldImpl(wrapped);
+    }
 }

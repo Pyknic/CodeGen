@@ -22,6 +22,9 @@ import com.speedment.codegen.lang.models.Import;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.lang.models.File;
+import com.speedment.codegen.lang.models.Type;
+import java.util.List;
 
 /**
  *
@@ -32,15 +35,34 @@ public class ImportView implements CodeView<Import> {
 
 	@Override
 	public Optional<String> render(CodeGenerator cg, Import model) {
-		return Optional.of(
-			IMPORT_STRING +
-			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
-			model.getType().getName() +
-			SC
-		).filter(x -> {
-			cg.getDependencyMgr().load(model.getType().getName());
-			return true;
-		});
+		if (shouldImport(cg, model.getType())) {
+			return Optional.of(
+				IMPORT_STRING +
+				cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
+				model.getType().getName() +
+				SC
+			).filter(x -> {
+				cg.getDependencyMgr().load(model.getType().getName());
+				return true;
+			});
+		} else return Optional.empty();
 	}
 	
+	private boolean shouldImport(CodeGenerator cg, Type type) {
+		final List<Object> stack = cg.getRenderStack();
+		if (stack.size() >= 2) {
+			final Object parent = stack.get(0);
+			if (parent instanceof File) {
+				final Optional<String> name = fileToClassName(((File) parent).getName());
+				if (name.isPresent()) {
+					final Optional<String> pack = packageName(name.get());
+					return !(pack.isPresent() && type.getName().startsWith(pack.get() + DOT));
+				}
+			} else {
+				throw new UnsupportedOperationException("Import is at the wrong location in the model hierarchy.");
+			}
+		}
+		
+		return false;
+	}
 }

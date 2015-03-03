@@ -21,10 +21,16 @@ import java.util.List;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  * @param <T>
  */
 public interface Constructable<T extends Constructable<T>> {
-    T add(final Constructor constr);
+    
+    @SuppressWarnings("unchecked")
+    default T add(final Constructor constr) {
+        getConstructors().add(constr);
+        return (T) this;
+    }
+    
     List<Constructor> getConstructors();
 }

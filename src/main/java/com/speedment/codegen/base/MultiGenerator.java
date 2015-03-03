@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * A generator that can have multiple installers. If the same model is associated
@@ -34,7 +36,7 @@ import java.util.function.Consumer;
 public class MultiGenerator implements CodeGenerator {
 	private final DependencyManager mgr;
 	private final List<Installer> installers;
-	private final Stack renderStack;
+	private final Stack<Object> renderStack;
 	
 	/**
 	 * Creates a new MultiGenerator.
@@ -52,7 +54,7 @@ public class MultiGenerator implements CodeGenerator {
 	public MultiGenerator(DependencyManager mgr, Installer... installers) {
 		this.installers = Arrays.asList(installers);
 		this.mgr = mgr;
-		this.renderStack = new Stack();
+		this.renderStack = new Stack<>();
 	}
 	
 	/**
@@ -84,14 +86,14 @@ public class MultiGenerator implements CodeGenerator {
 	 * @return the current rendering stack.
 	 */
 	@Override
-	public List getRenderStack() {
+	public List<Object> getRenderStack() {
 		return Collections.unmodifiableList(renderStack);
 	}
 
 	/**
 	 * Locates the <code>CodeView</code> that corresponds to the specified model
 	 * and uses it to generate a String. If no view is associated with the 
-	 * model type, a <code>NullPointerException</code> will be thrown.
+	 * model type, an <code>UnsupportedOperationException</code> will be thrown.
 	 * 
 	 * The result will be a <code>Optional</code>. It is present only if the
 	 * result from the view is present.
@@ -100,21 +102,25 @@ public class MultiGenerator implements CodeGenerator {
 	 * @return The viewed text if any.
 	 */
 	@Override
+    @SuppressWarnings("unchecked")
 	public Optional<String> on(Object model) {
 		for (Installer i : installers) {
-			final Optional<CodeView> view = i.withOne(model.getClass());
+			final Optional<CodeView<?>> view = i.withOne(model.getClass());
 			if (view.isPresent()) {
-				return render(view.get(), model);
+				return render((CodeView<Object>) view.get(), model);
 			}
 		}
 		
-		return Optional.empty();
+		throw new UnsupportedOperationException(
+            "The model of type " + model.getClass().getName() + 
+            " passed to MultiGenerator does not have a corresponding view."
+        );
 	}
 
 	/**
 	 * Locates the <code>CodeView</code> that corresponds to the specified model
 	 * and uses it to generate a String. If no view is associated with the 
-	 * model type, a <code>NullPointerException</code> will be thrown.
+	 * model type, an <code>UnsupportedOperationException</code> will be thrown.
 	 * 
 	 * Since views may not return a result for a particular model, the consumer
 	 * might not be called. If the same model has multiple views, they are all
@@ -124,13 +130,24 @@ public class MultiGenerator implements CodeGenerator {
 	 * @param consumer The consumer to accept the resulting String.
 	 */
 	@Override
+    @SuppressWarnings("unchecked")
 	public void on(Object model, Consumer<String> consumer) {
-		installers.stream()
-			.flatMap(i -> i.withAll(model.getClass()))
-			.forEach(v -> render(v, model).ifPresent(consumer));
+		final Supplier<Stream<CodeView<Object>>> supplier = () -> 
+            installers.stream()
+                .flatMap(i -> i.withAll(model.getClass()))
+                .map(v -> (CodeView<Object>) v);
+        
+        if (supplier.get().anyMatch(v -> true)) {
+            supplier.get().forEach(v -> render(v, model).ifPresent(consumer));
+        } else {
+            throw new UnsupportedOperationException(
+                "The model of type " + model.getClass().getName() + 
+                " passed to MultiGenerator does not have a corresponding view."
+            );
+        }
 	}
 
-	private Optional<String> render(CodeView view, Object model) {
+	private <M> Optional<String> render(CodeView<M> view, M model) {
 		renderStack.push(model);
 		final Optional<String> result = view.render(this, model);
 		renderStack.pop();

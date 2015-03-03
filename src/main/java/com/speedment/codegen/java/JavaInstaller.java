@@ -17,6 +17,7 @@
 package com.speedment.codegen.java;
 
 import com.speedment.codegen.base.DefaultInstaller;
+import com.speedment.codegen.java.views.AnnotationUsageView;
 import com.speedment.codegen.java.views.InterfaceMethodView;
 import com.speedment.codegen.lang.models.Annotation;
 import com.speedment.codegen.lang.models.Class;
@@ -45,6 +46,7 @@ import com.speedment.codegen.java.views.ConstructorView;
 import com.speedment.codegen.java.views.EnumConstantView;
 import com.speedment.codegen.java.views.EnumView;
 import com.speedment.codegen.java.views.FieldView;
+import com.speedment.codegen.java.views.FileView;
 import com.speedment.codegen.java.views.GenericView;
 import com.speedment.codegen.java.views.ImportView;
 import com.speedment.codegen.java.views.InterfaceFieldView;
@@ -60,7 +62,9 @@ import com.speedment.codegen.java.views.values.EnumValueView;
 import com.speedment.codegen.java.views.values.NumberValueView;
 import com.speedment.codegen.java.views.values.ReferenceValueView;
 import com.speedment.codegen.java.views.values.TextValueView;
+import com.speedment.codegen.lang.models.AnnotationUsage;
 import com.speedment.codegen.lang.models.Constructor;
+import com.speedment.codegen.lang.models.File;
 
 /**
  *
@@ -81,6 +85,7 @@ public class JavaInstaller extends DefaultInstaller {
 		install(Enum.class, EnumView.class);
 		install(EnumConstant.class, EnumConstantView.class);
 		install(Annotation.class, AnnotationView.class);
+		install(AnnotationUsage.class, AnnotationUsageView.class);
 		install(ArrayValue.class, ArrayValueView.class);
 		install(BooleanValue.class, BooleanValueView.class);
 		install(EnumValue.class, EnumValueView.class);
@@ -90,5 +95,6 @@ public class JavaInstaller extends DefaultInstaller {
 		install(InterfaceMethod.class, InterfaceMethodView.class);
 		install(InterfaceField.class, InterfaceFieldView.class);
 		install(Constructor.class, ConstructorView.class);
+		install(File.class, FileView.class);
     }
 }

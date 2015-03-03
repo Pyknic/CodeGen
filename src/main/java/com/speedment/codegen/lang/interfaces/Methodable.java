@@ -21,10 +21,16 @@ import java.util.List;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  * @param <T>
  */
 public interface Methodable<T extends Methodable<T>> {
-    T add(final Method meth);
+    
+    @SuppressWarnings("unchecked")
+    default T add(final Method meth) {
+        getMethods().add(meth);
+        return (T) this;
+    }
+    
     List<Method> getMethods();
 }

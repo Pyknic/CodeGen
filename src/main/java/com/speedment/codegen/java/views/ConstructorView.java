@@ -49,7 +49,7 @@ public class ConstructorView implements CodeView<Constructor> {
 	}
 	
 	private static Optional<String> renderName(CodeGenerator cg) {
-		final List stack = cg.getRenderStack();
+		final List<Object> stack = cg.getRenderStack();
 		if (stack.size() >= 2) {
 			final Object parent = stack.get(stack.size() - 2);
 			if (parent instanceof Nameable<?>) {

@@ -19,16 +19,16 @@ package com.speedment.codegen.java.views;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
-import com.speedment.codegen.base.DependencyManager;
 import com.speedment.codegen.lang.interfaces.Constructable;
 import com.speedment.codegen.lang.models.ClassOrInterface;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Method;
 import java.util.Optional;
-import com.speedment.util.CodeCombiner;
+import static com.speedment.util.CodeCombiner.*;
 import java.util.Collection;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -36,35 +36,27 @@ import java.util.stream.Collectors;
  * @author Emil Forslund
  * @param <M>
  */
-public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implements CodeView<M> {
+public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implements CodeView<M> {
 	protected final static String
 		CLASS_STRING = "class ",
 		INTERFACE_STRING = "interface ",
 		ENUM_STRING = "enum ",
 		IMPLEMENTS_STRING = "implements ",
-		EXTENDS_STRING = "extends ",
-		PACKAGE_STRING = "package ";
-	
-	private String renderPackage(M model) {
-		Optional<String> pack = packageName(model.getName());
-		if (pack.isPresent()) {
-			return PACKAGE_STRING + pack.get() + scdnl();
-		} else {
-			return EMPTY;
-		}
-	}
-	
+		EXTENDS_STRING = "extends ";
+
 	protected String onBeforeFields(CodeGenerator cg, M model) {
 		return EMPTY;
 	}
 	
 	protected Object wrapField(Field field) {return field;}
+	protected Object wrapClassOrInterface(ClassOrInterface<?> clazz) {return clazz;}
 	protected Object wrapMethod(Method method) {return method;}
+	
 	protected String onAfterFields(CodeGenerator cg, M model) {
 		if (model instanceof Constructable) {
 			return cg.onEach(
 				((Constructable<?>) model).getConstructors()
-			).collect(CodeCombiner.joinIfNotEmpty(dnl(), EMPTY, dnl()));
+			).collect(Collectors.joining(dnl()));
 		} else {
 			return EMPTY;
 		}
@@ -75,46 +67,53 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface> implement
 		return models.stream().map(wrapper).collect(Collectors.toList());
 	}
 	
-	protected abstract String classOrInterfaceLabel();
-	protected abstract String extendsOrImplementsLabel();
+	protected abstract String declarationType();
+	protected abstract String extendsOrImplementsInterfaces();
 	protected abstract String onSuperType(CodeGenerator cg, M model);
 
 	@Override
 	public Optional<String> render(CodeGenerator cg, M model) {
-		Optional<String> packageName = packageName(model.getName());
-		final DependencyManager mgr = cg.getDependencyMgr();
-		mgr.clearDependencies();
-		
-		if (packageName.isPresent()) {
-			if (mgr.isIgnored(packageName.get())) {
-				packageName = Optional.empty();
-			} else {
-				mgr.ignorePackage(packageName.get());
-			}
-		}
-		
-		final Optional<String> view = Optional.of(renderPackage(model) +
-			cg.onEach(model.getDependencies()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, dnl())) +
+		return Optional.of(// Javadoc
 			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
-			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
-			classOrInterfaceLabel() + shortName(model.getName()) + SPACE +
+                
+            // Modifiers
+			cg.onEach(model.getModifiers()).collect(joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
+            
+            // Declaration
+            declarationType() + shortName(model.getName()) + 
+                
+            // Declaration generics
+            cg.onEach(model.getGenerics()).collect(joinIfNotEmpty(COMMA_SPACE, SS, SE)) + SPACE +
+                
+            // Super type
 			onSuperType(cg, model) +
-			cg.onEach(model.getInterfaces()).collect(CodeCombiner.joinIfNotEmpty(COMMA_SPACE, extendsOrImplementsLabel(), SPACE)) +
-			block(
-				onBeforeFields(cg, model) +
-				cg.onEach(wrap(model.getFields(), (Field f) -> wrapField(f)))
-					.collect(CodeCombiner.joinIfNotEmpty(scnl(), EMPTY, scdnl())) +
-				onAfterFields(cg, model) +
-				cg.onEach(wrap(model.getMethods(), (Method m) -> wrapMethod(m)))
-					.collect(CodeCombiner.joinIfNotEmpty(dnl()))
-			)
+                
+            // Implemented interfaces
+			cg.onEach(model.getInterfaces()).collect(joinIfNotEmpty(COMMA_SPACE, extendsOrImplementsInterfaces(), SPACE)) +
+                
+            // Code
+			block(separate(
+                // Fields
+				onBeforeFields(cg, model), // Enums have constants here.
+				cg.onEach(wrap(model.getFields(), f -> wrapField(f)))
+					.collect(joinIfNotEmpty(scnl(), EMPTY, SC)),
+				onAfterFields(cg, model), // Classes and enums have constructors here.
+                
+                // Methods
+				cg.onEach(wrap(model.getMethods(), m -> wrapMethod(m)))
+					.collect(Collectors.joining(dnl())),
+                
+                // Subclasses
+				cg.onEach(wrap(model.getClasses(), c -> wrapClassOrInterface(c)))
+					.collect(Collectors.joining(dnl()))
+			))
 		);
-		
-		if (packageName.isPresent()) {
-			mgr.acceptPackage(packageName.get());
-		}
-		
-		return view;
 	}
 	
+	private String separate(Object... strings) {
+		return Stream.of(strings)
+			.map(o -> o.toString())
+			.filter(s -> s.length() > 0)
+			.collect(Collectors.joining(dnl()));
+	}
 }

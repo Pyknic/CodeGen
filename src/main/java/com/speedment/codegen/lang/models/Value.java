@@ -14,57 +14,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Copyable;
-import java.util.Objects;
 
 /**
  *
  * @author Emil Forslund
- * @param <T>
- * @param <R>
  */
-public abstract class Value<T, R extends Value<T, R>> implements Copyable<R> {
-	private T value;
-	
-	public Value(T val) {
-		value = val;
-	}
-
-	public R setValue(T value) {
-		this.value = value;
-		return (R) this;
-	}
-
-	public T getValue() {
-		return value;
-	}
-
-	@Override
-	public abstract R copy();
-
-	@Override
-	public int hashCode() {
-		return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		
-		final Value<T, R> other = (Value<T, R>) obj;
-		return Objects.equals(this.value, other.value);
-	}
+public interface Value<V> extends Copyable<Value<V>> {
+    Value<V> setValue(V value);
+	V getValue();
 }

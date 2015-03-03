@@ -16,25 +16,23 @@
  */
 package com.speedment.codegen.lang.models;
 
+import com.speedment.codegen.lang.models.implementation.InterfaceImpl;
 import com.speedment.codegen.lang.models.modifiers.InterfaceModifier;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
-public class Interface extends ClassOrInterface<Interface> implements
-		InterfaceModifier<Interface> {
-
-    public Interface(String name) {
-		super (name);
-    }
-	
-	private Interface(Interface prototype) {
-		super (prototype);
+public interface Interface extends ClassOrInterface<Interface>, InterfaceModifier<Interface> {
+    enum Factory { INST;
+        private Interface prototype = new InterfaceImpl(null);
     }
 
-	@Override
-	public Interface copy() {
-		return new Interface(this);
-	}
+    static Interface of(String name) {
+        return Factory.INST.prototype.copy().setName(name);
+    }
+    
+    static void setPrototype(Interface a) {
+        Factory.INST.prototype = a;
+    }
 }

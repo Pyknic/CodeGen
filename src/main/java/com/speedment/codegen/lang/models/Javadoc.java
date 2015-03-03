@@ -17,9 +17,7 @@
 package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Copyable;
-import com.speedment.util.Copier;
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.speedment.codegen.lang.models.implementation.JavadocImpl;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,51 +25,43 @@ import java.util.List;
  *
  * @author Emil Forslund
  */
-public class Javadoc implements Copyable<Javadoc> {
-	private final List<String> rows;
-	private final List<JavadocTag> tags;
-
-	public Javadoc() {
-		rows = new ArrayList<>();
-		tags = new ArrayList<>();
-	}
-	
-	public Javadoc(final String text) {
-		rows = Arrays.asList(text.split("\n"));
-		tags = new ArrayList<>();
-	}
-	
-	private Javadoc(final Javadoc prototype) {
-		rows = Copier.copy(prototype.rows, c -> c);
-		tags = Copier.copy(prototype.tags);
-	}
-	
-	public Javadoc add(String row) {
-		rows.add(row);
+public interface Javadoc extends Copyable<Javadoc> {
+    default Javadoc add(String row) {
+		getRows().add(row);
 		return this;
 	}
 	
-	public Javadoc add(String first, String... rows) {
-		this.rows.add(first);
-		Collections.addAll(this.rows, rows);
-		return this;
-	}
-	
-	public List<String> getRows() {
-		return rows;
-	}
-
-	@Override
-	public Javadoc copy() {
-		return new Javadoc(this);
-	}
-
-	public Javadoc add(JavadocTag tag) {
-		tags.add(tag);
+	default Javadoc add(String first, String... rows) {
+		getRows().add(first);
+		Collections.addAll(getRows(), rows);
 		return this;
 	}
 
-	public List<JavadocTag> getTags() {
-		return tags;
+	default Javadoc add(JavadocTag tag) {
+		getTags().add(tag);
+		return this;
 	}
+
+    List<String> getRows();
+	List<JavadocTag> getTags();
+    
+    enum Factory { INST;
+        private Javadoc prototype = new JavadocImpl();
+    }
+
+    static Javadoc of() {
+        return Factory.INST.prototype.copy();
+    }
+    
+    static Javadoc of(String row) {
+        return Factory.INST.prototype.copy().add(row);
+    }
+    
+    static Javadoc of(String row, String... rows) {
+        return Factory.INST.prototype.copy().add(row, rows);
+    }
+    
+    static void setPrototype(Javadoc a) {
+        Factory.INST.prototype = a;
+    }
 }

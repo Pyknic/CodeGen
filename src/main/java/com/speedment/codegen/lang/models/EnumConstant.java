@@ -18,53 +18,31 @@ package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Nameable;
-import com.speedment.util.Copier;
-import java.util.ArrayList;
+import com.speedment.codegen.lang.models.implementation.EnumConstantImpl;
 import java.util.List;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
-public class EnumConstant implements 
-		Copyable<EnumConstant>,
-		Nameable<EnumConstant> {
-	
-	private String name;
-	private final List<Value> values;
+public interface EnumConstant extends Copyable<EnumConstant>, Nameable<EnumConstant> {
+    
+    default EnumConstant add(Value<?> value) {
+        getValues().add(value);
+        return this;
+    }
+    
+    List<Value<?>> getValues();
+    
+    enum Factory { INST;
+        private EnumConstant prototype = new EnumConstantImpl(null);
+    }
 
-	public EnumConstant(String name) {
-		this.name	= name;
-		this.values = new ArrayList<>();
-	}
-	
-	private EnumConstant(EnumConstant prototype) {
-		name	= prototype.name;
-		values	= Copier.copy(prototype.values);
-	}
-
-	@Override
-	public EnumConstant setName(String name) {
-		this.name = name;
-		return this;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-	
-	public EnumConstant add(Value value) {
-		values.add(value);
-		return this;
-	}
-	
-	public List<Value> getValues() {
-		return values;
-	}
-
-	@Override
-	public EnumConstant copy() {
-		return new EnumConstant(this);
-	}
+    static EnumConstant of(String name) {
+        return Factory.INST.prototype.copy().setName(name);
+    }
+    
+    static void setPrototype(EnumConstant a) {
+        Factory.INST.prototype = a;
+    }
 }

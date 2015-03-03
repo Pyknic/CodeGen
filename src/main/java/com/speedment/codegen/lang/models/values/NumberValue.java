@@ -16,13 +16,13 @@
  */
 package com.speedment.codegen.lang.models.values;
 
-import com.speedment.codegen.lang.models.Value;
+import com.speedment.codegen.lang.models.implementation.ValueImpl;
 
 /**
  *
  * @author Emil Forslund
  */
-public class NumberValue extends Value<Number, NumberValue> {
+public class NumberValue extends ValueImpl<Number> {
 
 	public NumberValue(Number num) {
 		super(num);
@@ -43,6 +43,6 @@ public class NumberValue extends Value<Number, NumberValue> {
 		if (obj == null) {
 			return false;
 		}
-		return getClass() == obj.getClass();
+		return getClass().equals(obj.getClass());
 	}
 }

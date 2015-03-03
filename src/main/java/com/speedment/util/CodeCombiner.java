@@ -29,7 +29,7 @@ import java.util.function.Supplier;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
 public class CodeCombiner {
 	public static Collector<String, ?, String> joinIfNotEmpty(String delimiter) {
@@ -81,11 +81,13 @@ public class CodeCombiner {
             this.characteristics = characteristics;
         }
 
+        @SuppressWarnings("unchecked")
         CollectorImpl(Supplier<A> supplier,
                       BiConsumer<A, T> accumulator,
                       BinaryOperator<A> combiner,
                       Set<Collector.Characteristics> characteristics) {
-            this (supplier, accumulator, combiner, castingIdentity(), characteristics);
+            
+            this (supplier, accumulator, combiner, i -> (R) i, characteristics);
         }
 
         @Override
@@ -112,9 +114,5 @@ public class CodeCombiner {
         public Set<Collector.Characteristics> characteristics() {
             return characteristics;
         }
-    }
-	
-	private static <I, R> Function<I, R> castingIdentity() {
-        return i -> (R) i;
     }
 }

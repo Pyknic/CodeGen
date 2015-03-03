@@ -23,7 +23,7 @@ import java.util.Objects;
  *
  * @author Emil Forslund
  */
-public class TextFile implements Comparable {
+public class TextFile implements Comparable<TextFile> {
 	private final Path path;
 	private final String content;
 
@@ -41,12 +41,8 @@ public class TextFile implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object o) {
-		if (o != null && o.getClass().equals(getClass())) {
-			return path.compareTo(((TextFile) o).path);
-		} else {
-			return 0;
-		}
+	public int compareTo(TextFile o) {
+		return path.compareTo(o.path);
 	}
 
 	@Override

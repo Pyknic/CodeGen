@@ -26,19 +26,19 @@ import com.speedment.codegen.lang.models.Class;
  */
 public class ClassView extends ClassOrInterfaceView<Class> {
 	@Override
-	protected String classOrInterfaceLabel() {
+	protected String declarationType() {
 		return CLASS_STRING;
 	}
 
 	@Override
-	protected String extendsOrImplementsLabel() {
+	protected String extendsOrImplementsInterfaces() {
 		return IMPLEMENTS_STRING;
 	}
 
 	@Override
 	protected String onSuperType(CodeGenerator cg, Class model) {
-		if (model.getSuperType().isPresent()) {
-			return EXTENDS_STRING + cg.on(model.getSuperType().get()).orElse(EMPTY) + SPACE;
+		if (model.getSupertype().isPresent()) {
+			return EXTENDS_STRING + cg.on(model.getSupertype().get()).orElse(EMPTY) + SPACE;
 		} else {
 			return EMPTY;
 		}

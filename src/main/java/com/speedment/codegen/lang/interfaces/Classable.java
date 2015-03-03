@@ -16,15 +16,21 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
-import com.speedment.codegen.lang.models.Import;
+import com.speedment.codegen.lang.models.ClassOrInterface;
 import java.util.List;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  * @param <T>
  */
-public interface Dependable<T extends Dependable<T>> {
-    T add(final Import dep);
-    List<Import> getDependencies();
+public interface Classable<T extends Classable<T>> {
+    
+    @SuppressWarnings("unchecked")
+    default T add(ClassOrInterface<?> member) {
+        getClasses().add(member);
+        return (T) this;
+    }
+    
+	List<ClassOrInterface<?>> getClasses();
 }

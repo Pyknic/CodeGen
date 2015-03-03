@@ -19,7 +19,6 @@ package com.speedment.util;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +30,12 @@ import java.util.function.Function;
  * @author Emil Forslund
  */
 public abstract class Copier {
-	public static <T extends Copyable<T>> Optional<T> copy(Optional<T> prototype) {
+	public static <T extends Copyable<T>> T copy(T prototype) {
+        if (prototype == null) return null;
+        else return prototype.copy();
+    }
+    
+    public static <T extends Copyable<T>> Optional<T> copy(Optional<T> prototype) {
 		return Copier.copy(prototype, c -> c.copy());
 	}
 	

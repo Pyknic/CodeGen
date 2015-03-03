@@ -17,84 +17,39 @@
 package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Copyable;
-import com.speedment.util.Copier;
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.speedment.codegen.lang.models.implementation.GenericImpl;
 import java.util.List;
 import java.util.Optional;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  */
-public class Generic implements Copyable<Generic> {
-	
-	private Optional<String> lowerBound;
-	private final List<Type> upperBounds;
-	
-	public static enum BoundType {UPPER, LOWER};
-	private BoundType type = BoundType.UPPER;
-	
-	public Generic() {
-		lowerBound  = Optional.empty();
-		upperBounds = new ArrayList<>();
-	}
+public interface Generic extends Copyable<Generic> {
+    public static enum BoundType {EXTENDS, SUPER};
+    
+    Generic setLowerBound(String lowerBound);
+	Optional<String> getLowerBound();
 
-	public Generic(String lowerBound) {
-		this(lowerBound, new Type[0]);
-	}
-	
-	public Generic(Type... upperBounds) {
-		this(null, upperBounds);
-	}
-	
-	public Generic(String lowerBound, Type... upperBounds) {
-		this.lowerBound = Optional.ofNullable(lowerBound);
-		this.upperBounds = Arrays.asList(upperBounds);
-	}
-	
-	private Generic(Generic prototype) {
-		lowerBound  = Copier.copy(prototype.lowerBound, c -> c);
-		upperBounds = Copier.copy(prototype.upperBounds);
-	}
-
-	public Generic setLowerBound(String lowerBound) {
-		this.lowerBound = Optional.of(lowerBound);
+    default Generic add(Type upperBound) {
+		getUpperBounds().add(upperBound);
 		return this;
 	}
+    
+    List<Type> getUpperBounds();
+	Generic setBoundType(BoundType type);
+	BoundType getBoundType();
+	Optional<Type> asType();
+    
+    enum Factory { INST;
+        private Generic prototype = new GenericImpl();
+    }
 
-	public Optional<String> getLowerBound() {
-		return lowerBound;
-	}
-
-	public Generic add(Type upperBound) {
-		upperBounds.add(upperBound);
-		return this;
-	}
-	
-	public Generic setBoundType(BoundType type) {
-		this.type = type;
-		return this;
-	}
-	
-	public BoundType getBoundType() {
-		return type;
-	}
-
-	public List<Type> getUpperBounds() {
-		return upperBounds;
-	}
-	
-	public Optional<Type> asType() {
-		if (lowerBound.isPresent()) {
-			return Optional.of(new Type(lowerBound.get()));
-		} else {
-			return Optional.empty();
-		}
-	}
-	
-	@Override
-	public Generic copy() {
-		return new Generic(this);
-	}
+    static Generic of() {
+        return Factory.INST.prototype.copy();
+    }
+    
+    static void setPrototype(Generic a) {
+        Factory.INST.prototype = a;
+    }
 }

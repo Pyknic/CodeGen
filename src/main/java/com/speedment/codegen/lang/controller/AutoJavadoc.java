@@ -27,25 +27,26 @@ import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.JavadocTag;
 import com.speedment.codegen.lang.models.Method;
 import com.speedment.codegen.lang.models.constants.Default;
+import com.speedment.codegen.lang.models.implementation.JavadocImpl;
 import java.util.function.Consumer;
 
 /**
  *
- * @author Duncan
+ * @author Emil Forslund
  * @param <T>
  */
-public class AutoJavadoc<T extends Documentable> implements Consumer<T> {
+public class AutoJavadoc<T extends Documentable<?>> implements Consumer<T> {
 	private final static String 
 			DEFAULT_TEXT = "Write some documentation here.",
 			DEFAULT_NAME = "Your Name";
  
     @Override
-    public void accept(Documentable model) {
+    public void accept(T model) {
 		createJavadoc(model);
     }
 	
 	private static <T extends Documentable<?>> T createJavadoc(T model) {
-		final Javadoc doc = model.getJavadoc().orElse(new Javadoc(DEFAULT_TEXT));
+		final Javadoc doc = model.getJavadoc().orElse(new JavadocImpl(DEFAULT_TEXT));
 		model.setJavadoc(doc);
 		
 		// Add @param for each type variable.

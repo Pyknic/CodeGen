@@ -21,7 +21,6 @@ import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.lang.models.InterfaceField;
 import static com.speedment.codegen.lang.models.modifiers.Modifier.FINAL;
-import static com.speedment.codegen.lang.models.modifiers.Modifier.STATIC;
 import java.util.Optional;
 
 /**
@@ -29,21 +28,15 @@ import java.util.Optional;
  * @author Emil Forslund
  */
 public class InterfaceFieldView implements CodeView<InterfaceField> {
-
 	@Override
 	public Optional<String> render(CodeGenerator cg, InterfaceField model) {
-		if (model.getModifiers().contains(STATIC)) {
-			return Optional.of(
-				cg.on(model.getJavadoc()).orElse(EMPTY) +	
-				(model.getModifiers().contains(FINAL) ?
-					cg.on(FINAL).get() + SPACE : EMPTY
-				) +		
-				cg.on(model.getType()).orElse(EMPTY) + SPACE +
-				model.getName()
-			);
-		} else {
-			return Optional.empty();
-		}
+		return Optional.of(
+			cg.on(model.getJavadoc()).orElse(EMPTY) +	
+			(model.getModifiers().contains(FINAL) ?
+				cg.on(FINAL).get() + SPACE : EMPTY
+			) +		
+			cg.on(model.getType()).orElse(EMPTY) + SPACE +
+			model.getName()
+		);
 	}
-	
 }

@@ -17,101 +17,30 @@
 package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Annotable;
+import com.speedment.codegen.lang.interfaces.Codeable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Documentable;
 import com.speedment.codegen.lang.interfaces.Fieldable;
+import com.speedment.codegen.lang.models.implementation.ConstructorImpl;
 import com.speedment.codegen.lang.models.modifiers.ConstructorModifier;
-import com.speedment.codegen.lang.models.modifiers.Modifier;
-import com.speedment.util.Copier;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 /**
  *
  * @author Emil Forslund
  */
-public class Constructor implements 
-		Copyable<Constructor>,
-		Documentable<Constructor>,
-		Annotable<Constructor>,
-		Fieldable<Constructor>,
-		ConstructorModifier<Constructor> {
-	
-	private Optional<Javadoc> javadoc;
-	private final List<AnnotationUsage> annotations;
-	private final List<Field> params;
-	private final List<String> code;
-	private final Set<Modifier> modifiers;
-	
-	public Constructor() {
-		javadoc		= Optional.empty();
-		annotations = new ArrayList<>();
-		params		= new ArrayList<>();
-		code		= new ArrayList<>();
-		modifiers	= new HashSet<>();
-	}
-	
-	private Constructor(final Constructor prototype) {
-		javadoc		= Copier.copy(prototype.javadoc);
-		annotations	= Copier.copy(prototype.annotations);
-		params		= Copier.copy(prototype.params);
-		code		= Copier.copy(prototype.code, c -> c);
-		modifiers	= Copier.copy(prototype.modifiers, c -> c.copy(), EnumSet.noneOf(Modifier.class));
-	}
+public interface Constructor extends Copyable<Constructor>, Documentable<Constructor>, 
+    Annotable<Constructor>, Fieldable<Constructor>, Codeable<Constructor>, 
+    ConstructorModifier<Constructor> {
 
-	@Override
-	public List<Field> getFields() {
-		return params;
-	}
+    enum Factory { INST;
+        private Constructor prototype = new ConstructorImpl();
+    }
 
-	@Override
-	public Constructor add(Field param) {
-		params.add(param);
-		return this;
-	}
-
-	public List<String> getCode() {
-		return code;
-	}
-
-	public Constructor add(String codeLine) {
-		code.add(codeLine);
-		return this;
-	}
-
-	@Override
-	public Set<Modifier> getModifiers() {
-		return modifiers;
-	}
-
-	@Override
-	public Constructor setJavadoc(Javadoc doc) {
-		javadoc = Optional.of(doc);
-		return this;
-	}
-
-	@Override
-	public Optional<Javadoc> getJavadoc() {
-		return javadoc;
-	}
-
-	@Override
-	public Constructor copy() {
-		return new Constructor(this);
-	}
-
-	@Override
-	public Constructor add(AnnotationUsage annotation) {
-		annotations.add(annotation);
-		return this;
-	}
-
-	@Override
-	public List<AnnotationUsage> getAnnotations() {
-		return annotations;
-	}
+    static Constructor of() {
+        return Factory.INST.prototype.copy();
+    }
+    
+    static void setPrototype(Constructor a) {
+        Factory.INST.prototype = a;
+    }
 }

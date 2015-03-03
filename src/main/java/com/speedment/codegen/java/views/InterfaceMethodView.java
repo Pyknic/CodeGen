@@ -47,7 +47,7 @@ public class InterfaceMethodView implements CodeView<InterfaceMethod> {
 			
 			cg.on(model.getType()).orElse(EMPTY) + SPACE +
 			model.getName() +
-			cg.onEach(model.getParams()).collect(
+			cg.onEach(model.getFields()).collect(
 				Collectors.joining(COMMA_SPACE, PS, PE)
 			) +
 					

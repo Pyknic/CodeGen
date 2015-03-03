@@ -14,19 +14,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.speedment.codegen.jdbc;
+package com.speedment.codegen.lang.models.modifiers;
 
-import com.speedment.codegen.base.DefaultInstaller;
-import com.speedment.codegen.jdbc.models.Table;
-import com.speedment.codegen.jdbc.views.TableView;
+import com.speedment.codegen.lang.models.modifiers.Keyword.default_;
+import com.speedment.codegen.lang.models.modifiers.Keyword.static_;
 
 /**
  *
  * @author Emil Forslund
+ * @param <T>
  */
-public class JDBCInstaller extends DefaultInstaller {
-	public JDBCInstaller() {
-		super();
-		install(Table.class, TableView.class);
-	}
-}
+public interface InterfaceMethodModifier<T extends InterfaceMethodModifier<T>> 
+extends static_<T>, default_<T> {}

@@ -16,13 +16,13 @@
  */
 package com.speedment.codegen.lang.models.values;
 
-import com.speedment.codegen.lang.models.Value;
+import com.speedment.codegen.lang.models.implementation.ValueImpl;
 
 /**
  *
  * @author Emil Forslund
  */
-public class BooleanValue extends Value<Boolean, BooleanValue> {
+public class BooleanValue extends ValueImpl<Boolean> {
 
 	public BooleanValue(Boolean num) {
 		super(num);
@@ -43,6 +43,6 @@ public class BooleanValue extends Value<Boolean, BooleanValue> {
 		if (obj == null) {
 			return false;
 		}
-		return getClass() == obj.getClass();
+		return getClass().equals(obj.getClass());
 	}
 }

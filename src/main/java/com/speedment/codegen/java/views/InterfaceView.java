@@ -20,9 +20,9 @@ import com.speedment.codegen.Formatting;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Interface;
-import com.speedment.codegen.lang.models.InterfaceField;
-import com.speedment.codegen.lang.models.InterfaceMethod;
 import com.speedment.codegen.lang.models.Method;
+import com.speedment.codegen.lang.models.implementation.InterfaceFieldImpl;
+import com.speedment.codegen.lang.models.implementation.InterfaceMethodImpl;
 
 /**
  *
@@ -30,12 +30,12 @@ import com.speedment.codegen.lang.models.Method;
  */
 public class InterfaceView extends ClassOrInterfaceView<Interface> {
 	@Override
-	protected String classOrInterfaceLabel() {
+	protected String declarationType() {
 		return INTERFACE_STRING;
 	}
 
 	@Override
-	protected String extendsOrImplementsLabel() {
+	protected String extendsOrImplementsInterfaces() {
 		return EXTENDS_STRING;
 	}
 
@@ -46,11 +46,11 @@ public class InterfaceView extends ClassOrInterfaceView<Interface> {
 
 	@Override
 	protected Object wrapField(Field field) {
-		return new InterfaceField(field);
+		return new InterfaceFieldImpl(field);
 	}
 
 	@Override
 	protected Object wrapMethod(Method method) {
-		return new InterfaceMethod(method);
+		return new InterfaceMethodImpl(method);
 	}
 }
