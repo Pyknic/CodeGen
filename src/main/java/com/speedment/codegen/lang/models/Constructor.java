@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Annotable;
+import com.speedment.codegen.lang.interfaces.Callable;
 import com.speedment.codegen.lang.interfaces.Codeable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Documentable;
@@ -28,9 +29,9 @@ import com.speedment.codegen.lang.models.modifiers.ConstructorModifier;
  *
  * @author Emil Forslund
  */
-public interface Constructor extends Copyable<Constructor>, Documentable<Constructor>, 
-    Annotable<Constructor>, Fieldable<Constructor>, Codeable<Constructor>, 
-    ConstructorModifier<Constructor> {
+public interface Constructor extends Copyable<Constructor>, Callable<Constructor>, 
+    Documentable<Constructor>, Annotable<Constructor>, Fieldable<Constructor>, 
+    Codeable<Constructor>, ConstructorModifier<Constructor> {
 
     enum Factory { INST;
         private Constructor prototype = new ConstructorImpl();

@@ -16,6 +16,7 @@
  */
 package com.speedment.codegen.lang.models;
 
+import com.speedment.codegen.lang.interfaces.Callable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.models.implementation.JavadocImpl;
 import java.util.Collections;
@@ -25,7 +26,7 @@ import java.util.List;
  *
  * @author Emil Forslund
  */
-public interface Javadoc extends Copyable<Javadoc> {
+public interface Javadoc extends Copyable<Javadoc>, Callable<Javadoc> {
     default Javadoc add(String row) {
 		getRows().add(row);
 		return this;

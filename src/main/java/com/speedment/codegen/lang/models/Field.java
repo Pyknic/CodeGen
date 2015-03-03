@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Annotable;
+import com.speedment.codegen.lang.interfaces.Callable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Documentable;
 import com.speedment.codegen.lang.interfaces.Nameable;
@@ -29,8 +30,9 @@ import com.speedment.codegen.lang.models.modifiers.FieldModifier;
  *
  * @author Emil Forslund
  */
-public interface Field extends Copyable<Field>, Nameable<Field>, Typeable<Field>, 
-    Documentable<Field>, Valuable<Field>, Annotable<Field>, FieldModifier<Field> {
+public interface Field extends Copyable<Field>, Callable<Field>, Nameable<Field>, 
+    Typeable<Field>, Documentable<Field>, Valuable<Field>, Annotable<Field>, 
+    FieldModifier<Field> {
 
     enum Factory { INST;
         private Field prototype = new FieldImpl(null, null);

@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Annotable;
+import com.speedment.codegen.lang.interfaces.Callable;
 import com.speedment.codegen.lang.interfaces.Codeable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Documentable;
@@ -33,7 +34,7 @@ import com.speedment.codegen.lang.models.modifiers.MethodModifier;
  */
 public interface Method extends Nameable<Method>, Typeable<Method>, 
     Generable<Method>, Fieldable<Method>, Documentable<Method>, Annotable<Method>, 
-    Codeable<Method>, MethodModifier<Method>, Copyable<Method> {
+    Codeable<Method>, Callable<Method>, MethodModifier<Method>, Copyable<Method> {
 
     enum Factory { INST;
         private Method prototype = new MethodImpl(null, null);
