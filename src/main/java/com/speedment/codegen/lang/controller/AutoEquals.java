@@ -39,7 +39,10 @@ import java.util.stream.Collectors;
  */
 public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>> implements Consumer<T> {
 
-    private final Importable importer; 
+    private final Importable importer;
+    private final static String 
+        EQUALS = "equals",
+        HASHCODE = "hashCode";
 
     public AutoEquals(Importable importer) {
         this.importer = importer;
@@ -47,15 +50,13 @@ public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>> implem
     
 	@Override
 	public void accept(T t) {
-		t.getFields();
-		
-		if (!hasMethod(t, "equals", 1)) {
+		if (!hasMethod(t, EQUALS, 1)) {
             if (importer != null) {
                 importer.add(Import.of(Type.of(Objects.class)));
                 importer.add(Import.of(Type.of(Optional.class)));
             }
             
-			t.add(Method.of("equals", BOOLEAN_PRIMITIVE)
+			t.add(Method.of(EQUALS, BOOLEAN_PRIMITIVE)
                 .set(
                     Javadoc.of(
                         "Compares this object with the specified one for equality.",
@@ -70,15 +71,15 @@ public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>> implem
                 .add("return Optional.ofNullable(other)")
                 .add(tab() + ".filter(o -> getClass().isAssignableFrom(o.getClass()))")
                 .add(tab() + ".map(o -> (ValueImpl<V>) o)")
-                .add(tab() + t.getFields().stream().map(f -> compare(t, f)).collect(
+                .add(tab() + t.getFields().stream().map(f -> compare(f)).collect(
 					Collectors.joining(nl() + tab())
 				))
                 .add(tab() + ".isPresent();")
 			);
 		}
 		
-		if (!hasMethod(t, "hashCode", 0)) {
-			t.add(Method.of("hashCode", INT_PRIMITIVE)
+		if (!hasMethod(t, HASHCODE, 0)) {
+			t.add(Method.of(HASHCODE, INT_PRIMITIVE)
                 .set(
                     Javadoc.of(
                         "Generates a hashCode for this object. If any field is ",
@@ -91,13 +92,16 @@ public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>> implem
                 ).public_()
                 .add(OVERRIDE)
 				.add("int hash = 7;")
-				.add(t.getFields().stream().map(f -> hash(f)).collect(Collectors.joining(nl())))
+				.add(t.getFields().stream()
+                    .map(f -> hash(f))
+                    .collect(Collectors.joining(nl()))
+                )
 				.add("return hash;")
 			);
 		}
 	}
 	
-	private String compare(T t, Field f) {
+	private String compare(Field f) {
         final StringBuilder str = new StringBuilder(".filter(o -> ");
 		if (isPrimitive(f.getType())) {
 			str.append("(this.")
