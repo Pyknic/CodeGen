@@ -24,6 +24,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -95,6 +96,26 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 	public AnnotationUsageImpl copy() {
 		return new AnnotationUsageImpl(this);
 	}
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + Objects.hashCode(this.type);
+        hash = 79 * hash + Objects.hashCode(this.value);
+        hash = 79 * hash + Objects.hashCode(this.values);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return Optional.ofNullable(obj)
+            .filter(o -> AnnotationUsage.class.isAssignableFrom(obj.getClass()))
+            .map(o -> (AnnotationUsage) o)
+            .filter(o -> Objects.equals(getType(), o.getType()))
+            .filter(o -> Objects.equals(getValue(), o.getValue()))
+            .filter(o -> Objects.equals(getValues(), o.getValues()))
+            .isPresent();
+    }
 	
 	public final static class AnnotationUsageConst extends AnnotationUsageImpl {
 		public AnnotationUsageConst(Type type) { 

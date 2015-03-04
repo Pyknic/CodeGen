@@ -22,6 +22,7 @@ import com.speedment.codegen.lang.models.Type;
 import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -71,4 +72,23 @@ public class ClassImpl extends ClassOrInterfaceImpl<Class> implements Class {
 	public ClassImpl copy() {
 		return new ClassImpl(this);
 	}
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.superType);
+        hash = 97 * hash + Objects.hashCode(this.constructors);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return Optional.ofNullable(obj)
+            .filter(o -> super.equals(obj))
+            .filter(o -> Class.class.isAssignableFrom(obj.getClass()))
+            .map(o -> (Class) o)
+            .filter(o -> Objects.equals(getSupertype(), o.getSupertype()))
+            .filter(o -> Objects.equals(getConstructors(), o.getConstructors()))
+            .isPresent();
+    }
 }

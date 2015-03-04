@@ -26,6 +26,7 @@ import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -106,4 +107,30 @@ public class AnnotationImpl implements Annotation {
 	public AnnotationImpl copy() {
 		return new AnnotationImpl(this);
 	}
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 29 * hash + Objects.hashCode(this.name);
+        hash = 29 * hash + Objects.hashCode(this.javadoc);
+        hash = 29 * hash + Objects.hashCode(this.annotations);
+        hash = 29 * hash + Objects.hashCode(this.fields);
+        hash = 29 * hash + Objects.hashCode(this.imports);
+        hash = 29 * hash + Objects.hashCode(this.modifiers);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return Optional.ofNullable(obj)
+            .filter(o -> Annotation.class.isAssignableFrom(o.getClass()))
+            .map(o -> (Annotation) o)
+            .filter(o -> Objects.equals(getName(), o.getName()))
+            .filter(o -> Objects.equals(getJavadoc(), o.getJavadoc()))
+            .filter(o -> Objects.equals(getAnnotations(), o.getAnnotations()))
+            .filter(o -> Objects.equals(getFields(), o.getFields()))
+            .filter(o -> Objects.equals(getImports(), o.getImports()))
+            .filter(o -> Objects.equals(getModifiers(), o.getModifiers()))
+            .isPresent();
+    }
 }
