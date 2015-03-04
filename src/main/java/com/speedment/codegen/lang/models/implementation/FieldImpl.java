@@ -16,7 +16,6 @@
  */
 package com.speedment.codegen.lang.models.implementation;
 
-import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.models.AnnotationUsage;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Javadoc;
@@ -27,6 +26,7 @@ import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -119,4 +119,31 @@ public class FieldImpl implements Field {
 	public FieldImpl copy() {
 		return new FieldImpl(this);
 	}
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 11 * hash + Objects.hashCode(this.name);
+        hash = 11 * hash + Objects.hashCode(this.type);
+        hash = 11 * hash + Objects.hashCode(this.value);
+        hash = 11 * hash + Objects.hashCode(this.javadoc);
+        hash = 11 * hash + Objects.hashCode(this.annotations);
+        hash = 11 * hash + Objects.hashCode(this.modifiers);
+        return hash;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object obj) {
+        return Optional.ofNullable(obj)
+            .filter(o -> Field.class.isAssignableFrom(o.getClass()))
+            .map(o -> (Field) o)
+            .filter(o -> Objects.equals(getName(), o.getName()))
+            .filter(o -> Objects.equals(getType(), o.getType()))
+            .filter(o -> Objects.equals(getValue(), o.getValue()))
+            .filter(o -> Objects.equals(getJavadoc(), o.getJavadoc()))
+            .filter(o -> Objects.equals(getAnnotations(), o.getAnnotations()))
+            .filter(o -> Objects.equals(getModifiers(), o.getModifiers()))
+            .isPresent();
+    }
 }

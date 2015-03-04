@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -92,4 +93,29 @@ public class ConstructorImpl implements Constructor {
 	public ConstructorImpl copy() {
 		return new ConstructorImpl(this);
 	}
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.javadoc);
+        hash = 59 * hash + Objects.hashCode(this.annotations);
+        hash = 59 * hash + Objects.hashCode(this.params);
+        hash = 59 * hash + Objects.hashCode(this.code);
+        hash = 59 * hash + Objects.hashCode(this.modifiers);
+        return hash;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object obj) {
+        return Optional.ofNullable(obj)
+            .filter(o -> Constructor.class.isAssignableFrom(o.getClass()))
+            .map(o -> (Constructor) o)
+            .filter(o -> Objects.equals(getJavadoc(), o.getJavadoc()))
+            .filter(o -> Objects.equals(getAnnotations(), o.getAnnotations()))
+            .filter(o -> Objects.equals(getFields(), o.getFields()))
+            .filter(o -> Objects.equals(getCode(), o.getCode()))
+            .filter(o -> Objects.equals(getModifiers(), o.getModifiers()))
+            .isPresent();
+    }
 }

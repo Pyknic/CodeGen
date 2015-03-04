@@ -23,7 +23,6 @@ import com.speedment.codegen.lang.models.Interface;
  * @author Emil Forslund
  */
 public class InterfaceImpl extends ClassOrInterfaceImpl<Interface> implements Interface {
-
     public InterfaceImpl(String name) {
 		super (name);
     }

@@ -25,6 +25,7 @@ import com.speedment.codegen.lang.models.Method;
 import com.speedment.codegen.lang.models.Type;
 import com.speedment.codegen.lang.models.modifiers.Modifier;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -101,4 +102,18 @@ public class InterfaceMethodImpl implements InterfaceMethod {
 	public InterfaceMethodImpl copy() {
 		return new InterfaceMethodImpl(m.copy());
 	}
+    
+    @Override
+    public int hashCode() {
+        return m.hashCode();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object obj) {
+        return Optional.ofNullable(obj)
+            .filter(o -> InterfaceMethodImpl.class.isAssignableFrom(o.getClass()))
+            .filter(o -> Objects.equals(((InterfaceMethodImpl) o).m, m))
+            .isPresent();
+    }
 }

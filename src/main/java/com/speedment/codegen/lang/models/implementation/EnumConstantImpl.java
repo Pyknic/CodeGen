@@ -21,6 +21,8 @@ import com.speedment.codegen.lang.models.Value;
 import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  *
@@ -61,4 +63,23 @@ public class EnumConstantImpl implements EnumConstant {
 	public EnumConstantImpl copy() {
 		return new EnumConstantImpl(this);
 	}
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 53 * hash + Objects.hashCode(this.name);
+        hash = 53 * hash + Objects.hashCode(this.values);
+        return hash;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object obj) {
+        return Optional.ofNullable(obj)
+            .filter(o -> EnumConstant.class.isAssignableFrom(obj.getClass()))
+            .map(o -> (EnumConstant) o)
+            .filter(o -> Objects.equals(getName(), o.getName()))
+            .filter(o -> Objects.equals(getValues(), o.getValues()))
+            .isPresent();
+    }
 }

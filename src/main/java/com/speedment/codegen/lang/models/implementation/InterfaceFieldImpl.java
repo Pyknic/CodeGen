@@ -24,6 +24,7 @@ import com.speedment.codegen.lang.models.Type;
 import com.speedment.codegen.lang.models.Value;
 import com.speedment.codegen.lang.models.modifiers.Modifier;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -96,4 +97,18 @@ public class InterfaceFieldImpl implements InterfaceField {
 	public InterfaceFieldImpl copy() {
 		return new InterfaceFieldImpl(f.copy());
 	}
+
+    @Override
+    public int hashCode() {
+        return f.hashCode();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object obj) {
+        return Optional.ofNullable(obj)
+            .filter(o -> InterfaceFieldImpl.class.isAssignableFrom(o.getClass()))
+            .filter(o -> Objects.equals(((InterfaceFieldImpl) o).f, f))
+            .isPresent();
+    }
 }

@@ -111,20 +111,18 @@ public class TypeImpl implements Type {
         return new TypeImpl(this);
     }
 
+    @SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object obj) {
 		return Optional.ofNullable(obj)
-            .filter(o -> getClass().equals(o.getClass()))
-            .map(o -> (TypeImpl) o)
-            .filter(o -> 
-                o.name.equals(name)
-				&& o.arrayDimension == arrayDimension
-				&& o.annotations.size() == annotations.size()
-				&& o.generics.size() == generics.size()
-				&& Objects.equals(o.annotations, annotations)
-				&& Objects.equals(o.generics, generics)
-				&& o.javaImpl.equals(javaImpl)
-            ).isPresent();
+            .filter(o -> Type.class.isAssignableFrom(o.getClass()))
+            .map(o -> (Type) o)
+            .filter(o -> Objects.equals(getName(), o.getName()))
+            .filter(o -> Objects.equals(getArrayDimension(), o.getArrayDimension()))
+            .filter(o -> Objects.equals(getAnnotations(), o.getAnnotations()))
+            .filter(o -> Objects.equals(getGenerics(), o.getGenerics()))
+            .filter(o -> Objects.equals(getJavaImpl(), o.getJavaImpl()))
+            .isPresent();
 	}
 
 	@Override

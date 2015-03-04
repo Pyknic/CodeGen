@@ -22,6 +22,8 @@ import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -56,5 +58,24 @@ public class InitalizerImpl implements Initalizer {
     @Override
     public InitalizerImpl copy() {
         return new InitalizerImpl(this);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 37 * hash + Objects.hashCode(this.code);
+        hash = 37 * hash + Objects.hashCode(this.modifiers);
+        return hash;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object obj) {
+        return Optional.ofNullable(obj)
+            .filter(o -> Initalizer.class.isAssignableFrom(obj.getClass()))
+            .map(o -> (Initalizer) o)
+            .filter(o -> Objects.equals(getCode(), o.getCode()))
+            .filter(o -> Objects.equals(getModifiers(), o.getModifiers()))
+            .isPresent();
     }
 }

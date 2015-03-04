@@ -29,7 +29,6 @@ import java.util.Optional;
  *
  * @author Emil Forslund
  * @param <V>
- * @param <T>
  */
 public abstract class ValueImpl<V> implements Value<V> {
 	private V value;

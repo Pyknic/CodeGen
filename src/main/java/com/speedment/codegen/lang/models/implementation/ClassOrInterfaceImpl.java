@@ -29,6 +29,7 @@ import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -140,5 +141,40 @@ public abstract class ClassOrInterfaceImpl<T extends ClassOrInterface<T>>
     @Override
     public List<Initalizer> getInitalizers() {
         return initalizers;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.name);
+        hash = 53 * hash + Objects.hashCode(this.javadoc);
+        hash = 53 * hash + Objects.hashCode(this.annotations);
+        hash = 53 * hash + Objects.hashCode(this.generics);
+        hash = 53 * hash + Objects.hashCode(this.interfaces);
+        hash = 53 * hash + Objects.hashCode(this.fields);
+        hash = 53 * hash + Objects.hashCode(this.methods);
+        hash = 53 * hash + Objects.hashCode(this.initalizers);
+        hash = 53 * hash + Objects.hashCode(this.classes);
+        hash = 53 * hash + Objects.hashCode(this.modifiers);
+        return hash;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object obj) {
+        return Optional.ofNullable(obj)
+            .filter(o -> ClassOrInterface.class.isAssignableFrom(o.getClass()))
+            .map(o -> (ClassOrInterface) o)
+            .filter(o -> Objects.equals(getName(), o.getName()))
+            .filter(o -> Objects.equals(getJavadoc(), o.getJavadoc()))
+            .filter(o -> Objects.equals(getAnnotations(), o.getAnnotations()))
+            .filter(o -> Objects.equals(getGenerics(), o.getGenerics()))
+            .filter(o -> Objects.equals(getInterfaces(), o.getInterfaces()))
+            .filter(o -> Objects.equals(getFields(), o.getFields()))
+            .filter(o -> Objects.equals(getMethods(), o.getMethods()))
+            .filter(o -> Objects.equals(getInitalizers(), o.getInitalizers()))
+            .filter(o -> Objects.equals(getClasses(), o.getClasses()))
+            .filter(o -> Objects.equals(getModifiers(), o.getModifiers()))
+            .isPresent();
     }
 }

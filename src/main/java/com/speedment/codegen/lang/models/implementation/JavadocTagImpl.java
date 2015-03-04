@@ -17,7 +17,7 @@
 package com.speedment.codegen.lang.models.implementation;
 
 import com.speedment.codegen.lang.models.JavadocTag;
-import com.speedment.util.Copier;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -90,6 +90,27 @@ public class JavadocTagImpl implements JavadocTag {
 	public JavadocTagImpl copy() {
 		return new JavadocTagImpl(this);
 	}
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 67 * hash + Objects.hashCode(this.name);
+        hash = 67 * hash + Objects.hashCode(this.value);
+        hash = 67 * hash + Objects.hashCode(this.text);
+        return hash;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object obj) {
+        return Optional.ofNullable(obj)
+            .filter(o -> JavadocTag.class.isAssignableFrom(o.getClass()))
+            .map(o -> (JavadocTag) o)
+            .filter(o -> Objects.equals(getName(), o.getName()))
+            .filter(o -> Objects.equals(getValue(), o.getValue()))
+            .filter(o -> Objects.equals(getText(), o.getText()))
+            .isPresent();
+    }
 	
 	public final static class JavadocTagConst extends JavadocTagImpl {
 		public JavadocTagConst(String name) {

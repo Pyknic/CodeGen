@@ -23,6 +23,7 @@ import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -86,4 +87,27 @@ public class FileImpl implements File {
 	public FileImpl copy() {
 		return new FileImpl(this);
 	}
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.name);
+        hash = 97 * hash + Objects.hashCode(this.doc);
+        hash = 97 * hash + Objects.hashCode(this.imports);
+        hash = 97 * hash + Objects.hashCode(this.classes);
+        return hash;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object obj) {
+        return Optional.ofNullable(obj)
+            .filter(o -> File.class.isAssignableFrom(o.getClass()))
+            .map(o -> (File) o)
+            .filter(o -> Objects.equals(getName(), o.getName()))
+            .filter(o -> Objects.equals(getJavadoc(), o.getJavadoc()))
+            .filter(o -> Objects.equals(getImports(), o.getImports()))
+            .filter(o -> Objects.equals(getClasses(), o.getClasses()))
+            .isPresent();
+    }
 }

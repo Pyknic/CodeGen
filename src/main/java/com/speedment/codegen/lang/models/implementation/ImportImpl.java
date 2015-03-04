@@ -21,6 +21,8 @@ import com.speedment.codegen.lang.models.Type;
 import com.speedment.codegen.lang.models.modifiers.Modifier;
 import com.speedment.util.Copier;
 import java.util.EnumSet;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -62,4 +64,23 @@ public class ImportImpl implements Import {
 	public ImportImpl copy() {
 		return new ImportImpl(this);
 	}
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.type);
+        hash = 97 * hash + Objects.hashCode(this.modifiers);
+        return hash;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object obj) {
+        return Optional.ofNullable(obj)
+            .filter(o -> Import.class.isAssignableFrom(o.getClass()))
+            .map(o -> (Import) o)
+            .filter(o -> Objects.equals(getType(), o.getType()))
+            .filter(o -> Objects.equals(getModifiers(), o.getModifiers()))
+            .isPresent();
+    }
 }

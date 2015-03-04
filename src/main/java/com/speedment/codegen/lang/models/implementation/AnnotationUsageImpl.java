@@ -106,6 +106,7 @@ public class AnnotationUsageImpl implements AnnotationUsage {
         return hash;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {
         return Optional.ofNullable(obj)

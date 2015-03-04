@@ -22,6 +22,8 @@ import com.speedment.util.Copier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  *
@@ -60,4 +62,23 @@ public class JavadocImpl implements Javadoc {
 	public JavadocImpl copy() {
 		return new JavadocImpl(this);
 	}
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + Objects.hashCode(this.rows);
+        hash = 47 * hash + Objects.hashCode(this.tags);
+        return hash;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object obj) {
+        return Optional.ofNullable(obj)
+            .filter(o -> Javadoc.class.isAssignableFrom(o.getClass()))
+            .map(o -> (Javadoc) o)
+            .filter(o -> Objects.equals(getRows(), o.getRows()))
+            .filter(o -> Objects.equals(getTags(), o.getTags()))
+            .isPresent();
+    }
 }

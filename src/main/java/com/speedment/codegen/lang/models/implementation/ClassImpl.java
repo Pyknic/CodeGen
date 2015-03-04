@@ -81,6 +81,7 @@ public class ClassImpl extends ClassOrInterfaceImpl<Class> implements Class {
         return hash;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {
         return Optional.ofNullable(obj)
