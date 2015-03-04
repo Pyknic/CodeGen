@@ -21,8 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
@@ -90,67 +88,33 @@ public class MultiGenerator implements CodeGenerator {
 		return Collections.unmodifiableList(renderStack);
 	}
 
-	/**
-	 * Locates the <code>CodeView</code> that corresponds to the specified model
-	 * and uses it to generate a String. If no view is associated with the 
-	 * model type, an <code>UnsupportedOperationException</code> will be thrown.
-	 * 
-	 * The result will be a <code>Optional</code>. It is present only if the
-	 * result from the view is present.
-	 * 
-	 * @param model The model.
-	 * @return The viewed text if any.
-	 */
-	@Override
+    /**
+     * Renderes the specified model into a stream of code models.
+     * This is used internally to provide the other interface methods.
+     * 
+     * @param model The model to generate.
+     * @return A stream of code objects.
+     */
+    @Override
     @SuppressWarnings("unchecked")
-	public Optional<String> on(Object model) {
-		for (Installer i : installers) {
-			final Optional<CodeView<?>> view = i.withOne(model.getClass());
-			if (view.isPresent()) {
-				return render((CodeView<Object>) view.get(), model);
-			}
-		}
-		
-		throw new UnsupportedOperationException(
-            "The model of type " + model.getClass().getName() + 
-            " passed to MultiGenerator does not have a corresponding view."
+    public Stream<Code> codeOn(Object model) {
+        return installers.stream().flatMap(installer ->
+            installer.withAll(model.getClass())
+                .map(view -> (CodeView<Object>) view)
+                .map(view -> render(view, model, installer)
+            ).filter(c -> c.isPresent()).map(c -> c.get())
         );
-	}
+    }
 
-	/**
-	 * Locates the <code>CodeView</code> that corresponds to the specified model
-	 * and uses it to generate a String. If no view is associated with the 
-	 * model type, an <code>UnsupportedOperationException</code> will be thrown.
-	 * 
-	 * Since views may not return a result for a particular model, the consumer
-	 * might not be called. If the same model has multiple views, they are all
-	 * executed.
-	 * 
-	 * @param model The model.
-	 * @param consumer The consumer to accept the resulting String.
-	 */
-	@Override
-    @SuppressWarnings("unchecked")
-	public void on(Object model, Consumer<String> consumer) {
-		final Supplier<Stream<CodeView<Object>>> supplier = () -> 
-            installers.stream()
-                .flatMap(i -> i.withAll(model.getClass()))
-                .map(v -> (CodeView<Object>) v);
-        
-        if (supplier.get().anyMatch(v -> true)) {
-            supplier.get().forEach(v -> render(v, model).ifPresent(consumer));
-        } else {
-            throw new UnsupportedOperationException(
-                "The model of type " + model.getClass().getName() + 
-                " passed to MultiGenerator does not have a corresponding view."
-            );
-        }
-	}
-
-	private <M> Optional<String> render(CodeView<M> view, M model) {
-		renderStack.push(model);
+	private <M> Optional<Code> render(CodeView<M> view, M model, Installer installer) {
+        renderStack.push(model);
 		final Optional<String> result = view.render(this, model);
 		renderStack.pop();
-		return result;
+        
+		return result.map(s -> new Code.Impl()
+            .setCode(s)
+            .setInstaller(installer)
+            .setView(view)
+        );
 	}
 }

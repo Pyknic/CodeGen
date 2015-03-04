@@ -30,7 +30,7 @@ import java.util.Map;
 public interface AnnotationUsage extends Copyable<AnnotationUsage>, 
     Typeable<AnnotationUsage>, Valuable<AnnotationUsage> {
     
-    AnnotationUsage setValue(String key, Value<?> val);
+    AnnotationUsage put(String key, Value<?> val);
     List<Map.Entry<String, Value<?>>> getValues();
     
     enum Factory { INST;

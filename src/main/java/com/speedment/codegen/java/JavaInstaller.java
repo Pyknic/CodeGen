@@ -74,6 +74,7 @@ import com.speedment.codegen.lang.models.Initalizer;
  */
 public class JavaInstaller extends DefaultInstaller {
     public JavaInstaller() {
+        super("JavaInstaller");
         install(Class.class, ClassView.class);
         install(Interface.class, InterfaceView.class);
         install(Method.class, MethodView.class);

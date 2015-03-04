@@ -105,7 +105,7 @@ public class AnnotationUsageTest {
 			assertEquals("Make sure values are empty", instance.getValues().size(), 0);
 		
 			for (int j = 0; j <= i; j++) {
-				instance.setValue(TEST_LABELS[j], new NumberValue(TEST_VALUES[j]));
+				instance.put(TEST_LABELS[j], new NumberValue(TEST_VALUES[j]));
 			}
 			
 			final List<Map.Entry<String, Value<?>>> result = instance.getValues();
@@ -137,7 +137,7 @@ public class AnnotationUsageTest {
 			instance.set(new NumberValue(n));
 			
 			for (int i = 0; i < TEST_VALUES.length; i++) {
-				instance.setValue(TEST_LABELS[i], new NumberValue(TEST_VALUES[i]));
+				instance.put(TEST_LABELS[i], new NumberValue(TEST_VALUES[i]));
 			}
 			
 			final AnnotationUsage instance2 = instance.copy();

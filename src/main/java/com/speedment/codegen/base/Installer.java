@@ -16,7 +16,6 @@
  */
 package com.speedment.codegen.base;
 
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
@@ -26,24 +25,33 @@ import java.util.stream.Stream;
  * @author Emil Forslund
  */
 public interface Installer {
+    /**
+     * Returns a unique name of this installer. This can be used to identify
+     * a particular installer if multiple ones are used in the same generator.
+     * @return The unique name.
+     */
+    String getName();
+    
 	/**
 	 * Installs the specified View.
 	 * @param <M>
 	 * @param <V>
 	 * @param model The model.
 	 * @param view The view.
+     * @return A reference to this.
 	 */
-	<M, V extends CodeView<M>> void install(Class<M> model, Class<V> view);
-	
-	/**
-	 * Returns a view if there is one that matched the specified model.
-	 * @param model The model.
-	 * @return The view or empty as an Optional.
-	 */
-	Optional<CodeView<?>> withOne(Class<?> model);
+	<M, V extends CodeView<M>> Installer install(Class<M> model, Class<V> view);
+//	
+//	/**
+//	 * Returns a view if there is one that matched the specified model.
+//	 * @param model The model.
+//	 * @return The view or empty as an Optional.
+//	 */
+//	Optional<CodeView<?>> withOne(Class<?> model);
 	
 	/**
 	 * Builds a stream of all views that match the specified model.
+     * @param <M>
 	 * @param model The model.
 	 * @return A stream of all matching views.
 	 */
