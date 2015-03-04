@@ -92,7 +92,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implem
 			cg.onEach(model.getInterfaces()).collect(joinIfNotEmpty(COMMA_SPACE, extendsOrImplementsInterfaces(), SPACE)) +
                 
             // Code
-			block(separate(
+			block(nl() + separate(
                 // Fields
 				onBeforeFields(cg, model), // Enums have constants here.
 				cg.onEach(wrap(model.getFields(), f -> wrapField(f)))
