@@ -25,6 +25,7 @@ import java.util.function.Consumer;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.lang.interfaces.Importable;
 import com.speedment.codegen.lang.interfaces.Nameable;
+import com.speedment.codegen.lang.interfaces.Typeable;
 import com.speedment.codegen.lang.models.Import;
 import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.Type;
@@ -72,8 +73,8 @@ public class AutoEquals<T extends Fieldable<T>&Methodable<T>&Nameable<T>> implem
                 .add(OVERRIDE)
 				.add(Field.of("other", OBJECT))
                 .add("return Optional.ofNullable(other)")
-                .add(tab() + ".filter(o -> getClass().isAssignableFrom(o.getClass()))")
-                .add(tab() + ".map(o -> (ValueImpl<V>) o)")
+                .add(tab() + ".filter(o -> getClass().equals(o.getClass()))")
+                .add(tab() + ".map(o -> (" + t.getName() + ") o)")
                 .add(tab() + t.getFields().stream().map(f -> compare(f)).collect(
 					Collectors.joining(nl() + tab())
 				))
