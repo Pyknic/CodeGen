@@ -27,6 +27,7 @@ import com.speedment.codegen.lang.interfaces.Nameable;
 import com.speedment.codegen.lang.interfaces.Typeable;
 import com.speedment.codegen.lang.models.implementation.MethodImpl;
 import com.speedment.codegen.lang.models.modifiers.MethodModifier;
+import java.util.function.Supplier;
 
 /**
  *
@@ -37,14 +38,14 @@ public interface Method extends Nameable<Method>, Typeable<Method>,
     Codeable<Method>, Callable<Method>, MethodModifier<Method>, Copyable<Method> {
 
     enum Factory { INST;
-        private Method prototype = new MethodImpl(null, null);
+        private Supplier<Method> supplier = () -> new MethodImpl(null, null);
     }
 
     static Method of(String name, Type type) {
-        return Factory.INST.prototype.copy().setName(name).set(type);
+        return Factory.INST.supplier.get().setName(name).set(type);
     }
     
-    static void setPrototype(Method a) {
-        Factory.INST.prototype = a;
+    static void setSupplier(Supplier<Method> a) {
+        Factory.INST.supplier = a;
     }
 }

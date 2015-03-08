@@ -60,7 +60,7 @@ public class AnnotationUsageTest {
 	
 	@BeforeClass
 	public static void setUpClass() {
-        AnnotationUsage.setPrototype(new AnnotationUsageImpl(null));
+        AnnotationUsage.setSupplier(() -> new AnnotationUsageImpl(null));
 	}
 	
 	@AfterClass

@@ -24,6 +24,7 @@ import com.speedment.codegen.lang.interfaces.Fieldable;
 import com.speedment.codegen.lang.interfaces.Nameable;
 import com.speedment.codegen.lang.models.implementation.AnnotationImpl;
 import com.speedment.codegen.lang.models.modifiers.AnnotationModifier;
+import java.util.function.Supplier;
 
 /**
  *
@@ -34,14 +35,14 @@ public interface Annotation extends Copyable<Annotation>, Nameable<Annotation>,
     AnnotationModifier<Annotation>, Annotable<Annotation> {
     
     enum Factory { INST;
-        private Annotation prototype = new AnnotationImpl(null);
+        private Supplier<Annotation> supplier = () -> new AnnotationImpl(null);
     }
 
     static Annotation of(String name) {
-        return Factory.INST.prototype.copy().setName(name);
+        return Factory.INST.supplier.get().setName(name);
     }
     
-    static void setPrototype(Annotation a) {
-        Factory.INST.prototype = a;
+    static void setSupplier(Supplier<Annotation> a) {
+        Factory.INST.supplier = a;
     }
 }

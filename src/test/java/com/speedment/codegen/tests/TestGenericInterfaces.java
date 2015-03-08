@@ -49,11 +49,11 @@ public class TestGenericInterfaces {
     
     @BeforeClass
     public static void setUpClass() {
-        Interface.setPrototype(new InterfaceImpl(null));
-        Type.setPrototype(new TypeImpl(null, null));
-        Generic.setPrototype(new GenericImpl());
-        Method.setPrototype(new MethodImpl(null, null));
-        Field.setPrototype(new FieldImpl(null, null));
+        Interface.setSupplier(() -> new InterfaceImpl(null));
+        Type.setSupplier(() -> new TypeImpl(null, null));
+        Generic.setSupplier(() -> new GenericImpl());
+        Method.setSupplier(() -> new MethodImpl(null, null));
+        Field.setSupplier(() -> new FieldImpl(null, null));
     }
     
     @AfterClass

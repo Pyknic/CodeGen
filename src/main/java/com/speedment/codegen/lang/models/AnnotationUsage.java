@@ -22,6 +22,7 @@ import com.speedment.codegen.lang.interfaces.Valuable;
 import com.speedment.codegen.lang.models.implementation.AnnotationUsageImpl;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  *
@@ -34,14 +35,14 @@ public interface AnnotationUsage extends Copyable<AnnotationUsage>,
     List<Map.Entry<String, Value<?>>> getValues();
     
     enum Factory { INST;
-        private AnnotationUsage prototype = new AnnotationUsageImpl(null);
+        private Supplier<AnnotationUsage> supplier = () -> new AnnotationUsageImpl(null);
     }
 
     static AnnotationUsage of(Type type) {
-        return Factory.INST.prototype.copy().set(type);
+        return Factory.INST.supplier.get().set(type);
     }
     
-    static void setPrototype(AnnotationUsage a) {
-        Factory.INST.prototype = a;
+    static void setSupplier(Supplier<AnnotationUsage> a) {
+        Factory.INST.supplier = a;
     }
 }

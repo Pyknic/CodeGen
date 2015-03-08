@@ -21,6 +21,7 @@ import com.speedment.codegen.lang.interfaces.Codeable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.models.implementation.InitalizerImpl;
 import com.speedment.codegen.lang.models.modifiers.InitalizerModifier;
+import java.util.function.Supplier;
 
 /**
  *
@@ -28,15 +29,16 @@ import com.speedment.codegen.lang.models.modifiers.InitalizerModifier;
  */
 public interface Initalizer extends Copyable<Initalizer>, Callable<Initalizer>, 
 Codeable<Initalizer>, InitalizerModifier<Initalizer> {
+    
     enum Factory { INST;
-        private Initalizer prototype = new InitalizerImpl();
+        private Supplier<Initalizer> supplier = () -> new InitalizerImpl();
     }
 
     static Initalizer of() {
-        return Factory.INST.prototype.copy();
+        return Factory.INST.supplier.get();
     }
     
-    static void setPrototype(Initalizer a) {
-        Factory.INST.prototype = a;
+    static void setSupplier(Supplier<Initalizer> a) {
+        Factory.INST.supplier = a;
     }
 }

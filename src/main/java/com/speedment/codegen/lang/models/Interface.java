@@ -18,21 +18,23 @@ package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.models.implementation.InterfaceImpl;
 import com.speedment.codegen.lang.models.modifiers.InterfaceModifier;
+import java.util.function.Supplier;
 
 /**
  *
  * @author Emil Forslund
  */
 public interface Interface extends ClassOrInterface<Interface>, InterfaceModifier<Interface> {
+    
     enum Factory { INST;
-        private Interface prototype = new InterfaceImpl(null);
+        private Supplier<Interface> supplier = () -> new InterfaceImpl(null);
     }
 
     static Interface of(String name) {
-        return Factory.INST.prototype.copy().setName(name);
+        return Factory.INST.supplier.get().setName(name);
     }
     
-    static void setPrototype(Interface a) {
-        Factory.INST.prototype = a;
+    static void setSupplier(Supplier<Interface> a) {
+        Factory.INST.supplier = a;
     }
 }

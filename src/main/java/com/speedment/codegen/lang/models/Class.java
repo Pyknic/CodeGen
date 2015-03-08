@@ -20,19 +20,20 @@ import com.speedment.codegen.lang.interfaces.Constructable;
 import com.speedment.codegen.lang.interfaces.Supertypeable;
 import com.speedment.codegen.lang.models.implementation.ClassImpl;
 import com.speedment.codegen.lang.models.modifiers.ClassModifier;
+import java.util.function.Supplier;
 
 public interface Class extends ClassOrInterface<Class>, Constructable<Class>, 
     Supertypeable<Class>, ClassModifier<Class> {
 
     enum Factory { INST;
-        private Class prototype = new ClassImpl(null);
+        private Supplier<Class> supplier = () -> new ClassImpl(null);
     }
 
     static Class of(String name) {
-        return Factory.INST.prototype.copy().setName(name);
+        return Factory.INST.supplier.get().setName(name);
     }
     
-    static void setPrototype(Class a) {
-        Factory.INST.prototype = a;
+    static void setSupplier(Supplier<Class> a) {
+        Factory.INST.supplier = a;
     }
 }

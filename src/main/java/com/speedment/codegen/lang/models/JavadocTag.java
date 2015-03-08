@@ -21,6 +21,7 @@ import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Nameable;
 import com.speedment.codegen.lang.models.implementation.JavadocTagImpl;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  *
@@ -35,22 +36,22 @@ public interface JavadocTag extends Copyable<JavadocTag>, Nameable<JavadocTag>,
 	Optional<String> getText();
     
     enum Factory { INST;
-        private JavadocTag prototype = new JavadocTagImpl(null);
+        private Supplier<JavadocTag> supplier = () -> new JavadocTagImpl(null);
     }
 
     static JavadocTag of(String name) {
-        return Factory.INST.prototype.copy().setName(name);
+        return Factory.INST.supplier.get().setName(name);
     }
     
     static JavadocTag of(String name, String text) {
-        return Factory.INST.prototype.copy().setName(name).setText(text);
+        return Factory.INST.supplier.get().setName(name).setText(text);
     }
     
     static JavadocTag of(String name, String value, String text) {
-        return Factory.INST.prototype.copy().setName(name).setValue(value).setText(text);
+        return Factory.INST.supplier.get().setName(name).setValue(value).setText(text);
     }
     
-    static void setPrototype(JavadocTag a) {
-        Factory.INST.prototype = a;
+    static void setSupplier(Supplier<JavadocTag> a) {
+        Factory.INST.supplier = a;
     }
 }

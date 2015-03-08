@@ -21,6 +21,7 @@ import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.models.implementation.JavadocImpl;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  *
@@ -47,22 +48,22 @@ public interface Javadoc extends Copyable<Javadoc>, Callable<Javadoc> {
 	List<JavadocTag> getTags();
     
     enum Factory { INST;
-        private Javadoc prototype = new JavadocImpl();
+        private Supplier<Javadoc> prototype = () -> new JavadocImpl();
     }
 
     static Javadoc of() {
-        return Factory.INST.prototype.copy();
+        return Factory.INST.prototype.get();
     }
     
     static Javadoc of(String row) {
-        return Factory.INST.prototype.copy().add(row);
+        return Factory.INST.prototype.get().add(row);
     }
     
     static Javadoc of(String row, String... rows) {
-        return Factory.INST.prototype.copy().add(row, rows);
+        return Factory.INST.prototype.get().add(row, rows);
     }
     
-    static void setPrototype(Javadoc a) {
+    static void setSupplier(Supplier<Javadoc> a) {
         Factory.INST.prototype = a;
     }
 }

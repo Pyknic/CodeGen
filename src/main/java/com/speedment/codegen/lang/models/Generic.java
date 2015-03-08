@@ -20,12 +20,14 @@ import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.models.implementation.GenericImpl;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  *
  * @author Emil Forslund
  */
 public interface Generic extends Copyable<Generic> {
+    
     public static enum BoundType {EXTENDS, SUPER};
     
     Generic setLowerBound(String lowerBound);
@@ -42,14 +44,14 @@ public interface Generic extends Copyable<Generic> {
 	Optional<Type> asType();
     
     enum Factory { INST;
-        private Generic prototype = new GenericImpl();
+        private Supplier<Generic> supplier = () -> new GenericImpl();
     }
 
     static Generic of() {
-        return Factory.INST.prototype.copy();
+        return Factory.INST.supplier.get();
     }
     
-    static void setPrototype(Generic a) {
-        Factory.INST.prototype = a;
+    static void setSupplier(Supplier<Generic> a) {
+        Factory.INST.supplier = a;
     }
 }

@@ -20,6 +20,7 @@ import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Typeable;
 import com.speedment.codegen.lang.models.implementation.ImportImpl;
 import com.speedment.codegen.lang.models.modifiers.ImportModifier;
+import java.util.function.Supplier;
 
 /**
  *
@@ -29,14 +30,14 @@ public interface Import extends Copyable<Import>, Typeable<Import>,
     ImportModifier<Import> {
 
     enum Factory { INST;
-        private Import prototype = new ImportImpl(null);
+        private Supplier<Import> prototype = () -> new ImportImpl(null);
     }
 
     static Import of(Type type) {
-        return Factory.INST.prototype.copy().set(type);
+        return Factory.INST.prototype.get().set(type);
     }
     
-    static void setPrototype(Import a) {
+    static void setSupplier(Supplier<Import> a) {
         Factory.INST.prototype = a;
     }
 }

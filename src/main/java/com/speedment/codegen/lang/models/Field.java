@@ -25,6 +25,7 @@ import com.speedment.codegen.lang.interfaces.Typeable;
 import com.speedment.codegen.lang.interfaces.Valuable;
 import com.speedment.codegen.lang.models.implementation.FieldImpl;
 import com.speedment.codegen.lang.models.modifiers.FieldModifier;
+import java.util.function.Supplier;
 
 /**
  *
@@ -35,14 +36,14 @@ public interface Field extends Copyable<Field>, Callable<Field>, Nameable<Field>
     FieldModifier<Field> {
 
     enum Factory { INST;
-        private Field prototype = new FieldImpl(null, null);
+        private Supplier<Field> supplier = () -> new FieldImpl(null, null);
     }
 
     static Field of(String name, Type type) {
-        return Factory.INST.prototype.copy().setName(name).set(type);
+        return Factory.INST.supplier.get().setName(name).set(type);
     }
     
-    static void setPrototype(Field a) {
-        Factory.INST.prototype = a;
+    static void setSupplier(Supplier<Field> a) {
+        Factory.INST.supplier = a;
     }
 }

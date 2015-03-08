@@ -24,6 +24,8 @@ import com.speedment.codegen.lang.interfaces.Copyable;
  * @param <V>
  */
 public interface Value<V> extends Copyable<Value<V>> {
+    
     Value<V> setValue(V value);
 	V getValue();
+   
 }
