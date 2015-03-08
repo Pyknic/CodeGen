@@ -16,6 +16,7 @@
  */
 package com.speedment.codegen.examples;
 
+import com.speedment.codegen.Formatting;
 import static com.speedment.codegen.Formatting.indent;
 import static com.speedment.codegen.Formatting.nl;
 import com.speedment.codegen.base.CodeGenerator;
@@ -36,18 +37,19 @@ import java.util.stream.Collectors;
  */
 public class MultiTarget {
     
-    private final static Installer XML = new DefaultInstaller("XMLInstaller");
+    private final static Installer 
+        XML = new DefaultInstaller("XMLInstaller")
+            .install(Method.class, MethodXMLView.class)
+            .install(Field.class, FieldXMLView.class),
+        
+        JAVA = new JavaInstaller();
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        XML.install(Method.class, MethodXMLView.class);
-        XML.install(Field.class, FieldXMLView.class);
-        
-        final MultiGenerator gen = new MultiGenerator(
-            new JavaInstaller(), XML
-        );
+        final MultiGenerator gen = new MultiGenerator(JAVA, XML);
+        Formatting.tab("    ");
         
         gen.codeOn(
             Method.of("concat", DefaultType.STRING).public_()
@@ -72,7 +74,10 @@ public class MultiTarget {
                             .filter(c -> XML.equals(c.getInstaller()))
                             .map(c -> c.getText())
                             .collect(Collectors.joining(nl()))
-                    ) + nl() + "</params>"
+                    ) + nl() + "</params>" + nl() +
+                    "<code>" + nl() + indent(
+                        model.getCode().stream().collect(Collectors.joining(nl()))
+                    ) + nl() + "</code>"
                 ) + nl() + "</methods>"
             );
         }
