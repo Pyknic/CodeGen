@@ -28,8 +28,7 @@ import com.speedment.codegen.lang.models.implementation.FileImpl;
  *
  * @author Emil Forslund
  */
-public interface File extends Copyable<File>, Nameable<File>, Documentable<File>, 
-    Importable<File>, Classable<File>, Callable<File> {
+public interface File extends Copyable<File>, Nameable<File>, Documentable<File>, Importable<File>, Classable<File>, Callable<File> {
 
     enum Factory { INST;
         private File prototype = new FileImpl(null);

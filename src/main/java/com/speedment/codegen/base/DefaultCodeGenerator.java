@@ -93,7 +93,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	}
 
     /**
-     * Renderes the specified model into a stream of code models.
+     * Renders the specified model into a stream of code models.
      * This is used internally to provide the other interface methods.
      * 
      * @param model The model to generate.
@@ -101,23 +101,24 @@ public class DefaultCodeGenerator implements CodeGenerator {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Stream<Code> codeOn(Object model) {
+    public <M> Stream<Code<M>> codeOn(M model) {
         return installer.withAll(model.getClass())
-            .map(v -> (CodeView<Object>) v)
+            .map(v -> (CodeView<M>) v)
             .map(v -> render(v, model))
             .filter(s -> s.isPresent())
             .map(s -> s.get());
     }
 
-	private <M> Optional<Code> render(CodeView<M> view, M model) {
+	private <M> Optional<Code<M>> render(CodeView<M> view, M model) {
         renderStack.push(model);
 		final Optional<String> result = view.render(this, model);
 		renderStack.pop();
         
-		return result.map(s -> new Code.Impl()
+		return result.map(s -> new Code.Impl<M>()
             .setCode(s)
             .setInstaller(installer)
             .setView(view)
+            .setModel(model)
         );
 	}
 }

@@ -54,23 +54,23 @@ public interface CodeGenerator {
 	List<Object> getRenderStack();
     
     /**
-     * Renderes the specified model into a stream of code models.
+     * Renders the specified model into a stream of code models.
      * This is used internally to provide the other interface methods.
      * 
      * @param model The model to generate.
      * @return A stream of code objects.
      */
-    Stream<Code> codeOn(Object model);
+    <M> Stream<Code<M>> codeOn(M model);
     
     /**
-     * Renderes all the specified models into a stream of code models.
+     * Renders all the specified models into a stream of code models.
      * This is used internally to provide the other interface methods.
      * ¨
      * @param <M>
      * @param models The models to generate.
      * @return A stream of code objects.
      */
-    default <M> Stream<Code> codeOn(Collection<M> models) {
+    default <M> Stream<Code<M>> codeOn(Collection<M> models) {
         return models.stream().map(model -> codeOn(model)).flatMap(m -> m);
     }
 	
@@ -87,7 +87,7 @@ public interface CodeGenerator {
     }
 
     /**
-     * Renderes all the specified models into a stream of strings.
+     * Renders all the specified models into a stream of strings.
      * 
      * @param <M>
      * @param models The models to generate.

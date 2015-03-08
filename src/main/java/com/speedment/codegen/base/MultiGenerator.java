@@ -89,7 +89,7 @@ public class MultiGenerator implements CodeGenerator {
 	}
 
     /**
-     * Renderes the specified model into a stream of code models.
+     * Renders the specified model into a stream of code models.
      * This is used internally to provide the other interface methods.
      * 
      * @param model The model to generate.
@@ -97,24 +97,25 @@ public class MultiGenerator implements CodeGenerator {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Stream<Code> codeOn(Object model) {
+    public <M> Stream<Code<M>> codeOn(M model) {
         return installers.stream().flatMap(installer ->
             installer.withAll(model.getClass())
-                .map(view -> (CodeView<Object>) view)
+                .map(view -> (CodeView<M>) view)
                 .map(view -> render(view, model, installer)
             ).filter(c -> c.isPresent()).map(c -> c.get())
         );
     }
 
-	private <M> Optional<Code> render(CodeView<M> view, M model, Installer installer) {
+	private <M> Optional<Code<M>> render(CodeView<M> view, M model, Installer installer) {
         renderStack.push(model);
 		final Optional<String> result = view.render(this, model);
 		renderStack.pop();
         
-		return result.map(s -> new Code.Impl()
+		return result.map(s -> new Code.Impl<M>()
             .setCode(s)
             .setInstaller(installer)
             .setView(view)
+            .setModel(model)
         );
 	}
 }
