@@ -79,7 +79,7 @@ public class AnnotationUsageTest {
 	 * Test of set method, of class AnnotationUsage.
 	 */
 	@Test
-	public void testSetValue_Value() {
+	public void testSet_Value() {
 		System.out.println("setValue(Value)");
 		final AnnotationUsage instance = AnnotationUsage.of(DefaultType.DOUBLE);
 		
@@ -96,7 +96,7 @@ public class AnnotationUsageTest {
 	 * Test of set method, of class AnnotationUsage.
 	 */
 	@Test
-	public void testSetValue_String_Value() {
+	public void testPut_String_Value() {
 		System.out.println("setValue(String, Value)");
 
 		for (int i = 0; i < TEST_VALUES.length; i++) {
