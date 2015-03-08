@@ -34,6 +34,8 @@ import com.speedment.codegen.lang.models.Constructor;
 import com.speedment.codegen.lang.models.Import;
 import com.speedment.codegen.lang.models.Initalizer;
 import com.speedment.codegen.lang.models.Method;
+import static com.speedment.codegen.lang.models.constants.DefaultAnnotationUsage.DOCUMENTED;
+import static com.speedment.codegen.lang.models.constants.DefaultAnnotationUsage.GENERATED;
 import static com.speedment.codegen.lang.models.constants.DefaultType.INT_PRIMITIVE;
 import static com.speedment.codegen.lang.models.constants.DefaultType.STRING;
 import static com.speedment.codegen.lang.models.constants.DefaultType.VOID;
@@ -80,7 +82,7 @@ public class Example {
 				
 				/***** Fields *****/
 				.add(Field.of("player1Name", STRING).set(EMPTY_STRING))
-				.add(Field.of("player2Name", STRING).set(EMPTY_STRING))
+				.add(Field.of("player2Name", STRING).add(DOCUMENTED).add(GENERATED).set(EMPTY_STRING))
 				.add(Field.of("player1Score", INT_PRIMITIVE).set(new NumberValue(100)))
 				.add(Field.of("player2Score", INT_PRIMITIVE).set(new NumberValue(50)))
                 .add(Field.of("scoreSum", INT_PRIMITIVE))

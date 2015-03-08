@@ -18,27 +18,32 @@ package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.lang.models.Field;
-import com.speedment.util.CodeCombiner;
-import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.java.views.interfaces.AnnotableView;
+import com.speedment.codegen.java.views.interfaces.DocumentableView;
+import com.speedment.codegen.java.views.interfaces.ModifiableView;
+import com.speedment.codegen.java.views.interfaces.NameableView;
+import com.speedment.codegen.java.views.interfaces.TypeableView;
+import com.speedment.codegen.java.views.interfaces.ValuableView;
 import java.util.Optional;
 
 /**
  *
  * @author Emil Forslund
  */
-public class FieldView implements CodeView<Field> {
+public class FieldView implements CodeView<Field>, NameableView<Field>, 
+    DocumentableView<Field>, ModifiableView<Field>, TypeableView<Field>,
+    ValuableView<Field>, AnnotableView<Field> {
 
 	@Override
 	public Optional<String> render(CodeGenerator cg, Field model) {
 		return Optional.of(
-			cg.on(model.getJavadoc()).orElse(EMPTY) +
-			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
-			cg.on(model.getType()).orElse(EMPTY) + SPACE +
-			model.getName() +
-			ifelse(model.getValue(), 
-				v -> SPACE + EQUALS + SPACE + cg.on(v).orElse(EMPTY), 
-			EMPTY)
+			renderJavadoc(cg, model) +
+            renderAnnotation(cg, model) +
+			renderModifiers(cg, model) +
+			renderType(cg, model) +
+			renderName(cg, model) +
+			renderValue(cg, model)
 		);
 	}
 	
