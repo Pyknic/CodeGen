@@ -37,7 +37,7 @@ public class AnnotationUsageView implements CodeView<AnnotationUsage> {
 		return Optional.of(
 			AT + cg.on(model.getType()).get() +
 			model.getValues().stream()
-				.map(e -> e.getKey() + EQUALS + cg.on(e.getValue()))
+				.map(e -> e.getKey() + cg.on(e.getValue()).map(s -> EQUALS + s).orElse(EMPTY))
 				.collect(
 					CodeCombiner.joinIfNotEmpty(
 						cnl(),
