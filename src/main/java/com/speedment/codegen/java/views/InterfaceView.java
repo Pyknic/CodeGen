@@ -50,7 +50,7 @@ public class InterfaceView extends ClassOrInterfaceView<Interface> {
 	}
 
     @Override
-    public Object wrapMethod(Interface method) {
+    public Object wrapMethod(Method method) {
         return new InterfaceMethodImpl(method);
     }
 }
