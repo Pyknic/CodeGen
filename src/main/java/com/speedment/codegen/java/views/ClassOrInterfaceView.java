@@ -19,10 +19,17 @@ package com.speedment.codegen.java.views;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.java.views.interfaces.ClassableView;
+import com.speedment.codegen.java.views.interfaces.DocumentableView;
+import com.speedment.codegen.java.views.interfaces.GenerableView;
+import com.speedment.codegen.java.views.interfaces.InitalizableView;
+import com.speedment.codegen.java.views.interfaces.InterfaceableView;
+import com.speedment.codegen.java.views.interfaces.MethodableView;
+import com.speedment.codegen.java.views.interfaces.ModifiableView;
+import com.speedment.codegen.java.views.interfaces.NameableView;
 import com.speedment.codegen.lang.interfaces.Constructable;
 import com.speedment.codegen.lang.models.ClassOrInterface;
 import com.speedment.codegen.lang.models.Field;
-import com.speedment.codegen.lang.models.Method;
 import java.util.Optional;
 import static com.speedment.util.CodeCombiner.*;
 import java.util.Collection;
@@ -36,7 +43,11 @@ import java.util.stream.Stream;
  * @author Emil Forslund
  * @param <M>
  */
-public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implements CodeView<M> {
+public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implements 
+    CodeView<M>, NameableView<M>, ModifiableView<M>, DocumentableView<M>, 
+    GenerableView<M>, InterfaceableView<M>, InitalizableView<M>, MethodableView<M>,
+    ClassableView<M> {
+    
 	protected final static String
 		CLASS_STRING = "class ",
 		INTERFACE_STRING = "interface ",
@@ -49,9 +60,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implem
 	}
 	
 	protected Object wrapField(Field field) {return field;}
-	protected Object wrapClassOrInterface(ClassOrInterface<?> clazz) {return clazz;}
-	protected Object wrapMethod(Method method) {return method;}
-	
+
 	protected String onAfterFields(CodeGenerator cg, M model) {
 		if (model instanceof Constructable) {
 			return cg.onEach(
@@ -62,34 +71,25 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implem
 		}
 	}
 	
-	private <In, C extends Collection<In>> Collection<Object> 
+    @Override
+	public <In, C extends Collection<In>> Collection<Object> 
 		wrap(C models, Function<In, Object> wrapper) {
 		return models.stream().map(wrapper).collect(Collectors.toList());
 	}
 	
-	protected abstract String declarationType();
-	protected abstract String extendsOrImplementsInterfaces();
-	protected abstract String onSuperType(CodeGenerator cg, M model);
+    protected abstract String renderDeclarationType();
+	protected abstract String renderSuperType(CodeGenerator cg, M model);
 
 	@Override
 	public Optional<String> render(CodeGenerator cg, M model) {
 		return Optional.of(// Javadoc
-			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
-                
-            // Modifiers
-			cg.onEach(model.getModifiers()).collect(joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
-            
-            // Declaration
-            declarationType() + shortName(model.getName()) + 
-                
-            // Declaration generics
-            cg.onEach(model.getGenerics()).collect(joinIfNotEmpty(COMMA_SPACE, SS, SE)) + SPACE +
-                
-            // Super type
-			onSuperType(cg, model) +
-                
-            // Implemented interfaces
-			cg.onEach(model.getInterfaces()).collect(joinIfNotEmpty(COMMA_SPACE, extendsOrImplementsInterfaces(), SPACE)) +
+			renderJavadoc(cg, model) +
+			renderModifiers(cg, model) +
+            renderDeclarationType() + 
+            renderName(cg, model) + 
+            renderGenerics(cg, model) +
+            renderSuperType(cg, model) +
+			renderInterfaces(cg, model) +
                 
             // Code
 			block(nl() + separate(
@@ -97,18 +97,10 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implem
 				onBeforeFields(cg, model), // Enums have constants here.
 				cg.onEach(wrap(model.getFields(), f -> wrapField(f)))
 					.collect(joinIfNotEmpty(scnl(), EMPTY, SC)),
-				onAfterFields(cg, model), // Classes and enums have constructors here.
-                
-                // Initalizers
-                cg.onEach(model.getInitalizers()).collect(Collectors.joining(dnl())),
-                
-                // Methods
-				cg.onEach(wrap(model.getMethods(), m -> wrapMethod(m)))
-					.collect(Collectors.joining(dnl())),
-                
-                // Subclasses
-				cg.onEach(wrap(model.getClasses(), c -> wrapClassOrInterface(c)))
-					.collect(Collectors.joining(dnl()))
+				onAfterFields(cg, model),
+                renderInitalizers(cg, model),
+				renderMethods(cg, model),
+				renderClasses(cg, model)
 			))
 		);
 	}

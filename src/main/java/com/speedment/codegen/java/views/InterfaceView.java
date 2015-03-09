@@ -30,17 +30,17 @@ import com.speedment.codegen.lang.models.implementation.InterfaceMethodImpl;
  */
 public class InterfaceView extends ClassOrInterfaceView<Interface> {
 	@Override
-	protected String declarationType() {
+	protected String renderDeclarationType() {
 		return INTERFACE_STRING;
 	}
 
 	@Override
-	protected String extendsOrImplementsInterfaces() {
+	public String extendsOrImplementsInterfaces() {
 		return EXTENDS_STRING;
 	}
 
 	@Override
-	protected String onSuperType(CodeGenerator cg, Interface model) {
+	protected String renderSuperType(CodeGenerator cg, Interface model) {
 		return Formatting.EMPTY;
 	}
 
@@ -49,8 +49,8 @@ public class InterfaceView extends ClassOrInterfaceView<Interface> {
 		return new InterfaceFieldImpl(field);
 	}
 
-	@Override
-	protected Object wrapMethod(Method method) {
-		return new InterfaceMethodImpl(method);
-	}
+    @Override
+    public Object wrapMethod(Interface method) {
+        return new InterfaceMethodImpl(method);
+    }
 }

@@ -27,17 +27,17 @@ import com.speedment.util.CodeCombiner;
  */
 public class EnumView extends ClassOrInterfaceView<Enum> {
 	@Override
-	protected String declarationType() {
+	protected String renderDeclarationType() {
 		return ENUM_STRING;
 	}
 
 	@Override
-	protected String extendsOrImplementsInterfaces() {
+	public String extendsOrImplementsInterfaces() {
 		return IMPLEMENTS_STRING;
 	}
 
 	@Override
-	protected String onSuperType(CodeGenerator cg, Enum model) {
+	protected String renderSuperType(CodeGenerator cg, Enum model) {
 		return EMPTY;
 	}
 
