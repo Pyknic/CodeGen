@@ -42,8 +42,8 @@ public class InterfaceMethodView implements CodeView<InterfaceMethod> {
 		return Optional.of(ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
 					
 			// The only modifiers allowed are default and static
-			(model.getModifiers().contains(DEFAULT) ? cg.on(DEFAULT) + SPACE : EMPTY) +
-			(model.getModifiers().contains(STATIC) ? cg.on(STATIC) + SPACE : EMPTY) +
+			(model.getModifiers().contains(DEFAULT) ? cg.on(DEFAULT).orElse(EMPTY) + SPACE : EMPTY) +
+			(model.getModifiers().contains(STATIC) ? cg.on(STATIC).orElse(EMPTY) + SPACE : EMPTY) +
 			
 			cg.on(model.getType()).orElse(EMPTY) + SPACE +
 			model.getName() +

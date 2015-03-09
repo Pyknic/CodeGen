@@ -19,6 +19,7 @@ package com.speedment.codegen.java.views;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.java.views.interfaces.AnnotableView;
 import com.speedment.codegen.java.views.interfaces.ClassableView;
 import com.speedment.codegen.java.views.interfaces.DocumentableView;
 import com.speedment.codegen.java.views.interfaces.GenerableView;
@@ -46,7 +47,7 @@ import java.util.stream.Stream;
 public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implements 
     CodeView<M>, NameableView<M>, ModifiableView<M>, DocumentableView<M>, 
     GenerableView<M>, InterfaceableView<M>, InitalizableView<M>, MethodableView<M>,
-    ClassableView<M> {
+    ClassableView<M>, AnnotableView<M> {
     
 	protected final static String
 		CLASS_STRING = "class ",
@@ -82,8 +83,9 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implem
 
 	@Override
 	public Optional<String> render(CodeGenerator cg, M model) {
-		return Optional.of(// Javadoc
+		return Optional.of(
 			renderJavadoc(cg, model) +
+            renderAnnotations(cg, model) +
 			renderModifiers(cg, model) +
             renderDeclarationType() + 
             renderName(cg, model) + 

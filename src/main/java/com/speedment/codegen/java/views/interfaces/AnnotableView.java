@@ -29,7 +29,7 @@ import com.speedment.util.CodeCombiner;
  * @param <M>
  */
 public interface AnnotableView<M extends Annotable<M>> extends CodeView<M> {
-    default String renderAnnotation(CodeGenerator cg, M model) {
+    default String renderAnnotations(CodeGenerator cg, M model) {
         return cg.onEach(model.getAnnotations()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, nl()));
     }
 }

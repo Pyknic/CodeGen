@@ -39,7 +39,7 @@ public class FieldView implements CodeView<Field>, NameableView<Field>,
 	public Optional<String> render(CodeGenerator cg, Field model) {
 		return Optional.of(
 			renderJavadoc(cg, model) +
-            renderAnnotation(cg, model) +
+            renderAnnotations(cg, model) +
 			renderModifiers(cg, model) +
 			renderType(cg, model) +
 			renderName(cg, model) +
