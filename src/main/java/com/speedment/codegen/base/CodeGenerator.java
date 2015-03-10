@@ -83,6 +83,15 @@ public interface CodeGenerator {
 	 * @return The viewed text if any.
 	 */
     default Optional<String> on(Object model) {
+        if (model instanceof Optional) {
+            final Optional result = (Optional<?>) model;
+            if (result.isPresent()) {
+                model = result.get();
+            } else {
+                return Optional.empty();
+            }
+        }
+        
         return codeOn(model).map(c -> c.getText()).findAny();
     }
 

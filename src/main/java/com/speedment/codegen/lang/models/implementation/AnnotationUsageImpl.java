@@ -45,7 +45,7 @@ public class AnnotationUsageImpl implements AnnotationUsage {
     
     public AnnotationUsageImpl(Type type, Value<?> value) {
 		this.type	= type;
-		this.value	= null;
+		this.value	= value;
 		this.values = new ArrayList<>();
 	}
 	

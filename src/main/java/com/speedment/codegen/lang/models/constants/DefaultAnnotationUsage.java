@@ -45,7 +45,7 @@ public abstract class DefaultAnnotationUsage {
 		TARGET     = new AnnotationUsageConst(Type.of(Target.class)),
 		GENERATED  = new AnnotationUsageConst(Type.of(Generated.class)),
         DEPRECATED = new AnnotationUsageConst(Type.of(Deprecated.class)),
-        SUPPRESS_WARNINGS = new AnnotationUsageConst(
+        SUPPRESS_WARNINGS_UNCHECKED = new AnnotationUsageConst(
             Type.of(SuppressWarnings.class), string("unchecked")
         );
 }
