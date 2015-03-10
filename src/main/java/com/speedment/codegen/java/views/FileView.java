@@ -23,6 +23,7 @@ import com.speedment.codegen.base.DependencyManager;
 import com.speedment.codegen.lang.models.File;
 import com.speedment.util.CodeCombiner;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -61,7 +62,9 @@ public class FileView implements CodeView<File> {
 		final Optional<String> view = Optional.of(
 			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
 			renderPackage(model) +
-			cg.onEach(model.getImports()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, dnl())) +
+			cg.onEach(model.getImports())
+                .distinct().sorted()
+                .collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, dnl())) +
 			cg.onEach(model.getClasses()).collect(CodeCombiner.joinIfNotEmpty(dnl()))
 		);
 		
