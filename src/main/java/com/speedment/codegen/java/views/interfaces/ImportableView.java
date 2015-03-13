@@ -31,6 +31,7 @@ import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
 public interface ImportableView<M extends Importable<M>> extends CodeView<M> {
     default String renderImports(CodeGenerator cg, M model) {
         return cg.onEach(model.getImports())
+            .distinct().sorted()
             .collect(joinIfNotEmpty(nl(), EMPTY, dnl()));
     }
 }

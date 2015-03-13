@@ -20,7 +20,7 @@ import static com.speedment.codegen.Formatting.dnl;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.lang.interfaces.Classable;
-import java.util.stream.Collectors;
+import static java.util.stream.Collectors.joining;
 
 /**
  *
@@ -29,6 +29,6 @@ import java.util.stream.Collectors;
  */
 public interface ClassableView<M extends Classable<M>> extends CodeView<M> {
     default String renderClasses(CodeGenerator cg, M model) {
-        return cg.onEach(model.getClasses()).collect(Collectors.joining(dnl()));
+        return cg.onEach(model.getClasses()).collect(joining(dnl()));
     }
 }

@@ -51,7 +51,7 @@ public class FileView implements CodeView<File>, DocumentableView<File>,
 	@Override
 	public Optional<String> render(CodeGenerator cg, File model) {
 		final DependencyManager mgr = cg.getDependencyMgr();
-		Optional<String> className = fileToClassName(model.getName());
+		final Optional<String> className = fileToClassName(model.getName());
 		Optional<String> packageName = packageName(className.orElse(EMPTY));
 		mgr.clearDependencies();
 		
@@ -66,10 +66,8 @@ public class FileView implements CodeView<File>, DocumentableView<File>,
 		final Optional<String> view = Optional.of(
 			renderJavadoc(cg, model) +
 			renderPackage(model) +
-			cg.onEach(model.getImports())
-                .distinct().sorted()
-                .collect(joinIfNotEmpty(nl(), EMPTY, dnl())) +
-			cg.onEach(model.getClasses()).collect(joinIfNotEmpty(dnl()))
+            renderImports(cg, model) +
+            renderClasses(cg, model)
 		);
 		
 		if (packageName.isPresent()) {
