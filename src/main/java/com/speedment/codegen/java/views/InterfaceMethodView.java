@@ -29,6 +29,7 @@ import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.lang.models.InterfaceMethod;
 import static com.speedment.codegen.lang.models.modifiers.Modifier.*;
+import com.speedment.util.CodeCombiner;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,8 @@ public class InterfaceMethodView implements CodeView<InterfaceMethod> {
 	@Override
 	public Optional<String> render(CodeGenerator cg, InterfaceMethod model) {
 		return Optional.of(ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
+            
+            cg.onEach(model.getAnnotations()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, nl())) +
 					
 			// The only modifiers allowed are default and static
 			(model.getModifiers().contains(DEFAULT) ? cg.on(DEFAULT).orElse(EMPTY) + SPACE : EMPTY) +
