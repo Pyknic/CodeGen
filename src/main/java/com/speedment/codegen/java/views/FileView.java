@@ -17,6 +17,7 @@
 package com.speedment.codegen.java.views;
 
 import static com.speedment.codegen.Formatting.*;
+import static com.speedment.util.CodeCombiner.*;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.base.DependencyManager;
@@ -65,8 +66,10 @@ public class FileView implements CodeView<File>, DocumentableView<File>,
 		final Optional<String> view = Optional.of(
 			renderJavadoc(cg, model) +
 			renderPackage(model) +
-            renderImports(cg, model) +
-			renderClasses(cg, model)//cg.onEach(model.getClasses()).collect(CodeCombiner.joinIfNotEmpty(dnl()))
+			cg.onEach(model.getImports())
+                .distinct().sorted()
+                .collect(joinIfNotEmpty(nl(), EMPTY, dnl())) +
+			cg.onEach(model.getClasses()).collect(joinIfNotEmpty(dnl()))
 		);
 		
 		if (packageName.isPresent()) {
