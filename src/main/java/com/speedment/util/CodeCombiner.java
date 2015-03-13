@@ -49,11 +49,7 @@ public class CodeCombiner {
 	}
 	
 	public static Optional<String> ifEmpty(String str) {
-		if (str == null || 0 == str.length()) {
-			return Optional.empty();
-		} else {
-			return Optional.of(str);
-		}
+		return Optional.ofNullable(str).filter(s -> !s.isEmpty());
 	}
 	
 	/**

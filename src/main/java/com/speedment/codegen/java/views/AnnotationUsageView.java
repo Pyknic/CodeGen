@@ -38,18 +38,8 @@ public class AnnotationUsageView implements CodeView<AnnotationUsage> {
 			AT + cg.on(model.getType()).get() +
 			model.getValues().stream()
 				.map(e -> e.getKey() + cg.on(e.getValue()).map(s -> EQUALS + s).orElse(EMPTY))
-				.collect(
-					CodeCombiner.joinIfNotEmpty(
-						cnl(),
-						PSTART,
-						PE
-					)
-				) +
-			ifelse(
-				cg.on(model.getValue()), 
-				c -> c,
-				EMPTY
-			)
+				.collect(CodeCombiner.joinIfNotEmpty(cnl(), PSTART, PE)) +
+			cg.on(model.getValue()).orElse(EMPTY)
 		);
 	}
 	

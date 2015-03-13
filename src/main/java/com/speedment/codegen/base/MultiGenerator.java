@@ -98,6 +98,11 @@ public class MultiGenerator implements CodeGenerator {
     @Override
     @SuppressWarnings("unchecked")
     public <M> Stream<Code<M>> codeOn(M model) {
+        if (model instanceof Optional) {
+            throw new UnsupportedOperationException(
+                "Model must not be an Optional!"
+            );
+        }
         return installers.stream().flatMap(installer ->
             installer.withAll(model.getClass())
                 .map(view -> (CodeView<M>) view)

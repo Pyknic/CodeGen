@@ -161,6 +161,7 @@ public class Example {
 				.call(new AutoJavadoc<>())
 			
 			).call(new AutoImports(cg.getDependencyMgr()))
+            
 		).get() + "\n");
 	}
 }

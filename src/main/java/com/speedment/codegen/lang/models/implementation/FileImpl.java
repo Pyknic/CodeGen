@@ -16,6 +16,7 @@
  */
 package com.speedment.codegen.lang.models.implementation;
 
+import com.speedment.codegen.java.views.interfaces.DocumentableView;
 import com.speedment.codegen.lang.models.ClassOrInterface;
 import com.speedment.codegen.lang.models.File;
 import com.speedment.codegen.lang.models.Import;

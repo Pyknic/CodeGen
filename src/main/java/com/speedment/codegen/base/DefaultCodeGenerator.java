@@ -102,6 +102,12 @@ public class DefaultCodeGenerator implements CodeGenerator {
     @Override
     @SuppressWarnings("unchecked")
     public <M> Stream<Code<M>> codeOn(M model) {
+        if (model instanceof Optional) {
+            throw new UnsupportedOperationException(
+                "Model must not be an Optional!"
+            );
+        }
+        
         return installer.withAll(model.getClass())
             .map(v -> (CodeView<M>) v)
             .map(v -> render(v, model))

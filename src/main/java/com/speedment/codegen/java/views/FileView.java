@@ -20,15 +20,19 @@ import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
 import com.speedment.codegen.base.CodeView;
 import com.speedment.codegen.base.DependencyManager;
+import com.speedment.codegen.java.views.interfaces.ClassableView;
+import com.speedment.codegen.java.views.interfaces.DocumentableView;
+import com.speedment.codegen.java.views.interfaces.ImportableView;
 import com.speedment.codegen.lang.models.File;
-import com.speedment.util.CodeCombiner;
 import java.util.Optional;
 
 /**
  *
  * @author Emil Forslund
  */
-public class FileView implements CodeView<File> {
+public class FileView implements CodeView<File>, DocumentableView<File>, 
+    ClassableView<File>, ImportableView<File> {
+    
 	private final static String PACKAGE_STRING = "package ";
 	
 	private String renderPackage(File file) {
@@ -59,10 +63,10 @@ public class FileView implements CodeView<File> {
 		}
 
 		final Optional<String> view = Optional.of(
-			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
+			renderJavadoc(cg, model) +
 			renderPackage(model) +
-			cg.onEach(model.getImports()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, dnl())) +
-			cg.onEach(model.getClasses()).collect(CodeCombiner.joinIfNotEmpty(dnl()))
+            renderImports(cg, model) +
+			renderClasses(cg, model)//cg.onEach(model.getClasses()).collect(CodeCombiner.joinIfNotEmpty(dnl()))
 		);
 		
 		if (packageName.isPresent()) {

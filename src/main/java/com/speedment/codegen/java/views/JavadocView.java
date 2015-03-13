@@ -53,10 +53,10 @@ public class JavadocView implements CodeView<Javadoc> {
     private static Stream<String> renderParams(CodeGenerator cg, Javadoc model) {
         final Stream<String> stream = cg.onEach(model.getTags());
         
-        if (!model.getTags().isEmpty()) {
-            return Stream.of(Stream.of(EMPTY), stream).flatMap(s -> s);
-        } else {
+        if (model.getTags().isEmpty()) {
             return stream;
+        } else {
+            return Stream.of(Stream.of(EMPTY), stream).flatMap(s -> s);
         }
     }
 }

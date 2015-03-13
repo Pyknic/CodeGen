@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.controller;
 
 import static com.speedment.codegen.Formatting.*;
+import com.speedment.codegen.lang.interfaces.Classable;
 import com.speedment.codegen.lang.interfaces.Constructable;
 import com.speedment.codegen.lang.interfaces.Documentable;
 import com.speedment.codegen.lang.interfaces.Fieldable;
@@ -29,7 +30,6 @@ import com.speedment.codegen.lang.models.Method;
 import static com.speedment.codegen.lang.models.constants.DefaultJavadocTag.AUTHOR;
 import static com.speedment.codegen.lang.models.constants.DefaultJavadocTag.PARAM;
 import static com.speedment.codegen.lang.models.constants.DefaultJavadocTag.RETURN;
-import com.speedment.codegen.lang.models.implementation.JavadocImpl;
 import java.util.function.Consumer;
 
 /**
@@ -48,11 +48,11 @@ public class AutoJavadoc<T extends Documentable<?>> implements Consumer<T> {
     }
 	
 	private static <T extends Documentable<?>> T createJavadoc(T model) {
-		final Javadoc doc = model.getJavadoc().orElse(new JavadocImpl(DEFAULT_TEXT));
+		final Javadoc doc = model.getJavadoc().orElse(Javadoc.of(DEFAULT_TEXT));
 		model.set(doc);
-		
-		// Add @param for each type variable.
+
 		if (model instanceof Generable) {
+            // Add @param for each type variable.
 			((Generable<?>) model).getGenerics().forEach(g -> 
 				g.getLowerBound().ifPresent(t -> addTag(doc, 
 					PARAM.setValue(SS + t + SE)
@@ -71,23 +71,29 @@ public class AutoJavadoc<T extends Documentable<?>> implements Consumer<T> {
 				);
 			}
 		}
-		
-		// Add @return to methods.
+
 		if (model instanceof Method) {
+            // Add @return to methods.
 			addTag(doc, RETURN);
 		}
 		
-		// Generate javadoc for each constructor.
 		if (model instanceof Constructable) {
+            // Generate javadoc for each constructor.
 			((Constructable<?>) model).getConstructors()
 				.forEach(m -> createJavadoc(m));
 		}
 
-		// Generate javadoc for each method.
 		if (model instanceof Methodable) {
+            // Generate javadoc for each method.
 			((Methodable<?>) model).getMethods()
 				.forEach(m -> createJavadoc(m));
 		}
+        
+        if (model instanceof Classable) {
+            // Generate javadoc for each subclass.
+            ((Classable<?>) model).getClasses()
+                .forEach(m -> createJavadoc(m));
+        }
 		
 		return model;
 	}
