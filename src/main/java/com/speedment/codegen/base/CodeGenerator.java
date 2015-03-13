@@ -85,7 +85,7 @@ public interface CodeGenerator {
      */
     default Optional<String> on(Object model) {
         if (model instanceof Optional) {
-            final Optional result = (Optional<?>) model;
+            final Optional<?> result = (Optional<?>) model;
             if (result.isPresent()) {
                 model = result.get();
             } else {
