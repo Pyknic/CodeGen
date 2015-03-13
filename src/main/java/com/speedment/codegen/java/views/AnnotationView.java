@@ -21,32 +21,29 @@ import com.speedment.codegen.lang.models.Annotation;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.java.views.interfaces.AnnotableView;
+import com.speedment.codegen.java.views.interfaces.DocumentableView;
+import com.speedment.codegen.java.views.interfaces.NameableView;
 import com.speedment.util.CodeCombiner;
 
 /**
  *
  * @author Emil Forslund
  */
-public class AnnotationView implements CodeView<Annotation> {
-	private final static String 
+public class AnnotationView implements CodeView<Annotation>, 
+    DocumentableView<Annotation>, AnnotableView<Annotation>, NameableView<Annotation> {
+	
+    private final static String 
 		INTERFACE_STRING = "@interface ",
 		DEFAULT_STRING = " default ";
 	
 	@Override
 	public Optional<String> render(CodeGenerator cg, Annotation model) {
 		return Optional.of(
-			// Javadoc (optional)
-			ifelse(cg.on(model.getJavadoc()), c -> c + nl(), EMPTY) +
-				
-			// Modifiers (public)
-			cg.onEach(model.getModifiers()).collect(
-				CodeCombiner.joinIfNotEmpty(SPACE)
-			) +
-				
-			// Declaration
-			INTERFACE_STRING + model.getName() +
-				
-			// Block of code
+			renderAnnotations(cg, model) +
+			renderAnnotations(cg, model) +
+			INTERFACE_STRING + 
+            renderName(cg, model) +
 			block(
 				model.getFields().stream().map(f -> 
 					// Field javadoc (optional)
