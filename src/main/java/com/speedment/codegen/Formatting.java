@@ -305,5 +305,6 @@ public class Formatting {
 			AND = "&",
 			STAR = "*",
 			SLASH = "/",
-			H = "\"";
+			H = "\"",
+            DOLLAR = "$";
 }
