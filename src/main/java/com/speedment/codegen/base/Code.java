@@ -19,17 +19,19 @@ package com.speedment.codegen.base;
 /**
  *
  * @author Emil Forslund
+ * @param <M>
  */
 public interface Code<M> {
+    
     String getText();
-    CodeView<?> getView();
+    CodeView<M> getView();
     Installer getInstaller();
     M getModel();
     
     class Impl<M> implements Code<M> {
     
         private String text;
-        private CodeView<?> view;
+        private CodeView<M> view;
         private Installer installer;
         private M model;
 
@@ -46,11 +48,11 @@ public interface Code<M> {
         }
 
         @Override
-        public CodeView<?> getView() {
+        public CodeView<M> getView() {
             return view;
         }
 
-        protected Impl<M> setView(CodeView<?> view) {
+        protected Impl<M> setView(CodeView<M> view) {
             this.view = view;
             return this;
         }
