@@ -117,7 +117,7 @@ public class DefaultGenerator implements Generator {
 
 	private <M> Optional<Code<M>> render(View<M> view, M model) {
         renderStack.push(model);
-		final Optional<String> result = view.render(this, model);
+		final Optional<String> result = view.transform(this, model);
 		renderStack.pop();
         
 		return result.map(s -> new Code.Impl<M>()

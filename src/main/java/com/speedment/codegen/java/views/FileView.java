@@ -48,7 +48,7 @@ public class FileView implements View<File>, DocumentableView<File>,
 	}
 	
 	@Override
-	public Optional<String> render(Generator cg, File model) {
+	public Optional<String> transform(Generator cg, File model) {
 		final DependencyManager mgr = cg.getDependencyMgr();
 		final Optional<String> className = fileToClassName(model.getName());
 		Optional<String> packageName = packageName(className.orElse(EMPTY));

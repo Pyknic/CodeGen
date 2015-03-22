@@ -28,7 +28,7 @@ import com.speedment.codegen.base.Generator;
  */
 public class EnumValueView implements View<EnumValue> {
 	@Override
-	public Optional<String> render(Generator cg, EnumValue model) {
+	public Optional<String> transform(Generator cg, EnumValue model) {
 		return Optional.of(
 			cg.on(model.getType()).orElse(EMPTY) + DOT +
 			model.getValue()

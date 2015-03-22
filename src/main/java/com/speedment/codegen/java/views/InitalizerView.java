@@ -30,7 +30,7 @@ import static com.speedment.codegen.Formatting.*;
 public class InitalizerView implements View<Initalizer> {
 
     @Override
-    public Optional<String> render(Generator cg, Initalizer model) {
+    public Optional<String> transform(Generator cg, Initalizer model) {
         return Optional.of(
             cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
             block(model.getCode().stream())

@@ -113,7 +113,7 @@ public class MultiGenerator implements Generator {
 
 	private <M> Optional<Code<M>> render(View<M> view, M model, Installer installer) {
         renderStack.push(model);
-		final Optional<String> result = view.render(this, model);
+		final Optional<String> result = view.transform(this, model);
 		renderStack.pop();
         
 		return result.map(s -> new Code.Impl<M>()

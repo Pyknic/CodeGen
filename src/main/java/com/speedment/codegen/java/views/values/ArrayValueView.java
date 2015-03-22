@@ -29,7 +29,7 @@ import com.speedment.codegen.base.Generator;
  */
 public class ArrayValueView implements View<ArrayValue> {
 	@Override
-	public Optional<String> render(Generator cg, ArrayValue model) {
+	public Optional<String> transform(Generator cg, ArrayValue model) {
 		return Optional.of(
 			cg.onEach(model.getValue()).collect(
 				Collectors.joining(

@@ -33,7 +33,7 @@ public class GenericView implements View<Generic> {
 			SUPER_STRING = " super ";
 
 	@Override
-	public Optional<String> render(Generator cg, Generic model) {
+	public Optional<String> transform(Generator cg, Generic model) {
 		if (!model.getLowerBound().isPresent() 
 		&&   model.getUpperBounds().isEmpty()) {
 			return Optional.empty();

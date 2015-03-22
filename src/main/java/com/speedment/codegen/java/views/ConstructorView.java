@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 public class ConstructorView implements View<Constructor> {
 
 	@Override
-	public Optional<String> render(Generator cg, Constructor model) {
+	public Optional<String> transform(Generator cg, Constructor model) {
 		return Optional.of(
 			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
 			cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +

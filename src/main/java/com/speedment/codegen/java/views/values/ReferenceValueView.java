@@ -27,7 +27,7 @@ import java.util.Optional;
  */
 public class ReferenceValueView implements View<ReferenceValue> {
 	@Override
-	public Optional<String> render(Generator cg, ReferenceValue model) {
+	public Optional<String> transform(Generator cg, ReferenceValue model) {
 		return Optional.of(model.getValue());
 	}
 }

@@ -22,8 +22,9 @@ import java.util.Optional;
  * CodeModels must have a public constructor with no parameters so that it can
  * be instantiated dynamically.
  * @author Emil Forslund
- * @param <Model> The model to view.
+ * @param <M> The model to view.
  */
-public interface View<Model> {
-	Optional<String> render(Generator cg, Model model);
+public interface View<M> extends Transform<M, String> {
+    @Override
+	Optional<String> transform(Generator gen, M model);
 }

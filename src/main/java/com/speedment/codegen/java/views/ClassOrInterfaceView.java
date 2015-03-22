@@ -82,7 +82,7 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implem
 	protected abstract String renderSuperType(Generator cg, M model);
 
 	@Override
-	public Optional<String> render(Generator cg, M model) {
+	public Optional<String> transform(Generator cg, M model) {
 		return Optional.of(
 			renderJavadoc(cg, model) +
             renderAnnotations(cg, model) +

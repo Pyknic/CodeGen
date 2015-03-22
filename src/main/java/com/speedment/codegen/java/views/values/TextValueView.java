@@ -33,7 +33,7 @@ import com.speedment.codegen.base.Generator;
  */
 public class TextValueView implements View<TextValue> {
 	@Override
-	public Optional<String> render(Generator cg, TextValue model) {
+	public Optional<String> transform(Generator cg, TextValue model) {
 		return Optional.of(H + model.getValue() + H);
 	}
 }

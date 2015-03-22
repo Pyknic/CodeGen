@@ -34,7 +34,7 @@ public class ImportView implements View<Import> {
 	private final static String IMPORT_STRING = "import ";
 
 	@Override
-	public Optional<String> render(Generator cg, Import model) {
+	public Optional<String> transform(Generator cg, Import model) {
 		if (shouldImport(cg, model.getType())) {
 			return Optional.of(
 				IMPORT_STRING +

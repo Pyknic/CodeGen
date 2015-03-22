@@ -27,7 +27,7 @@ import java.util.Optional;
  */
 public class BooleanValueView implements View<BooleanValue> {
 	@Override
-	public Optional<String> render(Generator cg, BooleanValue model) {
+	public Optional<String> transform(Generator cg, BooleanValue model) {
 		return Optional.of(model.getValue().toString());
 	}
 }

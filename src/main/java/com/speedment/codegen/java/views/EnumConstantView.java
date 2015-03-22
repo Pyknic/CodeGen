@@ -29,7 +29,7 @@ import com.speedment.util.CodeCombiner;
  */
 public class EnumConstantView implements View<EnumConstant> {
 	@Override
-	public Optional<String> render(Generator cg, EnumConstant model) {
+	public Optional<String> transform(Generator cg, EnumConstant model) {
 		return Optional.of(
 			model.getName() + 
 			(model.getValues().isEmpty() ? EMPTY : SPACE) +

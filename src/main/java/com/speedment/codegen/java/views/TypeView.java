@@ -51,7 +51,7 @@ public class TypeView implements View<Type> {
 	}
 	
 	@Override
-	public Optional<String> render(Generator cg, Type model) {
+	public Optional<String> transform(Generator cg, Type model) {
 		final DependencyManager mgr = cg.getDependencyMgr();
 
 		if (mgr.isLoaded(model.getName())) {

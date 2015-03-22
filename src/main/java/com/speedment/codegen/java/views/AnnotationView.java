@@ -38,7 +38,7 @@ public class AnnotationView implements View<Annotation>,
 		DEFAULT_STRING = " default ";
 	
 	@Override
-	public Optional<String> render(Generator cg, Annotation model) {
+	public Optional<String> transform(Generator cg, Annotation model) {
 		return Optional.of(
 			renderAnnotations(cg, model) +
 			renderAnnotations(cg, model) +

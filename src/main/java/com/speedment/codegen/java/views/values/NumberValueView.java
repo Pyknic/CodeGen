@@ -27,7 +27,7 @@ import java.util.Optional;
  */
 public class NumberValueView implements View<NumberValue> {
 	@Override
-	public Optional<String> render(Generator cg, NumberValue model) {
+	public Optional<String> transform(Generator cg, NumberValue model) {
 		return Optional.of(model.getValue().toString());
 	}
 }

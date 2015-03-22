@@ -29,7 +29,7 @@ import java.util.Optional;
  */
 public class InterfaceFieldView implements View<InterfaceField> {
 	@Override
-	public Optional<String> render(Generator cg, InterfaceField model) {
+	public Optional<String> transform(Generator cg, InterfaceField model) {
 		return Optional.of(
 			cg.on(model.getJavadoc()).orElse(EMPTY) +	
 			(model.getModifiers().contains(FINAL) ?

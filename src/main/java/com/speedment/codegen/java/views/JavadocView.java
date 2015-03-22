@@ -35,7 +35,7 @@ public class JavadocView implements View<Javadoc> {
 		JAVADOC_SUFFIX = nl() + SPACE + STAR + SLASH;
 	
 	@Override
-	public Optional<String> render(Generator cg, Javadoc model) {
+	public Optional<String> transform(Generator cg, Javadoc model) {
 		return CodeCombiner.ifEmpty(
             Stream.of(
                 model.getRows().stream(),

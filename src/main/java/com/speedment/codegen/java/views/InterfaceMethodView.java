@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
  */
 public class InterfaceMethodView implements View<InterfaceMethod> {
 	@Override
-	public Optional<String> render(Generator cg, InterfaceMethod model) {
+	public Optional<String> transform(Generator cg, InterfaceMethod model) {
 		return Optional.of(ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
             
             cg.onEach(model.getAnnotations()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, nl())) +

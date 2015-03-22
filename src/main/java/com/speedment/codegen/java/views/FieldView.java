@@ -36,7 +36,7 @@ public class FieldView implements View<Field>, NameableView<Field>,
     ValuableView<Field>, AnnotableView<Field> {
 
 	@Override
-	public Optional<String> render(Generator cg, Field model) {
+	public Optional<String> transform(Generator cg, Field model) {
 		return Optional.of(
 			renderJavadoc(cg, model) +
             renderAnnotations(cg, model) +

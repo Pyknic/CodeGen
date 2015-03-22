@@ -34,7 +34,7 @@ public class AnnotationUsageView implements View<AnnotationUsage> {
 		EQUALS = " = ";
 
 	@Override
-	public Optional<String> render(Generator cg, AnnotationUsage model) {
+	public Optional<String> transform(Generator cg, AnnotationUsage model) {
         final Optional<String> value = cg.on(model.getValue());
         final Stream<String> valueStream = value.isPresent() ? Stream.of(value.get()) : Stream.empty();
         

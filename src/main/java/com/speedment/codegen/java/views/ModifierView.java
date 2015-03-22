@@ -28,7 +28,7 @@ import java.util.Optional;
 public class ModifierView implements View<Modifier> {
 
 	@Override
-	public Optional<String> render(Generator cg, Modifier model) {
+	public Optional<String> transform(Generator cg, Modifier model) {
 		return Optional.of(model.getName());
 	}
 	

@@ -66,7 +66,7 @@ public class MultiTarget {
 
     public static class MethodXMLView implements View<Method> {
         @Override
-        public Optional<String> render(Generator cg, Method model) {
+        public Optional<String> transform(Generator cg, Method model) {
             return Optional.of(
                 "<method name=\"" + model.getName() + "\" type=\"" + cg.on(model.getType()).get() + "\">" + nl() + indent(
                     "<params>" + nl() + indent(
@@ -85,7 +85,7 @@ public class MultiTarget {
     
     public static class FieldXMLView implements View<Field> {
         @Override
-        public Optional<String> render(Generator cg, Field model) {
+        public Optional<String> transform(Generator cg, Field model) {
             return Optional.of("<field name=\"" + model.getName() + "\" />");
         }
     }

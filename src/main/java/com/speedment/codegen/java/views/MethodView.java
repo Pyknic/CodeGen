@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class MethodView implements View<Method> {
 
 	@Override
-	public Optional<String> render(Generator cg, Method model) {
+	public Optional<String> transform(Generator cg, Method model) {
 		return Optional.of(
 			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
 			cg.onEach(model.getAnnotations()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, nl())) +

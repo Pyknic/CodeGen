@@ -29,7 +29,7 @@ import java.util.Optional;
 public class JavadocTagView implements View<JavadocTag> {
 
 	@Override
-	public Optional<String> render(Generator cg, JavadocTag model) {
+	public Optional<String> transform(Generator cg, JavadocTag model) {
 		return Optional.of(
 			AT + model.getName() + 
 			ifelse(model.getValue(), s -> SPACE + s, EMPTY) + SPACE +
