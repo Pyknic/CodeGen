@@ -19,41 +19,41 @@ package com.speedment.codegen.base;
 /**
  *
  * @author Emil Forslund
- * @param <M>
+ * @param <A>
  */
-public interface Code<M> {
+public interface Meta<A, B> {
     
-    String getText();
-    View<M> getView();
+    A getModel();
+    B getResult();
+    Transform<A, B> getTransform();
     Installer getInstaller();
-    M getModel();
     
-    class Impl<M> implements Code<M> {
+    class Impl<A, B> implements Meta<A, B> {
     
-        private String text;
-        private View<M> view;
+        private A model;
+        private B result;
+        private Transform<A, B> transform;
         private Installer installer;
-        private M model;
 
         Impl() {}
-
+ 
         @Override
-        public String getText() {
-            return text;
+        public B getResult() {
+            return result;
         }
-
-        protected Impl<M> setCode(String code) {
-            this.text = code;
+        
+        protected Impl<A, B> setResult(B result) {
+            this.result = result;
             return this;
         }
 
         @Override
-        public View<M> getView() {
-            return view;
+        public Transform<A, B> getTransform() {
+            return transform;
         }
 
-        protected Impl<M> setView(View<M> view) {
-            this.view = view;
+        protected Impl<A, B> setTransform(Transform<A, B> view) {
+            this.transform = view;
             return this;
         }
 
@@ -62,17 +62,17 @@ public interface Code<M> {
             return installer;
         }
 
-        protected Impl<M> setInstaller(Installer installer) {
+        protected Impl<A, B> setInstaller(Installer installer) {
             this.installer = installer;
             return this;
         }
 
         @Override
-        public M getModel() {
+        public A getModel() {
             return model;
         }
 
-        public Impl<M> setModel(M model) {
+        public Impl<A, B> setModel(A model) {
             this.model = model;
             return this;
         }

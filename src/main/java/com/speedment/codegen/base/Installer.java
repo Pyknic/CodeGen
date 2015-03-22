@@ -16,6 +16,9 @@
  */
 package com.speedment.codegen.base;
 
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
@@ -32,30 +35,55 @@ public interface Installer {
      */
     String getName();
     
-	/**
-	 * Installs the specified View.
-	 * @param <M>
-	 * @param <V>
+    /**
+	 * Installs the specified Transform, assuming that the resulting class is a 
+     * String.
+     * 
+	 * @param <A> The type to transform from.
+	 * @param <T> The transformer.
 	 * @param model The model.
-	 * @param view The view.
+	 * @param transformer The view.
      * @return A reference to this.
 	 */
-	<M, V extends View<M>> Installer install(Class<M> model, Class<V> view);
-//	
-//	/**
-//	 * Returns a view if there is one that matched the specified model.
-//	 * @param model The model.
-//	 * @return The view or empty as an Optional.
-//	 */
-//	Optional<CodeView<?>> withOne(Class<?> model);
-	
+    default <A, T extends Transform<A, String>> Installer install(Class<A> from, Class<T> transformer) {
+        return install(from, String.class, transformer);
+    }
+    
 	/**
-	 * Builds a stream of all views that match the specified model.
-     * @param <M>
+	 * Installs the specified Transform.
+	 * @param <A> The type to transform from.
+     * @param <B> The type to transform to.
+	 * @param <T> The transformer.
 	 * @param model The model.
-	 * @return A stream of all matching views.
+	 * @param transformer The view.
+     * @return A reference to this.
 	 */
-	<M> Stream<View<M>> withAll(Class<M> model);
+	<A, B, T extends Transform<A, B>> Installer install(Class<A> from, Class<B> to, Class<T> transformer);
+
+	/**
+	 * Builds a stream of all transforms that match the specified model.
+     * @param <A> The class to transform from.
+	 * @param <T> The transformer.
+	 * @param model The model.
+	 * @return A stream of all matching transforms.
+	 */
+	<A, T extends Transform<A, ?>> Map<Class<?>, T> allFrom(Class<A> from);
+    
+    /**
+     * Creates a Transform that can convert one type to another by nesting
+     * installed transforms. If no bridge can be constructed of the installed
+     * transforms, an empty optional is returned.
+     * 
+     * @param <A> The type to convert from.
+     * @param <B> The type to convert to.
+     * @param <T> The resulting Transform.
+     * @param from The model class to convert from.
+     * @param to The resulting class.
+     * @return A Transform that can convert between the two or empty.
+     */
+    default <A, B, T extends Transform<A, B>> Stream<T> bridge(Class<A> from, Class<B> to) {
+        return BridgeTransform.create(this, from, to);
+    }
 	
 	/**
 	 * Instantiates the specified class and returns it.
@@ -63,7 +91,7 @@ public interface Installer {
 	 * @param clazz
 	 * @return 
 	 */
-	public static <T> T create(Class<T> clazz) {
+	static <T> T create(Class<T> clazz) {
 		try {
 			return clazz.newInstance();
 		} catch (InstantiationException | IllegalAccessException ex) {

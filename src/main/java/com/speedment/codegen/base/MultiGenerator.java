@@ -97,29 +97,32 @@ public class MultiGenerator implements Generator {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <M> Stream<Code<M>> codeOn(M model) {
+    public <A, B> Stream<Meta<A, B>> metaOn(A model, Class<B> to) {
         if (model instanceof Optional) {
             throw new UnsupportedOperationException(
                 "Model must not be an Optional!"
             );
         }
+        
+        
         return installers.stream().flatMap(installer ->
-            installer.withAll(model.getClass())
-                .map(view -> (View<M>) view)
-                .map(view -> render(view, model, installer)
-            ).filter(c -> c.isPresent()).map(c -> c.get())
+            installer.bridge(model.getClass(), to)
+            .map(t -> (Transform<A, B>) t)
+            .map(t -> transform(t, model, installer))
+            .filter(o -> o.isPresent())
+            .map(o -> o.get())
         );
     }
 
-	private <M> Optional<Code<M>> render(View<M> view, M model, Installer installer) {
+	private <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, Installer installer) {
         renderStack.push(model);
-		final Optional<String> result = view.transform(this, model);
+		final Optional<B> result = transform.transform(this, model);
 		renderStack.pop();
         
-		return result.map(s -> new Code.Impl<M>()
-            .setCode(s)
+		return result.map(s -> new Meta.Impl<A, B>()
+            .setResult(s)
+            .setTransform(transform)
             .setInstaller(installer)
-            .setView(view)
             .setModel(model)
         );
 	}

@@ -16,12 +16,10 @@
  */
 package com.speedment.codegen.base;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Stream;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -29,12 +27,12 @@ import java.util.stream.Stream;
  */
 public class DefaultInstaller implements Installer {
     
-    private final Map<Class<?>, Class<? extends View<?>>> modelToView;
+    private final Map<Class<?>, Map<Class<?>, Class<? extends Transform<?, ?>>>> transforms;
 	private final String name;
     
 	public DefaultInstaller(String name) {
         this.name = name;
-        this.modelToView = new HashMap<>();
+        this.transforms = new ConcurrentHashMap<>();
 	}
     
     @Override
@@ -43,16 +41,17 @@ public class DefaultInstaller implements Installer {
     }
 
 	@Override
-	public <M, V extends View<M>> Installer install(Class<M> model, Class<V> view) {
-        modelToView.put(model, view);
+	public <A, B, T extends Transform<A, B>> Installer install(Class<A> from, Class<B> to, Class<T> transform) {
+        transforms.computeIfAbsent(from, f -> new ConcurrentHashMap<>()).put(to, transform);
         return this;
 	}
 
 	@Override
     @SuppressWarnings("unchecked")
-	public <M> Stream<View<M>> withAll(Class<M> model) {
-		return modelToView.entrySet().stream()
+	public <A, T extends Transform<A, ?>> Map<Class<?>, T> allFrom(Class<A> model) {
+		return new HashSet<>(transforms.entrySet()).stream()
 			.filter(e -> e.getKey().isAssignableFrom(model))
-			.map(e -> (View<M>) Installer.create(e.getValue()));
+            .flatMap(e -> e.getValue().entrySet().stream())
+            .collect(Collectors.toMap(e -> e.getKey(), e -> (T) Installer.create(e.getValue())));
 	}
 }

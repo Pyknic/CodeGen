@@ -101,29 +101,30 @@ public class DefaultGenerator implements Generator {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <M> Stream<Code<M>> codeOn(M model) {
+    public <A, B> Stream<Meta<A, B>> metaOn(A model, Class<B> to) {
         if (model instanceof Optional) {
             throw new UnsupportedOperationException(
                 "Model must not be an Optional!"
             );
         }
         
-        return installer.withAll(model.getClass())
-            .map(v -> (View<M>) v)
-            .map(v -> render(v, model))
-            .filter(s -> s.isPresent())
-            .map(s -> s.get());
+        return installer.bridge(model.getClass(), to)
+            .map(t -> (Transform<A, B>) t)
+            .map(t -> transform(t, model))
+            .filter(o -> o.isPresent())
+            .map(o -> o.get())
+        ;
     }
 
-	private <M> Optional<Code<M>> render(View<M> view, M model) {
+	private <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model) {
         renderStack.push(model);
-		final Optional<String> result = view.transform(this, model);
+		final Optional<B> result = transform.transform(this, model);
 		renderStack.pop();
         
-		return result.map(s -> new Code.Impl<M>()
-            .setCode(s)
+		return result.map(s -> new Meta.Impl<A, B>()
+            .setResult(s)
+            .setTransform(transform)
             .setInstaller(installer)
-            .setView(view)
             .setModel(model)
         );
 	}

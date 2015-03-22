@@ -51,7 +51,7 @@ public class MultiTarget {
         final MultiGenerator gen = new MultiGenerator(JAVA, XML);
         Formatting.tab("    ");
         
-        gen.codeOn(
+        gen.metaOn(
             Method.of("concat", DefaultType.STRING).public_()
                     .add(Field.of("str1", DefaultType.STRING))
                     .add(Field.of("str2", DefaultType.STRING))
@@ -60,7 +60,7 @@ public class MultiTarget {
             System.out.println("-------------------------------------");
             System.out.println("  " + code.getInstaller().getName() + ":");
             System.out.println("-------------------------------------");
-            System.out.println(code.getText());
+            System.out.println(code.getResult());
         });
     }
 
@@ -70,9 +70,9 @@ public class MultiTarget {
             return Optional.of(
                 "<method name=\"" + model.getName() + "\" type=\"" + cg.on(model.getType()).get() + "\">" + nl() + indent(
                     "<params>" + nl() + indent(
-                        cg.codeOn(model.getFields())
+                        cg.metaOn(model.getFields())
                             .filter(c -> XML.equals(c.getInstaller()))
-                            .map(c -> c.getText())
+                            .map(c -> c.getResult())
                             .collect(Collectors.joining(nl()))
                     ) + nl() + "</params>" + nl() +
                     "<code>" + nl() + indent(

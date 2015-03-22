@@ -52,6 +52,17 @@ public interface Generator {
      * @return the current rendering stack.
      */
     List<Object> getRenderStack();
+    
+    /**
+     * Renders the specified model into a stream of code models. This is used
+     * internally to provide the other interface methods.
+     *
+     * @param <A>
+     * @param <B>
+     * @param model The model to generate.
+     * @return A stream of code objects.
+     */
+    <A, B> Stream<Meta<A, B>> metaOn(A model, Class<B> to);
 
     /**
      * Renders the specified model into a stream of code models. This is used
@@ -61,18 +72,32 @@ public interface Generator {
      * @param model The model to generate.
      * @return A stream of code objects.
      */
-    <M> Stream<Code<M>> codeOn(M model);
+    default <M> Stream<Meta<M, String>> metaOn(M model) {
+        return metaOn(model, String.class);
+    }
 
     /**
      * Renders all the specified models into a stream of code models. This is
      * used internally to provide the other interface methods. ¨
      *
-     * @param <M>
+     * @param <A>
      * @param models The models to generate.
      * @return A stream of code objects.
      */
-    default <M> Stream<Code<M>> codeOn(Collection<M> models) {
-        return models.stream().map(model -> codeOn(model)).flatMap(m -> m);
+    default <A> Stream<Meta<A, String>> metaOn(Collection<A> models) {
+        return models.stream().map(model -> metaOn(model)).flatMap(m -> m);
+    }
+    
+    /**
+     * Renders all the specified models into a stream of code models. This is
+     * used internally to provide the other interface methods. ¨
+     *
+     * @param <A>
+     * @param models The models to generate.
+     * @return A stream of code objects.
+     */
+    default <A, B> Stream<Meta<A, B>> metaOn(Collection<A> models, Class<B> to) {
+        return models.stream().map(model -> metaOn(model, to)).flatMap(m -> m);
     }
 
     /**
@@ -93,7 +118,7 @@ public interface Generator {
             }
         }
         
-        return codeOn(model).map(c -> c.getText()).findAny();
+        return metaOn(model).map(c -> c.getResult()).findAny();
     }
 
     /**
@@ -104,6 +129,6 @@ public interface Generator {
      * @return A stream of code objects.
      */
     default <M> Stream<String> onEach(Collection<M> models) {
-        return codeOn(models).map(c -> c.getText());
+        return metaOn(models).map(c -> c.getResult());
     }
 }
