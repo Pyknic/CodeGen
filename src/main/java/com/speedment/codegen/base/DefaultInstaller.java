@@ -17,6 +17,7 @@
 package com.speedment.codegen.base;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -27,12 +28,13 @@ import java.util.stream.Stream;
  * @author Emil Forslund
  */
 public class DefaultInstaller implements Installer {
-	private final Set<Map.Entry<Class<?>, Class<? extends CodeView<?>>>> modelToView;
+    
+    private final Map<Class<?>, Class<? extends CodeView<?>>> modelToView;
 	private final String name;
     
 	public DefaultInstaller(String name) {
         this.name = name;
-		this.modelToView = new HashSet<>();
+        this.modelToView = new HashMap<>();
 	}
     
     @Override
@@ -42,14 +44,14 @@ public class DefaultInstaller implements Installer {
 
 	@Override
 	public <M, V extends CodeView<M>> Installer install(Class<M> model, Class<V> view) {
-		modelToView.add(new SimpleImmutableEntry<>(model, view));
+        modelToView.put(model, view);
         return this;
 	}
 
 	@Override
     @SuppressWarnings("unchecked")
 	public <M> Stream<CodeView<M>> withAll(Class<M> model) {
-		return modelToView.stream()
+		return modelToView.entrySet().stream()
 			.filter(e -> e.getKey().isAssignableFrom(model))
 			.map(e -> (CodeView<M>) Installer.create(e.getValue()));
 	}
