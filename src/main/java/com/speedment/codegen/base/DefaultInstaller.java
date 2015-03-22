@@ -29,7 +29,7 @@ import java.util.stream.Stream;
  */
 public class DefaultInstaller implements Installer {
     
-    private final Map<Class<?>, Class<? extends CodeView<?>>> modelToView;
+    private final Map<Class<?>, Class<? extends View<?>>> modelToView;
 	private final String name;
     
 	public DefaultInstaller(String name) {
@@ -43,16 +43,16 @@ public class DefaultInstaller implements Installer {
     }
 
 	@Override
-	public <M, V extends CodeView<M>> Installer install(Class<M> model, Class<V> view) {
+	public <M, V extends View<M>> Installer install(Class<M> model, Class<V> view) {
         modelToView.put(model, view);
         return this;
 	}
 
 	@Override
     @SuppressWarnings("unchecked")
-	public <M> Stream<CodeView<M>> withAll(Class<M> model) {
+	public <M> Stream<View<M>> withAll(Class<M> model) {
 		return modelToView.entrySet().stream()
 			.filter(e -> e.getKey().isAssignableFrom(model))
-			.map(e -> (CodeView<M>) Installer.create(e.getValue()));
+			.map(e -> (View<M>) Installer.create(e.getValue()));
 	}
 }

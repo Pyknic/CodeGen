@@ -17,7 +17,7 @@
 package com.speedment.codegen.examples;
 
 import com.speedment.codegen.Formatting;
-import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.java.JavaGenerator;
 import com.speedment.codegen.lang.controller.AutoImports;
 import com.speedment.codegen.lang.controller.SetGetAdd;
@@ -37,7 +37,7 @@ import java.util.ArrayList;
  */
 public class SetGetExample {
 	public static void main(String... params) {
-		final CodeGenerator cg = new JavaGenerator();
+		final Generator cg = new JavaGenerator();
 		Formatting.tab("    ");
 		
 		final File f = File.of("org/example/codegen/Game.java")

@@ -19,8 +19,8 @@ package com.speedment.codegen.examples;
 import com.speedment.codegen.Formatting;
 import static com.speedment.codegen.Formatting.indent;
 import static com.speedment.codegen.Formatting.nl;
-import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.base.DefaultInstaller;
 import com.speedment.codegen.base.Installer;
 import com.speedment.codegen.base.MultiGenerator;
@@ -64,9 +64,9 @@ public class MultiTarget {
         });
     }
 
-    public static class MethodXMLView implements CodeView<Method> {
+    public static class MethodXMLView implements View<Method> {
         @Override
-        public Optional<String> render(CodeGenerator cg, Method model) {
+        public Optional<String> render(Generator cg, Method model) {
             return Optional.of(
                 "<method name=\"" + model.getName() + "\" type=\"" + cg.on(model.getType()).get() + "\">" + nl() + indent(
                     "<params>" + nl() + indent(
@@ -83,9 +83,9 @@ public class MultiTarget {
         }
     }
     
-    public static class FieldXMLView implements CodeView<Field> {
+    public static class FieldXMLView implements View<Field> {
         @Override
-        public Optional<String> render(CodeGenerator cg, Field model) {
+        public Optional<String> render(Generator cg, Field model) {
             return Optional.of("<field name=\"" + model.getName() + "\" />");
         }
     }

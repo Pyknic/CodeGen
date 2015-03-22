@@ -17,11 +17,11 @@
 package com.speedment.codegen.java.views;
 
 import com.speedment.util.CodeCombiner;
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.models.Import;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.lang.models.File;
 import com.speedment.codegen.lang.models.Type;
 import java.util.List;
@@ -30,11 +30,11 @@ import java.util.List;
  *
  * @author Emil Forslund
  */
-public class ImportView implements CodeView<Import> {
+public class ImportView implements View<Import> {
 	private final static String IMPORT_STRING = "import ";
 
 	@Override
-	public Optional<String> render(CodeGenerator cg, Import model) {
+	public Optional<String> render(Generator cg, Import model) {
 		if (shouldImport(cg, model.getType())) {
 			return Optional.of(
 				IMPORT_STRING +
@@ -48,7 +48,7 @@ public class ImportView implements CodeView<Import> {
 		} else return Optional.empty();
 	}
 	
-	private boolean shouldImport(CodeGenerator cg, Type type) {
+	private boolean shouldImport(Generator cg, Type type) {
 		final List<Object> stack = cg.getRenderStack();
 		if (stack.size() >= 2) {
 			final Object parent = stack.get(0);

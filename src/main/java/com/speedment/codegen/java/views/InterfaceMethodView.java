@@ -25,8 +25,8 @@ import static com.speedment.codegen.Formatting.SPACE;
 import static com.speedment.codegen.Formatting.block;
 import static com.speedment.codegen.Formatting.ifelse;
 import static com.speedment.codegen.Formatting.nl;
-import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.models.InterfaceMethod;
 import static com.speedment.codegen.lang.models.modifiers.Modifier.*;
 import com.speedment.util.CodeCombiner;
@@ -37,9 +37,9 @@ import java.util.stream.Collectors;
  *
  * @author Emil Forslund
  */
-public class InterfaceMethodView implements CodeView<InterfaceMethod> {
+public class InterfaceMethodView implements View<InterfaceMethod> {
 	@Override
-	public Optional<String> render(CodeGenerator cg, InterfaceMethod model) {
+	public Optional<String> render(Generator cg, InterfaceMethod model) {
 		return Optional.of(ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
             
             cg.onEach(model.getAnnotations()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, nl())) +

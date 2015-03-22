@@ -25,7 +25,7 @@ import java.util.stream.Stream;
  *
  * @author Emil Forslund
  */
-public interface CodeGenerator {
+public interface Generator {
 
     /**
      * @return the dependency manager.

@@ -17,8 +17,8 @@
 package com.speedment.codegen.java.views;
 
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.java.views.interfaces.AnnotableView;
 import com.speedment.codegen.java.views.interfaces.ClassableView;
 import com.speedment.codegen.java.views.interfaces.DocumentableView;
@@ -45,7 +45,7 @@ import java.util.stream.Stream;
  * @param <M>
  */
 public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implements 
-    CodeView<M>, NameableView<M>, ModifiableView<M>, DocumentableView<M>, 
+    View<M>, NameableView<M>, ModifiableView<M>, DocumentableView<M>, 
     GenerableView<M>, InterfaceableView<M>, InitalizableView<M>, MethodableView<M>,
     ClassableView<M>, AnnotableView<M> {
     
@@ -56,13 +56,13 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implem
 		IMPLEMENTS_STRING = "implements ",
 		EXTENDS_STRING = "extends ";
 
-	protected String onBeforeFields(CodeGenerator cg, M model) {
+	protected String onBeforeFields(Generator cg, M model) {
 		return EMPTY;
 	}
 	
 	protected Object wrapField(Field field) {return field;}
 
-	protected String onAfterFields(CodeGenerator cg, M model) {
+	protected String onAfterFields(Generator cg, M model) {
 		if (model instanceof Constructable) {
 			return cg.onEach(
 				((Constructable<?>) model).getConstructors()
@@ -79,10 +79,10 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implem
 	}
 	
     protected abstract String renderDeclarationType();
-	protected abstract String renderSuperType(CodeGenerator cg, M model);
+	protected abstract String renderSuperType(Generator cg, M model);
 
 	@Override
-	public Optional<String> render(CodeGenerator cg, M model) {
+	public Optional<String> render(Generator cg, M model) {
 		return Optional.of(
 			renderJavadoc(cg, model) +
             renderAnnotations(cg, model) +

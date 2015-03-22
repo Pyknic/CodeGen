@@ -20,8 +20,8 @@ import static com.speedment.codegen.Formatting.EMPTY;
 import static com.speedment.codegen.Formatting.EQUALS;
 import static com.speedment.codegen.Formatting.SPACE;
 import static com.speedment.codegen.Formatting.ifelse;
-import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.interfaces.Valuable;
 
 /**
@@ -29,8 +29,8 @@ import com.speedment.codegen.lang.interfaces.Valuable;
  * @author Emil Forslund
  * @param <M>
  */
-public interface ValuableView<M extends Valuable<M>> extends CodeView<M> {
-    default String renderValue(CodeGenerator cg, M model) {
+public interface ValuableView<M extends Valuable<M>> extends View<M> {
+    default String renderValue(Generator cg, M model) {
         return ifelse(model.getValue(), 
 			v -> SPACE + EQUALS + SPACE + cg.on(v).orElse(EMPTY), 
             EMPTY

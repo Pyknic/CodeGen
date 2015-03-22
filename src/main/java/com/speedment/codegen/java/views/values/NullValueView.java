@@ -16,8 +16,8 @@
  */
 package com.speedment.codegen.java.views.values;
 
-import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.models.values.NumberValue;
 import java.util.Optional;
 
@@ -25,11 +25,11 @@ import java.util.Optional;
  *
  * @author Emil Forslund
  */
-public class NullValueView implements CodeView<NumberValue> {
+public class NullValueView implements View<NumberValue> {
 	private final static String NULL = "null";
 	
 	@Override
-	public Optional<String> render(CodeGenerator cg, NumberValue model) {
+	public Optional<String> render(Generator cg, NumberValue model) {
 		return Optional.of(NULL);
 	}
 }

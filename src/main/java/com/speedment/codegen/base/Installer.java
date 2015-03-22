@@ -40,7 +40,7 @@ public interface Installer {
 	 * @param view The view.
      * @return A reference to this.
 	 */
-	<M, V extends CodeView<M>> Installer install(Class<M> model, Class<V> view);
+	<M, V extends View<M>> Installer install(Class<M> model, Class<V> view);
 //	
 //	/**
 //	 * Returns a view if there is one that matched the specified model.
@@ -55,7 +55,7 @@ public interface Installer {
 	 * @param model The model.
 	 * @return A stream of all matching views.
 	 */
-	<M> Stream<CodeView<M>> withAll(Class<M> model);
+	<M> Stream<View<M>> withAll(Class<M> model);
 	
 	/**
 	 * Instantiates the specified class and returns it.

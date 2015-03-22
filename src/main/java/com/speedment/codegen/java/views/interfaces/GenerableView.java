@@ -20,8 +20,8 @@ import static com.speedment.codegen.Formatting.COMMA_SPACE;
 import static com.speedment.codegen.Formatting.SE;
 import static com.speedment.codegen.Formatting.SPACE;
 import static com.speedment.codegen.Formatting.SS;
-import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.interfaces.Generable;
 import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
 
@@ -30,8 +30,8 @@ import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
  * @author Emil Forslund
  * @param <M>
  */
-public interface GenerableView<M extends Generable<M>> extends CodeView<M> {
-    default String renderGenerics(CodeGenerator cg, M model) {
+public interface GenerableView<M extends Generable<M>> extends View<M> {
+    default String renderGenerics(Generator cg, M model) {
         return cg.onEach(model.getGenerics()).collect(joinIfNotEmpty(COMMA_SPACE, SS, SE)) + SPACE;
     }
 }

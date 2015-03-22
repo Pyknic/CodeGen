@@ -21,19 +21,19 @@
  */
 package com.speedment.codegen.java.views.values;
 
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.models.values.TextValue;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.base.Generator;
 
 /**
  *
  * @author Emil Forslund
  */
-public class TextValueView implements CodeView<TextValue> {
+public class TextValueView implements View<TextValue> {
 	@Override
-	public Optional<String> render(CodeGenerator cg, TextValue model) {
+	public Optional<String> render(Generator cg, TextValue model) {
 		return Optional.of(H + model.getValue() + H);
 	}
 }

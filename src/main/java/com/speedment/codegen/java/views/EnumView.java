@@ -17,7 +17,7 @@
 package com.speedment.codegen.java.views;
 
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.lang.models.Enum;
 import com.speedment.util.CodeCombiner;
 
@@ -37,12 +37,12 @@ public class EnumView extends ClassOrInterfaceView<Enum> {
 	}
 
 	@Override
-	protected String renderSuperType(CodeGenerator cg, Enum model) {
+	protected String renderSuperType(Generator cg, Enum model) {
 		return EMPTY;
 	}
 
 	@Override
-	protected String onBeforeFields(CodeGenerator cg, Enum model) {
+	protected String onBeforeFields(Generator cg, Enum model) {
 		return model.getConstants().stream()
 			.map(c -> cg.on(c).get()).collect(
 				CodeCombiner.joinIfNotEmpty(

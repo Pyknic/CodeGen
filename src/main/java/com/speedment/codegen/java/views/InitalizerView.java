@@ -16,8 +16,8 @@
  */
 package com.speedment.codegen.java.views;
 
-import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.models.Initalizer;
 import com.speedment.util.CodeCombiner;
 import java.util.Optional;
@@ -27,10 +27,10 @@ import static com.speedment.codegen.Formatting.*;
  *
  * @author Emil Forslund
  */
-public class InitalizerView implements CodeView<Initalizer> {
+public class InitalizerView implements View<Initalizer> {
 
     @Override
-    public Optional<String> render(CodeGenerator cg, Initalizer model) {
+    public Optional<String> render(Generator cg, Initalizer model) {
         return Optional.of(
             cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
             block(model.getCode().stream())

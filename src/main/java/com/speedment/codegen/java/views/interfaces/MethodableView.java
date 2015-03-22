@@ -17,8 +17,8 @@
 package com.speedment.codegen.java.views.interfaces;
 
 import static com.speedment.codegen.Formatting.dnl;
-import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.interfaces.Methodable;
 import com.speedment.codegen.lang.models.Method;
 import java.util.stream.Collectors;
@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
  * @author Emil Forslund
  * @param <M>
  */
-public interface MethodableView<M extends Methodable<M>> extends CodeView<M>, Wrappable {
-    default String renderMethods(CodeGenerator cg, M model) {
+public interface MethodableView<M extends Methodable<M>> extends View<M>, Wrappable {
+    default String renderMethods(Generator cg, M model) {
         return cg.onEach(wrap(model.getMethods(), m -> wrapMethod(m)))
 			.collect(Collectors.joining(dnl()));
     }

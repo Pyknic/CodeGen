@@ -24,6 +24,6 @@ import java.util.Optional;
  * @author Emil Forslund
  * @param <Model> The model to view.
  */
-public interface CodeView<Model> {
-	Optional<String> render(CodeGenerator cg, Model model);
+public interface View<Model> {
+	Optional<String> render(Generator cg, Model model);
 }

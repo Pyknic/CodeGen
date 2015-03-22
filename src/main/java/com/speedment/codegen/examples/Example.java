@@ -18,7 +18,7 @@ package com.speedment.codegen.examples;
 
 import com.speedment.codegen.Formatting;
 import static com.speedment.codegen.Formatting.block;
-import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.java.JavaGenerator;
 import com.speedment.codegen.lang.controller.AutoEquals;
 import com.speedment.codegen.lang.controller.AutoImports;
@@ -56,7 +56,7 @@ public class Example {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-		final CodeGenerator cg = new JavaGenerator();
+		final Generator cg = new JavaGenerator();
 		
 		Formatting.tab("    ");
 

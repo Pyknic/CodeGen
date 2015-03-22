@@ -19,8 +19,8 @@ package com.speedment.codegen.java.views.interfaces;
 import static com.speedment.codegen.Formatting.EMPTY;
 import static com.speedment.codegen.Formatting.dnl;
 import static com.speedment.codegen.Formatting.nl;
-import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.interfaces.Importable;
 import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
 
@@ -29,8 +29,8 @@ import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
  * @author Emil Forslund
  * @param <M>
  */
-public interface ImportableView<M extends Importable<M>> extends CodeView<M> {
-    default String renderImports(CodeGenerator cg, M model) {
+public interface ImportableView<M extends Importable<M>> extends View<M> {
+    default String renderImports(Generator cg, M model) {
         return cg.onEach(model.getImports())
             .distinct().sorted()
             .collect(joinIfNotEmpty(nl(), EMPTY, dnl()));

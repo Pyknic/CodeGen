@@ -24,14 +24,14 @@ package com.speedment.codegen.base;
 public interface Code<M> {
     
     String getText();
-    CodeView<M> getView();
+    View<M> getView();
     Installer getInstaller();
     M getModel();
     
     class Impl<M> implements Code<M> {
     
         private String text;
-        private CodeView<M> view;
+        private View<M> view;
         private Installer installer;
         private M model;
 
@@ -48,11 +48,11 @@ public interface Code<M> {
         }
 
         @Override
-        public CodeView<M> getView() {
+        public View<M> getView() {
             return view;
         }
 
-        protected Impl<M> setView(CodeView<M> view) {
+        protected Impl<M> setView(View<M> view) {
             this.view = view;
             return this;
         }

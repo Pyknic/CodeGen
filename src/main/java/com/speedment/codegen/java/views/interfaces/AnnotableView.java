@@ -18,8 +18,8 @@ package com.speedment.codegen.java.views.interfaces;
 
 import static com.speedment.codegen.Formatting.EMPTY;
 import static com.speedment.codegen.Formatting.nl;
-import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.interfaces.Annotable;
 import com.speedment.util.CodeCombiner;
 
@@ -28,8 +28,8 @@ import com.speedment.util.CodeCombiner;
  * @author Emil Forslund
  * @param <M>
  */
-public interface AnnotableView<M extends Annotable<M>> extends CodeView<M> {
-    default String renderAnnotations(CodeGenerator cg, M model) {
+public interface AnnotableView<M extends Annotable<M>> extends View<M> {
+    default String renderAnnotations(Generator cg, M model) {
         return cg.onEach(model.getAnnotations()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, nl()));
     }
 }

@@ -18,8 +18,8 @@ package com.speedment.codegen.java.views.interfaces;
 
 import static com.speedment.codegen.Formatting.COMMA_SPACE;
 import static com.speedment.codegen.Formatting.SPACE;
-import com.speedment.codegen.base.CodeGenerator;
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.interfaces.Interfaceable;
 import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
 
@@ -28,11 +28,11 @@ import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
  * @author Emil Forslund
  * @param <M>
  */
-public interface InterfaceableView<M extends Interfaceable<M>> extends CodeView<M> {
+public interface InterfaceableView<M extends Interfaceable<M>> extends View<M> {
     
     String extendsOrImplementsInterfaces();
     
-    default String renderInterfaces(CodeGenerator cg, M model) {
+    default String renderInterfaces(Generator cg, M model) {
         return cg.onEach(model.getInterfaces()).collect(
             joinIfNotEmpty(
                 COMMA_SPACE, 

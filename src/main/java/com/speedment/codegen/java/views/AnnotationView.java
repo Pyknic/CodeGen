@@ -16,11 +16,11 @@
  */
 package com.speedment.codegen.java.views;
 
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.models.Annotation;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.java.views.interfaces.AnnotableView;
 import com.speedment.codegen.java.views.interfaces.DocumentableView;
 import com.speedment.codegen.java.views.interfaces.NameableView;
@@ -30,7 +30,7 @@ import com.speedment.util.CodeCombiner;
  *
  * @author Emil Forslund
  */
-public class AnnotationView implements CodeView<Annotation>, 
+public class AnnotationView implements View<Annotation>, 
     DocumentableView<Annotation>, AnnotableView<Annotation>, NameableView<Annotation> {
 	
     private final static String 
@@ -38,7 +38,7 @@ public class AnnotationView implements CodeView<Annotation>,
 		DEFAULT_STRING = " default ";
 	
 	@Override
-	public Optional<String> render(CodeGenerator cg, Annotation model) {
+	public Optional<String> render(Generator cg, Annotation model) {
 		return Optional.of(
 			renderAnnotations(cg, model) +
 			renderAnnotations(cg, model) +

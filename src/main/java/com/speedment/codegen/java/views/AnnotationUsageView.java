@@ -16,11 +16,11 @@
  */
 package com.speedment.codegen.java.views;
 
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.models.AnnotationUsage;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.base.Generator;
 import com.speedment.util.CodeCombiner;
 import java.util.stream.Stream;
 
@@ -28,13 +28,13 @@ import java.util.stream.Stream;
  *
  * @author Emil Forslund
  */
-public class AnnotationUsageView implements CodeView<AnnotationUsage> {
+public class AnnotationUsageView implements View<AnnotationUsage> {
 	private final static String 
 		PSTART = "(", 
 		EQUALS = " = ";
 
 	@Override
-	public Optional<String> render(CodeGenerator cg, AnnotationUsage model) {
+	public Optional<String> render(Generator cg, AnnotationUsage model) {
         final Optional<String> value = cg.on(model.getValue());
         final Stream<String> valueStream = value.isPresent() ? Stream.of(value.get()) : Stream.empty();
         

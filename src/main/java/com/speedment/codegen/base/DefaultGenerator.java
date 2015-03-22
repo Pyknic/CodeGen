@@ -32,7 +32,7 @@ import java.util.stream.Stream;
  * 
  * @author Emil Forslund
  */
-public class DefaultCodeGenerator implements CodeGenerator {
+public class DefaultGenerator implements Generator {
 	private final Installer installer;
 	private final DependencyManager dependencyMgr;
 	private final Stack<Object> renderStack;
@@ -43,7 +43,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	 * description.
 	 * @param installer
 	 */
-	public DefaultCodeGenerator(Installer installer) {
+	public DefaultGenerator(Installer installer) {
 		this(installer, new DefaultDependencyManager());
 	}
 	
@@ -53,7 +53,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 	 * @param installer A subclass of <code>DefaultInstaller</code>.
 	 * @param mgr A DefaultDependencyManager to keep track of dependencies.
 	 */
-	public DefaultCodeGenerator(Installer installer, DependencyManager mgr) {
+	public DefaultGenerator(Installer installer, DependencyManager mgr) {
 		this.installer = installer;
 		this.dependencyMgr = mgr;
 		this.renderStack = new Stack<>();
@@ -109,13 +109,13 @@ public class DefaultCodeGenerator implements CodeGenerator {
         }
         
         return installer.withAll(model.getClass())
-            .map(v -> (CodeView<M>) v)
+            .map(v -> (View<M>) v)
             .map(v -> render(v, model))
             .filter(s -> s.isPresent())
             .map(s -> s.get());
     }
 
-	private <M> Optional<Code<M>> render(CodeView<M> view, M model) {
+	private <M> Optional<Code<M>> render(View<M> view, M model) {
         renderStack.push(model);
 		final Optional<String> result = view.render(this, model);
 		renderStack.pop();

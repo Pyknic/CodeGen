@@ -16,7 +16,7 @@
  */
 package com.speedment.codegen.tests;
 
-import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.java.JavaGenerator;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Generic;
@@ -41,7 +41,7 @@ import org.junit.Test;
  */
 public class TestGenericInterfaces {
     
-    private CodeGenerator cg;
+    private Generator cg;
     private Interface model;
     
     public TestGenericInterfaces() {

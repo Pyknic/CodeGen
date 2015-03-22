@@ -16,9 +16,9 @@
  */
 package com.speedment.codegen.java.views;
 
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.View;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.lang.models.EnumConstant;
 import java.util.Optional;
 import com.speedment.util.CodeCombiner;
@@ -27,9 +27,9 @@ import com.speedment.util.CodeCombiner;
  *
  * @author Emil Forslund
  */
-public class EnumConstantView implements CodeView<EnumConstant> {
+public class EnumConstantView implements View<EnumConstant> {
 	@Override
-	public Optional<String> render(CodeGenerator cg, EnumConstant model) {
+	public Optional<String> render(Generator cg, EnumConstant model) {
 		return Optional.of(
 			model.getName() + 
 			(model.getValues().isEmpty() ? EMPTY : SPACE) +

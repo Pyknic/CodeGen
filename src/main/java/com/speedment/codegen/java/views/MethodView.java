@@ -16,11 +16,11 @@
  */
 package com.speedment.codegen.java.views;
 
-import com.speedment.codegen.base.CodeView;
+import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.models.Method;
 import com.speedment.util.CodeCombiner;
 import static com.speedment.codegen.Formatting.*;
-import com.speedment.codegen.base.CodeGenerator;
+import com.speedment.codegen.base.Generator;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,10 +28,10 @@ import java.util.stream.Collectors;
  *
  * @author Emil Forslund
  */
-public class MethodView implements CodeView<Method> {
+public class MethodView implements View<Method> {
 
 	@Override
-	public Optional<String> render(CodeGenerator cg, Method model) {
+	public Optional<String> render(Generator cg, Method model) {
 		return Optional.of(
 			ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
 			cg.onEach(model.getAnnotations()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, nl())) +

@@ -31,7 +31,7 @@ import java.util.stream.Stream;
  * 
  * @author Emil Forslund
  */
-public class MultiGenerator implements CodeGenerator {
+public class MultiGenerator implements Generator {
 	private final DependencyManager mgr;
 	private final List<Installer> installers;
 	private final Stack<Object> renderStack;
@@ -105,13 +105,13 @@ public class MultiGenerator implements CodeGenerator {
         }
         return installers.stream().flatMap(installer ->
             installer.withAll(model.getClass())
-                .map(view -> (CodeView<M>) view)
+                .map(view -> (View<M>) view)
                 .map(view -> render(view, model, installer)
             ).filter(c -> c.isPresent()).map(c -> c.get())
         );
     }
 
-	private <M> Optional<Code<M>> render(CodeView<M> view, M model, Installer installer) {
+	private <M> Optional<Code<M>> render(View<M> view, M model, Installer installer) {
         renderStack.push(model);
 		final Optional<String> result = view.render(this, model);
 		renderStack.pop();
