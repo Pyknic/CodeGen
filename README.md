@@ -6,26 +6,26 @@ A model-view based code generator written in Java. It is completely object orien
 System.out.println(new JavaGenerator().on(
     File.of("org/example/BasicExample.java")
         .add(Class.of("BasicExample")
-            .add(Default.GENERATED)
+            .add(GENERATED)
             .public_()
             .add(
-                Field.of("BASIC_MESSAGE", Default.STRING)
+                Field.of("BASIC_MESSAGE", STRING)
                 .public_().final_().static_()
                 .set(new TextValue("Hello, world!"))
             )
             .add(
-                Method.of("main", Default.VOID)
+                Method.of("main", VOID)
                 .set(Javadoc.of(
                     "This is a vary basic example of ",
                     "the capabilities of the Code Generator."
                 ))
                 .public_().static_()
-                .add(Field.of("params", Default.STRING.setArrayDimension(1)))
+                .add(Field.of("params", STRING.setArrayDimension(1)))
                 .add(
                     "System.out.println(BASIC_MESSAGE);"
                 )
             )
-        ).call(new AutoJavadoc())
+        ).call(new AutoJavadoc<>())
     ).get()
 );
 ```
