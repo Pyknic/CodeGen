@@ -18,7 +18,7 @@ package com.speedment.codegen.java.views.interfaces;
 
 import static com.speedment.codegen.Formatting.dnl;
 import com.speedment.codegen.base.Generator;
-import com.speedment.codegen.base.View;
+import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.interfaces.HasClasses;
 import static java.util.stream.Collectors.joining;
 
@@ -27,7 +27,7 @@ import static java.util.stream.Collectors.joining;
  * @author Emil Forslund
  * @param <M>
  */
-public interface ClassableView<M extends HasClasses<M>> extends View<M> {
+public interface ClassableView<M extends HasClasses<M>> extends Transform<M, String> {
     default String renderClasses(Generator cg, M model) {
         return cg.onEach(model.getClasses()).collect(joining(dnl()));
     }

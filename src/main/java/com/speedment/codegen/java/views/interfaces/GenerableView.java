@@ -21,7 +21,7 @@ import static com.speedment.codegen.Formatting.SE;
 import static com.speedment.codegen.Formatting.SPACE;
 import static com.speedment.codegen.Formatting.SS;
 import com.speedment.codegen.base.Generator;
-import com.speedment.codegen.base.View;
+import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.interfaces.HasGenerics;
 import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
 
@@ -30,7 +30,7 @@ import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
  * @author Emil Forslund
  * @param <M>
  */
-public interface GenerableView<M extends HasGenerics<M>> extends View<M> {
+public interface GenerableView<M extends HasGenerics<M>> extends Transform<M, String> {
     default String renderGenerics(Generator cg, M model) {
         return cg.onEach(model.getGenerics()).collect(joinIfNotEmpty(COMMA_SPACE, SS, SE)) + SPACE;
     }

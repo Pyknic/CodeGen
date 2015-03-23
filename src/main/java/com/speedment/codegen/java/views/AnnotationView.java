@@ -16,11 +16,11 @@
  */
 package com.speedment.codegen.java.views;
 
-import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.models.Annotation;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.java.views.interfaces.AnnotableView;
 import com.speedment.codegen.java.views.interfaces.DocumentableView;
 import com.speedment.codegen.java.views.interfaces.NameableView;
@@ -30,7 +30,7 @@ import com.speedment.util.CodeCombiner;
  *
  * @author Emil Forslund
  */
-public class AnnotationView implements View<Annotation>, 
+public class AnnotationView implements Transform<Annotation, String>, 
     DocumentableView<Annotation>, AnnotableView<Annotation>, NameableView<Annotation> {
 	
     private final static String 

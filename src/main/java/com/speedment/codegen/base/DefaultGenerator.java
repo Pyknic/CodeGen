@@ -106,20 +106,16 @@ public class DefaultGenerator implements Generator {
         return installers.stream().flatMap(installer ->
             BridgeTransform.create(installer, model.getClass(), to)
             .map(t -> (Transform<A, B>) t)
-            .map(t -> transform(t, model, installer, false))
+            .map(t -> transform(t, model, installer))
             .filter(o -> o.isPresent())
             .map(o -> o.get())
         );
     }
 
     @Override
-	public <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, Installer installer) {
-        return transform(transform, model, installer, true);
-	}
-    
-    private <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, Installer installer, boolean useStack) {
+    public <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, Installer installer) {
         
-        /*if (useStack) */renderStack.push(model);
+        renderStack.push(model);
 
         final Optional<Meta<A, B>> meta = transform
             .transform(this, model)
@@ -131,7 +127,7 @@ public class DefaultGenerator implements Generator {
             .setRenderStack(new DefaultRenderStack(renderStack))
         );
         
-        /*if (useStack) */renderStack.pop();
+        renderStack.pop();
         
         return meta;
     }

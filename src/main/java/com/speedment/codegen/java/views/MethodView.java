@@ -16,11 +16,11 @@
  */
 package com.speedment.codegen.java.views;
 
-import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.models.Method;
 import com.speedment.util.CodeCombiner;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.Transform;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  *
  * @author Emil Forslund
  */
-public class MethodView implements View<Method> {
+public class MethodView implements Transform<Method, String> {
     
     private final static String THROWS = "throws ";
 

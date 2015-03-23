@@ -18,7 +18,7 @@ package com.speedment.codegen.java.views.interfaces;
 
 import static com.speedment.codegen.Formatting.dnl;
 import com.speedment.codegen.base.Generator;
-import com.speedment.codegen.base.View;
+import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.interfaces.HasInitalizers;
 import java.util.stream.Collectors;
 
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * @author Emil Forslund
  * @param <M>
  */
-public interface InitalizableView<M extends HasInitalizers<M>> extends View<M> {
+public interface InitalizableView<M extends HasInitalizers<M>> extends Transform<M, String> {
     default String renderInitalizers(Generator cg, M model) {
         return cg.onEach(model.getInitalizers()).collect(Collectors.joining(dnl()));
     }

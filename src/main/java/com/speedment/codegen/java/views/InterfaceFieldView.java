@@ -16,9 +16,9 @@
  */
 package com.speedment.codegen.java.views;
 
-import com.speedment.codegen.base.View;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.models.InterfaceField;
 import static com.speedment.codegen.lang.models.modifiers.Modifier.FINAL;
 import java.util.Optional;
@@ -27,7 +27,8 @@ import java.util.Optional;
  *
  * @author Emil Forslund
  */
-public class InterfaceFieldView implements View<InterfaceField> {
+public class InterfaceFieldView implements Transform<InterfaceField, String> {
+    
 	@Override
 	public Optional<String> transform(Generator cg, InterfaceField model) {
 		return Optional.of(

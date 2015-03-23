@@ -20,10 +20,10 @@ import com.speedment.codegen.Formatting;
 import static com.speedment.codegen.Formatting.indent;
 import static com.speedment.codegen.Formatting.nl;
 import com.speedment.codegen.base.Generator;
-import com.speedment.codegen.base.View;
 import com.speedment.codegen.base.DefaultInstaller;
 import com.speedment.codegen.base.Installer;
 import com.speedment.codegen.base.DefaultGenerator;
+import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.java.JavaInstaller;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Method;
@@ -53,9 +53,9 @@ public class MultiTarget {
         
         gen.metaOn(
             Method.of("concat", DefaultType.STRING).public_()
-                    .add(Field.of("str1", DefaultType.STRING))
-                    .add(Field.of("str2", DefaultType.STRING))
-                    .add("return str1 + str2;")
+                .add(Field.of("str1", DefaultType.STRING))
+                .add(Field.of("str2", DefaultType.STRING))
+                .add("return str1 + str2;")
         ).forEach(code -> {
             System.out.println("-------------------------------------");
             System.out.println("  " + code.getInstaller().getName() + ":");
@@ -64,7 +64,7 @@ public class MultiTarget {
         });
     }
 
-    public static class MethodXMLView implements View<Method> {
+    public static class MethodXMLView implements Transform<Method, String> {
         @Override
         public Optional<String> transform(Generator cg, Method model) {
             return Optional.of(
@@ -83,7 +83,7 @@ public class MultiTarget {
         }
     }
     
-    public static class FieldXMLView implements View<Field> {
+    public static class FieldXMLView implements Transform<Field, String> {
         @Override
         public Optional<String> transform(Generator cg, Field model) {
             return Optional.of("<field name=\"" + model.getName() + "\" />");

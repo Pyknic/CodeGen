@@ -16,11 +16,11 @@
  */
 package com.speedment.codegen.java.views;
 
-import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.models.Type;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.DependencyManager;
+import com.speedment.codegen.base.Transform;
 import java.util.Optional;
 import com.speedment.util.CodeCombiner;
 import java.util.Collections;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  *
  * @author Emil Forslund
  */
-public class TypeView implements View<Type> {
+public class TypeView implements Transform<Type, String> {
 	private Optional<String> renderName(Generator cg, Type model, String name) {
 		return Optional.of(
 			name + cg.onEach(model.getGenerics()).collect(

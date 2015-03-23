@@ -17,7 +17,7 @@
 package com.speedment.codegen.java.views.values;
 
 import com.speedment.codegen.base.Generator;
-import com.speedment.codegen.base.View;
+import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.models.values.NumberValue;
 import java.util.Optional;
 
@@ -25,7 +25,7 @@ import java.util.Optional;
  *
  * @author Emil Forslund
  */
-public class NumberValueView implements View<NumberValue> {
+public class NumberValueView implements Transform<NumberValue, String> {
 	@Override
 	public Optional<String> transform(Generator cg, NumberValue model) {
 		return Optional.of(model.getValue().toString());

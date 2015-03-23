@@ -26,7 +26,7 @@ import static com.speedment.codegen.Formatting.block;
 import static com.speedment.codegen.Formatting.ifelse;
 import static com.speedment.codegen.Formatting.nl;
 import com.speedment.codegen.base.Generator;
-import com.speedment.codegen.base.View;
+import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.models.InterfaceMethod;
 import static com.speedment.codegen.lang.models.modifiers.Modifier.*;
 import com.speedment.util.CodeCombiner;
@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
  *
  * @author Emil Forslund
  */
-public class InterfaceMethodView implements View<InterfaceMethod> {
+public class InterfaceMethodView implements Transform<InterfaceMethod, String> {
     
     private final static String THROWS = " throws ";
     

@@ -16,11 +16,11 @@
  */
 package com.speedment.codegen.java.views;
 
-import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.models.AnnotationUsage;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.Transform;
 import com.speedment.util.CodeCombiner;
 import java.util.stream.Stream;
 
@@ -28,7 +28,7 @@ import java.util.stream.Stream;
  *
  * @author Emil Forslund
  */
-public class AnnotationUsageView implements View<AnnotationUsage> {
+public class AnnotationUsageView implements Transform<AnnotationUsage, String> {
 	private final static String 
 		PSTART = "(", 
 		EQUALS = " = ";

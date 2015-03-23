@@ -20,7 +20,7 @@ import static com.speedment.codegen.Formatting.EMPTY;
 import static com.speedment.codegen.Formatting.dnl;
 import static com.speedment.codegen.Formatting.nl;
 import com.speedment.codegen.base.Generator;
-import com.speedment.codegen.base.View;
+import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.interfaces.HasImports;
 import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
 
@@ -29,7 +29,7 @@ import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
  * @author Emil Forslund
  * @param <M>
  */
-public interface ImportableView<M extends HasImports<M>> extends View<M> {
+public interface ImportableView<M extends HasImports<M>> extends Transform<M, String> {
     default String renderImports(Generator cg, M model) {
         return cg.onEach(model.getImports())
             .distinct().sorted()

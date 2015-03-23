@@ -18,7 +18,7 @@ package com.speedment.codegen.java.views;
 
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
-import com.speedment.codegen.base.View;
+import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.java.views.interfaces.AnnotableView;
 import com.speedment.codegen.java.views.interfaces.ClassableView;
 import com.speedment.codegen.java.views.interfaces.DocumentableView;
@@ -45,7 +45,7 @@ import java.util.stream.Stream;
  * @param <M>
  */
 public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implements 
-    View<M>, NameableView<M>, ModifiableView<M>, DocumentableView<M>, 
+    Transform<M, String>, NameableView<M>, ModifiableView<M>, DocumentableView<M>, 
     GenerableView<M>, InterfaceableView<M>, InitalizableView<M>, MethodableView<M>,
     ClassableView<M>, AnnotableView<M> {
     

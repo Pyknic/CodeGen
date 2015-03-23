@@ -17,7 +17,7 @@
 package com.speedment.codegen.java.views.interfaces;
 
 import com.speedment.codegen.base.Generator;
-import com.speedment.codegen.base.View;
+import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.interfaces.HasName;
 
 /**
@@ -25,7 +25,8 @@ import com.speedment.codegen.lang.interfaces.HasName;
  * @author Emil Forslund
  * @param <M>
  */
-public interface NameableView<M extends HasName<M>> extends View<M> {
+public interface NameableView<M extends HasName<M>> extends Transform<M, String> {
+    
     default String renderName(Generator cg, M model) {
         return model.getName();
     }

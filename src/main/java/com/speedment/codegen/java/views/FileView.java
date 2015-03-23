@@ -18,8 +18,8 @@ package com.speedment.codegen.java.views;
 
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
-import com.speedment.codegen.base.View;
 import com.speedment.codegen.base.DependencyManager;
+import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.java.views.interfaces.ClassableView;
 import com.speedment.codegen.java.views.interfaces.DocumentableView;
 import com.speedment.codegen.java.views.interfaces.ImportableView;
@@ -30,7 +30,7 @@ import java.util.Optional;
  *
  * @author Emil Forslund
  */
-public class FileView implements View<File>, DocumentableView<File>, 
+public class FileView implements Transform<File, String>, DocumentableView<File>, 
     ClassableView<File>, ImportableView<File> {
     
 	private final static String PACKAGE_STRING = "package ";

@@ -17,20 +17,19 @@
 package com.speedment.codegen.java.views;
 
 import com.speedment.util.CodeCombiner;
-import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.models.Import;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.models.File;
 import com.speedment.codegen.lang.models.Type;
-import java.util.List;
 
 /**
  *
  * @author Emil Forslund
  */
-public class ImportView implements View<Import> {
+public class ImportView implements Transform<Import, String> {
 	private final static String IMPORT_STRING = "import ";
 
 	@Override

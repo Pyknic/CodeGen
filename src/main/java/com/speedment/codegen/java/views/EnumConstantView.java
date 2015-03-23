@@ -16,9 +16,9 @@
  */
 package com.speedment.codegen.java.views;
 
-import com.speedment.codegen.base.View;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.models.EnumConstant;
 import java.util.Optional;
 import com.speedment.util.CodeCombiner;
@@ -27,7 +27,7 @@ import com.speedment.util.CodeCombiner;
  *
  * @author Emil Forslund
  */
-public class EnumConstantView implements View<EnumConstant> {
+public class EnumConstantView implements Transform<EnumConstant, String> {
 	@Override
 	public Optional<String> transform(Generator cg, EnumConstant model) {
 		return Optional.of(

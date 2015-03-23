@@ -21,17 +21,18 @@
  */
 package com.speedment.codegen.java.views.values;
 
-import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.models.values.TextValue;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.Transform;
 
 /**
  *
  * @author Emil Forslund
  */
-public class TextValueView implements View<TextValue> {
+public class TextValueView implements Transform<TextValue, String> {
+    
 	@Override
 	public Optional<String> transform(Generator cg, TextValue model) {
 		return Optional.of(H + model.getValue() + H);

@@ -17,18 +17,18 @@
 package com.speedment.codegen.java.views;
 
 import com.speedment.util.CodeCombiner;
-import com.speedment.codegen.base.View;
 import com.speedment.codegen.lang.models.Javadoc;
 import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.Transform;
 import java.util.stream.Stream;
 
 /**
  *
  * @author Emil Forslund
  */
-public class JavadocView implements View<Javadoc> {
+public class JavadocView implements Transform<Javadoc, String> {
 	private final static String
 		JAVADOC_DELIMITER = nl() + SPACE + STAR + SPACE,
 		JAVADOC_PREFIX = SLASH + STAR + STAR + nl() + SPACE + STAR + SPACE,
