@@ -138,7 +138,7 @@ public class TransformTest {
             manager.add(Method.of("inst", self).public_().static_().add("return INST;"));
             
             file.call(new AutoImports(gen.getDependencyMgr()));
-            file.call(new AutoJavadoc());
+            file.call(new AutoJavadoc<>());
 
             return Optional.of(file);
         }
@@ -167,7 +167,7 @@ public class TransformTest {
             entity.add(impl);
             file.add(entity);
             file.call(new AutoImports(gen.getDependencyMgr()));
-            file.call(new AutoJavadoc());
+            file.call(new AutoJavadoc<>());
 
             return Optional.of(file);
         }
