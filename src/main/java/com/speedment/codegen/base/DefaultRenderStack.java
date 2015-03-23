@@ -17,6 +17,7 @@
 package com.speedment.codegen.base;
 
 import java.util.ArrayDeque;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.Iterator;
 import static java.util.Spliterator.IMMUTABLE;
@@ -34,6 +35,10 @@ public class DefaultRenderStack implements RenderStack {
     
     public DefaultRenderStack() {
         stack = new ArrayDeque<>();
+    }
+    
+    public DefaultRenderStack(DefaultRenderStack prototype) {
+        stack = new ArrayDeque<>(prototype.stack);
     }
     
     public void push(Object obj) {
@@ -55,10 +60,13 @@ public class DefaultRenderStack implements RenderStack {
     }
     
     @SuppressWarnings("unchecked")
-    private <T> Stream<T> all(Class<T> type, Iterator<Object> i) {
-        final Iterable<Object> it = () -> i;
-        return StreamSupport.stream(it.spliterator(), false)
-            .filter(o -> type.isAssignableFrom(o.getClass()))
+    private static <T> Stream<T> all(Class<T> type, Iterator<Object> i) {
+        return all(i).filter(o -> type.isAssignableFrom(o.getClass()))
             .map(o -> (T) o);
+    }
+    
+    private static Stream<?> all(Iterator<Object> i) {
+        final Iterable<Object> it = () -> i;
+        return StreamSupport.stream(it.spliterator(), false);
     }
 }

@@ -27,6 +27,7 @@ public interface Meta<A, B> {
     B getResult();
     Transform<A, B> getTransform();
     Installer getInstaller();
+    RenderStack getRenderStack();
     
     class Impl<A, B> implements Meta<A, B> {
     
@@ -34,6 +35,7 @@ public interface Meta<A, B> {
         private B result;
         private Transform<A, B> transform;
         private Installer installer;
+        private RenderStack stack;
 
         Impl() {}
  
@@ -74,6 +76,16 @@ public interface Meta<A, B> {
 
         public Impl<A, B> setModel(A model) {
             this.model = model;
+            return this;
+        }
+
+        @Override
+        public RenderStack getRenderStack() {
+            return stack;
+        }
+        
+        public Impl<A, B> setRenderStack(RenderStack stack) {
+            this.stack = stack;
             return this;
         }
     }

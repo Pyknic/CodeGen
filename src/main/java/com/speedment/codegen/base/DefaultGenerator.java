@@ -118,15 +118,21 @@ public class DefaultGenerator implements Generator {
 	}
     
     private <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, Installer installer, boolean useStack) {
-        if (useStack) renderStack.push(model);
-        final Optional<B> result = transform.transform(this, model);
-        if (useStack) renderStack.pop();
         
-        return result.map(s -> new Meta.Impl<A, B>()
+        /*if (useStack) */renderStack.push(model);
+
+        final Optional<Meta<A, B>> meta = transform
+            .transform(this, model)
+            .map(s -> new Meta.Impl<A, B>()
+            .setModel(model)
             .setResult(s)
             .setTransform(transform)
             .setInstaller(installer)
-            .setModel(model)
+            .setRenderStack(new DefaultRenderStack(renderStack))
         );
+        
+        /*if (useStack) */renderStack.pop();
+        
+        return meta;
     }
 }
