@@ -38,6 +38,9 @@ import java.util.stream.Collectors;
  * @author Emil Forslund
  */
 public class InterfaceMethodView implements View<InterfaceMethod> {
+    
+    private final static String THROWS = " throws ";
+    
 	@Override
 	public Optional<String> transform(Generator cg, InterfaceMethod model) {
 		return Optional.of(ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
@@ -53,6 +56,8 @@ public class InterfaceMethodView implements View<InterfaceMethod> {
 			cg.onEach(model.getFields()).collect(
 				Collectors.joining(COMMA_SPACE, PS, PE)
 			) +
+            
+            cg.onEach(model.getExceptions()).collect(CodeCombiner.joinIfNotEmpty(COMMA_SPACE, THROWS, EMPTY)) +
 					
 			// Append body only if it is either default or static.
 			(model.getModifiers().contains(DEFAULT) 

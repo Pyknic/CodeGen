@@ -22,7 +22,6 @@ import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.lang.interfaces.Nameable;
 import com.speedment.codegen.lang.models.Constructor;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -31,6 +30,8 @@ import java.util.stream.Collectors;
  * @author Emil Forslund
  */
 public class ConstructorView implements View<Constructor> {
+    
+    private final static String THROWS = "throws ";
 
 	@Override
 	public Optional<String> transform(Generator cg, Constructor model) {
@@ -41,7 +42,9 @@ public class ConstructorView implements View<Constructor> {
                 .orElseThrow(() -> new UnsupportedOperationException("Could not find a nameable parent of constructor.")) +
 			cg.onEach(model.getFields()).collect(
 				Collectors.joining(COMMA_SPACE, PS, PE)
-			) + SPACE + block(
+			) + SPACE + 
+            cg.onEach(model.getExceptions()).collect(CodeCombiner.joinIfNotEmpty(COMMA_SPACE, THROWS, SPACE)) +
+            block(
 				model.getCode().stream().collect(
 					Collectors.joining(nl())
 				)

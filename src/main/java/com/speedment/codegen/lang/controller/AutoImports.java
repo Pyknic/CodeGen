@@ -21,6 +21,7 @@ import com.speedment.codegen.base.DependencyManager;
 import com.speedment.codegen.lang.interfaces.Annotable;
 import com.speedment.codegen.lang.interfaces.Classable;
 import com.speedment.codegen.lang.interfaces.Constructable;
+import com.speedment.codegen.lang.interfaces.Exceptionable;
 import com.speedment.codegen.lang.interfaces.Fieldable;
 import com.speedment.codegen.lang.interfaces.Generable;
 import com.speedment.codegen.lang.interfaces.Interfaceable;
@@ -106,6 +107,12 @@ public class AutoImports implements Consumer<File> {
 			((Methodable<?>) o).getMethods().forEach(m -> {
 				addType(m.getType(), types);
 				findTypesIn(m, types);
+			});
+		}
+        
+        if (Exceptionable.class.isAssignableFrom(o.getClass())) {
+			((Exceptionable<?>) o).getExceptions().forEach(e -> {
+				addType(e, types);
 			});
 		}
 		

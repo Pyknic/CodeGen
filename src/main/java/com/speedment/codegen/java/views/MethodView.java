@@ -29,6 +29,8 @@ import java.util.stream.Collectors;
  * @author Emil Forslund
  */
 public class MethodView implements View<Method> {
+    
+    private final static String THROWS = "throws ";
 
 	@Override
 	public Optional<String> transform(Generator cg, Method model) {
@@ -41,7 +43,9 @@ public class MethodView implements View<Method> {
 			model.getName() +
 			cg.onEach(model.getFields()).collect(
 				Collectors.joining(COMMA_SPACE, PS, PE)
-			) + SPACE + block(
+			) + SPACE + 
+            cg.onEach(model.getExceptions()).collect(CodeCombiner.joinIfNotEmpty(COMMA_SPACE, THROWS, SPACE)) +
+            block(
 				model.getCode().stream().collect(
 					Collectors.joining(nl())
 				)

@@ -21,6 +21,7 @@ import com.speedment.codegen.lang.interfaces.Callable;
 import com.speedment.codegen.lang.interfaces.Codeable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Documentable;
+import com.speedment.codegen.lang.interfaces.Exceptionable;
 import com.speedment.codegen.lang.interfaces.Fieldable;
 import com.speedment.codegen.lang.interfaces.Generable;
 import com.speedment.codegen.lang.interfaces.Nameable;
@@ -33,7 +34,7 @@ import java.util.function.Supplier;
  *
  * @author Emil Forslund
  */
-public interface Method extends Nameable<Method>, Typeable<Method>, 
+public interface Method extends Nameable<Method>, Typeable<Method>, Exceptionable<Method>,
     Generable<Method>, Fieldable<Method>, Documentable<Method>, Annotable<Method>, 
     Codeable<Method>, Callable<Method>, MethodModifier<Method>, Copyable<Method> {
 

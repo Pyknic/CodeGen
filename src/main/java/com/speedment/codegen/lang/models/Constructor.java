@@ -21,6 +21,7 @@ import com.speedment.codegen.lang.interfaces.Callable;
 import com.speedment.codegen.lang.interfaces.Codeable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Documentable;
+import com.speedment.codegen.lang.interfaces.Exceptionable;
 import com.speedment.codegen.lang.interfaces.Fieldable;
 import com.speedment.codegen.lang.models.implementation.ConstructorImpl;
 import com.speedment.codegen.lang.models.modifiers.ConstructorModifier;
@@ -31,8 +32,8 @@ import java.util.function.Supplier;
  * @author Emil Forslund
  */
 public interface Constructor extends Copyable<Constructor>, Callable<Constructor>, 
-    Documentable<Constructor>, Annotable<Constructor>, Fieldable<Constructor>, 
-    Codeable<Constructor>, ConstructorModifier<Constructor> {
+    Exceptionable<Constructor>, Documentable<Constructor>, Annotable<Constructor>, 
+    Fieldable<Constructor>, Codeable<Constructor>, ConstructorModifier<Constructor> {
 
     enum Factory { INST;
         private Supplier<Constructor> supplier = () -> new ConstructorImpl();

@@ -43,6 +43,7 @@ import static com.speedment.codegen.lang.models.constants.DefaultType.list;
 import static com.speedment.codegen.lang.models.constants.DefaultValue.EMPTY_STRING;
 import com.speedment.codegen.lang.models.values.NumberValue;
 import com.speedment.codegen.lang.models.values.ReferenceValue;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -125,6 +126,8 @@ public class Example {
 					.add("this.player1Score = score;")
 				)
 				.add(Method.of("spawnPlayer2", VOID).public_()
+                    .add(Type.of(ClassNotFoundException.class))
+                    .add(Type.of(IOException.class))
 					.set(Javadoc.of(
 						"This function is used to reset Player 2."
 					))

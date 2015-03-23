@@ -20,6 +20,7 @@ import com.speedment.codegen.lang.interfaces.Annotable;
 import com.speedment.codegen.lang.interfaces.Codeable;
 import com.speedment.codegen.lang.interfaces.Copyable;
 import com.speedment.codegen.lang.interfaces.Documentable;
+import com.speedment.codegen.lang.interfaces.Exceptionable;
 import com.speedment.codegen.lang.interfaces.Fieldable;
 import com.speedment.codegen.lang.interfaces.Generable;
 import com.speedment.codegen.lang.interfaces.Nameable;
@@ -32,6 +33,7 @@ import com.speedment.codegen.lang.models.modifiers.InterfaceMethodModifier;
  * @author Emil Forslund
  */
 public interface InterfaceMethod extends Nameable<InterfaceMethod>, 
+    Exceptionable<InterfaceMethod>,
     Typeable<InterfaceMethod>, Generable<InterfaceMethod>, 
     Fieldable<InterfaceMethod>, Documentable<InterfaceMethod>, 
     Annotable<InterfaceMethod>, Codeable<InterfaceMethod>, 
