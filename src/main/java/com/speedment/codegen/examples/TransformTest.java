@@ -18,9 +18,11 @@ package com.speedment.codegen.examples;
 
 import com.speedment.codegen.Formatting;
 import static com.speedment.codegen.Formatting.ucfirst;
+import com.speedment.codegen.base.DefaultDependencyManager;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.DefaultGenerator;
 import com.speedment.codegen.base.Transform;
+import com.speedment.codegen.java.JavaGenerator;
 import com.speedment.codegen.java.JavaInstaller;
 import com.speedment.codegen.lang.controller.AutoImports;
 import com.speedment.codegen.lang.controller.AutoJavadoc;
@@ -55,7 +57,9 @@ public class TransformTest {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        final Generator gen = new DefaultGenerator(new TransformInstaller());
+        final Generator gen = new JavaGenerator(
+            new TransformInstaller()
+        );
         
         Table user = new Table("User");
         Table picture = new Table("Picture");
@@ -86,9 +90,9 @@ public class TransformTest {
         System.out.println("***************************");
         System.out.println(gen.metaOn(user).map(m -> m.getResult()).collect(Collectors.joining("\n***************************\n")));
         System.out.println("***************************");
-        System.out.println(gen.metaOn(user).map(m -> m.getResult()).collect(Collectors.joining("\n***************************\n")));
+        System.out.println(gen.metaOn(picture).map(m -> m.getResult()).collect(Collectors.joining("\n***************************\n")));
         System.out.println("***************************");
-        System.out.println(gen.metaOn(user).map(m -> m.getResult()).collect(Collectors.joining("\n***************************\n")));
+        System.out.println(gen.metaOn(comment).map(m -> m.getResult()).collect(Collectors.joining("\n***************************\n")));
         System.out.println("***************************");
     }
     
@@ -121,16 +125,16 @@ public class TransformTest {
                 file.add(Import.of(Type.of(ArrayList.class)));
                 
                 manager.add(Field.of("entitiesBy" + ucfirst(f.getName()), map(f.getType(), list(entity)))
-                    .set(new ReferenceValue("new ConcurrentHashMap<>();")));
+                    .set(new ReferenceValue("new ConcurrentHashMap<>()")));
 
-                manager.add(Method.of("findBy" + ucfirst(f.getName()), self)
+                manager.add(Method.of("findBy" + ucfirst(f.getName()), entity)
                     .public_()
                     .add(f).add("return this.entitiesBy" + ucfirst(f.getName()) + ".computeIfAbsent(" + f.getName() + ", () -> new ArrayList<>());")
                 );
             });
 
             manager.add(Constructor.of().private_());
-            manager.add(Field.of("INST", self).final_().static_().set(new ReferenceValue("new " + ucfirst(table.getName()) + "();")));
+            manager.add(Field.of("INST", self).final_().static_().set(new ReferenceValue("new " + ucfirst(table.getName()) + "()")));
             manager.add(Method.of("inst", self).public_().static_().add("return INST;"));
             
             file.call(new AutoImports(gen.getDependencyMgr()));

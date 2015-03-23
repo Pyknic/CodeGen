@@ -116,10 +116,15 @@ public class AutoImports implements Consumer<File> {
 	
 	private void addType(Type type, Map<String, Type> types) {
 		final String name = type.getName();
+
 		if (name.contains(DOT)) {
 			if (!mgr.isIgnored(name)) {
 				types.put(name, type);
 			}
 		}
+        
+        if (!type.getGenerics().isEmpty()) {
+            findTypesIn(type, types);
+        }
 	}
 }

@@ -17,7 +17,6 @@
 package com.speedment.codegen.base;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -47,11 +46,9 @@ public interface Generator {
      * interface describing the properties you need to read. That way, the
      * design remains dynamic even if the exact implementation isn't the same.
      *
-     * The returned Stack will be immutable.
-     *
      * @return the current rendering stack.
      */
-    List<Object> getRenderStack();
+    RenderStack getRenderStack();
     
     /**
      * Renders the specified model into a stream of code models. This is used

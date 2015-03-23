@@ -17,10 +17,8 @@
 package com.speedment.codegen.base;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Stack;
 import java.util.stream.Stream;
 
 /**
@@ -32,9 +30,10 @@ import java.util.stream.Stream;
  * @author Emil Forslund
  */
 public class DefaultGenerator implements Generator {
+    
 	private final DependencyManager mgr;
 	private final List<Installer> installers;
-	private final Stack<Object> renderStack;
+	private final DefaultRenderStack renderStack;
 	
 	/**
 	 * Creates a new MultiGenerator.
@@ -52,7 +51,7 @@ public class DefaultGenerator implements Generator {
 	public DefaultGenerator(DependencyManager mgr, Installer... installers) {
 		this.installers = Arrays.asList(installers);
 		this.mgr = mgr;
-		this.renderStack = new Stack<>();
+		this.renderStack = new DefaultRenderStack();
 	}
 	
 	/**
@@ -84,8 +83,8 @@ public class DefaultGenerator implements Generator {
 	 * @return the current rendering stack.
 	 */
 	@Override
-	public List<Object> getRenderStack() {
-		return Collections.unmodifiableList(renderStack);
+	public RenderStack getRenderStack() {
+		return renderStack;
 	}
 
     /**
@@ -103,12 +102,11 @@ public class DefaultGenerator implements Generator {
                 "Model must not be an Optional!"
             );
         }
-        
-        
+
         return installers.stream().flatMap(installer ->
             BridgeTransform.create(installer, model.getClass(), to)
             .map(t -> (Transform<A, B>) t)
-            .map(t -> transform(t, model, installer))
+            .map(t -> transform(t, model, installer, false))
             .filter(o -> o.isPresent())
             .map(o -> o.get())
         );
@@ -116,16 +114,19 @@ public class DefaultGenerator implements Generator {
 
     @Override
 	public <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, Installer installer) {
+        return transform(transform, model, installer, true);
+	}
+    
+    private <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, Installer installer, boolean useStack) {
+        if (useStack) renderStack.push(model);
+        final Optional<B> result = transform.transform(this, model);
+        if (useStack) renderStack.pop();
         
-        renderStack.push(model);
-		final Optional<B> result = transform.transform(this, model);
-		renderStack.pop();
-        
-		return result.map(s -> new Meta.Impl<A, B>()
+        return result.map(s -> new Meta.Impl<A, B>()
             .setResult(s)
             .setTransform(transform)
             .setInstaller(installer)
             .setModel(model)
         );
-	}
+    }
 }

@@ -69,14 +69,13 @@ public class BridgeTransform<A, B> implements Transform<A, B> {
         Object o = model;
         
         for (final Transform<?, ?> step : steps) {
-            final Transform<Object, ?> step2 = (Transform<Object, ?>) step;
-
-            Optional<?> opt = gen.transform(step2, o, installer);
-            if (opt.isPresent()) {
-                o = opt.get();
+            if (o == null) {
+                return Optional.empty();
             } else {
-                o = null;
-                break;
+                final Transform<Object, ?> step2 = (Transform<Object, ?>) step;
+                o = gen.transform(step2, o, installer)
+                    .map(m -> m.getResult())
+                    .orElse(null);
             }
         }
         

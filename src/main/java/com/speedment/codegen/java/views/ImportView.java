@@ -49,21 +49,13 @@ public class ImportView implements View<Import> {
 	}
 	
 	private boolean shouldImport(Generator cg, Type type) {
-		final List<Object> stack = cg.getRenderStack();
-		if (stack.size() >= 2) {
-            final File parent = stack.stream()
-                .filter(o -> o instanceof File)
-                .map(o -> (File) o)
-                .findFirst()
-                .orElseThrow(() -> new UnsupportedOperationException("Imports require a file in the model hierarchy."));
-
-            final Optional<String> name = fileToClassName(parent.getName());
-            if (name.isPresent()) {
-                final Optional<String> pack = packageName(name.get());
+        return cg.getRenderStack().fromBottom(File.class)
+            .map(f -> fileToClassName(f.getName()))
+            .filter(f -> f.isPresent())
+            .map(f -> f.get())
+            .filter(n -> {
+                final Optional<String> pack = packageName(n);
                 return !(pack.isPresent() && type.getName().startsWith(pack.get() + DOT));
-            }
-		}
-		
-		return false;
+            }).findAny().isPresent();
 	}
 }
