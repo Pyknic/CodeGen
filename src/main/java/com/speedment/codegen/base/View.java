@@ -19,8 +19,9 @@ package com.speedment.codegen.base;
 import java.util.Optional;
 
 /**
- * CodeModels must have a public constructor with no parameters so that it can
+ * Views must have a public constructor with no parameters so that it can
  * be instantiated dynamically.
+ * 
  * @author Emil Forslund
  * @param <M> The model to view.
  */

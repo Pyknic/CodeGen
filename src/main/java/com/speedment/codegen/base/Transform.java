@@ -19,8 +19,12 @@ package com.speedment.codegen.base;
 import java.util.Optional;
 
 /**
- *
+ * Transforms must have a public constructor with no parameters so that it can
+ * be instantiated dynamically.
+ * 
  * @author Emil Forslund
+ * @param <F> The model to generate from.
+ * @param <T> The resulting model.
  */
 public interface Transform<F, T> {
     Optional<T> transform(Generator gen, F model);
