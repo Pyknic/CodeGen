@@ -50,10 +50,11 @@ public class DefaultInstaller implements Installer {
 
 	@Override
     @SuppressWarnings("unchecked")
-	public <A, T extends Transform<A, ?>> Map<Class<?>, T> allFrom(Class<A> model) {
+	public <A, T extends Transform<A, ?>> Set<Map.Entry<Class<?>, T>> allFrom(Class<A> model) {
 		return new HashSet<>(transforms.entrySet()).stream()
 			.filter(e -> e.getKey().isAssignableFrom(model))
             .flatMap(e -> e.getValue().stream())
-            .collect(Collectors.toMap(e -> e.getKey(), e -> (T) Installer.create(e.getValue())));
+            .map(e -> (Map.Entry<Class<?>, T>) new AbstractMap.SimpleEntry<>(e.getKey(), (T) Installer.create(e.getValue())))
+            .collect(Collectors.toSet());
 	}
 }

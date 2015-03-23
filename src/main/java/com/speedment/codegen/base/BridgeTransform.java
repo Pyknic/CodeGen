@@ -30,20 +30,23 @@ public class BridgeTransform<A, B> implements Transform<A, B> {
     private final List<Transform<?, ?>> steps;
     private final Class<A> from;
     private final Class<B> to;
+    private final Installer installer;
     private Class<?> end;
     
-    public BridgeTransform(Class<A> from, Class<B> to) {
+    public BridgeTransform(Class<A> from, Class<B> to, Installer installer) {
         this.steps = new ArrayList<>();
         this.from = from;
         this.to = to;
         this.end = from;
+        this.installer = installer;
     }
     
     private BridgeTransform(BridgeTransform<A, B> prototype) {
-        steps = new ArrayList<>(prototype.steps);
-        from  = prototype.from;
-        to    = prototype.to;
-        end   = prototype.end;
+        steps     = new ArrayList<>(prototype.steps);
+        from      = prototype.from;
+        to        = prototype.to;
+        end       = prototype.end;
+        installer = prototype.installer;
     }
     
     public <A2, B2> boolean addStep(Class<A2> from, Class<B2> to, Transform<A2, B2> step) {
@@ -67,7 +70,8 @@ public class BridgeTransform<A, B> implements Transform<A, B> {
         
         for (final Transform<?, ?> step : steps) {
             final Transform<Object, ?> step2 = (Transform<Object, ?>) step;
-            Optional<?> opt = step2.transform(gen, o);
+
+            Optional<?> opt = gen.transform(step2, o, installer);
             if (opt.isPresent()) {
                 o = opt.get();
             } else {
@@ -80,7 +84,7 @@ public class BridgeTransform<A, B> implements Transform<A, B> {
     }
     
     public static <A, B, T extends Transform<A, B>> Stream<T> create(Installer installer, Class<A> from, Class<B> to) {
-        return create(installer, new BridgeTransform<>(from, to));
+        return create(installer, new BridgeTransform<>(from, to, installer));
     }
     
     @SuppressWarnings("unchecked")
@@ -90,7 +94,7 @@ public class BridgeTransform<A, B> implements Transform<A, B> {
         } else {
             final List<Stream<T>> bridges = new ArrayList<>();
             
-            installer.allFrom(bridge.end).entrySet().stream().forEach(e -> {
+            installer.allFrom(bridge.end).stream().forEach(e -> {
                 
                 final BridgeTransform<A, B> br = new BridgeTransform<>(bridge);
                 

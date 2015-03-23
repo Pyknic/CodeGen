@@ -131,4 +131,17 @@ public interface Generator {
     default <M> Stream<String> onEach(Collection<M> models) {
         return metaOn(models).map(c -> c.getResult());
     }
+    
+    /**
+     * Transforms the specified model using the specified transform from the
+     * specified installer.
+     * 
+     * @param <A>
+     * @param <B>
+     * @param transform
+     * @param model
+     * @param installer
+     * @return 
+     */
+    <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, Installer installer);
 }

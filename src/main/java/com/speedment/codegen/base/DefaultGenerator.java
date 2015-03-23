@@ -16,6 +16,7 @@
  */
 package com.speedment.codegen.base;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -23,40 +24,43 @@ import java.util.Stack;
 import java.util.stream.Stream;
 
 /**
- * A <code>DefaultCodeGenerator</code> is the class that is called to view a model. The
- * class is instantiated with a particular <code>VersionEnum</code> so that it
- * can map inputed models to the appropriate view. 
- * 
- * The code generator can also be used to keep track of which dependencies has
- * been imported.
+ * A generator that can have multiple installers. If the same model is associated
+ * with multiple views, only one will be called in the on-methods that return
+ * a String, but all of them will be executed in the on-methods that takes a
+ * consumer.
  * 
  * @author Emil Forslund
  */
 public class DefaultGenerator implements Generator {
-	private final Installer installer;
-	private final DependencyManager dependencyMgr;
+	private final DependencyManager mgr;
+	private final List<Installer> installers;
 	private final Stack<Object> renderStack;
 	
 	/**
-	 * Initialises the code generator using a default dependency manager.
-	 * See <code>CodeGenerator(DefaultInstaller, DefaultDependencyManager)</code> for a full
-	 * description.
-	 * @param installer
+	 * Creates a new MultiGenerator.
+	 * @param installers 
 	 */
-	public DefaultGenerator(Installer installer) {
-		this(installer, new DefaultDependencyManager());
+	public DefaultGenerator(Installer... installers) {
+		this(new DefaultDependencyManager(), installers);
 	}
 	
 	/**
-	 * Initialises a code generator based on the specified code version. The
-	 * code version will be used to map models to the appropriate view.
-	 * @param installer A subclass of <code>DefaultInstaller</code>.
-	 * @param mgr A DefaultDependencyManager to keep track of dependencies.
+	 * Creates a new MultiGenerator.
+	 * @param mgr
+	 * @param installers 
 	 */
-	public DefaultGenerator(Installer installer, DependencyManager mgr) {
-		this.installer = installer;
-		this.dependencyMgr = mgr;
+	public DefaultGenerator(DependencyManager mgr, Installer... installers) {
+		this.installers = Arrays.asList(installers);
+		this.mgr = mgr;
 		this.renderStack = new Stack<>();
+	}
+	
+	/**
+	 * @return the dependency manager.
+	 */
+	@Override
+	public DependencyManager getDependencyMgr() {
+		return mgr;
 	}
 	
 	/**
@@ -83,14 +87,6 @@ public class DefaultGenerator implements Generator {
 	public List<Object> getRenderStack() {
 		return Collections.unmodifiableList(renderStack);
 	}
-	
-	/**
-	 * @return the dependency manager.
-	 */
-	@Override
-	public DependencyManager getDependencyMgr() {
-		return dependencyMgr;
-	}
 
     /**
      * Renders the specified model into a stream of code models.
@@ -108,15 +104,19 @@ public class DefaultGenerator implements Generator {
             );
         }
         
-        return installer.bridge(model.getClass(), to)
+        
+        return installers.stream().flatMap(installer ->
+            BridgeTransform.create(installer, model.getClass(), to)
             .map(t -> (Transform<A, B>) t)
-            .map(t -> transform(t, model))
+            .map(t -> transform(t, model, installer))
             .filter(o -> o.isPresent())
             .map(o -> o.get())
-        ;
+        );
     }
 
-	private <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model) {
+    @Override
+	public <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, Installer installer) {
+        
         renderStack.push(model);
 		final Optional<B> result = transform.transform(this, model);
 		renderStack.pop();

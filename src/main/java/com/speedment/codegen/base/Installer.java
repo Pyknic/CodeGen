@@ -17,6 +17,7 @@
 package com.speedment.codegen.base;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
@@ -65,23 +66,7 @@ public interface Installer {
 	 * @param model The model.
 	 * @return A stream of all matching transforms.
 	 */
-	<A, T extends Transform<A, ?>> Map<Class<?>, T> allFrom(Class<A> from);
-    
-    /**
-     * Creates a Transform that can convert one type to another by nesting
-     * installed transforms. If no bridge can be constructed of the installed
-     * transforms, an empty optional is returned.
-     * 
-     * @param <A> The type to convert from.
-     * @param <B> The type to convert to.
-     * @param <T> The resulting Transform.
-     * @param from The model class to convert from.
-     * @param to The resulting class.
-     * @return A Transform that can convert between the two or empty.
-     */
-    default <A, B, T extends Transform<A, B>> Stream<T> bridge(Class<A> from, Class<B> to) {
-        return BridgeTransform.create(this, from, to);
-    }
+	<A, T extends Transform<A, ?>> Set<Map.Entry<Class<?>, T>> allFrom(Class<A> from);
 	
 	/**
 	 * Instantiates the specified class and returns it.

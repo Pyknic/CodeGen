@@ -19,21 +19,31 @@ package com.speedment.codegen.examples;
 import com.speedment.codegen.Formatting;
 import static com.speedment.codegen.Formatting.ucfirst;
 import com.speedment.codegen.base.Generator;
-import com.speedment.codegen.base.MultiGenerator;
+import com.speedment.codegen.base.DefaultGenerator;
 import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.java.JavaInstaller;
+import com.speedment.codegen.lang.controller.AutoImports;
+import com.speedment.codegen.lang.controller.AutoJavadoc;
 import java.util.ArrayList;
 import java.util.List;
 import com.speedment.codegen.lang.models.Class;
+import com.speedment.codegen.lang.models.Constructor;
 import com.speedment.codegen.lang.models.Field;
+import com.speedment.codegen.lang.models.File;
+import com.speedment.codegen.lang.models.Import;
 import com.speedment.codegen.lang.models.Interface;
 import com.speedment.codegen.lang.models.Method;
 import com.speedment.codegen.lang.models.Type;
 import static com.speedment.codegen.lang.models.constants.DefaultAnnotationUsage.OVERRIDE;
 import static com.speedment.codegen.lang.models.constants.DefaultType.VOID;
+import static com.speedment.codegen.lang.models.constants.DefaultType.list;
+import static com.speedment.codegen.lang.models.constants.DefaultType.map;
+import com.speedment.codegen.lang.models.values.ReferenceValue;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -45,7 +55,7 @@ public class TransformTest {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        final Generator gen = new MultiGenerator(new TransformInstaller());
+        final Generator gen = new DefaultGenerator(new TransformInstaller());
         
         Table user = new Table("User");
         Table picture = new Table("Picture");
@@ -74,27 +84,69 @@ public class TransformTest {
         ));
         
         System.out.println("***************************");
-        System.out.println(gen.on(user).get());
+        System.out.println(gen.metaOn(user).map(m -> m.getResult()).collect(Collectors.joining("\n***************************\n")));
         System.out.println("***************************");
-        System.out.println(gen.on(picture).get());
+        System.out.println(gen.metaOn(user).map(m -> m.getResult()).collect(Collectors.joining("\n***************************\n")));
         System.out.println("***************************");
-        System.out.println(gen.on(comment).get());
+        System.out.println(gen.metaOn(user).map(m -> m.getResult()).collect(Collectors.joining("\n***************************\n")));
         System.out.println("***************************");
     }
     
     public static class TransformInstaller extends JavaInstaller {
         public TransformInstaller() {
             super("TransformInstaller");
-            install(Table.class, Interface.class, EntityTransform.class);
+            install(Table.class, File.class, EntityTransform.class);
+            install(Table.class, File.class, ManagerTransform.class);
             install(Column.class, Field.class, ColumnTransform.class);
         }
     }
-
-    public static class EntityTransform implements Transform<Table, Interface> {
+    
+    public static class ManagerTransform implements Transform<Table, File> {
 
         @Override
-        public Optional<Interface> transform(Generator gen, Table table) {
-            final Interface entity = Interface.of(table.getName()).public_();
+        public Optional<File> transform(Generator gen, Table table) {
+            final File file = File.of("org/example/" + ucfirst(table.getName()) + "Mgr.java");
+            
+            final Class manager = Class.of(ucfirst(table.getName()) + "Mgr").public_().final_();
+            file.add(manager);
+            
+            final Type self = Type.of("org.example." + ucfirst(table.getName()) + "Mgr");
+            final Type entity = Type.of("org.example." + ucfirst(table.getName()));
+            file.add(Import.of(entity));
+            
+            gen.metaOn(table.getColumns(), Field.class).forEachOrdered(meta -> {
+                final Field f = meta.getResult().private_();
+
+                file.add(Import.of(Type.of(ConcurrentHashMap.class)));
+                file.add(Import.of(Type.of(ArrayList.class)));
+                
+                manager.add(Field.of("entitiesBy" + ucfirst(f.getName()), map(f.getType(), list(entity)))
+                    .set(new ReferenceValue("new ConcurrentHashMap<>();")));
+
+                manager.add(Method.of("findBy" + ucfirst(f.getName()), self)
+                    .public_()
+                    .add(f).add("return this.entitiesBy" + ucfirst(f.getName()) + ".computeIfAbsent(" + f.getName() + ", () -> new ArrayList<>());")
+                );
+            });
+
+            manager.add(Constructor.of().private_());
+            manager.add(Field.of("INST", self).final_().static_().set(new ReferenceValue("new " + ucfirst(table.getName()) + "();")));
+            manager.add(Method.of("inst", self).public_().static_().add("return INST;"));
+            
+            file.call(new AutoImports(gen.getDependencyMgr()));
+            file.call(new AutoJavadoc());
+
+            return Optional.of(file);
+        }
+    }
+
+    public static class EntityTransform implements Transform<Table, File> {
+
+        @Override
+        public Optional<File> transform(Generator gen, Table table) {
+            final Interface entity = Interface.of(ucfirst(table.getName())).public_();
+            final File file = File.of("org/example/" + entity.getName() + ".java");
+            
             final Class impl = Class.of(table.getName() + "Impl").public_();
             impl.setSupertype(Type.of("org.example." + entity.getName()));
 
@@ -109,8 +161,11 @@ public class TransformTest {
             });
 
             entity.add(impl);
+            file.add(entity);
+            file.call(new AutoImports(gen.getDependencyMgr()));
+            file.call(new AutoJavadoc());
 
-            return Optional.of(entity);
+            return Optional.of(file);
         }
 
         private static Method setter(Field field) {

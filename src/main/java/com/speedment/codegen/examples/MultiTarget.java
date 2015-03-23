@@ -23,7 +23,7 @@ import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.View;
 import com.speedment.codegen.base.DefaultInstaller;
 import com.speedment.codegen.base.Installer;
-import com.speedment.codegen.base.MultiGenerator;
+import com.speedment.codegen.base.DefaultGenerator;
 import com.speedment.codegen.java.JavaInstaller;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Method;
@@ -48,7 +48,7 @@ public class MultiTarget {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        final MultiGenerator gen = new MultiGenerator(JAVA, XML);
+        final DefaultGenerator gen = new DefaultGenerator(JAVA, XML);
         Formatting.tab("    ");
         
         gen.metaOn(
