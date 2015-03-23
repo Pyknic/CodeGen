@@ -25,4 +25,5 @@ import java.util.stream.Stream;
 public interface RenderStack {
     <T> Stream<T> fromBottom(Class<T> type);
     <T> Stream<T> fromTop(Class<T> type);
+    boolean isEmpty();
 }

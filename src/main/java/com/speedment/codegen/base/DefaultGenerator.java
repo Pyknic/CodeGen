@@ -114,7 +114,6 @@ public class DefaultGenerator implements Generator {
 
     @Override
     public <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, Installer installer) {
-        
         renderStack.push(model);
 
         final Optional<Meta<A, B>> meta = transform

@@ -17,11 +17,8 @@
 package com.speedment.codegen.base;
 
 import java.util.ArrayDeque;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.Iterator;
-import static java.util.Spliterator.IMMUTABLE;
-import static java.util.Spliterator.ORDERED;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -68,5 +65,10 @@ public class DefaultRenderStack implements RenderStack {
     private static Stream<?> all(Iterator<Object> i) {
         final Iterable<Object> it = () -> i;
         return StreamSupport.stream(it.spliterator(), false);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return stack.isEmpty();
     }
 }
