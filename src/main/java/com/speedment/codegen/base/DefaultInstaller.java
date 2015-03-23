@@ -16,8 +16,10 @@
  */
 package com.speedment.codegen.base;
 
+import java.util.AbstractMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -26,8 +28,8 @@ import java.util.stream.Collectors;
  * @author Emil Forslund
  */
 public class DefaultInstaller implements Installer {
-    
-    private final Map<Class<?>, Map<Class<?>, Class<? extends Transform<?, ?>>>> transforms;
+
+    private final Map<Class<?>, Set<Map.Entry<Class<?>, Class<? extends Transform<?, ?>>>>> transforms;
 	private final String name;
     
 	public DefaultInstaller(String name) {
@@ -42,7 +44,7 @@ public class DefaultInstaller implements Installer {
 
 	@Override
 	public <A, B, T extends Transform<A, B>> Installer install(Class<A> from, Class<B> to, Class<T> transform) {
-        transforms.computeIfAbsent(from, f -> new ConcurrentHashMap<>()).put(to, transform);
+        transforms.computeIfAbsent(from, f -> new HashSet<>()).add(new AbstractMap.SimpleEntry<>(to, transform));
         return this;
 	}
 
@@ -51,7 +53,7 @@ public class DefaultInstaller implements Installer {
 	public <A, T extends Transform<A, ?>> Map<Class<?>, T> allFrom(Class<A> model) {
 		return new HashSet<>(transforms.entrySet()).stream()
 			.filter(e -> e.getKey().isAssignableFrom(model))
-            .flatMap(e -> e.getValue().entrySet().stream())
+            .flatMap(e -> e.getValue().stream())
             .collect(Collectors.toMap(e -> e.getKey(), e -> (T) Installer.create(e.getValue())));
 	}
 }
