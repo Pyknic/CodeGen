@@ -16,7 +16,7 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
-import com.speedment.codegen.lang.models.Import;
+import com.speedment.codegen.lang.models.ClassOrInterface;
 import java.util.List;
 
 /**
@@ -24,13 +24,13 @@ import java.util.List;
  * @author Emil Forslund
  * @param <T>
  */
-public interface Importable<T extends Importable<T>> {
+public interface HasClasses<T extends HasClasses<T>> {
     
     @SuppressWarnings("unchecked")
-    default T add(final Import dep) {
-        getImports().add(dep);
+    default T add(ClassOrInterface<?> member) {
+        getClasses().add(member);
         return (T) this;
     }
     
-    List<Import> getImports();
+	List<ClassOrInterface<?>> getClasses();
 }

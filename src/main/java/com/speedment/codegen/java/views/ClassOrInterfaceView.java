@@ -28,7 +28,7 @@ import com.speedment.codegen.java.views.interfaces.InterfaceableView;
 import com.speedment.codegen.java.views.interfaces.MethodableView;
 import com.speedment.codegen.java.views.interfaces.ModifiableView;
 import com.speedment.codegen.java.views.interfaces.NameableView;
-import com.speedment.codegen.lang.interfaces.Constructable;
+import com.speedment.codegen.lang.interfaces.HasConstructors;
 import com.speedment.codegen.lang.models.ClassOrInterface;
 import com.speedment.codegen.lang.models.Field;
 import java.util.Optional;
@@ -63,9 +63,8 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implem
 	protected Object wrapField(Field field) {return field;}
 
 	protected String onAfterFields(Generator cg, M model) {
-		if (model instanceof Constructable) {
-			return cg.onEach(
-				((Constructable<?>) model).getConstructors()
+		if (model instanceof HasConstructors) {
+			return cg.onEach(((HasConstructors<?>) model).getConstructors()
 			).collect(Collectors.joining(dnl()));
 		} else {
 			return EMPTY;

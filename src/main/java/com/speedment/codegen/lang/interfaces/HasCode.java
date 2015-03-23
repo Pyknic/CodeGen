@@ -16,7 +16,6 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
-import com.speedment.codegen.lang.models.Method;
 import java.util.List;
 
 /**
@@ -24,13 +23,13 @@ import java.util.List;
  * @author Emil Forslund
  * @param <T>
  */
-public interface Methodable<T extends Methodable<T>> {
+public interface HasCode<T extends HasCode<T>> {
     
     @SuppressWarnings("unchecked")
-    default T add(final Method meth) {
-        getMethods().add(meth);
+    default T add(String row) {
+        getCode().add(row);
         return (T) this;
     }
     
-    List<Method> getMethods();
+    List<String> getCode();
 }

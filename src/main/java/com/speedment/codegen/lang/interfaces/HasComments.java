@@ -16,21 +16,14 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
-import com.speedment.codegen.lang.models.Field;
-import java.util.List;
+import java.util.Optional;
 
 /**
  *
  * @author Emil Forslund
  * @param <T>
  */
-public interface Fieldable<T extends Fieldable<T>> {
-    
-    @SuppressWarnings("unchecked")
-    default T add(final Field field) {
-        getFields().add(field);
-        return (T) this;
-    }
-    
-    List<Field> getFields();
+public interface HasComments<T extends HasComments<T>> {
+	Optional<String> getComment();
+	T setComment(String comment);
 }

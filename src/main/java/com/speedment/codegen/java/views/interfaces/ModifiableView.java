@@ -20,7 +20,7 @@ import static com.speedment.codegen.Formatting.EMPTY;
 import static com.speedment.codegen.Formatting.SPACE;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.View;
-import com.speedment.codegen.lang.interfaces.Modifiable;
+import com.speedment.codegen.lang.interfaces.HasModifiers;
 import com.speedment.util.CodeCombiner;
 
 /**
@@ -28,7 +28,7 @@ import com.speedment.util.CodeCombiner;
  * @author Emil Forslund
  * @param <M>
  */
-public interface ModifiableView<M extends Modifiable<M>> extends View<M> {
+public interface ModifiableView<M extends HasModifiers<M>> extends View<M> {
     default String renderModifiers(Generator cg, M model) {
         return cg.onEach(model.getModifiers())
             .collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE));

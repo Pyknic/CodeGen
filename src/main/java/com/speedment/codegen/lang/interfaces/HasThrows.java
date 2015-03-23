@@ -22,7 +22,7 @@ import java.util.Set;
  *
  * @author Emil Forslund
  */
-public interface Exceptionable<T extends Exceptionable<T>> {
+public interface HasThrows<T extends HasThrows<T>> {
     
     @SuppressWarnings("unchecked")
     default T add(final Type exception) {

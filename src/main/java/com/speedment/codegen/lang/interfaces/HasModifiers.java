@@ -24,6 +24,6 @@ import java.util.Set;
  * @author Emil Forslund
  * @param <T>
  */
-public interface Modifiable<T extends Modifiable<T>> {
+public interface HasModifiers<T extends HasModifiers<T>> {
 	Set<Modifier> getModifiers();
 }

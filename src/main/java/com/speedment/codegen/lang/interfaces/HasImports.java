@@ -16,7 +16,7 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
-import com.speedment.codegen.lang.models.Constructor;
+import com.speedment.codegen.lang.models.Import;
 import java.util.List;
 
 /**
@@ -24,13 +24,13 @@ import java.util.List;
  * @author Emil Forslund
  * @param <T>
  */
-public interface Constructable<T extends Constructable<T>> {
+public interface HasImports<T extends HasImports<T>> {
     
     @SuppressWarnings("unchecked")
-    default T add(final Constructor constr) {
-        getConstructors().add(constr);
+    default T add(final Import dep) {
+        getImports().add(dep);
         return (T) this;
     }
     
-    List<Constructor> getConstructors();
+    List<Import> getImports();
 }

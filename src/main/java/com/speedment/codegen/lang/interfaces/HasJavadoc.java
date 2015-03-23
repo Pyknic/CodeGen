@@ -16,12 +16,15 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
+import com.speedment.codegen.lang.models.Javadoc;
+import java.util.Optional;
+
 /**
  *
  * @author Emil Forslund
  * @param <T>
  */
-public interface Nameable<T extends Nameable<T>> {
-    T setName(final String name);
-    String getName();
+public interface HasJavadoc<T extends HasJavadoc<T>> {
+    T set(final Javadoc doc);
+    Optional<Javadoc> getJavadoc();
 }

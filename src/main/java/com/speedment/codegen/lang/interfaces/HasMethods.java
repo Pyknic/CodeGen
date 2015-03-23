@@ -16,15 +16,21 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
-import com.speedment.codegen.lang.models.Type;
-import java.util.Optional;
+import com.speedment.codegen.lang.models.Method;
+import java.util.List;
 
 /**
  *
  * @author Emil Forslund
  * @param <T>
  */
-public interface Supertypeable<T extends Supertypeable<T>> {
-	T setSupertype(Type type);
-	Optional<Type> getSupertype();
+public interface HasMethods<T extends HasMethods<T>> {
+    
+    @SuppressWarnings("unchecked")
+    default T add(final Method meth) {
+        getMethods().add(meth);
+        return (T) this;
+    }
+    
+    List<Method> getMethods();
 }

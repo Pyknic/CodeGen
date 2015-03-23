@@ -20,7 +20,7 @@ import static com.speedment.codegen.Formatting.COMMA_SPACE;
 import static com.speedment.codegen.Formatting.SPACE;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.View;
-import com.speedment.codegen.lang.interfaces.Interfaceable;
+import com.speedment.codegen.lang.interfaces.HasImplements;
 import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
 
 /**
@@ -28,7 +28,7 @@ import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
  * @author Emil Forslund
  * @param <M>
  */
-public interface InterfaceableView<M extends Interfaceable<M>> extends View<M> {
+public interface InterfaceableView<M extends HasImplements<M>> extends View<M> {
     
     String extendsOrImplementsInterfaces();
     

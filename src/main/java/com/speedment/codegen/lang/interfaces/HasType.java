@@ -16,21 +16,14 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
-import com.speedment.codegen.lang.models.ClassOrInterface;
-import java.util.List;
+import com.speedment.codegen.lang.models.Type;
 
 /**
  *
  * @author Emil Forslund
  * @param <T>
  */
-public interface Classable<T extends Classable<T>> {
-    
-    @SuppressWarnings("unchecked")
-    default T add(ClassOrInterface<?> member) {
-        getClasses().add(member);
-        return (T) this;
-    }
-    
-	List<ClassOrInterface<?>> getClasses();
+public interface HasType<T extends HasType<T>> {
+    T set(final Type type);
+    Type getType();
 }

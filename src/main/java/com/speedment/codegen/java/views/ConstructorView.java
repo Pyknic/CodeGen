@@ -20,7 +20,7 @@ import com.speedment.codegen.base.View;
 import com.speedment.util.CodeCombiner;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
-import com.speedment.codegen.lang.interfaces.Nameable;
+import com.speedment.codegen.lang.interfaces.HasName;
 import com.speedment.codegen.lang.models.Constructor;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -54,7 +54,7 @@ public class ConstructorView implements View<Constructor> {
 	
 	private static Optional<String> renderName(Generator cg, Constructor model) {
 		Optional<String> result = cg.getRenderStack()
-            .fromTop(Nameable.class)
+            .fromTop(HasName.class)
             .filter(n -> model != n)
             .map(n -> shortName(n.getName()))
             .findFirst();

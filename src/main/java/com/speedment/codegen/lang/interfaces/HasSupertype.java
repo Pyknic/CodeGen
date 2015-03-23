@@ -16,21 +16,15 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
-import com.speedment.codegen.lang.models.Generic;
-import java.util.List;
+import com.speedment.codegen.lang.models.Type;
+import java.util.Optional;
 
 /**
  *
  * @author Emil Forslund
  * @param <T>
  */
-public interface Generable<T extends Generable<T>> {
-    
-    @SuppressWarnings("unchecked")
-    default T add(final Generic generic) {
-        getGenerics().add(generic);
-        return (T) this;
-    }
-    
-    List<Generic> getGenerics();
+public interface HasSupertype<T extends HasSupertype<T>> {
+	T setSupertype(Type type);
+	Optional<Type> getSupertype();
 }

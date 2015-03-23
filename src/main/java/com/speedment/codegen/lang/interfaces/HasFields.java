@@ -16,6 +16,7 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
+import com.speedment.codegen.lang.models.Field;
 import java.util.List;
 
 /**
@@ -23,13 +24,13 @@ import java.util.List;
  * @author Emil Forslund
  * @param <T>
  */
-public interface Codeable<T extends Codeable<T>> {
+public interface HasFields<T extends HasFields<T>> {
     
     @SuppressWarnings("unchecked")
-    default T add(String row) {
-        getCode().add(row);
+    default T add(final Field field) {
+        getFields().add(field);
         return (T) this;
     }
     
-    List<String> getCode();
+    List<Field> getFields();
 }

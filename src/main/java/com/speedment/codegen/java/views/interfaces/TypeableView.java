@@ -20,14 +20,14 @@ import static com.speedment.codegen.Formatting.EMPTY;
 import static com.speedment.codegen.Formatting.SPACE;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.View;
-import com.speedment.codegen.lang.interfaces.Typeable;
+import com.speedment.codegen.lang.interfaces.HasType;
 
 /**
  *
  * @author Emil Forslund
  * @param <M>
  */
-public interface TypeableView<M extends Typeable<M>> extends View<M> {
+public interface TypeableView<M extends HasType<M>> extends View<M> {
     default String renderType(Generator cg, M model) {
         return cg.on(model.getType()).map(s -> s + SPACE).orElse(EMPTY);
     }

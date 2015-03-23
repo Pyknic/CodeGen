@@ -22,14 +22,14 @@ import static com.speedment.codegen.Formatting.SPACE;
 import static com.speedment.codegen.Formatting.ifelse;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.View;
-import com.speedment.codegen.lang.interfaces.Valuable;
+import com.speedment.codegen.lang.interfaces.HasValue;
 
 /**
  *
  * @author Emil Forslund
  * @param <M>
  */
-public interface ValuableView<M extends Valuable<M>> extends View<M> {
+public interface ValuableView<M extends HasValue<M>> extends View<M> {
     default String renderValue(Generator cg, M model) {
         return ifelse(model.getValue(), 
 			v -> SPACE + EQUALS + SPACE + cg.on(v).orElse(EMPTY), 

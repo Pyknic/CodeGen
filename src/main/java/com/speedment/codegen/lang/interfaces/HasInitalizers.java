@@ -24,7 +24,7 @@ import java.util.List;
  * @author Emil Forslund
  * @param <T>
  */
-public interface Initalizable<T extends Initalizable<T>> {
+public interface HasInitalizers<T extends HasInitalizers<T>> {
     
     @SuppressWarnings("unchecked")
     default T add(final Initalizer dep) {

@@ -16,7 +16,7 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
-import com.speedment.codegen.lang.models.AnnotationUsage;
+import com.speedment.codegen.lang.models.Type;
 import java.util.List;
 
 /**
@@ -24,13 +24,13 @@ import java.util.List;
  * @author Emil Forslund
  * @param <T>
  */
-public interface Annotable<T extends Annotable<T>> {
+public interface HasImplements<T extends HasImplements<T>> {
     
     @SuppressWarnings("unchecked")
-    default T add(final AnnotationUsage annotation) {
-        getAnnotations().add(annotation);
+    default T add(final Type interf) {
+        getInterfaces().add(interf);
         return (T) this;
     }
     
-	List<AnnotationUsage> getAnnotations();
+    List<Type> getInterfaces();
 }

@@ -16,7 +16,7 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
-import com.speedment.codegen.lang.models.Javadoc;
+import com.speedment.codegen.lang.models.Value;
 import java.util.Optional;
 
 /**
@@ -24,7 +24,7 @@ import java.util.Optional;
  * @author Emil Forslund
  * @param <T>
  */
-public interface Documentable<T extends Documentable<T>> {
-    T set(final Javadoc doc);
-    Optional<Javadoc> getJavadoc();
+public interface HasValue<T extends HasValue<T>> {
+	T set(final Value<?> val);
+	Optional<Value<?>> getValue();
 }

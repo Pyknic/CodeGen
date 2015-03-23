@@ -16,7 +16,7 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
-import com.speedment.codegen.lang.models.Type;
+import com.speedment.codegen.lang.models.Generic;
 import java.util.List;
 
 /**
@@ -24,13 +24,13 @@ import java.util.List;
  * @author Emil Forslund
  * @param <T>
  */
-public interface Interfaceable<T extends Interfaceable<T>> {
+public interface HasGenerics<T extends HasGenerics<T>> {
     
     @SuppressWarnings("unchecked")
-    default T add(final Type interf) {
-        getInterfaces().add(interf);
+    default T add(final Generic generic) {
+        getGenerics().add(generic);
         return (T) this;
     }
     
-    List<Type> getInterfaces();
+    List<Generic> getGenerics();
 }

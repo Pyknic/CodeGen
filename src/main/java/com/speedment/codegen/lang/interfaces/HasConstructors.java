@@ -16,14 +16,21 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
-import java.util.Optional;
+import com.speedment.codegen.lang.models.Constructor;
+import java.util.List;
 
 /**
  *
  * @author Emil Forslund
  * @param <T>
  */
-public interface Commentable<T extends Commentable<T>> {
-	Optional<String> getComment();
-	T setComment(String comment);
+public interface HasConstructors<T extends HasConstructors<T>> {
+    
+    @SuppressWarnings("unchecked")
+    default T add(final Constructor constr) {
+        getConstructors().add(constr);
+        return (T) this;
+    }
+    
+    List<Constructor> getConstructors();
 }

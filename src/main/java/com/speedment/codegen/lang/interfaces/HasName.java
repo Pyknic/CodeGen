@@ -16,15 +16,12 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
-import com.speedment.codegen.lang.models.Value;
-import java.util.Optional;
-
 /**
  *
  * @author Emil Forslund
  * @param <T>
  */
-public interface Valuable<T extends Valuable<T>> {
-	T set(final Value<?> val);
-	Optional<Value<?>> getValue();
+public interface HasName<T extends HasName<T>> {
+    T setName(final String name);
+    String getName();
 }
