@@ -56,7 +56,7 @@ public class MultiTarget {
                 .add(Field.of("str1", DefaultType.STRING))
                 .add(Field.of("str2", DefaultType.STRING))
                 .add("return str1 + str2;")
-        ).forEach(code -> {
+        ).forEachOrdered(code -> {
             System.out.println("-------------------------------------");
             System.out.println("  " + code.getInstaller().getName() + ":");
             System.out.println("-------------------------------------");

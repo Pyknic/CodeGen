@@ -93,7 +93,7 @@ public class BridgeTransform<A, B> implements Transform<A, B> {
         } else {
             final List<Stream<T>> bridges = new ArrayList<>();
             
-            installer.allFrom(bridge.end).stream().forEach(e -> {
+            installer.allFrom(bridge.end).stream().forEachOrdered(e -> {
                 
                 final BridgeTransform<A, B> br = new BridgeTransform<>(bridge);
                 
