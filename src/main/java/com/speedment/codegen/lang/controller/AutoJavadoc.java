@@ -73,8 +73,10 @@ public class AutoJavadoc<T extends HasJavadoc<?>> implements Consumer<T> {
 		}
 
 		if (model instanceof Method) {
-            // Add @return to methods.
-			addTag(doc, RETURN);
+            if (!"void".equals(((Method) model).getType().getName())) {
+                // Add @return to methods.
+                addTag(doc, RETURN);
+            }
 		}
 		
 		if (model instanceof HasConstructors) {
