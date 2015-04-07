@@ -16,19 +16,29 @@
  */
 package com.speedment.codegen.java.views.interfaces;
 
-import static com.speedment.codegen.Formatting.dnl;
+import static com.speedment.codegen.Formatting.COMMA_SPACE;
+import static com.speedment.codegen.Formatting.SPACE;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
-import com.speedment.codegen.lang.interfaces.HasInitalizers;
-import java.util.stream.Collectors;
+import com.speedment.codegen.lang.interfaces.HasImplements;
+import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
 
 /**
  *
  * @author Emil Forslund
  * @param <M>
  */
-public interface InitalizableView<M extends HasInitalizers<M>> extends Transform<M, String> {
-    default String renderInitalizers(Generator cg, M model) {
-        return cg.onEach(model.getInitalizers()).collect(Collectors.joining(dnl()));
+public interface HasImplementsView<M extends HasImplements<M>> extends Transform<M, String> {
+    
+    String extendsOrImplementsInterfaces();
+    
+    default String renderInterfaces(Generator cg, M model) {
+        return cg.onEach(model.getInterfaces()).collect(
+            joinIfNotEmpty(
+                COMMA_SPACE, 
+                extendsOrImplementsInterfaces(), 
+                SPACE
+            )
+        );
     }
 }

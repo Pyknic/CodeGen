@@ -27,7 +27,7 @@ import com.speedment.codegen.lang.interfaces.HasJavadoc;
  * @author Emil Forslund
  * @param <M>
  */
-public interface DocumentableView<M extends HasJavadoc<M>> extends Transform<M, String> {
+public interface HasJavadocView<M extends HasJavadoc<M>> extends Transform<M, String> {
     default String renderJavadoc(Generator cg, M model) {
         return cg.on(model.getJavadoc()).map(jd -> jd + nl()).orElse(EMPTY);
     }

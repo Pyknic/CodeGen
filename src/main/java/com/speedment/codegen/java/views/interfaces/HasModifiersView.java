@@ -16,19 +16,22 @@
  */
 package com.speedment.codegen.java.views.interfaces;
 
-import static com.speedment.codegen.Formatting.dnl;
+import static com.speedment.codegen.Formatting.EMPTY;
+import static com.speedment.codegen.Formatting.SPACE;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
-import com.speedment.codegen.lang.interfaces.HasClasses;
-import static java.util.stream.Collectors.joining;
+import com.speedment.codegen.lang.interfaces.HasModifiers;
+import com.speedment.util.CodeCombiner;
 
 /**
  *
  * @author Emil Forslund
  * @param <M>
  */
-public interface ClassableView<M extends HasClasses<M>> extends Transform<M, String> {
-    default String renderClasses(Generator cg, M model) {
-        return cg.onEach(model.getClasses()).collect(joining(dnl()));
+public interface HasModifiersView<M extends HasModifiers<M>> extends Transform<M, String> {
+    
+    default String renderModifiers(Generator cg, M model) {
+        return cg.onEach(model.getModifiers())
+            .collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE));
     }
 }

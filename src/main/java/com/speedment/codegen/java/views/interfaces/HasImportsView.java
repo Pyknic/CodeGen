@@ -17,19 +17,22 @@
 package com.speedment.codegen.java.views.interfaces;
 
 import static com.speedment.codegen.Formatting.EMPTY;
-import static com.speedment.codegen.Formatting.SPACE;
+import static com.speedment.codegen.Formatting.dnl;
+import static com.speedment.codegen.Formatting.nl;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
-import com.speedment.codegen.lang.interfaces.HasType;
+import com.speedment.codegen.lang.interfaces.HasImports;
+import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
 
 /**
  *
  * @author Emil Forslund
  * @param <M>
  */
-public interface TypeableView<M extends HasType<M>> extends Transform<M, String> {
-    
-    default String renderType(Generator cg, M model) {
-        return cg.on(model.getType()).map(s -> s + SPACE).orElse(EMPTY);
+public interface HasImportsView<M extends HasImports<M>> extends Transform<M, String> {
+    default String renderImports(Generator cg, M model) {
+        return cg.onEach(model.getImports())
+            .distinct().sorted()
+            .collect(joinIfNotEmpty(nl(), EMPTY, dnl()));
     }
 }

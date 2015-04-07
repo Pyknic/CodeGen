@@ -16,23 +16,19 @@
  */
 package com.speedment.codegen.java.views.interfaces;
 
-import static com.speedment.codegen.Formatting.EMPTY;
 import static com.speedment.codegen.Formatting.dnl;
-import static com.speedment.codegen.Formatting.nl;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
-import com.speedment.codegen.lang.interfaces.HasImports;
-import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
+import com.speedment.codegen.lang.interfaces.HasInitalizers;
+import java.util.stream.Collectors;
 
 /**
  *
  * @author Emil Forslund
  * @param <M>
  */
-public interface ImportableView<M extends HasImports<M>> extends Transform<M, String> {
-    default String renderImports(Generator cg, M model) {
-        return cg.onEach(model.getImports())
-            .distinct().sorted()
-            .collect(joinIfNotEmpty(nl(), EMPTY, dnl()));
+public interface HasInitalizersView<M extends HasInitalizers<M>> extends Transform<M, String> {
+    default String renderInitalizers(Generator cg, M model) {
+        return cg.onEach(model.getInitalizers()).collect(Collectors.joining(dnl()));
     }
 }

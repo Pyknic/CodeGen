@@ -45,7 +45,7 @@ public class AnnotationUsageView implements Transform<AnnotationUsage, String> {
                 valueStream
             ).flatMap(s -> s).collect(
                 CodeCombiner.joinIfNotEmpty(
-						cnl(),
+						cnl() + tab() + tab(),
 						PSTART,
 						PE
 				)

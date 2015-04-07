@@ -16,20 +16,26 @@
  */
 package com.speedment.codegen.java.views.interfaces;
 
-import static com.speedment.codegen.Formatting.EMPTY;
-import static com.speedment.codegen.Formatting.nl;
+import static com.speedment.codegen.Formatting.dnl;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
-import com.speedment.codegen.lang.interfaces.HasAnnotationUsage;
-import com.speedment.util.CodeCombiner;
+import com.speedment.codegen.lang.interfaces.HasMethods;
+import com.speedment.codegen.lang.models.Method;
+import java.util.stream.Collectors;
 
 /**
  *
  * @author Emil Forslund
  * @param <M>
  */
-public interface AnnotableView<M extends HasAnnotationUsage<M>> extends Transform<M, String> {
-    default String renderAnnotations(Generator cg, M model) {
-        return cg.onEach(model.getAnnotations()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, nl()));
+public interface HasMethodsView<M extends HasMethods<M>> extends Transform<M, String>, Wrappable {
+    
+    default String renderMethods(Generator cg, M model) {
+        return cg.onEach(wrap(model.getMethods(), m -> wrapMethod(m)))
+			.collect(Collectors.joining(dnl()));
+    }
+    
+    default Object wrapMethod(Method method) {
+        return method;
     }
 }

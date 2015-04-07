@@ -19,15 +19,15 @@ package com.speedment.codegen.java.views;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
-import com.speedment.codegen.java.views.interfaces.AnnotableView;
-import com.speedment.codegen.java.views.interfaces.ClassableView;
-import com.speedment.codegen.java.views.interfaces.DocumentableView;
-import com.speedment.codegen.java.views.interfaces.GenerableView;
-import com.speedment.codegen.java.views.interfaces.InitalizableView;
-import com.speedment.codegen.java.views.interfaces.InterfaceableView;
-import com.speedment.codegen.java.views.interfaces.MethodableView;
-import com.speedment.codegen.java.views.interfaces.ModifiableView;
-import com.speedment.codegen.java.views.interfaces.NameableView;
+import com.speedment.codegen.java.views.interfaces.HasAnnotationView;
+import com.speedment.codegen.java.views.interfaces.HasClassesView;
+import com.speedment.codegen.java.views.interfaces.HasJavadocView;
+import com.speedment.codegen.java.views.interfaces.HasGenericsView;
+import com.speedment.codegen.java.views.interfaces.HasInitalizersView;
+import com.speedment.codegen.java.views.interfaces.HasImplementsView;
+import com.speedment.codegen.java.views.interfaces.HasMethodsView;
+import com.speedment.codegen.java.views.interfaces.HasModifiersView;
+import com.speedment.codegen.java.views.interfaces.HasNameView;
 import com.speedment.codegen.lang.interfaces.HasConstructors;
 import com.speedment.codegen.lang.models.ClassOrInterface;
 import com.speedment.codegen.lang.models.Field;
@@ -45,9 +45,9 @@ import java.util.stream.Stream;
  * @param <M>
  */
 public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implements 
-    Transform<M, String>, NameableView<M>, ModifiableView<M>, DocumentableView<M>, 
-    GenerableView<M>, InterfaceableView<M>, InitalizableView<M>, MethodableView<M>,
-    ClassableView<M>, AnnotableView<M> {
+    Transform<M, String>, HasNameView<M>, HasModifiersView<M>, HasJavadocView<M>, 
+    HasGenericsView<M>, HasImplementsView<M>, HasInitalizersView<M>, HasMethodsView<M>,
+    HasClassesView<M>, HasAnnotationView<M> {
     
 	protected final static String
 		CLASS_STRING = "class ",

@@ -17,24 +17,19 @@
 package com.speedment.codegen.java.views.interfaces;
 
 import static com.speedment.codegen.Formatting.EMPTY;
-import static com.speedment.codegen.Formatting.EQUALS;
-import static com.speedment.codegen.Formatting.SPACE;
-import static com.speedment.codegen.Formatting.ifelse;
+import static com.speedment.codegen.Formatting.nl;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
-import com.speedment.codegen.lang.interfaces.HasValue;
+import com.speedment.codegen.lang.interfaces.HasAnnotationUsage;
+import com.speedment.util.CodeCombiner;
 
 /**
  *
  * @author Emil Forslund
  * @param <M>
  */
-public interface ValuableView<M extends HasValue<M>> extends Transform<M, String> {
-    
-    default String renderValue(Generator cg, M model) {
-        return ifelse(model.getValue(), 
-			v -> SPACE + EQUALS + SPACE + cg.on(v).orElse(EMPTY), 
-            EMPTY
-        );
+public interface HasAnnotationView<M extends HasAnnotationUsage<M>> extends Transform<M, String> {
+    default String renderAnnotations(Generator cg, M model) {
+        return cg.onEach(model.getAnnotations()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, nl()));
     }
 }

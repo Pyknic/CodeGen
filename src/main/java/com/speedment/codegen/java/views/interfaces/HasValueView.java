@@ -16,29 +16,25 @@
  */
 package com.speedment.codegen.java.views.interfaces;
 
-import static com.speedment.codegen.Formatting.COMMA_SPACE;
+import static com.speedment.codegen.Formatting.EMPTY;
+import static com.speedment.codegen.Formatting.EQUALS;
 import static com.speedment.codegen.Formatting.SPACE;
+import static com.speedment.codegen.Formatting.ifelse;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
-import com.speedment.codegen.lang.interfaces.HasImplements;
-import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
+import com.speedment.codegen.lang.interfaces.HasValue;
 
 /**
  *
  * @author Emil Forslund
  * @param <M>
  */
-public interface InterfaceableView<M extends HasImplements<M>> extends Transform<M, String> {
+public interface HasValueView<M extends HasValue<M>> extends Transform<M, String> {
     
-    String extendsOrImplementsInterfaces();
-    
-    default String renderInterfaces(Generator cg, M model) {
-        return cg.onEach(model.getInterfaces()).collect(
-            joinIfNotEmpty(
-                COMMA_SPACE, 
-                extendsOrImplementsInterfaces(), 
-                SPACE
-            )
+    default String renderValue(Generator cg, M model) {
+        return ifelse(model.getValue(), 
+			v -> SPACE + EQUALS + SPACE + cg.on(v).orElse(EMPTY), 
+            EMPTY
         );
     }
 }

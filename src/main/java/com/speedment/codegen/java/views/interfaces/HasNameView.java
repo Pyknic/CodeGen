@@ -16,26 +16,18 @@
  */
 package com.speedment.codegen.java.views.interfaces;
 
-import static com.speedment.codegen.Formatting.dnl;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
-import com.speedment.codegen.lang.interfaces.HasMethods;
-import com.speedment.codegen.lang.models.Method;
-import java.util.stream.Collectors;
+import com.speedment.codegen.lang.interfaces.HasName;
 
 /**
  *
  * @author Emil Forslund
  * @param <M>
  */
-public interface MethodableView<M extends HasMethods<M>> extends Transform<M, String>, Wrappable {
+public interface HasNameView<M extends HasName<M>> extends Transform<M, String> {
     
-    default String renderMethods(Generator cg, M model) {
-        return cg.onEach(wrap(model.getMethods(), m -> wrapMethod(m)))
-			.collect(Collectors.joining(dnl()));
-    }
-    
-    default Object wrapMethod(Method method) {
-        return method;
+    default String renderName(Generator cg, M model) {
+        return model.getName();
     }
 }

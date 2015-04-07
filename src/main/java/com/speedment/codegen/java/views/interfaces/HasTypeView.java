@@ -16,18 +16,20 @@
  */
 package com.speedment.codegen.java.views.interfaces;
 
+import static com.speedment.codegen.Formatting.EMPTY;
+import static com.speedment.codegen.Formatting.SPACE;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
-import com.speedment.codegen.lang.interfaces.HasName;
+import com.speedment.codegen.lang.interfaces.HasType;
 
 /**
  *
  * @author Emil Forslund
  * @param <M>
  */
-public interface NameableView<M extends HasName<M>> extends Transform<M, String> {
+public interface HasTypeView<M extends HasType<M>> extends Transform<M, String> {
     
-    default String renderName(Generator cg, M model) {
-        return model.getName();
+    default String renderType(Generator cg, M model) {
+        return cg.on(model.getType()).map(s -> s + SPACE).orElse(EMPTY);
     }
 }

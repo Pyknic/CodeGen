@@ -30,7 +30,7 @@ import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
  * @author Emil Forslund
  * @param <M>
  */
-public interface GenerableView<M extends HasGenerics<M>> extends Transform<M, String> {
+public interface HasGenericsView<M extends HasGenerics<M>> extends Transform<M, String> {
     default String renderGenerics(Generator cg, M model) {
         return cg.onEach(model.getGenerics()).collect(joinIfNotEmpty(COMMA_SPACE, SS, SE)) + SPACE;
     }
