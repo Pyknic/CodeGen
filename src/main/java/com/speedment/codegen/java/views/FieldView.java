@@ -19,7 +19,7 @@ package com.speedment.codegen.java.views;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
-import com.speedment.codegen.java.views.interfaces.HasAnnotationView;
+import com.speedment.codegen.java.views.interfaces.HasAnnotationUsageView;
 import com.speedment.codegen.java.views.interfaces.HasJavadocView;
 import com.speedment.codegen.java.views.interfaces.HasModifiersView;
 import com.speedment.codegen.java.views.interfaces.HasNameView;
@@ -33,7 +33,7 @@ import java.util.Optional;
  */
 public class FieldView implements Transform<Field, String>, HasNameView<Field>, 
     HasJavadocView<Field>, HasModifiersView<Field>, HasTypeView<Field>,
-    HasValueView<Field>, HasAnnotationView<Field> {
+    HasValueView<Field>, HasAnnotationUsageView<Field> {
 
 	@Override
 	public Optional<String> transform(Generator cg, Field model) {

@@ -20,13 +20,15 @@ import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.lang.models.Enum;
 import com.speedment.util.CodeCombiner;
+import static java.util.stream.Collectors.joining;
 
 /**
  *
  * @author Emil Forslund
  */
 public class EnumView extends ClassOrInterfaceView<Enum> {
-	@Override
+	
+    @Override
 	protected String renderDeclarationType() {
 		return ENUM_STRING;
 	}
@@ -37,7 +39,7 @@ public class EnumView extends ClassOrInterfaceView<Enum> {
 	}
 
 	@Override
-	protected String renderSuperType(Generator cg, Enum model) {
+	protected String renderSupertype(Generator cg, Enum model) {
 		return EMPTY;
 	}
 
@@ -54,4 +56,10 @@ public class EnumView extends ClassOrInterfaceView<Enum> {
 				)
 			);
 	}
+
+    @Override
+    protected String renderConstructors(Generator cg, Enum model) {
+        return cg.onEach(model.getConstructors())
+            .collect(joining(dnl()));
+    }
 }

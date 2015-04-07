@@ -14,16 +14,25 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.speedment.codegen.lang.interfaces;
+package com.speedment.codegen.java.views.interfaces;
 
-import java.util.Optional;
+import static com.speedment.codegen.Formatting.COMMA_SPACE;
+import static com.speedment.codegen.Formatting.EMPTY;
+import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.base.Transform;
+import com.speedment.codegen.lang.interfaces.HasThrows;
+import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
 
 /**
  *
  * @author Emil Forslund
- * @param <T>
+ * @param <M>
  */
-public interface HasComments<T extends HasComments<T>> {
-	Optional<String> getComment();
-	T setComment(String comment);
+public interface HasThrowsView<M extends HasThrows<M>> 
+extends Transform<M, String> {
+    
+    default String renderThrows(Generator g, M model) {
+        return g.onEach(model.getExceptions())
+            .collect(joinIfNotEmpty(COMMA_SPACE, "throws ", EMPTY));
+    }
 }

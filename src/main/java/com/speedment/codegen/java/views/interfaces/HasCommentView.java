@@ -20,16 +20,22 @@ import static com.speedment.codegen.Formatting.EMPTY;
 import static com.speedment.codegen.Formatting.nl;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
-import com.speedment.codegen.lang.interfaces.HasAnnotationUsage;
-import com.speedment.util.CodeCombiner;
+import com.speedment.codegen.lang.interfaces.HasComment;
+import static java.util.stream.Collectors.joining;
+import java.util.stream.Stream;
 
 /**
  *
  * @author Emil Forslund
  * @param <M>
  */
-public interface HasAnnotationView<M extends HasAnnotationUsage<M>> extends Transform<M, String> {
-    default String renderAnnotations(Generator cg, M model) {
-        return cg.onEach(model.getAnnotations()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, nl()));
+public interface HasCommentView<M extends HasComment<M>> extends Transform<M, String> {
+    
+    default String renderComment(Generator g, M model) {
+        return model.getComment().map(comment -> 
+            Stream.of(comment.split(nl()))
+                .map(row -> "// " + row)
+                .collect(joining(nl()))
+        ).orElse(EMPTY);
     }
 }

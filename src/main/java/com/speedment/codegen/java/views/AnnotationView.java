@@ -21,7 +21,7 @@ import java.util.Optional;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
-import com.speedment.codegen.java.views.interfaces.HasAnnotationView;
+import com.speedment.codegen.java.views.interfaces.HasAnnotationUsageView;
 import com.speedment.codegen.java.views.interfaces.HasJavadocView;
 import com.speedment.codegen.java.views.interfaces.HasNameView;
 import com.speedment.util.CodeCombiner;
@@ -31,7 +31,7 @@ import com.speedment.util.CodeCombiner;
  * @author Emil Forslund
  */
 public class AnnotationView implements Transform<Annotation, String>, 
-    HasJavadocView<Annotation>, HasAnnotationView<Annotation>, HasNameView<Annotation> {
+    HasJavadocView<Annotation>, HasAnnotationUsageView<Annotation>, HasNameView<Annotation> {
 	
     private final static String 
 		INTERFACE_STRING = "@interface ",

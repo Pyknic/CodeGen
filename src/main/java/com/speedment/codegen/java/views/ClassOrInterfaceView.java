@@ -19,8 +19,9 @@ package com.speedment.codegen.java.views;
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
-import com.speedment.codegen.java.views.interfaces.HasAnnotationView;
+import com.speedment.codegen.java.views.interfaces.HasAnnotationUsageView;
 import com.speedment.codegen.java.views.interfaces.HasClassesView;
+import com.speedment.codegen.java.views.interfaces.HasFieldsView;
 import com.speedment.codegen.java.views.interfaces.HasJavadocView;
 import com.speedment.codegen.java.views.interfaces.HasGenericsView;
 import com.speedment.codegen.java.views.interfaces.HasInitalizersView;
@@ -28,7 +29,6 @@ import com.speedment.codegen.java.views.interfaces.HasImplementsView;
 import com.speedment.codegen.java.views.interfaces.HasMethodsView;
 import com.speedment.codegen.java.views.interfaces.HasModifiersView;
 import com.speedment.codegen.java.views.interfaces.HasNameView;
-import com.speedment.codegen.lang.interfaces.HasConstructors;
 import com.speedment.codegen.lang.models.ClassOrInterface;
 import com.speedment.codegen.lang.models.Field;
 import java.util.Optional;
@@ -47,7 +47,7 @@ import java.util.stream.Stream;
 public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implements 
     Transform<M, String>, HasNameView<M>, HasModifiersView<M>, HasJavadocView<M>, 
     HasGenericsView<M>, HasImplementsView<M>, HasInitalizersView<M>, HasMethodsView<M>,
-    HasClassesView<M>, HasAnnotationView<M> {
+    HasClassesView<M>, HasAnnotationUsageView<M>, HasFieldsView<M> {
     
 	protected final static String
 		CLASS_STRING = "class ",
@@ -62,43 +62,44 @@ public abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implem
 	
 	protected Object wrapField(Field field) {return field;}
 
-	protected String onAfterFields(Generator cg, M model) {
-		if (model instanceof HasConstructors) {
-			return cg.onEach(((HasConstructors<?>) model).getConstructors()
-			).collect(Collectors.joining(dnl()));
-		} else {
-			return EMPTY;
-		}
-	}
-	
     @Override
 	public <In, C extends Collection<In>> Collection<Object> 
 		wrap(C models, Function<In, Object> wrapper) {
 		return models.stream().map(wrapper).collect(Collectors.toList());
 	}
+
+    @Override
+    public String fieldSeparator() {
+        return nl();
+    }
+
+    @Override
+    public String fieldSuffix() {
+        return SC;
+    }
 	
     protected abstract String renderDeclarationType();
-	protected abstract String renderSuperType(Generator cg, M model);
-
+	protected abstract String renderSupertype(Generator cg, M model);
+    protected abstract String renderConstructors(Generator cg, M model);
+    
 	@Override
 	public Optional<String> transform(Generator cg, M model) {
-		return Optional.of(
-			renderJavadoc(cg, model) +
+		return Optional.of(renderJavadoc(cg, model) +
             renderAnnotations(cg, model) +
 			renderModifiers(cg, model) +
             renderDeclarationType() + 
             renderName(cg, model) + 
             renderGenerics(cg, model) +
-            renderSuperType(cg, model) +
+            renderSupertype(cg, model) +
 			renderInterfaces(cg, model) +
                 
             // Code
-			block(nl() + separate(
-                // Fields
+            block(nl() + separate(
 				onBeforeFields(cg, model), // Enums have constants here.
-				cg.onEach(wrap(model.getFields(), f -> wrapField(f)))
-					.collect(joinIfNotEmpty(scnl(), EMPTY, SC)),
-				onAfterFields(cg, model),
+//				cg.onEach(wrap(model.getFields(), f -> wrapField(f)))
+//					.collect(joinIfNotEmpty(scnl(), EMPTY, SC)),
+                renderFields(cg, model),
+				renderConstructors(cg, model),
                 renderInitalizers(cg, model),
 				renderMethods(cg, model),
 				renderClasses(cg, model)

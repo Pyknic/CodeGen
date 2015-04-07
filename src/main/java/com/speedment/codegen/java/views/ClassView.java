@@ -18,13 +18,16 @@ package com.speedment.codegen.java.views;
 
 import static com.speedment.codegen.Formatting.*;
 import com.speedment.codegen.base.Generator;
+import com.speedment.codegen.lang.interfaces.HasConstructors;
 import com.speedment.codegen.lang.models.Class;
+import static java.util.stream.Collectors.joining;
 
 /**
  *
  * @author Emil Forslund
  */
 public class ClassView extends ClassOrInterfaceView<Class> {
+    
 	@Override
 	protected String renderDeclarationType() {
 		return CLASS_STRING;
@@ -36,11 +39,17 @@ public class ClassView extends ClassOrInterfaceView<Class> {
 	}
 
 	@Override
-	protected String renderSuperType(Generator cg, Class model) {
+	protected String renderSupertype(Generator cg, Class model) {
 		if (model.getSupertype().isPresent()) {
 			return EXTENDS_STRING + cg.on(model.getSupertype().get()).orElse(EMPTY) + SPACE;
 		} else {
 			return EMPTY;
 		}
 	}
+
+    @Override
+    protected String renderConstructors(Generator cg, Class model) {
+		return cg.onEach(model.getConstructors())
+            .collect(joining(dnl()));
+    }
 }
