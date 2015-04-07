@@ -32,7 +32,6 @@ import com.speedment.codegen.java.views.interfaces.HasNameView;
 import com.speedment.codegen.lang.models.ClassOrInterface;
 import com.speedment.codegen.lang.models.Field;
 import java.util.Optional;
-import static com.speedment.util.CodeCombiner.*;
 import java.util.Collection;
 import java.util.function.Function;
 import java.util.stream.Collectors;
