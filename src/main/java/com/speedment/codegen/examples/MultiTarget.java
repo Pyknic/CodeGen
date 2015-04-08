@@ -20,8 +20,8 @@ import com.speedment.codegen.Formatting;
 import static com.speedment.codegen.Formatting.indent;
 import static com.speedment.codegen.Formatting.nl;
 import com.speedment.codegen.base.Generator;
-import com.speedment.codegen.base.DefaultInstaller;
-import com.speedment.codegen.base.Installer;
+import com.speedment.codegen.base.DefaultTransformFactory;
+import com.speedment.codegen.base.TransformFactory;
 import com.speedment.codegen.base.DefaultGenerator;
 import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.java.JavaInstaller;
@@ -37,8 +37,8 @@ import java.util.stream.Collectors;
  */
 public class MultiTarget {
     
-    private final static Installer 
-        XML = new DefaultInstaller("XMLInstaller")
+    private final static TransformFactory 
+        XML = new DefaultTransformFactory("XMLInstaller")
             .install(Method.class, MethodXMLView.class)
             .install(Field.class, FieldXMLView.class),
         
@@ -58,7 +58,7 @@ public class MultiTarget {
                 .add("return str1 + str2;")
         ).forEachOrdered(code -> {
             System.out.println("-------------------------------------");
-            System.out.println("  " + code.getInstaller().getName() + ":");
+            System.out.println("  " + code.getFactory().getName() + ":");
             System.out.println("-------------------------------------");
             System.out.println(code.getResult());
         });
@@ -71,7 +71,7 @@ public class MultiTarget {
                 "<method name=\"" + model.getName() + "\" type=\"" + cg.on(model.getType()).get() + "\">" + nl() + indent(
                     "<params>" + nl() + indent(
                         cg.metaOn(model.getFields())
-                            .filter(c -> XML.equals(c.getInstaller()))
+                            .filter(c -> XML.equals(c.getFactory()))
                             .map(c -> c.getResult())
                             .collect(Collectors.joining(nl()))
                     ) + nl() + "</params>" + nl() +

@@ -20,16 +20,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 /**
  *
  * @author Emil Forslund
  */
-public interface Installer {
+public interface TransformFactory {
     /**
-     * Returns a unique name of this installer. This can be used to identify
-     * a particular installer if multiple ones are used in the same generator.
+     * Returns a unique name of this factory. This can be used to identify
+     * a particular factory if multiple ones are used in the same generator.
+     * 
      * @return The unique name.
      */
     String getName();
@@ -40,30 +40,33 @@ public interface Installer {
      * 
 	 * @param <A> The type to transform from.
 	 * @param <T> The transformer.
-	 * @param model The model.
+	 * @param from The model.
 	 * @param transformer The view.
      * @return A reference to this.
 	 */
-    default <A, T extends Transform<A, String>> Installer install(Class<A> from, Class<T> transformer) {
+    default <A, T extends Transform<A, String>> TransformFactory install(Class<A> from, Class<T> transformer) {
         return install(from, String.class, transformer);
     }
     
 	/**
 	 * Installs the specified Transform.
+     * 
 	 * @param <A> The type to transform from.
      * @param <B> The type to transform to.
 	 * @param <T> The transformer.
-	 * @param model The model.
+	 * @param from The model class to transform from.
+     * @param to The model class to transform to.
 	 * @param transformer The view.
      * @return A reference to this.
 	 */
-	<A, B, T extends Transform<A, B>> Installer install(Class<A> from, Class<B> to, Class<T> transformer);
+	<A, B, T extends Transform<A, B>> TransformFactory install(Class<A> from, Class<B> to, Class<T> transformer);
 
 	/**
 	 * Builds a stream of all transforms that match the specified model.
+     * 
      * @param <A> The class to transform from.
 	 * @param <T> The transformer.
-	 * @param model The model.
+	 * @param from The model class to transform from.
 	 * @return A stream of all matching transforms.
 	 */
 	<A, T extends Transform<A, ?>> Set<Map.Entry<Class<?>, T>> allFrom(Class<A> from);
@@ -72,13 +75,13 @@ public interface Installer {
 	 * Instantiates the specified class and returns it.
 	 * @param <T>
 	 * @param clazz
-	 * @return 
+	 * @return the instance.
 	 */
 	static <T> T create(Class<T> clazz) {
 		try {
 			return clazz.newInstance();
 		} catch (InstantiationException | IllegalAccessException ex) {
-			Logger.getLogger(DefaultInstaller.class.getName()).log(Level.SEVERE, 
+			Logger.getLogger(DefaultTransformFactory.class.getName()).log(Level.SEVERE, 
 				"The class '" + clazz.getName() + 
 				"' could not be instantiated using the default constructor. " +
 				"Make sure it is the correct class and that the default " +

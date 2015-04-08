@@ -22,34 +22,35 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * A generator that can have multiple installers. If the same model is associated
- * with multiple views, only one will be called in the on-methods that return
- * a String, but all of them will be executed in the on-methods that takes a
- * consumer.
+ * A generator that can have multiple transform factories. Step-wise generation
+ * will be handled by concatenating transform into a <code>BridgeTransform</code>.
  * 
  * @author Emil Forslund
  */
 public class DefaultGenerator implements Generator {
     
 	private final DependencyManager mgr;
-	private final List<Installer> installers;
+	private final List<TransformFactory> factories;
 	private final DefaultRenderStack renderStack;
 	
 	/**
-	 * Creates a new MultiGenerator.
-	 * @param installers 
+	 * Creates a new generator. This constructor will use a <code>DefaultDependnecyManager</code>
+     * with no parameters to handle any dependencies.
+     * 
+	 * @param factories The factories to use.
 	 */
-	public DefaultGenerator(Installer... installers) {
-		this(new DefaultDependencyManager(), installers);
+	public DefaultGenerator(TransformFactory... factories) {
+		this(new DefaultDependencyManager(), factories);
 	}
 	
 	/**
-	 * Creates a new MultiGenerator.
-	 * @param mgr
-	 * @param installers 
+	 * Creates a new generator.
+     * 
+	 * @param mgr The dependency manager to use.
+	 * @param factories The factories to use. 
 	 */
-	public DefaultGenerator(DependencyManager mgr, Installer... installers) {
-		this.installers = Arrays.asList(installers);
+	public DefaultGenerator(DependencyManager mgr, TransformFactory... factories) {
+		this.factories = Arrays.asList(factories);
 		this.mgr = mgr;
 		this.renderStack = new DefaultRenderStack();
 	}
@@ -88,32 +89,46 @@ public class DefaultGenerator implements Generator {
 	}
 
     /**
-     * Renders the specified model into a stream of code models.
-     * This is used internally to provide the other interface methods.
-     * 
-     * @param model The model to generate.
-     * @return A stream of code objects.
+     * Renders the specified model into a stream of code models. This is used
+     * internally to provide the other interface methods.
+     *
+     * @param <A> The input type.
+     * @param <B> The expected output type.
+     * @param from The model to generate.
+     * @param to The model type to transform to.
+     * @return A stream of meta objects.
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <A, B> Stream<Meta<A, B>> metaOn(A model, Class<B> to) {
-        if (model instanceof Optional) {
+    public <A, B> Stream<Meta<A, B>> metaOn(A from, Class<B> to) {
+        if (from instanceof Optional) {
             throw new UnsupportedOperationException(
                 "Model must not be an Optional!"
             );
         }
 
-        return installers.stream().flatMap(installer ->
-            BridgeTransform.create(installer, model.getClass(), to)
+        return factories.stream().flatMap(installer ->
+            BridgeTransform.create(installer, from.getClass(), to)
             .map(t -> (Transform<A, B>) t)
-            .map(t -> transform(t, model, installer))
+            .map(t -> transform(t, from, installer))
             .filter(o -> o.isPresent())
             .map(o -> o.get())
         );
     }
 
+    /**
+     * Transforms the specified model using the specified transform from the
+     * specified installer.
+     * 
+     * @param <A> The input type.
+     * @param <B> The expected output type.
+     * @param transform The transform to use.
+     * @param model The inputed model.
+     * @param factory The factory used when instantiating the transform.
+     * @return The meta object if successful, else empty.
+     */
     @Override
-    public <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, Installer installer) {
+    public <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, TransformFactory factory) {
         renderStack.push(model);
 
         final Optional<Meta<A, B>> meta = transform
@@ -122,7 +137,7 @@ public class DefaultGenerator implements Generator {
             .setModel(model)
             .setResult(s)
             .setTransform(transform)
-            .setInstaller(installer)
+            .setFactory(factory)
             .setRenderStack(new DefaultRenderStack(renderStack))
         );
         

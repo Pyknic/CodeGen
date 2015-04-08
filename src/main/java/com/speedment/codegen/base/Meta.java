@@ -26,7 +26,7 @@ public interface Meta<A, B> {
     A getModel();
     B getResult();
     Transform<A, B> getTransform();
-    Installer getInstaller();
+    TransformFactory getFactory();
     RenderStack getRenderStack();
     
     class Impl<A, B> implements Meta<A, B> {
@@ -34,7 +34,7 @@ public interface Meta<A, B> {
         private A model;
         private B result;
         private Transform<A, B> transform;
-        private Installer installer;
+        private TransformFactory factory;
         private RenderStack stack;
 
         Impl() {}
@@ -60,12 +60,12 @@ public interface Meta<A, B> {
         }
 
         @Override
-        public Installer getInstaller() {
-            return installer;
+        public TransformFactory getFactory() {
+            return factory;
         }
 
-        protected Impl<A, B> setInstaller(Installer installer) {
-            this.installer = installer;
+        protected Impl<A, B> setFactory(TransformFactory factory) {
+            this.factory = factory;
             return this;
         }
 

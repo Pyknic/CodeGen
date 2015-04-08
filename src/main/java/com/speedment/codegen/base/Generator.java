@@ -54,12 +54,13 @@ public interface Generator {
      * Renders the specified model into a stream of code models. This is used
      * internally to provide the other interface methods.
      *
-     * @param <A>
-     * @param <B>
-     * @param model The model to generate.
-     * @return A stream of code objects.
+     * @param <A> The input type.
+     * @param <B> The expected output type.
+     * @param from The model to generate.
+     * @param to The model type to transform to.
+     * @return A stream of meta objects.
      */
-    <A, B> Stream<Meta<A, B>> metaOn(A model, Class<B> to);
+    <A, B> Stream<Meta<A, B>> metaOn(A from, Class<B> to);
 
     /**
      * Renders the specified model into a stream of code models. This is used
@@ -67,7 +68,7 @@ public interface Generator {
      *
      * @param <M>
      * @param model The model to generate.
-     * @return A stream of code objects.
+     * @return A stream of meta objects.
      */
     default <M> Stream<Meta<M, String>> metaOn(M model) {
         return metaOn(model, String.class);
@@ -77,9 +78,9 @@ public interface Generator {
      * Renders all the specified models into a stream of code models. This is
      * used internally to provide the other interface methods. ¨
      *
-     * @param <A>
+     * @param <A> The input type.
      * @param models The models to generate.
-     * @return A stream of code objects.
+     * @return A stream of meta objects.
      */
     default <A> Stream<Meta<A, String>> metaOn(Collection<A> models) {
         return models.stream().map(model -> metaOn(model)).flatMap(m -> m);
@@ -89,9 +90,11 @@ public interface Generator {
      * Renders all the specified models into a stream of code models. This is
      * used internally to provide the other interface methods. ¨
      *
-     * @param <A>
+     * @param <A> The input type.
+     * @param <B> The expected output type.
      * @param models The models to generate.
-     * @return A stream of code objects.
+     * @param to The expected result type.
+     * @return A stream of meta objects.
      */
     default <A, B> Stream<Meta<A, B>> metaOn(Collection<A> models, Class<B> to) {
         return models.stream().map(model -> metaOn(model, to)).flatMap(m -> m);
@@ -103,7 +106,7 @@ public interface Generator {
      * type, an empty optional will be returned.
      *
      * @param model The model.
-     * @return The viewed text if any.
+     * @return The generated text if any.
      */
     default Optional<String> on(Object model) {
         if (model instanceof Optional) {
@@ -123,7 +126,7 @@ public interface Generator {
      *
      * @param <M>
      * @param models The models to generate.
-     * @return A stream of code objects.
+     * @return A stream of meta objects.
      */
     default <M> Stream<String> onEach(Collection<M> models) {
         return metaOn(models).map(c -> c.getResult());
@@ -133,12 +136,12 @@ public interface Generator {
      * Transforms the specified model using the specified transform from the
      * specified installer.
      * 
-     * @param <A>
-     * @param <B>
-     * @param transform
-     * @param model
-     * @param installer
-     * @return 
+     * @param <A> The input type.
+     * @param <B> The expected output type.
+     * @param transform The transform to use.
+     * @param model The inputed model.
+     * @param factory The factory used when instantiating the transform.
+     * @return The meta object if successful, else empty.
      */
-    <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, Installer installer);
+    <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, TransformFactory factory);
 }

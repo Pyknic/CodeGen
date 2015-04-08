@@ -16,7 +16,7 @@
  */
 package com.speedment.codegen.java;
 
-import com.speedment.codegen.base.DefaultInstaller;
+import com.speedment.codegen.base.DefaultTransformFactory;
 import com.speedment.codegen.java.views.AnnotationUsageView;
 import com.speedment.codegen.java.views.InterfaceMethodView;
 import com.speedment.codegen.lang.models.Annotation;
@@ -72,7 +72,7 @@ import com.speedment.codegen.lang.models.Initalizer;
  *
  * @author Emil Forslund
  */
-public class JavaInstaller extends DefaultInstaller {
+public class JavaInstaller extends DefaultTransformFactory {
     
     public JavaInstaller() {
         this("JavaInstaller");

@@ -30,10 +30,10 @@ public class BridgeTransform<A, B> implements Transform<A, B> {
     private final List<Transform<?, ?>> steps;
     private final Class<A> from;
     private final Class<B> to;
-    private final Installer installer;
+    private final TransformFactory installer;
     private Class<?> end;
     
-    public BridgeTransform(Class<A> from, Class<B> to, Installer installer) {
+    public BridgeTransform(Class<A> from, Class<B> to, TransformFactory installer) {
         this.steps = new ArrayList<>();
         this.from = from;
         this.to = to;
@@ -82,12 +82,12 @@ public class BridgeTransform<A, B> implements Transform<A, B> {
         return Optional.ofNullable((B) o);
     }
     
-    public static <A, B, T extends Transform<A, B>> Stream<T> create(Installer installer, Class<A> from, Class<B> to) {
+    public static <A, B, T extends Transform<A, B>> Stream<T> create(TransformFactory installer, Class<A> from, Class<B> to) {
         return create(installer, new BridgeTransform<>(from, to, installer));
     }
     
     @SuppressWarnings("unchecked")
-    public static <A, B, T extends Transform<A, B>> Stream<T> create(Installer installer, BridgeTransform<A, B> bridge) {
+    public static <A, B, T extends Transform<A, B>> Stream<T> create(TransformFactory installer, BridgeTransform<A, B> bridge) {
         if (bridge.end.equals(bridge.to)) {
             return Stream.of((T) bridge);
         } else {

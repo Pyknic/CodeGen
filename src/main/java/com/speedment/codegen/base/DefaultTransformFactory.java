@@ -27,12 +27,12 @@ import java.util.stream.Collectors;
  *
  * @author Emil Forslund
  */
-public class DefaultInstaller implements Installer {
+public class DefaultTransformFactory implements TransformFactory {
 
     private final Map<Class<?>, Set<Map.Entry<Class<?>, Class<? extends Transform<?, ?>>>>> transforms;
 	private final String name;
     
-	public DefaultInstaller(String name) {
+	public DefaultTransformFactory(String name) {
         this.name = name;
         this.transforms = new ConcurrentHashMap<>();
 	}
@@ -43,7 +43,7 @@ public class DefaultInstaller implements Installer {
     }
 
 	@Override
-	public <A, B, T extends Transform<A, B>> Installer install(Class<A> from, Class<B> to, Class<T> transform) {
+	public <A, B, T extends Transform<A, B>> TransformFactory install(Class<A> from, Class<B> to, Class<T> transform) {
         transforms.computeIfAbsent(from, f -> new HashSet<>()).add(new AbstractMap.SimpleEntry<>(to, transform));
         return this;
 	}
@@ -54,7 +54,7 @@ public class DefaultInstaller implements Installer {
 		return new HashSet<>(transforms.entrySet()).stream()
 			.filter(e -> e.getKey().isAssignableFrom(model))
             .flatMap(e -> e.getValue().stream())
-            .map(e -> (Map.Entry<Class<?>, T>) new AbstractMap.SimpleEntry<>(e.getKey(), (T) Installer.create(e.getValue())))
+            .map(e -> (Map.Entry<Class<?>, T>) new AbstractMap.SimpleEntry<>(e.getKey(), (T) TransformFactory.create(e.getValue())))
             .collect(Collectors.toSet());
 	}
 }
