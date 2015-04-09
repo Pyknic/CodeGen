@@ -24,7 +24,7 @@ import com.speedment.codegen.base.DefaultTransformFactory;
 import com.speedment.codegen.base.TransformFactory;
 import com.speedment.codegen.base.DefaultGenerator;
 import com.speedment.codegen.base.Transform;
-import com.speedment.codegen.java.JavaInstaller;
+import com.speedment.codegen.java.JavaTransformFactory;
 import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Method;
 import com.speedment.codegen.lang.models.constants.DefaultType;
@@ -42,7 +42,7 @@ public class MultiTarget {
             .install(Method.class, MethodXMLView.class)
             .install(Field.class, FieldXMLView.class),
         
-        JAVA = new JavaInstaller();
+        JAVA = new JavaTransformFactory();
 
     /**
      * @param args the command line arguments

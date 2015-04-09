@@ -23,7 +23,7 @@ import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.DefaultGenerator;
 import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.java.JavaGenerator;
-import com.speedment.codegen.java.JavaInstaller;
+import com.speedment.codegen.java.JavaTransformFactory;
 import com.speedment.codegen.lang.controller.AutoImports;
 import com.speedment.codegen.lang.controller.AutoJavadoc;
 import java.util.ArrayList;
@@ -96,7 +96,7 @@ public class TransformTest {
         System.out.println("***************************");
     }
     
-    public static class TransformInstaller extends JavaInstaller {
+    public static class TransformInstaller extends JavaTransformFactory {
         public TransformInstaller() {
             super("TransformInstaller");
             install(Table.class, File.class, EntityTransform.class);

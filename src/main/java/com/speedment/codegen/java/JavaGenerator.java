@@ -31,7 +31,7 @@ public class JavaGenerator extends DefaultGenerator {
 	};
     
     public JavaGenerator() {
-        this(new JavaInstaller());
+        this(new JavaTransformFactory());
     }
 	
 	public JavaGenerator(TransformFactory... installers) {

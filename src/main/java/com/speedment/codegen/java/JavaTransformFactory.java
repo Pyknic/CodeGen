@@ -72,13 +72,13 @@ import com.speedment.codegen.lang.models.Initalizer;
  *
  * @author Emil Forslund
  */
-public class JavaInstaller extends DefaultTransformFactory {
+public class JavaTransformFactory extends DefaultTransformFactory {
     
-    public JavaInstaller() {
-        this("JavaInstaller");
+    public JavaTransformFactory() {
+        this("JavaTransformFactory");
     }
     
-    public JavaInstaller(String name) {
+    public JavaTransformFactory(String name) {
         super(name);
         
         install(Class.class, ClassView.class);
