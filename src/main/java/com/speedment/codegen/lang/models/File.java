@@ -29,7 +29,8 @@ import java.util.function.Supplier;
  *
  * @author Emil Forslund
  */
-public interface File extends Copyable<File>, HasName<File>, HasJavadoc<File>, HasImports<File>, HasClasses<File>, Callable<File> {
+public interface File extends Copyable<File>, HasName<File>, 
+    HasJavadoc<File>, HasImports<File>, HasClasses<File>, Callable<File> {
 
     enum Factory { INST;
         private Supplier<File> prototype = () -> new FileImpl(null);

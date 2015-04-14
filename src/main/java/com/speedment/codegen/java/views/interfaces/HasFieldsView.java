@@ -20,7 +20,7 @@ import static com.speedment.codegen.Formatting.EMPTY;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.interfaces.HasFields;
-import static java.util.stream.Collectors.joining;
+import com.speedment.util.CodeCombiner;
 
 /**
  *
@@ -32,7 +32,7 @@ extends Transform<M, String> {
     
     default String renderFields(Generator g, M model) {
         return g.onEach(model.getFields())
-            .collect(joining(
+            .collect(CodeCombiner.joinIfNotEmpty(
                 fieldSuffix() + fieldSeparator() + fieldPrefix(), 
                 fieldPrefix(), 
                 fieldSuffix()
