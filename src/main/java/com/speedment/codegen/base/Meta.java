@@ -88,5 +88,10 @@ public interface Meta<A, B> {
             this.stack = stack;
             return this;
         }
+
+        @Override
+        public String toString() {
+            return "Impl{" + "model=" + model + ", result=" + result + ", transform=" + transform + ", factory=" + factory + ", stack=" + stack + '}';
+        }
     }
 }
