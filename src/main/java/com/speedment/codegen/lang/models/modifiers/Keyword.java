@@ -23,7 +23,7 @@ import static com.speedment.codegen.lang.models.modifiers.Modifier.*;
  *
  * @author Emil Forslund
  */
-interface Keyword {
+public interface Keyword {
     interface public_<T extends public_<T>> extends HasModifiers<T> {
         @SuppressWarnings("unchecked")
         default T public_() {
