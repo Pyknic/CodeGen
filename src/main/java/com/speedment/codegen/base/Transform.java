@@ -28,4 +28,8 @@ import java.util.Optional;
  */
 public interface Transform<F, T> {
     Optional<T> transform(Generator gen, F model);
+    
+    default boolean is(Class<? extends Transform<?, ?>> transformer) {
+        return transformer.isAssignableFrom(getClass());
+    }
 }
