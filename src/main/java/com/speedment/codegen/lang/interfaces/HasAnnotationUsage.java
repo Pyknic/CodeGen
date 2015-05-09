@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.interfaces;
 
 import com.speedment.codegen.lang.models.AnnotationUsage;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,7 +29,13 @@ public interface HasAnnotationUsage<T extends HasAnnotationUsage<T>> {
     
     @SuppressWarnings("unchecked")
     default T add(final AnnotationUsage annotation) {
-        getAnnotations().add(annotation);
+        getAnnotations().add(annotation.copy());
+        return (T) this;
+    }
+    
+    @SuppressWarnings("unchecked")
+    default T addAllAnnotations(final Collection<? extends AnnotationUsage> annotations) {
+        annotations.forEach(this::add);
         return (T) this;
     }
     

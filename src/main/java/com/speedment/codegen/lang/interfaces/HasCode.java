@@ -16,6 +16,7 @@
  */
 package com.speedment.codegen.lang.interfaces;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -26,8 +27,14 @@ import java.util.List;
 public interface HasCode<T extends HasCode<T>> {
     
     @SuppressWarnings("unchecked")
-    default T add(String row) {
+    default T add(final String row) {
         getCode().add(row);
+        return (T) this;
+    }
+    
+    @SuppressWarnings("unchecked")
+    default T addAllRows(final Collection<String> rows) {
+        rows.forEach(this::add);
         return (T) this;
     }
     

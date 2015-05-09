@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.interfaces;
 
 import com.speedment.codegen.lang.models.Generic;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,7 +29,13 @@ public interface HasGenerics<T extends HasGenerics<T>> {
     
     @SuppressWarnings("unchecked")
     default T add(final Generic generic) {
-        getGenerics().add(generic);
+        getGenerics().add(generic.copy());
+        return (T) this;
+    }
+    
+    @SuppressWarnings("unchecked")
+    default T addAllGenerics(final Collection<? extends Generic> generics) {
+        generics.forEach(this::add);
         return (T) this;
     }
     

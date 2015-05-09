@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.interfaces;
 
 import com.speedment.codegen.lang.models.Initalizer;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -27,8 +28,14 @@ import java.util.List;
 public interface HasInitalizers<T extends HasInitalizers<T>> {
     
     @SuppressWarnings("unchecked")
-    default T add(final Initalizer dep) {
-        getInitalizers().add(dep);
+    default T add(final Initalizer initalizer) {
+        getInitalizers().add(initalizer.copy());
+        return (T) this;
+    }
+    
+    @SuppressWarnings("unchecked")
+    default T addAllInitalizers(final Collection<? extends Initalizer> initalizers) {
+        initalizers.forEach(this::add);
         return (T) this;
     }
     

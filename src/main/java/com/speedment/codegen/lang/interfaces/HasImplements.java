@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.interfaces;
 
 import com.speedment.codegen.lang.models.Type;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,7 +29,13 @@ public interface HasImplements<T extends HasImplements<T>> {
     
     @SuppressWarnings("unchecked")
     default T add(final Type interf) {
-        getInterfaces().add(interf);
+        getInterfaces().add(interf.copy());
+        return (T) this;
+    }
+    
+    @SuppressWarnings("unchecked")
+    default T addAllImplements(final Collection<? extends Type> interf) {
+        interf.forEach(this::add);
         return (T) this;
     }
     

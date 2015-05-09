@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.interfaces;
 
 import com.speedment.codegen.lang.models.Method;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,7 +29,13 @@ public interface HasMethods<T extends HasMethods<T>> {
     
     @SuppressWarnings("unchecked")
     default T add(final Method meth) {
-        getMethods().add(meth);
+        getMethods().add(meth.copy());
+        return (T) this;
+    }
+    
+    @SuppressWarnings("unchecked")
+    default T addAllMethods(final Collection<? extends Method> methods) {
+        methods.forEach(this::add);
         return (T) this;
     }
     

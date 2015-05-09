@@ -17,17 +17,25 @@
 package com.speedment.codegen.lang.interfaces;
 
 import com.speedment.codegen.lang.models.Type;
+import java.util.Collection;
 import java.util.Set;
 
 /**
  *
  * @author Emil Forslund
+ * @param <T>
  */
 public interface HasThrows<T extends HasThrows<T>> {
     
     @SuppressWarnings("unchecked")
     default T add(final Type exception) {
-        getExceptions().add(exception);
+        getExceptions().add(exception.copy());
+        return (T) this;
+    }
+    
+    @SuppressWarnings("unchecked")
+    default T addAllExceptions(final Collection<? extends Type> exceptions) {
+        exceptions.forEach(this::add);
         return (T) this;
     }
     

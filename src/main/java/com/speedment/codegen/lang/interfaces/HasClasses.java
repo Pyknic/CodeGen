@@ -28,14 +28,14 @@ import java.util.List;
 public interface HasClasses<T extends HasClasses<T>> {
     
     @SuppressWarnings("unchecked")
-    default T add(ClassOrInterface<?> member) {
-        getClasses().add(member);
+    default T add(final ClassOrInterface<?> member) {
+        getClasses().add(member.copy());
         return (T) this;
     }
     
     @SuppressWarnings("unchecked")
-    default T addAllClasses(Collection<? extends ClassOrInterface<?>> members) {
-        getClasses().addAll(members);
+    default T addAllClasses(final Collection<? extends ClassOrInterface<?>> members) {
+        members.forEach(this::add);
         return (T) this;
     }
     

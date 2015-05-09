@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.interfaces;
 
 import com.speedment.codegen.lang.models.Import;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,7 +29,13 @@ public interface HasImports<T extends HasImports<T>> {
     
     @SuppressWarnings("unchecked")
     default T add(final Import dep) {
-        getImports().add(dep);
+        getImports().add(dep.copy());
+        return (T) this;
+    }
+    
+    @SuppressWarnings("unchecked")
+    default T addAllImports(final Collection<? extends Import> imports) {
+        imports.forEach(this::add);
         return (T) this;
     }
     

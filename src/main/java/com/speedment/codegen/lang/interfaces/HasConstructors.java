@@ -17,6 +17,7 @@
 package com.speedment.codegen.lang.interfaces;
 
 import com.speedment.codegen.lang.models.Constructor;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,7 +29,13 @@ public interface HasConstructors<T extends HasConstructors<T>> {
     
     @SuppressWarnings("unchecked")
     default T add(final Constructor constr) {
-        getConstructors().add(constr);
+        getConstructors().add(constr.copy());
+        return (T) this;
+    }
+    
+    @SuppressWarnings("unchecked")
+    default T addAllConstructors(final Collection<Constructor> constr) {
+        constr.forEach(this::add);
         return (T) this;
     }
     
