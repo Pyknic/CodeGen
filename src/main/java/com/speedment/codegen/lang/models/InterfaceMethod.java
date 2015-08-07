@@ -29,8 +29,10 @@ import com.speedment.codegen.lang.models.implementation.InterfaceMethodImpl;
 import com.speedment.codegen.lang.models.modifiers.InterfaceMethodModifier;
 
 /**
- *
- * @author Emil Forslund
+ * A model that represents a method of an interface in code.
+ * 
+ * @author  Emil Forslund
+ * @see     Interface
  */
 public interface InterfaceMethod extends HasName<InterfaceMethod>, 
     HasThrows<InterfaceMethod>,
@@ -39,6 +41,13 @@ public interface InterfaceMethod extends HasName<InterfaceMethod>,
     HasAnnotationUsage<InterfaceMethod>, HasCode<InterfaceMethod>, 
     InterfaceMethodModifier<InterfaceMethod>, Copyable<InterfaceMethod> {
 
+    /**
+     * Creates a new instance implementing this interface by wrapping an existing
+     * {@link Method} in an {@link InterfaceMethodImpl}.
+     * 
+     * @param wrapped  the wrapped method
+     * @return         the new instance
+     */
     static InterfaceMethod of(Method wrapped) {
         return new InterfaceMethodImpl(wrapped);
     }

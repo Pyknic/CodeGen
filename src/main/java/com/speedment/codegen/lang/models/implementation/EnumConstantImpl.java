@@ -18,52 +18,85 @@ package com.speedment.codegen.lang.models.implementation;
 
 import com.speedment.codegen.lang.models.EnumConstant;
 import com.speedment.codegen.lang.models.Value;
-import com.speedment.util.Copier;
+import com.speedment.codegen.util.Copier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 /**
- *
+ * This is the default implementation of the {@link EnumConstant} interface.
+ * This class should not be instantiated directly. Instead you should call the
+ * {@link EnumConstant#of(java.lang.String)} method to get an instance. In that way, 
+ * you can layer change the implementing class without modifying the using code.
+ * 
  * @author Emil Forslund
+ * @see    EnumConstant
  */
 public class EnumConstantImpl implements EnumConstant {
 	
 	private String name;
 	private final List<Value<?>> values;
 
+    /**
+     * Initialises this enum constant using a name.
+     * <p>
+     * <b>Warning!</b> This class should not be instantiated directly but using 
+     * the {@link EnumConstant#of(java.lang.String)} method!
+     * 
+     * @param name  the name
+     */
 	public EnumConstantImpl(String name) {
 		this.name	= name;
 		this.values = new ArrayList<>();
 	}
 	
+    /**
+     * Copy constructor.
+     * 
+     * @param prototype  the prototype 
+     */
 	protected EnumConstantImpl(EnumConstant prototype) {
 		name	= prototype.getName();
 		values	= Copier.copy(prototype.getValues(), v -> v.copy());
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public EnumConstant setName(String name) {
 		this.name = name;
 		return this;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public String getName() {
 		return name;
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public List<Value<?>> getValues() {
 		return values;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public EnumConstantImpl copy() {
 		return new EnumConstantImpl(this);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int hash = 3;
@@ -72,6 +105,9 @@ public class EnumConstantImpl implements EnumConstant {
         return hash;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {

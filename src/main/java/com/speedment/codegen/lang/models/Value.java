@@ -19,13 +19,25 @@ package com.speedment.codegen.lang.models;
 import com.speedment.codegen.lang.interfaces.Copyable;
 
 /**
- *
+ * A model that represents any kind of value declared in code.
+ * 
  * @author Emil Forslund
- * @param <V>
+ * @param <V> the value type
  */
 public interface Value<V> extends Copyable<Value<V>> {
     
+    /**
+     * Sets the inner value of this.
+     * 
+     * @param value  the new value
+     * @return       a reference to this model
+     */
     Value<V> setValue(V value);
+    
+    /**
+     * Returns the inner value of this model.
+     * 
+     * @return  the inner value 
+     */
 	V getValue();
-   
 }

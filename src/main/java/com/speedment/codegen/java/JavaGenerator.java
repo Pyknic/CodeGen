@@ -21,20 +21,39 @@ import com.speedment.codegen.base.TransformFactory;
 import com.speedment.codegen.base.DefaultGenerator;
 
 /**
- *
+ * A hook to the generator that can be passed to various stages in the pipeline.
+ * Contains multiple methods for generating model-to-model or model-to-text.
+ * <p>
+ * The <code>JavaGenerator</code> comes with all the basic types
+ * of the java language and the 'java.lang'-package ignored in imports and 
+ * has views of all the basic language concepts preinstalled.
+ * 
  * @author Emil Forslund
  */
 public class JavaGenerator extends DefaultGenerator {
+    
 	private final static String[] types = new String[] {
 		"void", "byte", "short", "char", "int", "long", "float", 
 		"double", "boolean"
 	};
     
+    /**
+     * Instantiates the JavaGenerator.
+     */
     public JavaGenerator() {
         this(new JavaTransformFactory());
     }
 	
-	public JavaGenerator(TransformFactory... installers) {
-		super(new DefaultDependencyManager("java.lang", types), installers);
+    /**
+     * Instantiates the JavaGenerator using an array of custom 
+     * {@link TransformFactory}.
+     * <p>
+     * Warning! If you use this constructor, no transforms will be installed
+     * by default!
+     * 
+     * @param factories  an array of the factories to use
+     */
+	public JavaGenerator(TransformFactory... factories) {
+		super(new DefaultDependencyManager("java.lang", types), factories);
 	}
 }

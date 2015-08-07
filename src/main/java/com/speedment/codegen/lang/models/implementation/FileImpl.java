@@ -16,20 +16,24 @@
  */
 package com.speedment.codegen.lang.models.implementation;
 
-import com.speedment.codegen.java.views.interfaces.HasJavadocView;
 import com.speedment.codegen.lang.models.ClassOrInterface;
 import com.speedment.codegen.lang.models.File;
 import com.speedment.codegen.lang.models.Import;
 import com.speedment.codegen.lang.models.Javadoc;
-import com.speedment.util.Copier;
+import com.speedment.codegen.util.Copier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 /**
- *
+ * This is the default implementation of the {@link File} interface.
+ * This class should not be instantiated directly. Instead you should call the
+ * {@link File#of(java.lang.String)} method to get an instance. In that way, 
+ * you can layer change the implementing class without modifying the using code.
+ * 
  * @author Emil Forslund
+ * @see    File
  */
 public class FileImpl implements File {
 	
@@ -38,6 +42,14 @@ public class FileImpl implements File {
 	private final List<Import> imports;
 	private final List<ClassOrInterface<?>> classes;
 	
+    /**
+     * Initialises this file using a name.
+     * <p>
+     * <b>Warning!</b> This class should not be instantiated directly but using 
+     * the {@link File#of(java.lang.String)} method!
+     * 
+     * @param name  the filename
+     */
 	public FileImpl(String name) {
 		this.name	 = name;
 		this.doc	 = null;
@@ -45,6 +57,11 @@ public class FileImpl implements File {
 		this.classes = new ArrayList<>();
 	}
 	
+    /**
+     * Copy constructor.
+     * 
+     * @param prototype  the prototype
+     */
 	protected FileImpl(File prototype) {
 		this.name	 = prototype.getName();
 		this.doc	 = prototype.getJavadoc().map(Copier::copy).orElse(null);
@@ -52,43 +69,67 @@ public class FileImpl implements File {
 		this.classes = Copier.copy(prototype.getClasses(), c -> c.copy());
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public File setName(String name) {
 		this.name = name;
 		return this;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public String getName() {
 		return name;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public File set(Javadoc doc) {
 		this.doc = doc;
 		return this;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Optional<Javadoc> getJavadoc() {
 		return Optional.ofNullable(doc);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public List<Import> getImports() {
 		return imports;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public List<ClassOrInterface<?>> getClasses() {
 		return classes;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public FileImpl copy() {
 		return new FileImpl(this);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int hash = 3;
@@ -99,6 +140,9 @@ public class FileImpl implements File {
         return hash;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {

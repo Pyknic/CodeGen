@@ -16,20 +16,32 @@
  */
 package com.speedment.codegen.java.views.interfaces;
 
-import static com.speedment.codegen.Formatting.EMPTY;
-import static com.speedment.codegen.Formatting.SPACE;
+import static com.speedment.codegen.util.Formatting.EMPTY;
+import static com.speedment.codegen.util.Formatting.SPACE;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.interfaces.HasType;
 
 /**
- *
- * @author Emil Forslund
- * @param <M>
+ * A trait with the functionality to render models with the trait 
+ * {@link HasType}.
+ * 
+ * @author     Emil Forslund
+ * @param <M>  The model type
+ * @see        Transform
  */
 public interface HasTypeView<M extends HasType<M>> extends Transform<M, String> {
     
-    default String renderType(Generator cg, M model) {
-        return cg.on(model.getType()).map(s -> s + SPACE).orElse(EMPTY);
+    /**
+     * Render the type of the model appended by an extra space.
+     * 
+     * @param gen    the generator
+     * @param model  the model
+     * @return       the generated code
+     */
+    default String renderType(Generator gen, M model) {
+        return gen.on(model.getType())
+            .map(s -> s + SPACE)
+            .orElse(EMPTY);
     }
 }

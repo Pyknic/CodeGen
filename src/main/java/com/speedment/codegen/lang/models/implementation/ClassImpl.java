@@ -19,60 +19,87 @@ package com.speedment.codegen.lang.models.implementation;
 import com.speedment.codegen.lang.models.Class;
 import com.speedment.codegen.lang.models.Constructor;
 import com.speedment.codegen.lang.models.Type;
-import com.speedment.util.Copier;
+import com.speedment.codegen.util.Copier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 /**
- *
+ * This is the default implementation of the {@link Class} interface.
+ * This class should not be instantiated directly. Instead you should call the
+ * {@link Class#of(java.lang.String)} method to get an instance. In that way, 
+ * you can layer change the implementing class without modifying the using code.
+ * 
  * @author Emil Forslund
+ * @see    Class
  */
 public class ClassImpl extends ClassOrInterfaceImpl<Class> implements Class {
 
 	private Type superType;
 	private final List<Constructor> constructors;
 
+    /**
+     * Initialises this class using a name.
+     * <p>
+     * <b>Warning!</b> This class should not be instantiated directly but using 
+     * the {@link Class#of(java.lang.String)} method!
+     * 
+     * @param name  the name
+     */
 	public ClassImpl(String name) {
 		super(name);
 		superType = null;
 		constructors = new ArrayList<>();
 	}
-
-	public ClassImpl(String name, Type superType) {
-		super(name);
-		this.superType = superType;
-		this.constructors = new ArrayList<>();
-	}
 	
+    /**
+     * Copy constructor.
+     * 
+     * @param prototype  the prototype
+     */
 	protected ClassImpl(Class prototype) {
 		super (prototype);
 		this.superType = prototype.getSupertype().map(Copier::copy).orElse(null);
 		this.constructors = Copier.copy(prototype.getConstructors());
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Class setSupertype(Type superType) {
 		this.superType = superType;
 		return this;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Optional<Type> getSupertype() {
 		return Optional.ofNullable(superType);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public List<Constructor> getConstructors() {
 		return constructors;
 	}
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public ClassImpl copy() {
 		return new ClassImpl(this);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int hash = 5;
@@ -81,6 +108,9 @@ public class ClassImpl extends ClassOrInterfaceImpl<Class> implements Class {
         return hash;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {

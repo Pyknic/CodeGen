@@ -14,9 +14,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.speedment.util;
+package com.speedment.codegen.util;
 
-import static com.speedment.codegen.Formatting.EMPTY;
+import static com.speedment.codegen.util.Formatting.EMPTY;
 import java.util.stream.Collector;
 import java.util.Collections;
 import java.util.Optional;

@@ -16,48 +16,52 @@
  */
 package com.speedment.codegen.java.views;
 
-import static com.speedment.codegen.Formatting.COMMA_SPACE;
-import static com.speedment.codegen.Formatting.EMPTY;
-import static com.speedment.codegen.Formatting.PE;
-import static com.speedment.codegen.Formatting.PS;
-import static com.speedment.codegen.Formatting.SC;
-import static com.speedment.codegen.Formatting.SPACE;
-import static com.speedment.codegen.Formatting.block;
-import static com.speedment.codegen.Formatting.ifelse;
-import static com.speedment.codegen.Formatting.nl;
+import static com.speedment.codegen.util.Formatting.COMMA_SPACE;
+import static com.speedment.codegen.util.Formatting.EMPTY;
+import static com.speedment.codegen.util.Formatting.PE;
+import static com.speedment.codegen.util.Formatting.PS;
+import static com.speedment.codegen.util.Formatting.SC;
+import static com.speedment.codegen.util.Formatting.SPACE;
+import static com.speedment.codegen.util.Formatting.block;
+import static com.speedment.codegen.util.Formatting.ifelse;
+import static com.speedment.codegen.util.Formatting.nl;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.models.InterfaceMethod;
 import static com.speedment.codegen.lang.models.modifiers.Modifier.*;
-import com.speedment.util.CodeCombiner;
+import com.speedment.codegen.util.CodeCombiner;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- *
+ * Transforms from an {@link InterfaceMethod} to java code.
+ * 
  * @author Emil Forslund
  */
 public class InterfaceMethodView implements Transform<InterfaceMethod, String> {
     
     private final static String THROWS = " throws ";
     
+    /**
+     * {@inheritDoc}
+     */
 	@Override
-	public Optional<String> transform(Generator cg, InterfaceMethod model) {
-		return Optional.of(ifelse(cg.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
+	public Optional<String> transform(Generator gen, InterfaceMethod model) {
+		return Optional.of(ifelse(gen.on(model.getJavadoc()), s -> s + nl(), EMPTY) +
             
-            cg.onEach(model.getAnnotations()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, nl())) +
+            gen.onEach(model.getAnnotations()).collect(CodeCombiner.joinIfNotEmpty(nl(), EMPTY, nl())) +
 					
 			// The only modifiers allowed are default and static
-			(model.getModifiers().contains(DEFAULT) ? cg.on(DEFAULT).orElse(EMPTY) + SPACE : EMPTY) +
-			(model.getModifiers().contains(STATIC) ? cg.on(STATIC).orElse(EMPTY) + SPACE : EMPTY) +
+			(model.getModifiers().contains(DEFAULT) ? gen.on(DEFAULT).orElse(EMPTY) + SPACE : EMPTY) +
+			(model.getModifiers().contains(STATIC) ? gen.on(STATIC).orElse(EMPTY) + SPACE : EMPTY) +
 			
-			cg.on(model.getType()).orElse(EMPTY) + SPACE +
+			gen.on(model.getType()).orElse(EMPTY) + SPACE +
 			model.getName() +
-			cg.onEach(model.getFields()).collect(
+			gen.onEach(model.getFields()).collect(
 				Collectors.joining(COMMA_SPACE, PS, PE)
 			) +
             
-            cg.onEach(model.getExceptions()).collect(CodeCombiner.joinIfNotEmpty(COMMA_SPACE, THROWS, EMPTY)) +
+            gen.onEach(model.getExceptions()).collect(CodeCombiner.joinIfNotEmpty(COMMA_SPACE, THROWS, EMPTY)) +
 					
 			// Append body only if it is either default or static.
 			(model.getModifiers().contains(DEFAULT) 

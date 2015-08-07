@@ -18,23 +18,26 @@ package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.lang.models.Initalizer;
-import com.speedment.util.CodeCombiner;
+import com.speedment.codegen.util.CodeCombiner;
 import java.util.Optional;
-import static com.speedment.codegen.Formatting.*;
+import static com.speedment.codegen.util.Formatting.*;
 import com.speedment.codegen.base.Transform;
 
 /**
- *
+ * Transforms from an {@link Initalizer} to java code.
+ * 
  * @author Emil Forslund
  */
 public class InitalizerView implements Transform<Initalizer, String> {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Optional<String> transform(Generator cg, Initalizer model) {
+    public Optional<String> transform(Generator gen, Initalizer model) {
         return Optional.of(
-            cg.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
+            gen.onEach(model.getModifiers()).collect(CodeCombiner.joinIfNotEmpty(SPACE, EMPTY, SPACE)) +
             block(model.getCode().stream())
         );
     }
-    
 }

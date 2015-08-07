@@ -16,23 +16,33 @@
  */
 package com.speedment.codegen.java.views.interfaces;
 
-import static com.speedment.codegen.Formatting.COMMA_SPACE;
-import static com.speedment.codegen.Formatting.EMPTY;
+import static com.speedment.codegen.util.Formatting.COMMA_SPACE;
+import static com.speedment.codegen.util.Formatting.EMPTY;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.interfaces.HasThrows;
-import static com.speedment.util.CodeCombiner.joinIfNotEmpty;
+import static com.speedment.codegen.util.CodeCombiner.joinIfNotEmpty;
 
 /**
- *
- * @author Emil Forslund
- * @param <M>
+ * A trait with the functionality to render models with the trait 
+ * {@link HasThrows}.
+ * 
+ * @author     Emil Forslund
+ * @param <M>  The model type
+ * @see        Transform
  */
-public interface HasThrowsView<M extends HasThrows<M>> 
-extends Transform<M, String> {
+public interface HasThrowsView<M extends HasThrows<M>> extends 
+    Transform<M, String> {
     
-    default String renderThrows(Generator g, M model) {
-        return g.onEach(model.getExceptions())
+    /**
+     * Render the throws-part of the model.
+     * 
+     * @param gen    the generator
+     * @param model  the model
+     * @return       the generated code
+     */
+    default String renderThrows(Generator gen, M model) {
+        return gen.onEach(model.getExceptions())
             .collect(joinIfNotEmpty(COMMA_SPACE, "throws ", EMPTY));
     }
 }

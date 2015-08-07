@@ -16,8 +16,8 @@
  */
 package com.speedment.codegen.java.views.interfaces;
 
-import static com.speedment.codegen.Formatting.EMPTY;
-import static com.speedment.codegen.Formatting.nl;
+import static com.speedment.codegen.util.Formatting.EMPTY;
+import static com.speedment.codegen.util.Formatting.nl;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.interfaces.HasComment;
@@ -25,13 +25,23 @@ import static java.util.stream.Collectors.joining;
 import java.util.stream.Stream;
 
 /**
- *
- * @author Emil Forslund
- * @param <M>
+ * A trait with the functionality to render models with the trait 
+ * {@link HasComment}.
+ * 
+ * @author     Emil Forslund
+ * @param <M>  The model type
+ * @see        Transform
  */
 public interface HasCommentView<M extends HasComment<M>> extends Transform<M, String> {
     
-    default String renderComment(Generator g, M model) {
+    /**
+     * Render the comment-part of the model, prepending each row with '//'.
+     * 
+     * @param gen    the generator
+     * @param model  the model
+     * @return       the generated code
+     */
+    default String renderComment(Generator gen, M model) {
         return model.getComment().map(comment -> 
             Stream.of(comment.split(nl()))
                 .map(row -> "// " + row)

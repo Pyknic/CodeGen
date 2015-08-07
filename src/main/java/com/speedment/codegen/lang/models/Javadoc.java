@@ -18,52 +18,103 @@ package com.speedment.codegen.lang.models;
 
 import com.speedment.codegen.lang.interfaces.Callable;
 import com.speedment.codegen.lang.interfaces.Copyable;
+import com.speedment.codegen.lang.interfaces.HasJavadocTags;
 import com.speedment.codegen.lang.models.implementation.JavadocImpl;
 import java.util.Collections;
 import java.util.List;
+import static java.util.Objects.requireNonNull;
 import java.util.function.Supplier;
 
 /**
- *
- * @author Emil Forslund
+ * A model that represents a block of documentation in code. 
+ * 
+ * @author  Emil Forslund
+ * @see     JavadocTag
  */
-public interface Javadoc extends Copyable<Javadoc>, Callable<Javadoc> {
+public interface Javadoc extends Copyable<Javadoc>, Callable<Javadoc>, 
+    HasJavadocTags<Javadoc> {
+    
+    /**
+     * Adds the specified row of documentation to this block.
+     * 
+     * @param row  the new row
+     * @return     a reference to this model
+     */
     default Javadoc add(String row) {
-		getRows().add(row);
+		getRows().add(requireNonNull(row));
 		return this;
 	}
 	
+    /**
+     * Adds multiple rows of documentation to this block.
+     * 
+     * @param first  the first row
+     * @param rows   the following rows
+     * @return       a reference to this model
+     */
 	default Javadoc add(String first, String... rows) {
-		getRows().add(first);
-		Collections.addAll(getRows(), rows);
+		getRows().add(requireNonNull(first));
+		Collections.addAll(getRows(), requireNonNull(rows));
 		return this;
 	}
 
-	default Javadoc add(JavadocTag tag) {
-		getTags().add(tag);
-		return this;
-	}
-
+    /**
+     * Returns a modifiable list of documentation text rows.
+     * 
+     * @return  the rows of documentation
+     */
     List<String> getRows();
-	List<JavadocTag> getTags();
     
+    /**
+     * Factory holder.
+     */
     enum Factory { INST;
         private Supplier<Javadoc> prototype = () -> new JavadocImpl();
     }
 
+    /**
+     * Creates a new instance implementing this interface by using the class
+     * supplied by the default factory. To change implementation, please use
+     * the {@link #setSupplier(java.util.function.Supplier) setSupplier} method.
+
+     * @return      the new instance
+     */
     static Javadoc of() {
         return Factory.INST.prototype.get();
     }
     
+    /**
+     * Creates a new instance implementing this interface by using the class
+     * supplied by the default factory. To change implementation, please use
+     * the {@link #setSupplier(java.util.function.Supplier) setSupplier} method.
+     * 
+     * @param row  the documentation row
+     * @return     the new instance
+     */
     static Javadoc of(String row) {
         return Factory.INST.prototype.get().add(row);
     }
     
+    /**
+     * Creates a new instance implementing this interface by using the class
+     * supplied by the default factory. To change implementation, please use
+     * the {@link #setSupplier(java.util.function.Supplier) setSupplier} method.
+     * 
+     * @param row   the first documentation row
+     * @param rows  the following documentation rows
+     * @return      the new instance
+     */
     static Javadoc of(String row, String... rows) {
         return Factory.INST.prototype.get().add(row, rows);
     }
-    
-    static void setSupplier(Supplier<Javadoc> a) {
-        Factory.INST.prototype = a;
+        
+    /**
+     * Sets the instantiation method used to create new instances of this
+     * interface.
+     * 
+     * @param supplier  the new constructor 
+     */
+    static void setSupplier(Supplier<Javadoc> supplier) {
+        Factory.INST.prototype = supplier;
     }
 }

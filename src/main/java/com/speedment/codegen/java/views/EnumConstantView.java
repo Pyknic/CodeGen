@@ -16,24 +16,29 @@
  */
 package com.speedment.codegen.java.views;
 
-import static com.speedment.codegen.Formatting.*;
+import static com.speedment.codegen.util.Formatting.*;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.models.EnumConstant;
 import java.util.Optional;
-import com.speedment.util.CodeCombiner;
+import com.speedment.codegen.util.CodeCombiner;
 
 /**
- *
+ * Transforms from an {@link EnumConstant} to java code.
+ * 
  * @author Emil Forslund
  */
 public class EnumConstantView implements Transform<EnumConstant, String> {
+    
+    /**
+     * {@inheritDoc}
+     */
 	@Override
-	public Optional<String> transform(Generator cg, EnumConstant model) {
+	public Optional<String> transform(Generator gen, EnumConstant model) {
 		return Optional.of(
 			model.getName() + 
 			(model.getValues().isEmpty() ? EMPTY : SPACE) +
-			cg.onEach(model.getValues()).collect(
+			gen.onEach(model.getValues()).collect(
 				CodeCombiner.joinIfNotEmpty(
 					COMMA_SPACE, 
 					PS, 

@@ -23,27 +23,58 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /**
- *
- * @author Emil Forslund
+ * A model that represents a constant in an enumeration.
+ * 
+ * @author  Emil Forslund
+ * @see     Enum
  */
 public interface EnumConstant extends Copyable<EnumConstant>, HasName<EnumConstant> {
     
+    /**
+     * Adds the specified construction parameter to this constant.
+     * 
+     * @param value  the construction parameter
+     * @return       a reference to this model
+     */
     default EnumConstant add(Value<?> value) {
         getValues().add(value);
         return this;
     }
     
+    /**
+     * Returns a modifiable list of all the construction parameters used when
+     * instantiating this enum constant.
+     * 
+     * @return  all construction parameters 
+     */
     List<Value<?>> getValues();
     
+    /**
+     * Factory holder.
+     */
     enum Factory { INST;
         private Supplier<EnumConstant> supplier = () -> new EnumConstantImpl(null);
     }
 
+    /**
+     * Creates a new instance implementing this interface by using the class
+     * supplied by the default factory. To change implementation, please use
+     * the {@link #setSupplier(java.util.function.Supplier) setSupplier} method.
+     * 
+     * @param name  the name
+     * @return      the new instance
+     */
     static EnumConstant of(String name) {
         return Factory.INST.supplier.get().setName(name);
     }
-    
-    static void setSupplier(Supplier<EnumConstant> a) {
-        Factory.INST.supplier = a;
+        
+    /**
+     * Sets the instantiation method used to create new instances of this
+     * interface.
+     * 
+     * @param supplier  the new constructor 
+     */
+    static void setSupplier(Supplier<EnumConstant> supplier) {
+        Factory.INST.supplier = supplier;
     }
 }

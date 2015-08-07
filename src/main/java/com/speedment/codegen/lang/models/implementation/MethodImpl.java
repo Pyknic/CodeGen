@@ -23,7 +23,7 @@ import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.Method;
 import com.speedment.codegen.lang.models.Type;
 import com.speedment.codegen.lang.models.modifiers.Modifier;
-import com.speedment.util.Copier;
+import com.speedment.codegen.util.Copier;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -33,8 +33,14 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- *
+ * This is the default implementation of the {@link Method} interface.
+ * This class should not be instantiated directly. Instead you should call the
+ * {@link Method#of(java.lang.String, com.speedment.codegen.lang.models.Type)} 
+ * method to get an instance. In that way, you can layer change the implementing 
+ * class without modifying the using code.
+ * 
  * @author Emil Forslund
+ * @see    Method
  */
 public class MethodImpl implements Method {
 	
@@ -48,6 +54,16 @@ public class MethodImpl implements Method {
 	private final Set<Modifier> modifiers;
     private final Set<Type> exceptions;
 	
+    /**
+     * Initialises this method using a name and a type.
+     * <p>
+     * <b>Warning!</b> This class should not be instantiated directly but using 
+     * the {@link Method#of(java.lang.String, com.speedment.codegen.lang.models.Type)} 
+     * method!
+     * 
+     * @param name  the name
+     * @param type  the type
+     */
 	public MethodImpl(String name, Type type) {
 		this.name			= name;
 		this.type			= type;
@@ -60,6 +76,11 @@ public class MethodImpl implements Method {
         this.exceptions     = new HashSet<>();
 	}
 	
+    /**
+     * Copy constructor.
+     * 
+     * @param prototype  the prototype
+     */
 	protected MethodImpl(final Method prototype) {
 		name		= prototype.getName();
 		type		= Copier.copy(prototype.getType());
@@ -72,74 +93,116 @@ public class MethodImpl implements Method {
         exceptions  = Copier.copy(prototype.getExceptions());
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public String getName() {
 		return name;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Method setName(String name) {
 		this.name = name;
 		return this;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Type getType() {
 		return type;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Method set(Type type) {
 		this.type = type;
 		return this;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public List<Field> getFields() {
 		return params;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public List<String> getCode() {
 		return code;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Set<Modifier> getModifiers() {
 		return modifiers;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Method set(Javadoc doc) {
 		javadoc = doc;
 		return this;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Optional<Javadoc> getJavadoc() {
 		return Optional.ofNullable(javadoc);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public List<AnnotationUsage> getAnnotations() {
 		return annotations;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public List<Generic> getGenerics() {
 		return generics;
 	}
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Type> getExceptions() {
         return exceptions;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public MethodImpl copy() {
 		return new MethodImpl(this);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int hash = 5;
@@ -155,6 +218,9 @@ public class MethodImpl implements Method {
         return hash;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {

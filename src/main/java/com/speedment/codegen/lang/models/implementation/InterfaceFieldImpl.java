@@ -29,80 +29,126 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- *
+ * The default implementation of the wrapper for the {@link Field} interface.
+ * 
  * @author Emil Forslund
  */
 public class InterfaceFieldImpl implements InterfaceField {
+    
 	private final Field f;
 	
+    /**
+     * Wraps the specified field.
+     * 
+     * @param wrapped  the inner field
+     */
 	public InterfaceFieldImpl(Field wrapped) {
 		f = wrapped;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public String getName() {
 		return f.getName();
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public Type getType() {
 		return f.getType();
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public Set<Modifier> getModifiers() {
 		return f.getModifiers();
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public Optional<Javadoc> getJavadoc() {
 		return f.getJavadoc();
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public Optional<Value<?>> getValue() {
 		return f.getValue();
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public List<AnnotationUsage> getAnnotations() {
 		return f.getAnnotations();
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public InterfaceField setName(String name) {
         f.setName(name);
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public InterfaceField set(Type type) {
         f.set(type);
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public InterfaceField set(Javadoc doc) {
         f.set(doc);
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public InterfaceField set(Value<?> val) {
         f.set(val);
         return this;
     }
     
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public InterfaceFieldImpl copy() {
 		return new InterfaceFieldImpl(f.copy());
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return f.hashCode();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {

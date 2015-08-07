@@ -19,7 +19,7 @@ package com.speedment.codegen.lang.models.implementation;
 import com.speedment.codegen.lang.models.AnnotationUsage;
 import com.speedment.codegen.lang.models.Type;
 import com.speedment.codegen.lang.models.Value;
-import com.speedment.util.Copier;
+import com.speedment.codegen.util.Copier;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +28,14 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- *
+ * This is the default implementation of the {@link AnnotationUsage} interface.
+ * This class should not be instantiated directly. Instead you should call the
+ * {@link AnnotationUsage#of(com.speedment.codegen.lang.models.Type) } method to 
+ * get an instance. In that way, you can layer change the implementing class 
+ * without modifying the using code.
+ * 
  * @author Emil Forslund
+ * @see    AnnotationUsage
  */
 public class AnnotationUsageImpl implements AnnotationUsage {
 	
@@ -37,18 +43,26 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 	private Value<?> value;
 	private final List<Entry<String, Value<?>>> values;
 	
+    /**
+     * Initialises this annotation usage using a type.
+     * <p>
+     * <b>Warning!</b> This class should not be instantiated directly but using 
+     * the {@link AnnotationUsage#of(com.speedment.codegen.lang.models.Type)} 
+     * method!
+     * 
+     * @param type  the type
+     */
 	public AnnotationUsageImpl(Type type) {
 		this.type	= type;
 		this.value	= null;
 		this.values = new ArrayList<>();
 	}
-    
-    public AnnotationUsageImpl(Type type, Value<?> value) {
-		this.type	= type;
-		this.value	= value;
-		this.values = new ArrayList<>();
-	}
-	
+
+    /**
+     * Copy constructor.
+     * 
+     * @param prototype  the prototype
+     */
 	protected AnnotationUsageImpl(AnnotationUsage prototype) {
 		type   = prototype.getType();
 		value  = prototype.getValue().map(Copier::copy).orElse(null);
@@ -59,44 +73,68 @@ public class AnnotationUsageImpl implements AnnotationUsage {
 		);
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public AnnotationUsage set(Value<?> val) {
 		value = val;
 		return this;
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public AnnotationUsage put(String key, Value<?> val) {
 		values.add(new AbstractMap.SimpleEntry<>(key, val));
 		return this;
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Optional<Value<?>> getValue() {
 		return Optional.ofNullable(value);
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public List<Entry<String, Value<?>>> getValues() {
 		return values;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public AnnotationUsage set(Type type) {
 		this.type = type;
 		return this;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Type getType() {
 		return type;
 	}
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public AnnotationUsageImpl copy() {
 		return new AnnotationUsageImpl(this);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int hash = 5;
@@ -106,6 +144,9 @@ public class AnnotationUsageImpl implements AnnotationUsage {
         return hash;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {
@@ -119,24 +160,30 @@ public class AnnotationUsageImpl implements AnnotationUsage {
     }
 	
 	public final static class AnnotationUsageConst extends AnnotationUsageImpl {
+        
 		public AnnotationUsageConst(Type type) { 
 			super(type); 
 		}
-        
-        public AnnotationUsageConst(Type type, Value<?> value) { 
-			super(type, value); 
-		}
 
+        /**
+        * {@inheritDoc}
+        */
 		@Override
 		public AnnotationUsage set(Value<?> val) {
 			return copy().set(val);
 		}
 		
+        /**
+        * {@inheritDoc}
+        */
 		@Override
 		public AnnotationUsage put(String key, Value<?> val) {
 			return copy().put(key, val);
 		}
 
+        /**
+        * {@inheritDoc}
+        */
 		@Override
 		public AnnotationUsage set(Type type) {
 			return copy().set(type);

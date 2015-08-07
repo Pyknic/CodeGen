@@ -18,42 +18,47 @@ package com.speedment.codegen.java.views;
 
 import com.speedment.codegen.lang.models.Annotation;
 import java.util.Optional;
-import static com.speedment.codegen.Formatting.*;
+import static com.speedment.codegen.util.Formatting.*;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.java.views.interfaces.HasAnnotationUsageView;
 import com.speedment.codegen.java.views.interfaces.HasJavadocView;
 import com.speedment.codegen.java.views.interfaces.HasNameView;
-import com.speedment.util.CodeCombiner;
+import com.speedment.codegen.util.CodeCombiner;
 
 /**
- *
+ * Transforms from an {@link Annotation} to java code.
+ * 
  * @author Emil Forslund
  */
 public class AnnotationView implements Transform<Annotation, String>, 
-    HasJavadocView<Annotation>, HasAnnotationUsageView<Annotation>, HasNameView<Annotation> {
+    HasJavadocView<Annotation>, HasAnnotationUsageView<Annotation>, 
+    HasNameView<Annotation> {
 	
     private final static String 
 		INTERFACE_STRING = "@interface ",
 		DEFAULT_STRING = " default ";
 	
+    /**
+     * {@inheritDoc}
+     */
 	@Override
-	public Optional<String> transform(Generator cg, Annotation model) {
+	public Optional<String> transform(Generator gen, Annotation model) {
 		return Optional.of(
-			renderAnnotations(cg, model) +
-			renderAnnotations(cg, model) +
+			renderAnnotations(gen, model) +
+			renderAnnotations(gen, model) +
 			INTERFACE_STRING + 
-            renderName(cg, model) +
+            renderName(gen, model) +
 			block(
 				model.getFields().stream().map(f -> 
 					// Field javadoc (optional)
-					ifelse(cg.on(f.getJavadoc()), jd -> nl() + jd + nl(), EMPTY) +
+					ifelse(gen.on(f.getJavadoc()), jd -> nl() + jd + nl(), EMPTY) +
 					
 					// Field declaration
-					cg.on(f.getType()) + SPACE + f.getName() + PS + PE +
+					gen.on(f.getType()) + SPACE + f.getName() + PS + PE +
 						
 					// Default value (optional)
-					ifelse(cg.on(f.getValue()), v -> (DEFAULT_STRING + v), EMPTY) +
+					ifelse(gen.on(f.getValue()), v -> (DEFAULT_STRING + v), EMPTY) +
 							
 					SC
 				).collect(CodeCombiner.joinIfNotEmpty(nl()))

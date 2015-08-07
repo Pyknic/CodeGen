@@ -17,20 +17,48 @@
 package com.speedment.codegen.lang.interfaces;
 
 import com.speedment.codegen.lang.models.ClassOrInterface;
+import java.util.Collection;
 import java.util.List;
 
 /**
- *
+ * A trait for models that contain {@link ClassOrInterface} components.
+ * 
  * @author Emil Forslund
- * @param <T>
+ * @param <T> The extending type
  */
 public interface HasClasses<T extends HasClasses<T>> {
     
+    /**
+     * Adds the specified {@link ClassOrInterface} to this model.
+     * 
+     * @param member  the new child
+     * @return        a reference to this
+     */
     @SuppressWarnings("unchecked")
     default T add(ClassOrInterface<?> member) {
         getClasses().add(member);
         return (T) this;
     }
     
+    /**
+     * Adds all the specified {@link ClassOrInterface} members to this model.
+     * 
+     * @param members  the new children
+     * @return         a reference to this
+     */
+    @SuppressWarnings("unchecked")
+    default T addAllClasses(Collection<? extends ClassOrInterface<?>> members) {
+        getClasses().addAll(members);
+        return (T) this;
+    }
+    
+    /**
+     * Returns a list of all the classes, interfaces and enumerations in this 
+     * model.
+     * <p>
+     * The list returned must be mutable for changes!
+     * 
+     * @return all the classes
+     */
 	List<ClassOrInterface<?>> getClasses();
 }

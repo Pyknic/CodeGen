@@ -22,7 +22,7 @@ import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.Type;
 import com.speedment.codegen.lang.models.Value;
 import com.speedment.codegen.lang.models.modifiers.Modifier;
-import com.speedment.util.Copier;
+import com.speedment.codegen.util.Copier;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -31,8 +31,14 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- *
+ * This is the default implementation of the {@link Field} interface.
+ * This class should not be instantiated directly. Instead you should call the
+ * {@link Field#of(java.lang.String, com.speedment.codegen.lang.models.Type)} 
+ * method to get an instance. In that way, you can layer change the implementing 
+ * class without modifying the using code.
+ * 
  * @author Emil Forslund
+ * @see    Field
  */
 public class FieldImpl implements Field {
 	
@@ -43,6 +49,16 @@ public class FieldImpl implements Field {
 	private final List<AnnotationUsage> annotations;
 	private final Set<Modifier> modifiers;
 	
+    /**
+     * Initialises this field using a name and a type.
+     * <p>
+     * <b>Warning!</b> This class should not be instantiated directly but using 
+     * the {@link Field#of(java.lang.String, com.speedment.codegen.lang.models.Type)} 
+     * method!
+     * 
+     * @param name  the name
+     * @param type  the type
+     */
 	public FieldImpl(String name, Type type) {
 		this.name			= name;
 		this.type			= type;
@@ -52,6 +68,11 @@ public class FieldImpl implements Field {
 		this.modifiers		= EnumSet.noneOf(Modifier.class);
 	}
 	
+    /**
+     * Copy constructor.
+     * 
+     * @param prototype  the prototype
+     */
 	protected FieldImpl(Field prototype) {
 		name		= prototype.getName();
 		type		= Copier.copy(prototype.getType());
@@ -61,65 +82,101 @@ public class FieldImpl implements Field {
 		modifiers	= Copier.copy(prototype.getModifiers(), c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public String getName() {
 		return name;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Field setName(String name) {
 		this.name = name;
 		return this;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Type getType() {
 		return type;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Field set(Type type) {
 		this.type = type;
 		return this;
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Set<Modifier> getModifiers() {
 		return modifiers;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Field set(Javadoc doc) {
 		javadoc = doc;
 		return this;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Optional<Javadoc> getJavadoc() {
 		return Optional.ofNullable(javadoc);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Field set(Value<?> val) {
 		this.value = val;
 		return this;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Optional<Value<?>> getValue() {
 		return Optional.ofNullable(value);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public List<AnnotationUsage> getAnnotations() {
 		return annotations;
 	}
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public FieldImpl copy() {
 		return new FieldImpl(this);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int hash = 7;
@@ -132,6 +189,9 @@ public class FieldImpl implements Field {
         return hash;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {

@@ -16,19 +16,33 @@
  */
 package com.speedment.codegen.java.views.interfaces;
 
-import static com.speedment.codegen.Formatting.dnl;
+import static com.speedment.codegen.util.Formatting.dnl;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.interfaces.HasInitalizers;
 import java.util.stream.Collectors;
 
 /**
- *
- * @author Emil Forslund
- * @param <M>
+ * A trait with the functionality to render models with the trait 
+ * {@link HasInitalizers}.
+ * 
+ * @author     Emil Forslund
+ * @param <M>  The model type
+ * @see        Transform
  */
-public interface HasInitalizersView<M extends HasInitalizers<M>> extends Transform<M, String> {
-    default String renderInitalizers(Generator cg, M model) {
-        return cg.onEach(model.getInitalizers()).collect(Collectors.joining(dnl()));
+public interface HasInitalizersView<M extends HasInitalizers<M>> extends 
+    Transform<M, String> {
+    
+    /**
+     * Render the initalizers-part of the model separated by two new-line 
+     * characters.
+     * 
+     * @param gen    the generator
+     * @param model  the model
+     * @return       the generated code
+     */
+    default String renderInitalizers(Generator gen, M model) {
+        return gen.onEach(model.getInitalizers())
+            .collect(Collectors.joining(dnl()));
     }
 }

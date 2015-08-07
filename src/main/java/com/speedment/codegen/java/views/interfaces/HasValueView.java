@@ -16,24 +16,34 @@
  */
 package com.speedment.codegen.java.views.interfaces;
 
-import static com.speedment.codegen.Formatting.EMPTY;
-import static com.speedment.codegen.Formatting.EQUALS;
-import static com.speedment.codegen.Formatting.SPACE;
-import static com.speedment.codegen.Formatting.ifelse;
+import static com.speedment.codegen.util.Formatting.EMPTY;
+import static com.speedment.codegen.util.Formatting.EQUALS;
+import static com.speedment.codegen.util.Formatting.SPACE;
+import static com.speedment.codegen.util.Formatting.ifelse;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.interfaces.HasValue;
 
 /**
- *
- * @author Emil Forslund
- * @param <M>
+ * A trait with the functionality to render models with the trait 
+ * {@link HasValue}.
+ * 
+ * @author     Emil Forslund
+ * @param <M>  The model type
+ * @see        Transform
  */
 public interface HasValueView<M extends HasValue<M>> extends Transform<M, String> {
     
-    default String renderValue(Generator cg, M model) {
+    /**
+     * Render the value of the model if it exists, else an empty string.
+     * 
+     * @param gen    the generator
+     * @param model  the model
+     * @return       the generated code
+     */
+    default String renderValue(Generator gen, M model) {
         return ifelse(model.getValue(), 
-			v -> SPACE + EQUALS + SPACE + cg.on(v).orElse(EMPTY), 
+			v -> SPACE + EQUALS + SPACE + gen.on(v).orElse(EMPTY), 
             EMPTY
         );
     }

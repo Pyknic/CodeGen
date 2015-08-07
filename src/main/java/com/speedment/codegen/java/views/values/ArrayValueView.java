@@ -19,20 +19,24 @@ package com.speedment.codegen.java.views.values;
 import com.speedment.codegen.lang.models.values.ArrayValue;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import static com.speedment.codegen.Formatting.*;
+import static com.speedment.codegen.util.Formatting.*;
 import com.speedment.codegen.base.Generator;
 import com.speedment.codegen.base.Transform;
 
 /**
- *
+ * Transforms from an {@link ArrayValue} to java code.
+ * 
  * @author Emil Forslund
  */
 public class ArrayValueView implements Transform<ArrayValue, String> {
     
+    /**
+     * {@inheritDoc}
+     */
 	@Override
-	public Optional<String> transform(Generator cg, ArrayValue model) {
+	public Optional<String> transform(Generator gen, ArrayValue model) {
 		return Optional.of(
-			cg.onEach(model.getValue()).collect(
+			gen.onEach(model.getValue()).collect(
 				Collectors.joining(
 					COMMA_SPACE, 
 					BS, 

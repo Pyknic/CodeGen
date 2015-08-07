@@ -25,24 +25,58 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- *
- * @author Emil Forslund
+ * A model that represents the usage of a particular annotation in code.
+ * 
+ * @author  Emil Forslund
+ * @see     Annotation
  */
 public interface AnnotationUsage extends Copyable<AnnotationUsage>, 
     HasType<AnnotationUsage>, HasValue<AnnotationUsage> {
     
+    /**
+     * Use the specified key-value pair when referencing the annotation. If you
+     * only want to show a single value without any key, consider using the
+     * {@link #set(com.speedment.codegen.lang.models.Value) set()} method.
+     * 
+     * @param key  the key
+     * @param val  the value
+     * @return     a reference to this model
+     */
     AnnotationUsage put(String key, Value<?> val);
+    
+    /**
+     * Returns a list of all the key-value pairs in this model.
+     * 
+     * @return  all key-value pairs 
+     */
     List<Map.Entry<String, Value<?>>> getValues();
     
+    /**
+     * Factory holder.
+     */
     enum Factory { INST;
         private Supplier<AnnotationUsage> supplier = () -> new AnnotationUsageImpl(null);
     }
 
+    /**
+     * Creates a new instance implementing this interface by using the class
+     * supplied by the default factory. To change implementation, please use
+     * the {@link #setSupplier(java.util.function.Supplier) setSupplier} method.
+     * 
+     * @param type  the type
+     * @return      the new instance
+     */
     static AnnotationUsage of(Type type) {
         return Factory.INST.supplier.get().set(type);
     }
-    
-    static void setSupplier(Supplier<AnnotationUsage> a) {
-        Factory.INST.supplier = a;
+        
+    /**
+     * Sets the instantiation method used to create new instances of this
+     * interface.
+     * 
+     * @param supplier  the new constructor 
+     */
+    static void setSupplier(Supplier<AnnotationUsage> supplier) {
+        Factory.INST.supplier = supplier;
     }
 }

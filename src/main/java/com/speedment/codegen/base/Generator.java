@@ -21,13 +21,19 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- *
+ * A hook to the generator that can be passed to various stages in the pipeline.
+ * Contains multiple methods for generating model-to-model or model-to-text.
+ * 
  * @author Emil Forslund
  */
 public interface Generator {
 
     /**
-     * @return the dependency manager.
+     * Returns the {@link DependencyManager} currently being used.
+     * 
+     * @return  the dependency manager
+     * 
+     * @see DependencyManager
      */
     DependencyManager getDependencyMgr();
 
@@ -36,17 +42,13 @@ public interface Generator {
      * recent rendered and the bottom one will be the element that was first
      * passed to the generator. Elements are removed from the stack once they
      * have finished rendering.
-     *
+     * <p>
      * If an element needs to access its parent, it can call this method and
      * peek on the second element from the top.
      *
-     * The elements in the Stack will be of Object type. That is because the
-     * framework doesn't put any constraints on what can be rendered. The
-     * elements should not be cast directly to the model class but rather to an
-     * interface describing the properties you need to read. That way, the
-     * design remains dynamic even if the exact implementation isn't the same.
-     *
-     * @return the current rendering stack.
+     * @return  the current rendering stack
+     * 
+     * @see RenderStack
      */
     RenderStack getRenderStack();
     
@@ -54,21 +56,46 @@ public interface Generator {
      * Renders the specified model into a stream of code models. This is used
      * internally to provide the other interface methods.
      *
-     * @param <A> The input type.
-     * @param <B> The expected output type.
-     * @param from The model to generate.
-     * @param to The model type to transform to.
-     * @return A stream of meta objects.
+     * @param <A>   the input type
+     * @param <B>   the expected output type
+     * @param from  the model to generate
+     * @param to    the model type to transform to
+     * @return      a stream of meta objects
+     * 
+     * @see Meta
      */
     <A, B> Stream<Meta<A, B>> metaOn(A from, Class<B> to);
+    
+    /**
+     * Renders the specified model into a stream of code models. This is used
+     * internally to provide the other interface methods.
+     * <p>
+     * If the specified transform is not installed, an empty stream will be
+     * returned.
+     *
+     * @param <A>        the input type
+     * @param <B>        the expected output type
+     * @param from       the model to generate
+     * @param to         the model type to transform to
+     * @param transform  the specified transform to use
+     * @return           a stream of meta objects
+     * 
+     * @see Meta
+     */
+    default <A, B> Stream<Meta<A, B>> metaOn(A from, Class<B> to, Class<? extends Transform<A, B>> transform) {
+        return metaOn(from, to)
+            .filter(meta -> transform.equals(meta.getTransform().getClass()));
+    }
 
     /**
      * Renders the specified model into a stream of code models. This is used
      * internally to provide the other interface methods.
      *
-     * @param <M>
-     * @param model The model to generate.
-     * @return A stream of meta objects.
+     * @param <M>    the model type
+     * @param model  the model to generate
+     * @return       a stream of meta objects
+     * 
+     * @see Meta
      */
     default <M> Stream<Meta<M, String>> metaOn(M model) {
         return metaOn(model, String.class);
@@ -76,11 +103,13 @@ public interface Generator {
 
     /**
      * Renders all the specified models into a stream of code models. This is
-     * used internally to provide the other interface methods. ¨
+     * used internally to provide the other interface methods.
      *
-     * @param <A> The input type.
-     * @param models The models to generate.
-     * @return A stream of meta objects.
+     * @param <A>     the input type
+     * @param models  the models to generate
+     * @return        a stream of meta objects
+     * 
+     * @see Meta
      */
     default <A> Stream<Meta<A, String>> metaOn(Collection<A> models) {
         return models.stream().map(model -> metaOn(model)).flatMap(m -> m);
@@ -88,25 +117,49 @@ public interface Generator {
     
     /**
      * Renders all the specified models into a stream of code models. This is
-     * used internally to provide the other interface methods. ¨
+     * used internally to provide the other interface methods.
      *
-     * @param <A> The input type.
-     * @param <B> The expected output type.
-     * @param models The models to generate.
-     * @param to The expected result type.
-     * @return A stream of meta objects.
+     * @param <A>     the input type
+     * @param <B>     the expected output type
+     * @param models  the models to generate
+     * @param to      the expected result type
+     * @return        a stream of meta objects
+     * 
+     * @see Meta
      */
     default <A, B> Stream<Meta<A, B>> metaOn(Collection<A> models, Class<B> to) {
         return models.stream().map(model -> metaOn(model, to)).flatMap(m -> m);
     }
+    
+    /**
+     * Renders all the specified models into a stream of code models. This is
+     * used internally to provide the other interface methods. This will only
+     * return results from the specified transform.
+     * <p>
+     * If the specified transform is not installed, an empty stream will be
+     * returned.
+     * 
+     * @param <A>        the input type
+     * @param <B>        the expected output type
+     * @param models     the models to generate
+     * @param to         the expected result type
+     * @param transform  the specific transform to use
+     * @return           a stream of meta objects
+     * 
+     * @see Meta
+     */
+    default <A, B> Stream<Meta<A, B>> metaOn(Collection<A> models, Class<B> to, Class<? extends Transform<A, B>> transform) {
+        return metaOn(models, to)
+            .filter(meta -> meta.getTransform().is(transform));
+    }
 
     /**
-     * Locates the <code>CodeView</code> that corresponds to the specified model
-     * and uses it to generate a String. If no view is associated with the model
-     * type, an empty optional will be returned.
+     * Locates the {@link Transform} that corresponds to the specified model
+     * and uses it to generate a <code>String</code>. If no view is associated 
+     * with the model type, an empty <code>Optional</code> will be returned.
      *
-     * @param model The model.
-     * @return The generated text if any.
+     * @param model  the model
+     * @return       the generated text if any
      */
     default Optional<String> on(Object model) {
         if (model instanceof Optional) {
@@ -124,24 +177,27 @@ public interface Generator {
     /**
      * Renders all the specified models into a stream of strings.
      *
-     * @param <M>
-     * @param models The models to generate.
-     * @return A stream of meta objects.
+     * @param <M>     the model type
+     * @param models  the models to generate
+     * @return        a stream of meta objects
      */
     default <M> Stream<String> onEach(Collection<M> models) {
         return metaOn(models).map(c -> c.getResult());
     }
     
     /**
-     * Transforms the specified model using the specified transform from the
-     * specified installer.
+     * Transforms the specified model using the specified {@link Transform} from 
+     * the specified {@link TransformFactory}.
      * 
-     * @param <A> The input type.
-     * @param <B> The expected output type.
-     * @param transform The transform to use.
-     * @param model The inputed model.
-     * @param factory The factory used when instantiating the transform.
-     * @return The meta object if successful, else empty.
+     * @param <A>        the input type
+     * @param <B>        the expected output type
+     * @param transform  the transform to use
+     * @param model      the inputed model
+     * @param factory    the factory used when instantiating the transform
+     * @return           the meta object if successful, else empty
+     * 
+     * @see    Transform
+     * @see    TransformFactory
      */
     <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, TransformFactory factory);
 }

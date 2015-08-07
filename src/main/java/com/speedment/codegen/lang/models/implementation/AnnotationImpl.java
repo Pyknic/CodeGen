@@ -22,7 +22,7 @@ import com.speedment.codegen.lang.models.Field;
 import com.speedment.codegen.lang.models.Import;
 import com.speedment.codegen.lang.models.Javadoc;
 import com.speedment.codegen.lang.models.modifiers.Modifier;
-import com.speedment.util.Copier;
+import com.speedment.codegen.util.Copier;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -31,8 +31,14 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- *
+ * This is the default implementation of the {@link Annotation} interface.
+ * This class should not be instantiated directly. Instead you should call the
+ * {@link Annotation#of(java.lang.String)} method to get an instance. In that
+ * way, you can layer change the implementing class without modifying the using
+ * code.
+ * 
  * @author Emil Forslund
+ * @see    Annotation
  */
 public class AnnotationImpl implements Annotation {
 	
@@ -43,6 +49,14 @@ public class AnnotationImpl implements Annotation {
 	private final List<Import> imports;
 	private final Set<Modifier> modifiers;
 
+    /**
+     * Initialises this annotation using a name.
+     * <p>
+     * <b>Warning!</b> This class should not be instantiated directly but using 
+     * the {@link Annotation#of(java.lang.String)} method!
+     * 
+     * @param name  the name
+     */
 	public AnnotationImpl(String name) {
 		this.name        = name;
 		this.javadoc     = null;
@@ -52,6 +66,11 @@ public class AnnotationImpl implements Annotation {
 		this.modifiers   = EnumSet.noneOf(Modifier.class);
 	}
 	
+    /**
+     * Copy constructor.
+     * 
+     * @param prototype  the prototype
+     */
 	protected AnnotationImpl(Annotation prototype) {
 		name        = prototype.getName();
 		javadoc     = prototype.getJavadoc().map(Copier::copy).orElse(null);
@@ -61,53 +80,83 @@ public class AnnotationImpl implements Annotation {
 		modifiers   = Copier.copy(prototype.getModifiers(), c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Annotation setName(String name) {
 		this.name = name;
 		return this;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public String getName() {
 		return name;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public List<Field> getFields() {
 		return fields;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Annotation set(Javadoc doc) {
 		this.javadoc = doc;
 		return this;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Optional<Javadoc> getJavadoc() {
 		return Optional.ofNullable(javadoc);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public List<Import> getImports() {
 		return imports;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Set<Modifier> getModifiers() {
 		return modifiers;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public List<AnnotationUsage> getAnnotations() {
 		return annotations;
 	}
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public AnnotationImpl copy() {
 		return new AnnotationImpl(this);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int hash = 3;
@@ -120,6 +169,9 @@ public class AnnotationImpl implements Annotation {
         return hash;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {

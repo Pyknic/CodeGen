@@ -18,7 +18,7 @@ package com.speedment.codegen.lang.models.implementation;
 
 import com.speedment.codegen.lang.models.Initalizer;
 import com.speedment.codegen.lang.models.modifiers.Modifier;
-import com.speedment.util.Copier;
+import com.speedment.codegen.util.Copier;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -27,39 +27,67 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- *
+ * This is the default implementation of the {@link Initalizer} interface.
+ * This class should not be instantiated directly. Instead you should call the
+ * {@link Initalizer#of()} method to get an instance. In that way, 
+ * you can layer change the implementing class without modifying the using code.
+ * 
  * @author Emil Forslund
+ * @see    Initalizer
  */
 public class InitalizerImpl implements Initalizer {
 
     private final List<String> code;
     private final Set<Modifier> modifiers;
     
+    /**
+     * Initialises this initalizer.
+     * <p>
+     * <b>Warning!</b> This class should not be instantiated directly but using 
+     * the {@link Initalizer#of()} method!
+     */
     public InitalizerImpl() {
         code      = new ArrayList<>();
         modifiers = EnumSet.noneOf(Modifier.class);
     }
     
+    /**
+     * Copy constructor.
+     * 
+     * @param prototype  the prototype
+     */
     protected InitalizerImpl(Initalizer prototype) {
         code      = Copier.copy(prototype.getCode(), c -> c);
         modifiers = Copier.copy(prototype.getModifiers(), c -> c);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<String> getCode() {
         return code;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Modifier> getModifiers() {
         return modifiers;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public InitalizerImpl copy() {
         return new InitalizerImpl(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int hash = 3;
@@ -68,6 +96,9 @@ public class InitalizerImpl implements Initalizer {
         return hash;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {

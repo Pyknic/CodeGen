@@ -19,48 +19,78 @@ package com.speedment.codegen.lang.models.implementation;
 import com.speedment.codegen.lang.models.Constructor;
 import com.speedment.codegen.lang.models.Enum;
 import com.speedment.codegen.lang.models.EnumConstant;
-import com.speedment.util.Copier;
+import com.speedment.codegen.util.Copier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 /**
- *
+ * This is the default implementation of the {@link Enum} interface.
+ * This class should not be instantiated directly. Instead you should call the
+ * {@link Enum#of(java.lang.String)} method to get an instance. In that way, 
+ * you can layer change the implementing class without modifying the using code.
+ * 
  * @author Emil Forslund
+ * @see    Enum
  */
 public class EnumImpl extends ClassOrInterfaceImpl<Enum> implements Enum {
 	
 	private final List<EnumConstant> constants;
 	private final List<Constructor> constructors;
 	
+    /**
+     * Initialises this enum using a name.
+     * <p>
+     * <b>Warning!</b> This class should not be instantiated directly but using 
+     * the {@link Enum#of(java.lang.String)} method!
+     * 
+     * @param name  the name
+     */
 	public EnumImpl(String name) {
 		super(name);
 		constants    = new ArrayList<>();
 		constructors = new ArrayList<>();
 	}
 	
+    /**
+     * Copy constructor.
+     * 
+     * @param prototype  the prototype
+     */
 	protected EnumImpl(Enum prototype) {
 		super (prototype);
 		constants    = Copier.copy(prototype.getConstants());
 		constructors = Copier.copy(prototype.getConstructors());
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
 	public List<EnumConstant> getConstants() {
 		return constants;
 	}
 	
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public List<Constructor> getConstructors() {
 		return constructors;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public EnumImpl copy() {
 		return new EnumImpl(this);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int hash = 7;
@@ -69,6 +99,9 @@ public class EnumImpl extends ClassOrInterfaceImpl<Enum> implements Enum {
         return hash;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {

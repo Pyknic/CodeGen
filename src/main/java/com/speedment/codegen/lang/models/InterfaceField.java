@@ -26,14 +26,23 @@ import com.speedment.codegen.lang.models.implementation.InterfaceFieldImpl;
 import com.speedment.codegen.lang.models.modifiers.InterfaceFieldModifier;
 
 /**
- *
- * @author Emil Forslund
+ * A model that represents a field of an interface in code.
+ * 
+ * @author  Emil Forslund
+ * @see     Interface
  */
 public interface InterfaceField extends HasName<InterfaceField>, 
     HasType<InterfaceField>, InterfaceFieldModifier<InterfaceField>, 
     HasJavadoc<InterfaceField>, HasValue<InterfaceField>, 
     HasAnnotationUsage<InterfaceField>, Copyable<InterfaceField> {
 
+    /**
+     * Creates a new instance implementing this interface by wrapping an existing
+     * {@link Field} in an {@link InterfaceFieldImpl}.
+     * 
+     * @param wrapped  the wrapped field
+     * @return         the new instance
+     */
     static InterfaceField of(Field wrapped) {
         return new InterfaceFieldImpl(wrapped);
     }

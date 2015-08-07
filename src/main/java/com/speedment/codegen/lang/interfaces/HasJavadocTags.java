@@ -14,30 +14,37 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.speedment.codegen.java.views;
+package com.speedment.codegen.lang.interfaces;
 
-import static com.speedment.codegen.util.Formatting.*;
-import com.speedment.codegen.base.Generator;
-import com.speedment.codegen.base.Transform;
 import com.speedment.codegen.lang.models.JavadocTag;
-import java.util.Optional;
+import java.util.List;
 
 /**
- * Transforms from a {@link JavadocTag} to java code.
+ * A trait for models that contain {@link JavadocTag} components.
  * 
  * @author Emil Forslund
+ * @param <T> The extending type
  */
-public class JavadocTagView implements Transform<JavadocTag, String> {
-
+public interface HasJavadocTags<T extends HasJavadocTags<T>> {
+    
     /**
-     * {@inheritDoc}
+     * Adds the specified {@link JavadocTag} to this model.
+     * 
+     * @param tag  the new child
+     * @return     a reference to this
      */
-	@Override
-	public Optional<String> transform(Generator gen, JavadocTag model) {
-		return Optional.of(
-			AT + model.getName() + 
-			ifelse(model.getValue(), s -> SPACE + s, EMPTY) + SPACE +
-			model.getText().orElse(EMPTY)
-		);
-	}
+    @SuppressWarnings("unchecked")
+    default T add(final JavadocTag tag) {
+        getTags().add(tag);
+        return (T) this;
+    }
+    
+    /**
+     * Returns a list of all documentation tags of this model.
+     * <p>
+     * The list returned must be mutable for changes!
+     * 
+     * @return  the javadoc tags
+     */
+    List<JavadocTag> getTags();
 }

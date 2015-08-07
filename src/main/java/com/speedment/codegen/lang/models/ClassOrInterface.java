@@ -30,9 +30,11 @@ import com.speedment.codegen.lang.interfaces.HasModifiers;
 import com.speedment.codegen.lang.interfaces.HasName;
 
 /**
- *
+ * An abstract base class to share functionality between the models 
+ * {@link Class}, {@link Enum} and {@link Interface}.
+ * 
  * @author Emil Forslund
- * @param <T>
+ * @param <T> The extending type
  */
 public interface ClassOrInterface<T extends ClassOrInterface<T>> extends 
     Copyable<T>, Callable<T>, HasName<T>, HasJavadoc<T>, HasGenerics<T>,
