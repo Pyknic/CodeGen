@@ -21,7 +21,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.pyknic</groupId>
 	<artifactId>CodeGen</artifactId>
-	<version>1.0</version>
+	<version>1.1</version>
 	<packaging>jar</packaging>
 	
 	<name>CodeGen</name>
@@ -133,6 +133,10 @@
 								</goals>
 							</execution>
 						</executions>
+						<configuration>
+                            <docfilessubdirs>true</docfilessubdirs>
+                            <excludePackageNames>com.speedment.internal.*</excludePackageNames>
+                        </configuration>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
