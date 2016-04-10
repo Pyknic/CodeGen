@@ -23,7 +23,6 @@ import com.speedment.codegen.model.trait.HasGenerics;
 import com.speedment.codegen.model.trait.HasName;
 import com.speedment.internal.codegen.model.TypeImpl;
 import java.util.Optional;
-import java.util.function.Supplier;
 import static java.util.Objects.requireNonNull;
 import java.util.function.Function;
 
@@ -89,7 +88,7 @@ public interface Type extends HasCopy<Type>, HasName<Type>, HasGenerics<Type>,
     /**
      * Creates a new instance implementing this interface by using the class
      * supplied by the default factory. To change implementation, please use
-     * the {@link #setMapper(java.util.function.Supplier) setSupplier} method.
+     * the {@link #setMapper(Function)} method.
      * 
      * @param name  the type name
      * @return      the new instance
@@ -101,7 +100,7 @@ public interface Type extends HasCopy<Type>, HasName<Type>, HasGenerics<Type>,
     /**
      * Creates a new instance implementing this interface by using the class
      * supplied by the default factory. To change implementation, please use
-     * the {@link #setMapper(Function) setSupplier} method.
+     * the {@link #setMapper(Function)} method.
      * 
      * @param clazz  the java implementation
      * @return       the new instance
