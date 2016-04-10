@@ -2,7 +2,7 @@
 <!--
 
 
-    Copyright (c) 2006-2015, Speedment, Inc. All Rights Reserved.
+    Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License"); You may not
     use this file except in compliance with the License. You may obtain a copy of
@@ -20,8 +20,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.pyknic</groupId>
-	<artifactId>CodeGen</artifactId>
-	<version>1.1</version>
+	<artifactId>codegen</artifactId>
+	<version>1.1.0</version>
 	<packaging>jar</packaging>
 	
 	<name>CodeGen</name>
@@ -63,6 +63,10 @@
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
 	</distributionManagement>
 	
 	<build>
@@ -82,7 +86,7 @@
 	
 	<profiles>
 		<profile> 
-			<id>release</id>
+			<id>ossrh</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -92,10 +96,11 @@
 						<configuration>
 							<header>license_header.txt</header>
 							<properties>
-								<currentYear>$(current.year}</currentYear>
+								<currentYear>2016</currentYear>
 							</properties>
 							<excludes>
 								<exclude>**/README</exclude>
+								<exclude>**/LICENSE</exclude>
 								<exclude>src/test/resources/**</exclude>
 								<exclude>src/main/resources/**</exclude>
 							</excludes>
@@ -134,9 +139,9 @@
 							</execution>
 						</executions>
 						<configuration>
-                            <docfilessubdirs>true</docfilessubdirs>
-                            <excludePackageNames>com.speedment.internal.*</excludePackageNames>
-                        </configuration>
+							<docfilessubdirs>true</docfilessubdirs>
+							<excludePackageNames>com.speedment.internal.*</excludePackageNames>
+						</configuration>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -152,18 +157,16 @@
 							</execution>
 						</executions>
 						<configuration>
+							<useagent>true</useagent>
+							<!--<defaultKeyring>false</defaultKeyring>-->
 							
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>1.6.7</version>
-						<extensions>true</extensions>
-						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+							<keyname>${gpg.keyname}</keyname>
+							<passphrase>${gpg.passphrase}</passphrase>
+							<!--<passphraseServerId>ossrh</passphraseServerId>-->
+							
+							<executable>${gpg.executable}</executable>
+<!--							<publicKeyring>${gpg.homedir}/pubring.gpg</publicKeyring>
+							<secretKeyring>${gpg.homedir}/secring.gpg</secretKeyring>-->
 						</configuration>
 					</plugin>
 				</plugins>
