@@ -25,6 +25,16 @@
                 <goal>deploy</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-Deploy Release</actionName>
+            <displayName>Deploy Release</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>deploy</goal>
+                <goal>-P</goal>
+                <goal>release</goal>
+            </goals>
+        </action>
 <!--        <action>
             <actionName>CUSTOM-Deploy</actionName>
             <displayName>Deploy</displayName>
