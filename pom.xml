@@ -21,7 +21,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.pyknic</groupId>
 	<artifactId>codegen</artifactId>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>1.1.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
 	<name>CodeGen</name>
@@ -64,7 +64,7 @@
 		</snapshotRepository>
 		<repository>
 			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
 	</distributionManagement>
 	
@@ -157,15 +157,29 @@
 						</executions>
 						<configuration>
 							<useagent>true</useagent>
-							<!--<defaultKeyring>false</defaultKeyring>-->
-							
 							<keyname>${gpg.keyname}</keyname>
 							<passphrase>${gpg.passphrase}</passphrase>
-							<!--<passphraseServerId>ossrh</passphraseServerId>-->
-							
 							<executable>${gpg.executable}</executable>
-<!--							<publicKeyring>${gpg.homedir}/pubring.gpg</publicKeyring>
-							<secretKeyring>${gpg.homedir}/secring.gpg</secretKeyring>-->
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.3</version>
+						<extensions>true</extensions>
+						<executions>
+							<execution>
+								<id>default-deploy</id>
+								<phase>deploy</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
 						</configuration>
 					</plugin>
 				</plugins>
