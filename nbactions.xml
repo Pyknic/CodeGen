@@ -16,8 +16,15 @@
     License for the specific language governing permissions and limitations under
     the License.
 
--->
-<actions>
+--><actions>
+        <action>
+            <actionName>CUSTOM-Deploy Snapshot</actionName>
+            <displayName>Deploy Snapshot</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>deploy</goal>
+            </goals>
+        </action>
 <!--        <action>
             <actionName>CUSTOM-Deploy</actionName>
             <displayName>Deploy</displayName>

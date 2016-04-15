@@ -100,6 +100,8 @@
 							<excludes>
 								<exclude>**/README</exclude>
 								<exclude>**/LICENSE</exclude>
+								<exclude>**/nbactions.xml</exclude>
+								<exclude>**/nb-configuration.xml</exclude>
 								<exclude>src/test/resources/**</exclude>
 								<exclude>src/main/resources/**</exclude>
 							</excludes>
