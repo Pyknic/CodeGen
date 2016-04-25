@@ -1,7 +1,7 @@
 # CodeGen
 A model-view based code generator written in Java. It is completely object oriented to encourage reuse and increase testability. If you have a lot of code that depends on the structure of a database, a file system or any other source of information, generate the code instead!
 
-# Download
+## Download
 To use CodeGen in your projects, add the following dependency to your `pom.xml`-file:
 ```xml
 <dependency>
