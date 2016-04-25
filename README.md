@@ -52,3 +52,16 @@ public class BasicExample {
 
 ## Languages
 Currently only the java language is supported, but the language-dependent code is contained in a single package so that more languages can be supported in the future. Most of the java package can probably be reused if the language in question is similair in syntax.
+
+# Download
+To use CodeGen in your projects, add the following dependency to your `pom.xml`-file:
+```xml
+<dependency>
+    <groupId>com.github.pyknic</groupId>
+    <artifactId>codegen</artifactId>
+    <version>1.1.2</version>
+</dependency>
+```
+
+# License
+This project is available under the [Apache 2 license](http://www.apache.org/licenses/LICENSE-2.0). 
