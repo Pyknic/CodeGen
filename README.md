@@ -11,7 +11,7 @@ To use CodeGen in your projects, add the following dependency to your `pom.xml`-
 </dependency>
 ```
 
-# Example
+## Example
 ```java
 System.out.println(new JavaGenerator().on(
     File.of("org/example/BasicExample.java")
@@ -40,7 +40,7 @@ System.out.println(new JavaGenerator().on(
 );
 ```
 	
-## Result
+### Result
 ```java
 /**
  * Write some documentation here.
@@ -63,5 +63,5 @@ public class BasicExample {
 ## Languages
 Currently only the java language is supported, but the language-dependent code is contained in a single package so that more languages can be supported in the future. Most of the java package can probably be reused if the language in question is similair in syntax.
 
-# License
+## License
 This project is available under the [Apache 2 license](http://www.apache.org/licenses/LICENSE-2.0). 
