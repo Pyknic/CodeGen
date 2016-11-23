@@ -21,11 +21,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.pyknic</groupId>
 	<artifactId>codegen</artifactId>
-	<version>1.1.2-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<version>2.4.3</version>
+	<packaging>bundle</packaging>
 	
 	<name>CodeGen</name>
-	<description>A model-view based code generator for Java.</description>
+	<description>
+		An object-oriented code generator for Java that is built using the 
+        Model-View-Controller (MVC) design philosophy.
+	</description>
 	<url>https://www.github.com/Pyknic/CodeGen/</url>
 	
 	<properties>
@@ -80,6 +83,27 @@
 					<showDeprecation>true</showDeprecation>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+				<version>3.2.0</version>
+				<extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Export-Package>
+                            com.speedment.common.codegen,
+                            com.speedment.common.codegen.controller,
+                            com.speedment.common.codegen.constant,
+                            com.speedment.common.codegen.model,
+                            com.speedment.common.codegen.model.modifier,
+                            com.speedment.common.codegen.model.trait,
+                            com.speedment.common.codegen.model.value,
+                            com.speedment.common.codegen.util
+                        </Export-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 	
