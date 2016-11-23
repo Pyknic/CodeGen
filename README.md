@@ -7,7 +7,7 @@ To use CodeGen in your projects, add the following dependency to your `pom.xml`-
 <dependency>
     <groupId>com.github.pyknic</groupId>
     <artifactId>codegen</artifactId>
-    <version>1.1.2</version>
+    <version>2.4.3</version>
 </dependency>
 ```
 
@@ -19,18 +19,18 @@ System.out.println(new JavaGenerator().on(
             .add(GENERATED)
             .public_()
             .add(
-                Field.of("BASIC_MESSAGE", STRING)
+                Field.of("BASIC_MESSAGE", String.class)
                 .public_().final_().static_()
-                .set(new TextValue("Hello, world!"))
+                .set(Value.ofText("Hello, world!"))
             )
             .add(
-                Method.of("main", VOID)
+                Method.of("main", void.class)
                 .set(Javadoc.of(
-                    "This is a vary basic example of ",
+                    "This is a vary basic example of " +
                     "the capabilities of the Code Generator."
                 ))
                 .public_().static_()
-                .add(Field.of("params", STRING.setArrayDimension(1)))
+                .add(Field.of("params", String[].class))
                 .add(
                     "System.out.println(BASIC_MESSAGE);"
                 )
@@ -51,8 +51,8 @@ public class BasicExample {
     public final static String BASIC_MESSAGE = "Hello, world!";
     
     /**
-     * This is a vary basic example of 
-     * the capabilities of the Code Generator.
+     * This is a vary basic example of the capabilities of the 
+     * Code Generator.
      */
     public static void main(String[] params) {
         System.out.println(BASIC_MESSAGE);
@@ -64,4 +64,16 @@ public class BasicExample {
 Currently only the java language is supported, but the language-dependent code is contained in a single package so that more languages can be supported in the future. Most of the java package can probably be reused if the language in question is similair in syntax.
 
 ## License
-This project is available under the [Apache 2 license](http://www.apache.org/licenses/LICENSE-2.0). 
+Copyright 2016 Emil Forslund
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+[http://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
