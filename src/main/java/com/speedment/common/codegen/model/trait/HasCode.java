@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,7 +34,7 @@ public interface HasCode<T extends HasCode<T>> {
     /**
      * Adds the specified row of code to this model. If the row contains
      * new-line characters, the line will be broken apart on those characters
-     * and added using the {@link #add(java.lang.String...)}-method.
+     * and added using the {@link #add(String...)}-method.
      * 
      * @param row  the row
      * @return     a reference to this

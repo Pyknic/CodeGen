@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -105,59 +105,38 @@ public final class GenericImpl implements Generic {
 		upperBounds = new ArrayList<>(prototype.getUpperBounds());
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public Generic setLowerBound(String lowerBound) {
 		this.lowerBound = lowerBound;
 		return this;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public Optional<String> getLowerBound() {
 		return Optional.ofNullable(lowerBound);
 	}
-	
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
 	public Generic setBoundType(BoundType type) {
 		this.type = type;
 		return this;
 	}
-	
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
 	public BoundType getBoundType() {
 		return type;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public List<Type> getUpperBounds() {
 		return upperBounds;
 	}
-	
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
 	public Type asType() {
 		return SimpleType.create(lowerBound);
 	}
-	
-    /**
-     * {@inheritDoc}
-     */
+
 	@Override
 	public GenericImpl copy() {
 		return new GenericImpl(this);

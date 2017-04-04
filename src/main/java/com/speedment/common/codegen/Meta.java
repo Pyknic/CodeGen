@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -57,7 +57,8 @@ public interface Meta<A, B> {
     TransformFactory getFactory();
 
     /**
-     * The render stack that represents which generation processes is waiting for this result.
+     * The render stack that represents which generation processes is waiting
+     * for this result.
      *
      * @return the current render stack
      */
@@ -79,7 +80,7 @@ public interface Meta<A, B> {
      * @param result the result
      * @return the builder instance.
      */
-    static <A, B> Meta.Builder<A, B> builder(A model, B result) {
+    static <A, B> Builder<A, B> builder(A model, B result) {
         return new MetaImpl.Builder<>(model, result);
     }
 
@@ -124,7 +125,8 @@ public interface Meta<A, B> {
         Builder<A, B> withFactory(TransformFactory factory);
 
         /**
-         * The render stack that represents which generation processes is waiting for this result.
+         * The render stack that represents which generation processes is
+         * waiting for this result.
          *
          * @param stack  the render stack
          * @return       a reference to this builder

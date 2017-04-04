@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,13 +19,12 @@ package com.speedment.common.codegen.constant;
 
 import java.lang.reflect.Type;
 import java.util.*;
+import static java.util.Objects.requireNonNull;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * Constant implementations of the {@link Type} interface that can be used to
@@ -37,7 +36,7 @@ import static java.util.Objects.requireNonNull;
  */
 public final class DefaultType {
     
-    public static Type WILDCARD = SimpleType.create("?");
+    public static final Type WILDCARD = SimpleType.create("?");
         
     /**
      * Generates a {@link Type} to represent a java standard {@link Class} with
@@ -119,7 +118,7 @@ public final class DefaultType {
     
     /**
      * Generates a {@link Type} to represent a java standard 
-     * {@link java.util.HashMap.Entry Entry} with generic type variables.
+     * {@link HashMap.Entry Entry} with generic type variables.
      * 
      * @param innerTypeA  the first type variable
      * @param innerTypeB  the second type variable
@@ -209,7 +208,25 @@ public final class DefaultType {
         );
     }
     
-    private final static Map<String, Class<?>> WRAPPERS;
+    /**
+     * Returns a stream of all the primitive types in the java language.
+     * 
+     * @return  stream of types
+     */
+    public static Stream<Type> primitiveTypes() {
+        return WRAPPERS.keySet().stream().map(SimpleType::create);
+    }
+    
+    /**
+     * Returns a stream of all the wrapper types in the java language.
+     * 
+     * @return  stream of types
+     */
+    public static Stream<Type> wrapperTypes() {
+        return WRAPPERS.values().stream().map(Type.class::cast);
+    }
+    
+    private static final Map<String, Class<?>> WRAPPERS;
     static {
         final Map<String, Class<?>> temp = new HashMap<>();
         
@@ -229,7 +246,7 @@ public final class DefaultType {
      * Utility classes should never be instantiated.
      */
     private DefaultType() {
-        throw new RuntimeException(
+        throw new UnsupportedOperationException(
             "This class should never be instantiated."
         );
     }

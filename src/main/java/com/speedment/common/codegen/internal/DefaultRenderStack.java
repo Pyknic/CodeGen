@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -70,25 +70,16 @@ public class DefaultRenderStack implements RenderStack {
         return stack.pop();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public <T> Stream<T> fromBottom(Class<T> type) {
         return all(requireNonNull(type), stack.descendingIterator());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public <T> Stream<T> fromTop(Class<T> type) {
         return all(requireNonNull(type), stack.iterator());
     }
-    
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public boolean isEmpty() {
         return stack.isEmpty();

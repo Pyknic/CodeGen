@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -73,13 +73,13 @@ public final class CollectorUtil {
         private final BiConsumer<A, T> accumulator;
         private final BinaryOperator<A> combiner;
         private final Function<A, R> finisher;
-        private final Set<Collector.Characteristics> characteristics;
+        private final Set<Characteristics> characteristics;
 
         CollectorImpl(Supplier<A> supplier,
                 BiConsumer<A, T> accumulator,
                 BinaryOperator<A> combiner,
                 Function<A, R> finisher,
-                Set<Collector.Characteristics> characteristics) {
+                Set<Characteristics> characteristics) {
             this.supplier = supplier;
             this.accumulator = accumulator;
             this.combiner = combiner;
@@ -91,7 +91,7 @@ public final class CollectorUtil {
         CollectorImpl(Supplier<A> supplier,
                 BiConsumer<A, T> accumulator,
                 BinaryOperator<A> combiner,
-                Set<Collector.Characteristics> characteristics) {
+                Set<Characteristics> characteristics) {
 
             this(supplier, accumulator, combiner, i -> (R) i, characteristics);
         }
@@ -117,7 +117,7 @@ public final class CollectorUtil {
         }
 
         @Override
-        public Set<Collector.Characteristics> characteristics() {
+        public Set<Characteristics> characteristics() {
             return characteristics;
         }
     }

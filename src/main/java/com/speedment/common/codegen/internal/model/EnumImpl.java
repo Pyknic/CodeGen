@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -28,7 +28,7 @@ import java.util.Objects;
 /**
  * This is the default implementation of the {@link Enum} interface.
  * This class should not be instantiated directly. Instead you should call the
- * {@link Enum#of(java.lang.String)} method to get an instance. In that way, 
+ * {@link Enum#of(String)} method to get an instance. In that way,
  * you can layer change the implementing class without modifying the using code.
  * 
  * @author Emil Forslund
@@ -43,7 +43,7 @@ public final class EnumImpl extends ClassOrInterfaceImpl<Enum> implements Enum {
      * Initializes this enum using a name.
      * <p>
      * <b>Warning!</b> This class should not be instantiated directly but using 
-     * the {@link Enum#of(java.lang.String)} method!
+     * the {@link Enum#of(String)} method!
      * 
      * @param name  the name
      */
@@ -64,25 +64,16 @@ public final class EnumImpl extends ClassOrInterfaceImpl<Enum> implements Enum {
 		constructors = Copier.copy(prototype.getConstructors());
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public List<EnumConstant> getConstants() {
 		return constants;
 	}
-	
-    /**
-     * {@inheritDoc}
-     */
+
 	@Override
 	public List<Constructor> getConstructors() {
 		return constructors;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public EnumImpl copy() {
 		return new EnumImpl(this);

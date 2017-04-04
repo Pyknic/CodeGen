@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -56,7 +56,7 @@ public final class JavadocImpl implements Javadoc {
      * lines separated by new-line characters.
      * <p>
      * <b>Warning!</b> This class should not be instantiated directly but using 
-     * the {@link Javadoc#of(java.lang.String)} method!
+     * the {@link Javadoc#of(String)} method!
      * 
      * @param text  the text
      */
@@ -75,34 +75,22 @@ public final class JavadocImpl implements Javadoc {
         tags = Copier.copy(prototype.getTags());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getText() {
         return text;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Javadoc setText(String text) {
         this.text = text;
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<JavadocTag> getTags() {
         return tags;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public JavadocImpl copy() {
         return new JavadocImpl(this);

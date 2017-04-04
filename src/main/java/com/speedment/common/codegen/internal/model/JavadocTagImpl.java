@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -26,7 +26,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * This is the default implementation of the {@link JavadocTag} interface. This
  * class should not be instantiated directly. Instead you should call the
- * {@link JavadocTag#of(java.lang.String)} method to get an instance. In that
+ * {@link JavadocTag#of(String)} method to get an instance. In that
  * way, you can layer change the implementing class without modifying the using
  * code.
  *
@@ -39,7 +39,7 @@ public final class JavadocTagImpl extends JavadocTagBase {
      * Initializes this javadoc tag using a name.
      * <p>
      * <b>Warning!</b> This class should not be instantiated directly but using
-     * the {@link JavadocTag#of(java.lang.String)} method!
+     * the {@link JavadocTag#of(String)} method!
      *
      * @param name the name
      */
@@ -51,7 +51,7 @@ public final class JavadocTagImpl extends JavadocTagBase {
      * Initializes this javadoc tag using a name and a text.
      * <p>
      * <b>Warning!</b> This class should not be instantiated directly but using
-     * the {@link JavadocTag#of(java.lang.String, java.lang.String)} method!
+     * the {@link JavadocTag#of(String, String)} method!
      *
      * @param name the name
      * @param text the text
@@ -65,7 +65,7 @@ public final class JavadocTagImpl extends JavadocTagBase {
      * <p>
      * <b>Warning!</b> This class should not be instantiated directly but using
      * the
-     * {@link JavadocTag#of(java.lang.String, java.lang.String, java.lang.String)}
+     * {@link JavadocTag#of(String, String, String)}
      * method!
      *
      * @param name the name
@@ -99,33 +99,21 @@ public final class JavadocTagImpl extends JavadocTagBase {
             super(name, value, text);
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public JavadocTag setValue(String value) {
             return copy().setValue(value);
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public JavadocTag setText(String text) {
             return copy().setText(text);
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public JavadocTag setName(String name) {
             return copy().setName(name);
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public JavadocTagImpl copy() {
             return new JavadocTagImpl(this);
@@ -164,60 +152,39 @@ abstract class JavadocTagBase implements JavadocTag {
         this.text = prototype.getText().orElse(null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Optional<String> getValue() {
         return Optional.ofNullable(value);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public JavadocTag setValue(String value) {
         this.value = value;
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Optional<String> getText() {
         return Optional.ofNullable(text);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public JavadocTag setText(String text) {
         this.text = text;
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public JavadocTag setName(String name) {
         this.name = requireNonNull(name);
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getName() {
         return name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public JavadocTagImpl copy() {
         return new JavadocTagImpl(this);

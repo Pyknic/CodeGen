@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -64,25 +64,16 @@ public final class AnnotationUsageImpl extends AnnotationUsageBase {
             super(type);
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public AnnotationUsage set(Value<?> val) {
             return copy().set(val);
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public AnnotationUsage put(String key, Value<?> val) {
             return copy().put(key, val);
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public AnnotationUsage set(Type type) {
             return copy().set(type);
@@ -112,60 +103,39 @@ abstract class AnnotationUsageBase implements AnnotationUsage {
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public AnnotationUsage set(Value<?> val) {
         value = val;
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public AnnotationUsage put(String key, Value<?> val) {
         values.add(new AbstractMap.SimpleEntry<>(key, val));
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Optional<Value<?>> getValue() {
         return Optional.ofNullable(value);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<Entry<String, Value<?>>> getValues() {
         return values;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public AnnotationUsage set(Type type) {
         this.type = type;
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Type getType() {
         return type;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public AnnotationUsageImpl copy() {
         return new AnnotationUsageImpl(this);

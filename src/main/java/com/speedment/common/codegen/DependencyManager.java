@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -71,7 +71,7 @@ public interface DependencyManager {
      * package is already set, the operation will fail and {@code false} will be
      * returned. If the operation succeeded, {@code true} is returned and the
      * {@code DependencyManager} will expect
-     * {@link #unsetCurrentPackage(java.lang.String)} to be called later before
+     * {@link #unsetCurrentPackage(String)} to be called later before
      * the generation is finished.
      *
      * @param pack  the new current package

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -29,26 +29,17 @@ import static java.util.stream.Collectors.joining;
  * @author Emil Forslund
  */
 public final class ClassView extends ClassOrInterfaceView<Class> {
-    
-    /**
-     * {@inheritDoc}
-     */
+
 	@Override
 	protected String renderDeclarationType() {
 		return CLASS_STRING;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public String extendsOrImplementsInterfaces() {
 		return IMPLEMENTS_STRING;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	protected String renderSupertype(Generator gen, Class model) {
         requireNonNull(gen);
@@ -61,9 +52,6 @@ public final class ClassView extends ClassOrInterfaceView<Class> {
 		}
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String renderConstructors(Generator gen, Class model) {
         requireNonNull(gen);

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,10 +18,8 @@ package com.speedment.common.codegen.internal;
 
 import com.speedment.common.codegen.Meta;
 import com.speedment.common.codegen.RenderTree;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -41,7 +39,7 @@ public final class DefaultRenderTree implements RenderTree {
         return branches;
     }
     
-    public final static class Builder implements RenderTree.Builder {
+    public static final class Builder implements RenderTree.Builder {
         
         private final List<Meta<?, ?>> branches;
         

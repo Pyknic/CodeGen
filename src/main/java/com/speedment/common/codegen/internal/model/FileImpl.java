@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,7 +32,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * This is the default implementation of the {@link File} interface. This class
  * should not be instantiated directly. Instead you should call the
- * {@link File#of(java.lang.String)} method to get an instance. In that way, you
+ * {@link File#of(String)} method to get an instance. In that way, you
  * can layer change the implementing class without modifying the using code.
  *
  * @author Emil Forslund
@@ -49,7 +49,7 @@ public final class FileImpl implements File {
      * Initializes this file using a name.
      * <p>
      * <b>Warning!</b> This class should not be instantiated directly but using
-     * the {@link File#of(java.lang.String)} method!
+     * the {@link File#of(String)} method!
      *
      * @param name the filename
      */
@@ -72,59 +72,38 @@ public final class FileImpl implements File {
         this.classes = Copier.copy(prototype.getClasses(), c -> c.copy());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public File setName(String name) {
         this.name = requireNonNull(name);
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getName() {
         return name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public File set(Javadoc doc) {
         this.doc = doc;
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Optional<Javadoc> getJavadoc() {
         return Optional.ofNullable(doc);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<Import> getImports() {
         return imports;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<ClassOrInterface<?>> getClasses() {
         return classes;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public FileImpl copy() {
         return new FileImpl(this);

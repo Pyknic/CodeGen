@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,15 +19,13 @@ package com.speedment.common.codegen.internal.model;
 import com.speedment.common.codegen.internal.util.Copier;
 import com.speedment.common.codegen.model.*;
 import com.speedment.common.codegen.model.modifier.Modifier;
-
 import java.util.*;
-
 import static java.util.Objects.requireNonNull;
 
 /**
  * This is the default implementation of the {@link Annotation} interface.
  * This class should not be instantiated directly. Instead you should call the
- * {@link Annotation#of(java.lang.String)} method to get an instance. In that
+ * {@link Annotation#of(String)} method to get an instance. In that
  * way, you can layer change the implementing class without modifying the using
  * code.
  * 
@@ -47,7 +45,7 @@ public final class AnnotationImpl implements Annotation {
      * Initializes this annotation using a name.
      * <p>
      * <b>Warning!</b> This class should not be instantiated directly but using 
-     * the {@link Annotation#of(java.lang.String)} method!
+     * the {@link Annotation#of(String)} method!
      * 
      * @param name  the name
      */
@@ -75,75 +73,48 @@ public final class AnnotationImpl implements Annotation {
 		modifiers   = Copier.copy(prototype.getModifiers(), c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Annotation setName(String name) {
 		this.name = requireNonNull(name);
 		return this;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public String getName() {
 		return name;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public List<Field> getFields() {
 		return fields;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Annotation set(Javadoc doc) {
 		this.javadoc = doc;
 		return this;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Optional<Javadoc> getJavadoc() {
 		return Optional.ofNullable(javadoc);
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public List<Import> getImports() {
 		return imports;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Set<Modifier> getModifiers() {
 		return modifiers;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public List<AnnotationUsage> getAnnotations() {
 		return annotations;
 	}
-    
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
 	public AnnotationImpl copy() {
 		return new AnnotationImpl(this);

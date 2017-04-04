@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -43,109 +43,70 @@ public final class InterfaceMethodImpl implements InterfaceMethod {
 	public InterfaceMethodImpl(Method wrapped) {
 		this.m = requireNonNull(wrapped);
 	}
-	
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
 	public String getName() {
 		return m.getName();
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public Type getType() {
 		return m.getType();
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public List<Field> getFields() {
 		return m.getFields();
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public List<String> getCode() {
 		return m.getCode();
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public Set<Modifier> getModifiers() {
 		return m.getModifiers();
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public Optional<Javadoc> getJavadoc() {
 		return m.getJavadoc();
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public List<AnnotationUsage> getAnnotations() {
 		return m.getAnnotations();
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public InterfaceMethod setName(String name) {
         m.setName(name);
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public InterfaceMethod set(Type type) {
         m.set(type);
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<Generic> getGenerics() {
         return m.getGenerics();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public InterfaceMethod set(Javadoc doc) {
         m.set(doc);
         return this;
     }
-    
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public Set<Type> getExceptions() {
         return m.getExceptions();
     }
-    
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
 	public InterfaceMethodImpl copy() {
 		return new InterfaceMethodImpl(m.copy());

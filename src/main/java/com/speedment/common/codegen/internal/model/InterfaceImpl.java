@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -24,13 +24,14 @@ import com.speedment.common.codegen.model.Method;
  * 
  * @author Emil Forslund
  */
-public final class InterfaceImpl extends ClassOrInterfaceImpl<Interface> implements Interface {
+public final class InterfaceImpl extends ClassOrInterfaceImpl<Interface> 
+implements Interface {
     
     /**
      * Initializes this interface using a name.
      * <p>
      * <b>Warning!</b> This class should not be instantiated directly but using 
-     * the {@link Interface#of(java.lang.String)} method!
+     * the {@link Interface#of(String)} method!
      * 
      * @param name  the name
      */
@@ -47,9 +48,6 @@ public final class InterfaceImpl extends ClassOrInterfaceImpl<Interface> impleme
 		super (prototype);
     }
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public InterfaceImpl copy() {
 		return new InterfaceImpl(this);

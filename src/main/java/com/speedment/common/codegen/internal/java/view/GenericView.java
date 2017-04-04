@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -32,9 +32,6 @@ import static com.speedment.common.codegen.internal.util.NullUtil.requireNonNull
  */
 public final class GenericView implements Transform<Generic, String> {
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Optional<String> transform(Generator gen, Generic model) {
         requireNonNulls(gen, model);

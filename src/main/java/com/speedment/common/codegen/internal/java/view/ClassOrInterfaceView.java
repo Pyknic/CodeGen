@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -42,13 +42,13 @@ abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implements Tr
         HasJavadocView<M>, 
         HasGenericsView<M>,
         HasImplementsView<M>, 
-        HasInitalizersView<M>, 
+        HasInitializersView<M>, 
         HasMethodsView<M>,
         HasClassesView<M>, 
         HasAnnotationUsageView<M>, 
         HasFieldsView<M> {
     
-	protected final static String
+	protected static final String
 		CLASS_STRING      = "class ",
 		INTERFACE_STRING  = "interface ",
 		ENUM_STRING       = "enum ",
@@ -66,17 +66,11 @@ abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implements Tr
 		return "";
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String fieldSeparator(M model) {
         return nl();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String fieldSuffix() {
         return ";";
@@ -111,10 +105,7 @@ abstract class ClassOrInterfaceView<M extends ClassOrInterface<M>> implements Tr
      *               be any
      */
     protected abstract String renderConstructors(Generator gen, M model);
-    
-    /**
-     * {@inheritDoc}
-     */
+
 	@Override
 	public Optional<String> transform(Generator gen, M model) {
         requireNonNulls(gen, model);

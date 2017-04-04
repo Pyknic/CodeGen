@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -78,93 +78,60 @@ public final class FieldImpl implements Field {
 		modifiers	= Copier.copy(prototype.getModifiers(), c -> c.copy(), EnumSet.noneOf(Modifier.class));
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public String getName() {
 		return name;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Field setName(String name) {
 		this.name = requireNonNull(name);
 		return this;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Type getType() {
 		return type;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Field set(Type type) {
 		this.type = requireNonNull(type);
 		return this;
 	}
-	
-    /**
-     * {@inheritDoc}
-     */
+
 	@Override
 	public Set<Modifier> getModifiers() {
 		return modifiers;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Field set(Javadoc doc) {
 		javadoc = doc;
 		return this;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Optional<Javadoc> getJavadoc() {
 		return Optional.ofNullable(javadoc);
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Field set(Value<?> val) {
 		this.value = val;
 		return this;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Optional<Value<?>> getValue() {
 		return Optional.ofNullable(value);
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public List<AnnotationUsage> getAnnotations() {
 		return annotations;
 	}
-    
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
 	public FieldImpl copy() {
 		return new FieldImpl(this);

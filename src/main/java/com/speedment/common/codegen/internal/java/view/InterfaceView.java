@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,6 +19,7 @@ package com.speedment.common.codegen.internal.java.view;
 import com.speedment.common.codegen.Generator;
 import com.speedment.common.codegen.internal.model.InterfaceMethodImpl;
 import com.speedment.common.codegen.model.Interface;
+import com.speedment.common.codegen.model.InterfaceMethod;
 import com.speedment.common.codegen.model.Method;
 
 /**
@@ -27,42 +28,27 @@ import com.speedment.common.codegen.model.Method;
  * @author Emil Forslund
  */
 public final class InterfaceView extends ClassOrInterfaceView<Interface> {
-    
-    /**
-     * {@inheritDoc}
-     */
+
 	@Override
 	protected String renderDeclarationType() {
 		return INTERFACE_STRING;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public String extendsOrImplementsInterfaces() {
 		return EXTENDS_STRING;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	protected String renderSupertype(Generator gen, Interface model) {
 		return "";
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public Object wrapMethod(Method method) {
+    public InterfaceMethod wrapMethod(Method method) {
         return new InterfaceMethodImpl(method);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String renderConstructors(Generator gen, Interface model) {
         return "";

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -34,9 +34,6 @@ public final class FieldView implements Transform<Field, String>, HasNameView<Fi
     HasJavadocView<Field>, HasModifiersView<Field>, HasTypeView<Field>,
     HasValueView<Field>, HasAnnotationUsageView<Field> {
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Optional<String> transform(Generator gen, Field model) {
         requireNonNulls(gen, model);
@@ -50,10 +47,7 @@ public final class FieldView implements Transform<Field, String>, HasNameView<Fi
 			renderValue(gen, model)
 		);
 	}
-	
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public String annotationSeparator() {
         return " ";

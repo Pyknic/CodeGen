@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -14,15 +14,13 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.speedment.common.codegen.internal;
 
-import com.speedment.common.codegen.*;
-
+import com.speedment.common.codegen.Meta;
+import com.speedment.common.codegen.RenderStack;
+import com.speedment.common.codegen.RenderTree;
+import com.speedment.common.codegen.Transform;
+import com.speedment.common.codegen.TransformFactory;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -91,7 +89,7 @@ public final class MetaImpl<A, B> implements Meta<A, B> {
         return "MetaImpl{" + "model=" + model + ", result=" + result + ", transform=" + transform + ", factory=" + factory + ", stack=" + stack + ", tree=" + tree + '}';
     }
    
-    public final static class Builder<A, B> implements Meta.Builder<A, B> {
+    public static final class Builder<A, B> implements Meta.Builder<A, B> {
         
         private A model;
         private B result;

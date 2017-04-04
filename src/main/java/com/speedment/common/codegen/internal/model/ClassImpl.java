@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -19,7 +19,6 @@ package com.speedment.common.codegen.internal.model;
 import com.speedment.common.codegen.internal.util.Copier;
 import com.speedment.common.codegen.model.Class;
 import com.speedment.common.codegen.model.Constructor;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ import java.util.Optional;
 /**
  * This is the default implementation of the {@link Class} interface.
  * This class should not be instantiated directly. Instead you should call the
- * {@link Class#of(java.lang.String)} method to get an instance. In that way, 
+ * {@link Class#of(String)} method to get an instance. In that way,
  * you can layer change the implementing class without modifying the using code.
  * 
  * @author Emil Forslund
@@ -44,7 +43,7 @@ public final class ClassImpl extends ClassOrInterfaceImpl<Class> implements Clas
      * Initializes this class using a name.
      * <p>
      * <b>Warning!</b> This class should not be instantiated directly but using 
-     * the {@link Class#of(java.lang.String)} method!
+     * the {@link Class#of(String)} method!
      * 
      * @param name  the name
      */
@@ -65,34 +64,22 @@ public final class ClassImpl extends ClassOrInterfaceImpl<Class> implements Clas
 		this.constructors = Copier.copy(prototype.getConstructors());
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Class setSupertype(Type superType) {
 		this.superType = superType;
 		return this;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Optional<Type> getSupertype() {
 		return Optional.ofNullable(superType);
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public List<Constructor> getConstructors() {
 		return constructors;
 	}
-    
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
 	public ClassImpl copy() {
 		return new ClassImpl(this);

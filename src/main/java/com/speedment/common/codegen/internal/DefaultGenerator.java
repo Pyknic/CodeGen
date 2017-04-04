@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -63,26 +63,17 @@ public class DefaultGenerator implements Generator {
         // Add initial builder.
         this.renderTreeBuilder.add(RenderTree.builder());
 	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Override
 	public DependencyManager getDependencyMgr() {
 		return mgr;
 	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Override
 	public RenderStack getRenderStack() {
 		return renderStack;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @SuppressWarnings("unchecked")
     public <A, B> Stream<Meta<A, B>> metaOn(A from, Class<B> to) {
@@ -101,10 +92,7 @@ public class DefaultGenerator implements Generator {
             .map(Optional::get)
         ;
     }
-    
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public <A, B> Optional<Meta<A, B>> transform(Transform<A, B> transform, A model, TransformFactory factory) {
         requireNonNulls(transform, model, factory);

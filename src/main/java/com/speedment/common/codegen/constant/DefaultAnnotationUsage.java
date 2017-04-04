@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,19 +16,16 @@
  */
 package com.speedment.common.codegen.constant;
 
+import static com.speedment.common.codegen.constant.DefaultValue.string;
 import com.speedment.common.codegen.model.AnnotationUsage;
 import com.speedment.common.codegen.model.Value;
-
-import javax.annotation.Generated;
 import java.lang.annotation.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
-import static com.speedment.common.codegen.constant.DefaultValue.string;
 import static java.util.Objects.requireNonNull;
+import java.util.Optional;
 
 /**
  * An enumeration with default constants for the {@link AnnotationUsage}
@@ -48,7 +45,11 @@ public enum DefaultAnnotationUsage implements AnnotationUsage {
     REPEATABLE  (Repeatable.class),
     RETENTION   (Retention.class),
     TARGET      (Target.class),
-    GENERATED   (Generated.class),
+    @Deprecated
+    /**
+     * This class is not available in Java9 by default
+     */
+    GENERATED   (SimpleType.create("javax.annotation.Generated")),
     DEPRECATED  (Deprecated.class),
     SUPPRESS_WARNINGS_UNCHECKED (
         SuppressWarnings.class, string("unchecked")
@@ -108,34 +109,22 @@ public enum DefaultAnnotationUsage implements AnnotationUsage {
 	public AnnotationUsage put(String key, Value<?> val) {
 		return copy().put(requireNonNull(key), val);
 	}
-    
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
 	public Type getType() {
 		return type;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	public Optional<Value<?>> getValue() {
 		return Optional.ofNullable(value).map(Value::copy);
 	}
-	
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
 	public List<Map.Entry<String, Value<?>>> getValues() {
 		return new ArrayList<>();
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public AnnotationUsage copy() {
         final AnnotationUsage copy = AnnotationUsage.of(getType());

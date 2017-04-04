@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,8 +17,8 @@
 package com.speedment.common.codegen.controller;
 
 import com.speedment.common.codegen.DependencyManager;
-import com.speedment.common.codegen.internal.model.ImportImpl;
 import com.speedment.common.codegen.model.File;
+import com.speedment.common.codegen.model.Import;
 import com.speedment.common.codegen.model.trait.*;
 import com.speedment.common.codegen.util.Formatting;
 import java.lang.reflect.ParameterizedType;
@@ -57,7 +57,7 @@ public final class AutoImports implements Consumer<File> {
 	@Override
 	public void accept(File file) {
 		findTypesIn(requireNonNull(file)).forEach(
-			(s, t) -> file.add(new ImportImpl(t))
+			(s, t) -> file.add(Import.of(t))
 		);
 	}
 	
@@ -94,21 +94,21 @@ public final class AutoImports implements Consumer<File> {
 		}
 		
 		if (HasAnnotationUsage.class.isInstance(model)) {
-			((HasAnnotationUsage<?>) model).getAnnotations().forEach(a -> {
-				addType(a.getType(), types);
-			});
+			((HasAnnotationUsage<?>) model).getAnnotations().forEach(a -> 
+				addType(a.getType(), types)
+			);
 		}
 		
 		if (HasClasses.class.isInstance(model)) {
-			((HasClasses<?>) model).getClasses().forEach(c -> {
-				findTypesIn(c, types);
-			});
+			((HasClasses<?>) model).getClasses().forEach(c -> 
+				findTypesIn(c, types)
+			);
 		}
 		
 		if (HasConstructors.class.isInstance(model)) {
-			((HasConstructors<?>) model).getConstructors().forEach(c -> {
-				findTypesIn(c, types);
-			});
+			((HasConstructors<?>) model).getConstructors().forEach(c -> 
+				findTypesIn(c, types)
+			);
 		}
 		
 		if (HasFields.class.isInstance(model)) {
@@ -119,17 +119,17 @@ public final class AutoImports implements Consumer<File> {
 		}
 		
 		if (HasGenerics.class.isInstance(model)) {
-			((HasGenerics<?>) model).getGenerics().forEach(g -> {
-				g.getUpperBounds().forEach(ub -> {
-					addType(ub, types);
-				});
-			});
+			((HasGenerics<?>) model).getGenerics().forEach(g -> 
+				g.getUpperBounds().forEach(ub -> 
+					addType(ub, types)
+				)
+			);
 		}
 		
 		if (HasImplements.class.isInstance(model)) {
-			((HasImplements<?>) model).getInterfaces().forEach(i -> {
-				addType(i, types);
-			});
+			((HasImplements<?>) model).getInterfaces().forEach(i -> 
+				addType(i, types)
+			);
 		}
 		
 		if (HasMethods.class.isInstance(model)) {
@@ -140,9 +140,9 @@ public final class AutoImports implements Consumer<File> {
 		}
         
         if (HasThrows.class.isInstance(model)) {
-			((HasThrows<?>) model).getExceptions().forEach(e -> {
-				addType(e, types);
-			});
+			((HasThrows<?>) model).getExceptions().forEach(e -> 
+				addType(e, types)
+			);
 		}
 		
 		if (HasType.class.isInstance(model)) {
@@ -177,19 +177,18 @@ public final class AutoImports implements Consumer<File> {
 
         // If the class is not a primitive type and it should be ignored, add
         // it to the ignore list.
-		if (name.contains(".")) {
-            if (!mgr.isIgnored(name)) {
-                final String shortName = Formatting.shortName(name);
+		if (name.contains(".") && !mgr.isIgnored(name)) {
+            final String shortName = Formatting.shortName(name);
 
-                // If a import already exists with the same suffix, ignore it.
-                if (types.keySet().stream()
-                        .map(Formatting::shortName)
-                        .noneMatch(shortName::equals)) {
+            // If a import already exists with the same suffix, ignore it.
+            if (types.keySet().stream()
+                .map(Formatting::shortName)
+                .noneMatch(shortName::equals)) {
 
-                    types.put(name, type);
-                }
-			}
-		}
+                types.put(name, type);
+            }
+
+        }
         
         // Recurse over any type parameters this type might have.
         if (type instanceof ParameterizedType) {

@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,19 +16,18 @@
  */
 package com.speedment.common.codegen.internal.util;
 
+import static com.speedment.common.codegen.internal.util.NullUtil.requireNonNullElements;
+import static com.speedment.common.codegen.internal.util.NullUtil.requireNonNulls;
+import static com.speedment.common.codegen.internal.util.StaticClassUtil.instanceNotAllowed;
 import com.speedment.common.codegen.util.Formatting;
-
+import static com.speedment.common.codegen.util.Formatting.repeat;
 import java.util.Collections;
+import static java.util.Objects.requireNonNull;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static com.speedment.common.codegen.internal.util.NullUtil.requireNonNullElements;
-import static com.speedment.common.codegen.internal.util.NullUtil.requireNonNulls;
-import static com.speedment.common.codegen.internal.util.StaticClassUtil.instanceNotAllowed;
-import static java.util.Objects.requireNonNull;
 
 /**
  *
@@ -226,23 +225,6 @@ public final class TextUtil {
         } else {
             return repeat("" + fill, totalWidth - substring.length()) + substring;
         }
-    }
-
-    /**
-     * Repeats the specified substring a number of times.
-     *
-     * @param str    the string to repeat
-     * @param count  the number of times to repeat it
-     * @return       the new string
-     */
-    public static String repeat(String str, int count) {
-        final StringBuilder result = new StringBuilder(str.length() * count);
-
-        for (int i = 0; i < count; i++) {
-            result.append(str);
-        }
-
-        return result.toString();
     }
     
     /**

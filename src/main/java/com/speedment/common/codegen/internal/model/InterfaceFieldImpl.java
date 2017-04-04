@@ -1,6 +1,6 @@
 /**
  *
- * Copyright (c) 2006-2016, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2006-2017, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -45,93 +45,60 @@ public final class InterfaceFieldImpl implements InterfaceField {
 		f = requireNonNull(wrapped);
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public String getName() {
 		return f.getName();
 	}
-	
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
 	public Type getType() {
 		return f.getType();
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public Set<Modifier> getModifiers() {
 		return f.getModifiers();
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public Optional<Javadoc> getJavadoc() {
 		return f.getJavadoc();
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public Optional<Value<?>> getValue() {
 		return f.getValue();
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
 	public List<AnnotationUsage> getAnnotations() {
 		return f.getAnnotations();
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public InterfaceField setName(String name) {
         f.setName(name);
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public InterfaceField set(Type type) {
         f.set(type);
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public InterfaceField set(Javadoc doc) {
         f.set(doc);
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public InterfaceField set(Value<?> val) {
         f.set(val);
         return this;
     }
-    
-    /**
-     * {@inheritDoc}
-     */
+
 	@Override
 	public InterfaceFieldImpl copy() {
 		return new InterfaceFieldImpl(f.copy());
